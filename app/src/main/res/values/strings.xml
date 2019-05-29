@@ -3,4 +3,7 @@
     <string name="title_activity_maps">Map</string>
 
     <string name="main_activity_start">Start</string>
+    <string name="main_activity_button_stat_description">Show user`s statistics</string>
+    <string name="main_activity_button_friends_description">Show friends</string>
+    <string name="main_activity_button_info_description">Show instructions</string>
 </resources>

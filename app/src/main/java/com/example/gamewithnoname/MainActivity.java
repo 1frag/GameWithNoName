@@ -20,9 +20,26 @@ public class MainActivity extends AppCompatActivity {
     public void processButtonPressing(View view) {
         switch (view.getId()) {
             case R.id.buttonStart: {
-                Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-                startActivity(intent);
+                Intent intentStart = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(intentStart);
+                break;
             }
+            case R.id.buttonStatistics: {
+                Intent intentStat = new Intent(MainActivity.this, StatisticsActivity.class);
+                startActivity(intentStat);
+                break;
+            }
+            case R.id.buttonFriends: {
+                Intent intentFriends = new Intent(MainActivity.this, FriendsActivity.class);
+                startActivity(intentFriends);
+                break;
+            }
+            case R.id.buttonInfo: {
+                Intent intentInfo = new Intent(MainActivity.this, InfoActivity.class);
+                startActivity(intentInfo);
+                break;
+            }
+            default: break;
         }
     }
 }
