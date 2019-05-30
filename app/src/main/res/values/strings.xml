@@ -6,4 +6,5 @@
     <string name="main_activity_button_stat_description">Show user`s statistics</string>
     <string name="main_activity_button_friends_description">Show friends</string>
     <string name="main_activity_button_info_description">Show instructions</string>
+    <string name="main_activity_toast_no_finish">Touch to set finish</string>
 </resources>
