@@ -28,6 +28,7 @@ public class MapMainMenu extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private MapView mapView;
+    private MarkerOptions mFinishMarker;
     private final String TAG = String.format("%s/%s",
             "HITS", "MapMainMenu");
 
@@ -89,6 +90,24 @@ public class MapMainMenu extends Fragment implements OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(place));
         mMap.animateCamera(CameraUpdateFactory
                 .newLatLngZoom(place, 12.0f));
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                mMap.clear();
+                mFinishMarker = new MarkerOptions()
+                        .position(latLng)
+                        .title("Finish");
+                mMap.addMarker(mFinishMarker);
+            }
+        });
+    }
+
+    public LatLng getFinishMarker() {
+        if (mFinishMarker == null) {
+            return null;
+        }
+        return mFinishMarker.getPosition();
     }
 
     @Override

@@ -18,13 +18,7 @@ import android.widget.Toast;
 
 import com.example.gamewithnoname.fragments_maps.MapInGame;
 import com.example.gamewithnoname.fragments_maps.MapMainMenu;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.DexterError;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.PermissionRequestErrorListener;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
 
@@ -33,8 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private final String TAG = String.format("%s/%s",
             "HITS",
             getClass().getSimpleName());
-    Double nameFirst = 3.5;
-    Double nameSecond = 47.92;
+    private MapMainMenu map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,20 +52,25 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "configureMap");
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        Fragment map = new MapMainMenu();
+        map = new MapMainMenu();
         transaction.replace(R.id.mapHolder, map);
         transaction.commit();
 
     }
 
-
-
     public void processButtonPressing(View view) {
         switch (view.getId()) {
             case R.id.buttonStart: {
                 Intent intentStart = new Intent(MainActivity.this, MapInGame.class);
-                intentStart.putExtra("nameFirst", nameFirst);
-                intentStart.putExtra("nameSecond", nameSecond);
+                LatLng finish = map.getFinishMarker();
+                if(finish == null){
+                    Toast.makeText(getApplicationContext(),
+                            "Touch to set finish",
+                            Toast.LENGTH_LONG).show();
+                    break;
+                }
+                intentStart.putExtra("latitude", finish.latitude);
+                intentStart.putExtra("longitude", finish.longitude);
                 startActivity(intentStart);
                 break;
             }
