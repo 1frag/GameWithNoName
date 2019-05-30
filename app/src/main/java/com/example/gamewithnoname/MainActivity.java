@@ -3,12 +3,15 @@ package com.example.gamewithnoname;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,13 +38,13 @@ public class MainActivity extends AppCompatActivity {
             getClass().getSimpleName());
     Double nameFirst = 3.5;
     Double nameSecond = 47.92;
+    private static final int REQUEST_LOCATION = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        PermissionsHandler.requestMultiplePermissions(this);
-        UserLocation.SetUpLocationListener(this);
+        permissionsChecker();
         setContentView(R.layout.activity_main);
 
         // todo: catch all problem with permission
@@ -53,6 +56,22 @@ public class MainActivity extends AppCompatActivity {
 
         configureMap();
 
+    }
+
+
+    private void permissionsChecker() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) ==
+                        PackageManager.PERMISSION_GRANTED) {
+            UserLocation.SetUpLocationListener(this);
+        } else {
+            ActivityCompat.requestPermissions(this, new String[] {
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION },
+                    REQUEST_LOCATION);
+            permissionsChecker();
+        }
     }
 
     private void configureMap() {
