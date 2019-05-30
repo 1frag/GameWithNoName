@@ -38,7 +38,7 @@ public class UserLocation implements LocationListener {
                 10,
                 locationListener);
 
-        imHere = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        imHere = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
     }
 
     @Override
