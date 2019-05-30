@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.gamewithnoname.BotLocation;
 import com.example.gamewithnoname.R;
 import com.example.gamewithnoname.UserLocation;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -48,11 +49,13 @@ public class MapInGame extends FragmentActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        LatLng finish = new LatLng(
+                getIntent().getExtras().getDouble("latitude"),
+                getIntent().getExtras().getDouble("longitude")
+        );
+
         MarkerOptions markerOptions = new MarkerOptions()
-                .position(new LatLng(
-                        getIntent().getExtras().getDouble("latitude"),
-                        getIntent().getExtras().getDouble("longitude")
-                ))
+                .position(finish)
                 .title("Finish");
         mMap.addMarker(markerOptions);
 
@@ -73,5 +76,10 @@ public class MapInGame extends FragmentActivity implements OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(place));
         mMap.animateCamera(CameraUpdateFactory
                 .newLatLngZoom(place, 12.0f));
+
+        BotLocation botLocation = new BotLocation(this, mMap, finish);
+        botLocation.start(8000, 300);
+
     }
+
 }
