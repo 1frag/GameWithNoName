@@ -48,6 +48,14 @@ public class MapInGame extends FragmentActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(new LatLng(
+                        getIntent().getExtras().getDouble("latitude"),
+                        getIntent().getExtras().getDouble("longitude")
+                ))
+                .title("Finish");
+        mMap.addMarker(markerOptions);
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Log.i(TAG, "Permission denied -> nothing to show");
             return;
