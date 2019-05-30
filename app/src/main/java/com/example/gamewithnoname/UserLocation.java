@@ -26,20 +26,17 @@ public class UserLocation implements LocationListener {
 
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Log.i(TAG, "fuck perm");
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+            // todo: это ситуация когда мы хотим показать
+            //  местоположение, но прав на это нет, при этом
+            //  сейчас ничего не происходит, просто показываем
+            //  карту без синего кружочка
             return;
         }
         locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,
                 5000,
                 10,
-                locationListener); // здесь можно указать другие более подходящие вам параметры
+                locationListener);
 
         imHere = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
     }

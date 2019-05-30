@@ -48,27 +48,20 @@ public class MapInGame extends FragmentActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Log.i(TAG, "Permission denied -> nothing to show");
+            return;
+        }
         Location location = UserLocation.imHere;
         double a = location.getLatitude();
         double b = location.getLongitude();
 
-        // todo: choose blue point or red marker (to @Asya)
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
         mMap.setMyLocationEnabled(true); // it's blue point
 
         LatLng place = new LatLng(a, b);
 
         // it's red marker
-        mMap.addMarker(new MarkerOptions().position(place).title("Current location"));
+//        mMap.addMarker(new MarkerOptions().position(place).title("Current location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(place));
         mMap.animateCamera(CameraUpdateFactory
                 .newLatLngZoom(place, 12.0f));

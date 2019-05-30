@@ -40,11 +40,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        PermissionsHandler.requestMultiplePermissions(this);
         UserLocation.SetUpLocationListener(this);
         setContentView(R.layout.activity_main);
 
         // todo: catch all problem with permission
-        requestMultiplePermissions();
+
 //        ActivityCompat.requestPermissions(
 //                this,
 //                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
@@ -64,68 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void requestMultiplePermissions() {
-        Dexter.withActivity(this)
-                .withPermissions(
-                        Manifest.permission.ACCESS_COARSE_LOCATION)
-                .withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-                        // check if all permissions are granted
-                        if (report.areAllPermissionsGranted()) {
-                            Log.i(TAG, "All permissions are granted by user!");
-                        }
-                        // check for permanent denial of any permission
-                        if (report.isAnyPermissionPermanentlyDenied()) {
-                            Log.i(TAG, "problem with permission");
-                            showSettingsDialog();
-                        }
-                    }
 
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                        token.continuePermissionRequest();
-                    }
-                }).
-                withErrorListener(new PermissionRequestErrorListener() {
-                    @Override
-                    public void onError(DexterError error) {
-                        Toast.makeText(getApplicationContext(),
-                                "Access failed",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .onSameThread()
-                .check();
-    }
-
-    private void showSettingsDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("Need Permissions");
-        builder.setMessage("This app needs permission to use this feature. You can grant them in app settings.");
-        builder.setPositiveButton("GOTO SETTINGS", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-                openSettings();
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        builder.show();
-
-    }
-
-    private void openSettings() {
-        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        Uri uri = Uri.fromParts("package", getPackageName(), null);
-        intent.setData(uri);
-        startActivityForResult(intent, 101);
-    }
 
     public void processButtonPressing(View view) {
         switch (view.getId()) {
