@@ -1,6 +1,9 @@
 package com.example.gamewithnoname.fragments_maps;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -24,6 +27,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapMainMenu extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private MapView mapView;
     private final String TAG = String.format("%s/%s",
             "HITS", "MapMainMenu");
 
@@ -39,7 +43,7 @@ public class MapMainMenu extends Fragment implements OnMapReadyCallback {
                              Bundle savedInstanceState) {
         Log.i(TAG, "run onCreateView");
         View rootView = inflater.inflate(R.layout.map_holder, container, false);
-        final MapView mapView = rootView.findViewById(R.id.mapView);
+        mapView = rootView.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
@@ -69,12 +73,48 @@ public class MapMainMenu extends Fragment implements OnMapReadyCallback {
         double b = location.getLongitude();
 
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
-//        mMap.setMyLocationEnabled(true);
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
 
         LatLng place = new LatLng(a, b);
-        mMap.addMarker(new MarkerOptions().position(place).title("Current location"));
+//        mMap.addMarker(new MarkerOptions().position(place).title("Current location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(place));
         mMap.animateCamera(CameraUpdateFactory
                 .newLatLngZoom(place, 12.0f));
     }
+
+    @Override
+    public void onResume() {
+        mapView.onResume();
+        super.onResume();
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
 }
