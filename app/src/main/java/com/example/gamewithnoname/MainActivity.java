@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 LatLng finish = map.getFinishMarker();
                 if(finish == null){
                     Toast.makeText(getApplicationContext(),
-                            "Touch to set finish",
+                            getString(R.string.main_activity_toast_no_finish),
                             Toast.LENGTH_LONG).show();
                     break;
                 }
