@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private final String TAG = String.format("%s/%s",
             "HITS",
             getClass().getSimpleName());
+    Double nameFirst = 3.5;
+    Double nameSecond = 47.92;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +131,8 @@ public class MainActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.buttonStart: {
                 Intent intentStart = new Intent(MainActivity.this, MapInGame.class);
+                intentStart.putExtra("nameFirst", nameFirst);
+                intentStart.putExtra("nameSecond", nameSecond);
                 startActivity(intentStart);
                 break;
             }
