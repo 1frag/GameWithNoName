@@ -1,27 +1,19 @@
-package com.example.gamewithnoname.fragments_maps;
+package com.example.gamewithnoname.maps;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Circle;
 import com.yandex.mapkit.geometry.Point;
-import com.yandex.mapkit.layers.GeoObjectTapEvent;
-import com.yandex.mapkit.layers.GeoObjectTapListener;
 import com.yandex.mapkit.map.CameraPosition;
 
 import com.example.gamewithnoname.R;
@@ -51,8 +43,6 @@ public class MapMainMenu extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        MapKitFactory.setApiKey("4431f62e-4cef-4ce6-b1d5-07602abde3fd");
-
         Log.i(TAG, "run onCreateView");
         View rootView = inflater.inflate(R.layout.map_holder, container, false);
 //        mapView = rootView.findViewById(R.id.mapView);
@@ -63,9 +53,10 @@ public class MapMainMenu extends Fragment {
         MapKitFactory.initialize(rootView.getContext());
         // Укажите имя activity вместо map.
 
-        mapView = rootView.findViewById(R.id.mapView);
+        mapView = rootView.findViewById(R.id.mapViewMain);
+        Location now = UserLocation.imHere;
         mapView.getMap().move(
-                new CameraPosition(new Point(55.751574, 37.573856), 11.0f, 0.0f, 0.0f),
+                new CameraPosition(new Point(now.getLatitude(), now.getLongitude()), 11.0f, 0.0f, 0.0f),
                 new Animation(Animation.Type.SMOOTH, 0),
                 null);
 

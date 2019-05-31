@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <com.yandex.mapkit.mapview.MapView
-        android:id="@+id/mapView"
+        android:id="@+id/mapViewMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
