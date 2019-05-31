@@ -22,6 +22,11 @@ import android.widget.Toast;
 import com.example.gamewithnoname.fragments_maps.MapInGame;
 import com.example.gamewithnoname.fragments_maps.MapMainMenu;
 import com.google.android.gms.maps.model.LatLng;
+import com.yandex.mapkit.Animation;
+import com.yandex.mapkit.MapKitFactory;
+import com.yandex.mapkit.geometry.Point;
+import com.yandex.mapkit.map.CameraPosition;
+import com.yandex.mapkit.mapview.MapView;
 
 import java.util.List;
 
@@ -32,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
             getClass().getSimpleName());
     private MapMainMenu map;
     private static final int REQUEST_LOCATION = 123;
+    private final Point TARGET_LOCATION = new Point(59.945933, 30.320045);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,15 +87,15 @@ public class MainActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.buttonStart: {
                 Intent intentStart = new Intent(MainActivity.this, MapInGame.class);
-                LatLng finish = map.getFinishMarker();
+                Point finish = map.getFinishMarker();
                 if(finish == null){
                     Toast.makeText(getApplicationContext(),
                             getString(R.string.main_activity_toast_no_finish),
                             Toast.LENGTH_LONG).show();
                     break;
                 }
-                intentStart.putExtra("latitude", finish.latitude);
-                intentStart.putExtra("longitude", finish.longitude);
+                intentStart.putExtra("latitude", finish.getLatitude());
+                intentStart.putExtra("longitude", finish.getLongitude());
                 startActivity(intentStart);
                 break;
             }

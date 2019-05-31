@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorPrimary"
+    tools:context=".MainActivity">
 
     <Button
         android:id="@+id/buttonStart"
         android:layout_width="108dp"
         android:layout_height="54dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="72dp"
-        android:layout_marginTop="8dp"
         android:background="@drawable/button_menu"
         android:onClick="processButtonPressing"
         android:text="@string/main_activity_start"
@@ -28,15 +27,17 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="200dp"
         android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="25dp"
+        android:layout_marginBottom="200dp"
         app:layout_constraintBottom_toTopOf="@+id/buttonStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></FrameLayout>
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -51,41 +52,41 @@
             android:id="@+id/buttonStatistics"
             android:layout_width="wrap_content"
             android:layout_height="54dp"
+            android:layout_weight="1"
             android:background="@drawable/main_linear_layout"
+            android:contentDescription="@string/main_activity_button_stat_description"
+            android:onClick="processButtonPressing"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/buttonFriends"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_weight="1"
-            android:onClick="processButtonPressing"
-            app:srcCompat="@drawable/ic_poll_black_24dp"
-            android:contentDescription="@string/main_activity_button_stat_description"/>
+            app:srcCompat="@drawable/ic_poll_black_24dp" />
 
         <ImageButton
             android:id="@+id/buttonFriends"
             android:layout_width="wrap_content"
             android:layout_height="54dp"
+            android:layout_weight="1"
             android:background="@drawable/main_linear_layout"
+            android:contentDescription="@string/main_activity_button_friends_description"
+            android:onClick="processButtonPressing"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/buttonInfo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_weight="1"
-            android:onClick="processButtonPressing"
-            app:srcCompat="@drawable/ic_group_black_24dp"
-            android:contentDescription="@string/main_activity_button_friends_description"/>
+            app:srcCompat="@drawable/ic_group_black_24dp" />
 
         <ImageButton
             android:id="@+id/buttonInfo"
             android:layout_width="wrap_content"
             android:layout_height="54dp"
+            android:layout_weight="1"
             android:background="@drawable/main_linear_layout"
+            android:contentDescription="@string/main_activity_button_info_description"
+            android:onClick="processButtonPressing"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_weight="1"
-            android:onClick="processButtonPressing"
-            app:srcCompat="@drawable/ic_info_outline_black_24dp"
-            android:contentDescription="@string/main_activity_button_info_description"/>
+            app:srcCompat="@drawable/ic_info_outline_black_24dp" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
