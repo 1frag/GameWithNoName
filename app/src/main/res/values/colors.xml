@@ -3,8 +3,8 @@
     <color name="colorPrimary">#D2E0B4</color>
     <!--or E8FFD1-->
 
-    <color name="colorPrimaryDark">#1C5C4D</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimaryDark">#869468</color>
+    <color name="colorAccent">#804837</color>
 
     <color name="buttonStart">#FF5722</color>
     <color name="buttonStartPressed">#912F10</color>

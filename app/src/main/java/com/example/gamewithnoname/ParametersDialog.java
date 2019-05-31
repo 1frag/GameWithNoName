@@ -11,6 +11,8 @@ public class ParametersDialog extends AppCompatActivity {
     private Double latit;
     private Double longit;
 
+    private Double speed;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,6 +20,8 @@ public class ParametersDialog extends AppCompatActivity {
 
         latit = getIntent().getExtras().getDouble("latitude");
         longit = getIntent().getExtras().getDouble("longitude");
+
+        speed = 5.0;
     }
 
     public void nextActivity (View view) {

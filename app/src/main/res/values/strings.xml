@@ -11,4 +11,12 @@
     <string name="activity_parameters_headline">Parameters</string>
     <string name="activity_parameters_speed">Speed</string>
     <string name="activity_parameters_button">Start</string>
+    <string name="activity_parameters_forest">Out of roads</string>
+    <string name="activity_parameters_change">Deviation</string>
+    <string name="activity_parameters_on_foot">On foot</string>
+    <string name="activity_parameters_roller">Roller-skates</string>
+    <string name="activity_parameters_bike">Bicycle</string>
+    <string name="activity_parameters_time">Place for approximate time</string>
+    <string name="activity_parameters_speed_calc">Place for bot speed value</string>
+
 </resources>
