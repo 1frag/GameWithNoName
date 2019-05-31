@@ -43,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        PermissionsHandler.requestMultiplePermissions(this);
-//        UserLocation.SetUpLocationListener(this);
         permissionsChecker();
         setContentView(R.layout.activity_main);
 
@@ -86,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
     public void processButtonPressing(View view) {
         switch (view.getId()) {
             case R.id.buttonStart: {
-                Intent intentStart = new Intent(MainActivity.this, MapInGame.class);
+                Intent intentStart = new Intent(MainActivity.this, parametersDialog.class);
                 Point finish = map.getFinishMarker();
                 if(finish == null){
                     Toast.makeText(getApplicationContext(),

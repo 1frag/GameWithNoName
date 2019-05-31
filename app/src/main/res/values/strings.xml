@@ -2,9 +2,13 @@
     <string name="app_name">GameWithNoName</string>
     <string name="title_activity_maps">Map</string>
 
-    <string name="main_activity_start">Start</string>
+    <string name="main_activity_start">Continue</string>
     <string name="main_activity_button_stat_description">Show user`s statistics</string>
     <string name="main_activity_button_friends_description">Show friends</string>
     <string name="main_activity_button_info_description">Show instructions</string>
     <string name="main_activity_toast_no_finish">Touch to set finish</string>
+
+    <string name="activity_parameters_headline">Parameters</string>
+    <string name="activity_parameters_speed">Speed</string>
+    <string name="activity_parameters_button">Start</string>
 </resources>
