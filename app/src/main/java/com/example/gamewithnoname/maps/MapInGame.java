@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.gamewithnoname.DistanceBetweenTwoPoint;
 import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.RequestPoint;
@@ -103,6 +104,8 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
 
         pdRouter = TransportFactory.getInstance().createPedestrianRouter();
         pdRouter.requestRoutes(requestPoints, options, this);
+
+        new DistanceBetweenTwoPoint(start, finish);
     }
 
 
