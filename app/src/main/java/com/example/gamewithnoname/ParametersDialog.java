@@ -5,10 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.gamewithnoname.fragments_maps.MapInGame;
-import com.google.android.gms.maps.model.LatLng;
+import com.example.gamewithnoname.maps.MapInGame;
 
-public class parametersDialog extends AppCompatActivity {
+public class ParametersDialog extends AppCompatActivity {
     private Double latit;
     private Double longit;
 
@@ -27,8 +26,11 @@ public class parametersDialog extends AppCompatActivity {
 
     public void nextActivity (View view) {
         Intent intentStart = new Intent(this, MapInGame.class);
-        intentStart.putExtra("latitude", latit);
-        intentStart.putExtra("longitude", longit);
+        intentStart.putExtra("finish_latitude", latit);
+        intentStart.putExtra("finish_longitude", longit);
+        // todo: generation point of bot's start, put them in:
+        intentStart.putExtra("start_latitude", latit+0.002);
+        intentStart.putExtra("start_longitude", longit-0.003);
         startActivity(intentStart);
     }
 }

@@ -1,29 +1,20 @@
 package com.example.gamewithnoname;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.gamewithnoname.fragments_maps.MapInGame;
-import com.example.gamewithnoname.fragments_maps.MapMainMenu;
-import com.google.android.gms.maps.model.LatLng;
-
-import java.util.List;
+import com.example.gamewithnoname.maps.MapMainMenu;
+import com.yandex.mapkit.MapKitFactory;
+import com.yandex.mapkit.geometry.Point;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
             getClass().getSimpleName());
     private MapMainMenu map;
     private static final int REQUEST_LOCATION = 123;
+    private final Point TARGET_LOCATION = new Point(59.945933, 30.320045);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         configureMap();
 
     }
+
     private void permissionsChecker() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED &&
@@ -57,16 +50,17 @@ public class MainActivity extends AppCompatActivity {
                         PackageManager.PERMISSION_GRANTED) {
             UserLocation.SetUpLocationListener(this);
         } else {
-            ActivityCompat.requestPermissions(this, new String[] {
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION },
+            ActivityCompat.requestPermissions(this, new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION},
                     REQUEST_LOCATION);
             permissionsChecker();
-            }
+        }
     }
 
     private void configureMap() {
         Log.i(TAG, "configureMap");
+        MapKitFactory.setApiKey("4431f62e-4cef-4ce6-b1d5-07602abde3fd");
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         map = new MapMainMenu();
@@ -78,16 +72,16 @@ public class MainActivity extends AppCompatActivity {
     public void processButtonPressing(View view) {
         switch (view.getId()) {
             case R.id.buttonStart: {
-                Intent intentStart = new Intent(MainActivity.this, parametersDialog.class);
-                LatLng finish = map.getFinishMarker();
-                if(finish == null){
+                Intent intentStart = new Intent(MainActivity.this, ParametersDialog.class);
+                Point finish = map.getFinishMarker();
+                if (finish == null) {
                     Toast.makeText(getApplicationContext(),
                             getString(R.string.main_activity_toast_no_finish),
                             Toast.LENGTH_LONG).show();
                     break;
                 }
-                intentStart.putExtra("latitude", finish.latitude);
-                intentStart.putExtra("longitude", finish.longitude);
+                intentStart.putExtra("latitude", finish.getLatitude());
+                intentStart.putExtra("longitude", finish.getLongitude());
                 startActivity(intentStart);
                 break;
             }
@@ -106,7 +100,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intentInfo);
                 break;
             }
-            default: break;
+            default:
+                break;
         }
     }
 }
