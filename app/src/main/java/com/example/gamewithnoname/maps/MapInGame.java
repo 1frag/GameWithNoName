@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.gamewithnoname.BotLocation;
 import com.example.gamewithnoname.DistanceBetweenTwoPoints;
 import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.MapKitFactory;
@@ -68,14 +69,14 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
 //        map.setNightModeEnabled(true);
 
         // draw finish:
-        double a = getIntent().getExtras().getDouble("finish_latitude");
-        double b = getIntent().getExtras().getDouble("finish_longitude");
+        double a = getIntent().getExtras().getDouble("start_latitude");
+        double b = getIntent().getExtras().getDouble("start_longitude");
         start = new Point(a, b);
         map.getMapObjects().addPlacemark(start);
 
         // draw start:
-        double c = getIntent().getExtras().getDouble("start_latitude");
-        double d = getIntent().getExtras().getDouble("start_longitude");
+        double c = getIntent().getExtras().getDouble("finish_latitude");
+        double d = getIntent().getExtras().getDouble("finish_longitude");
         finish = new Point(c, d);
         map.getMapObjects().addPlacemark(finish);
 
@@ -124,12 +125,8 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
 
     @Override
     public void onMasstransitRoutes(List<Route> routes) {
-        if (routes.size() == 0){
-            Toast.makeText(this,
-                    "path not found",
-                    Toast.LENGTH_SHORT).show();
-            return;
-        }
+        BotLocation bot = new BotLocation(this, mMap, routes.get(0).getGeometry());
+        bot.start(200);
         mMap.getMapObjects().addPolyline(routes.get(0).getGeometry());
     }
 

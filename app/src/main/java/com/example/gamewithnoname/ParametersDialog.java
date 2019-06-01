@@ -207,7 +207,7 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
         intentStart.putExtra("start_longitude", 84.979591);
         intentStart.putExtra("oncomingSensitivity", oncomingSensitivity);
         intentStart.putExtra("distance", changedDistance);
-        intentStart.putExtra("speed", speed*1000/60);
+        intentStart.putExtra("speed", speed*1000.0/60.0);
         intentStart.putExtra("botStartLatitude", botStart().getLatitude());
         intentStart.putExtra("botStartLongitude", botStart().getLongitude());
 

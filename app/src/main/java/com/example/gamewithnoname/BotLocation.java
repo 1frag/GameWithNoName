@@ -1,87 +1,92 @@
 package com.example.gamewithnoname;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.location.Location;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.LocationSource;
-import com.google.android.gms.maps.model.CircleOptions;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.PolylineOptions;
+import com.yandex.mapkit.geometry.Circle;
+import com.yandex.mapkit.geometry.Point;
+import com.yandex.mapkit.geometry.Polyline;
+import com.yandex.mapkit.map.Map;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class BotLocation {
 
-    private GoogleMap mMap;
+    private Map mMap;
     private Activity mActivity;
-    private PolylineOptions mPath;
-    private LatLng mCenter;
-    private LatLng mLastPlace;
-    private LatLng mFinish;
+    private int ind = 0;
+    private ArrayList<Point> path = new ArrayList<>();
     private final String TAG = String.format("%s/%s",
             "HITS", "BotLocation");
 
-    public BotLocation(Activity activity, GoogleMap map, LatLng finish) {
+    public BotLocation(Activity activity, Map map, Polyline linePath) {
         mActivity = activity;
         mMap = map;
-        mFinish = finish;
-        mLastPlace = new LatLng(56.451737, 84.987451);
-        mPath = new PolylineOptions()
-                .color(0x9900ff11)
-                .width(25);
-        mMap.addPolyline(mPath);
+        List<Point> points = linePath.getPoints();
+        for (int i = 1; i < points.size(); i++) {
+            Point now = points.get(i - 1);
+            double vx0 = points.get(i).getLatitude() - points.get(i - 1).getLatitude();
+            double vy0 = points.get(i).getLongitude() - points.get(i - 1).getLongitude();
+            double ny = Math.sqrt((vy0 * vy0) / (vy0 * vy0 + vx0 * vx0)) / 111111.0;
+            double nx = Math.sqrt(1 - ny * ny) / 111111.0;
+
+            if (vx0 < 0) nx = -nx;
+            if (vy0 < 0) ny = -ny;
+
+            Log.i(TAG, String.format("(%s %s), (%s %s)", vx0, vy0, ny, nx));
+            Log.i(TAG, String.format("%s == 1", ny * ny + nx * nx));
+            Log.i(TAG, String.format("%s == %s", nx / ny, vx0 / vy0));
+
+            path.add(now);
+            while (check(points.get(i - 1), now, points.get(i))) {
+                now = new Point(
+                        now.getLatitude() + nx,
+                        now.getLongitude() + ny
+                );
+                path.add(now);
+//                Log.i(TAG, String.format("%s %s", now.getLongitude(), now.getLongitude()));
+            }
+        }
+
     }
 
-    public void start(int fullTime, final int segment) {
+    private boolean check(Point start, Point now, Point finish) {
+        double fx = Math.abs(start.getLatitude() - finish.getLatitude());
+        double fy = Math.abs(start.getLongitude() - finish.getLongitude());
+        double nx = Math.abs(start.getLatitude() - now.getLatitude());
+        double ny = Math.abs(start.getLongitude() - now.getLongitude());
+        if (fx <= nx) return false;
+        if (fy <= ny) return false;
+        return true;
+    }
+
+    public void start(final int segment) {
         final Timer timer = new Timer();
 
         final TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                Random r = new Random();
-//                double a = 56 + r.nextDouble();
-//                double b = 85 + r.nextDouble();
-
-                double vx = mFinish.latitude - mLastPlace.latitude;
-                double vy = mFinish.longitude - mLastPlace.longitude;
-
-                double a = r.nextDouble() / 5000f + mLastPlace.latitude + vx / Math.max(vx, vy) / 5000;
-                double b = r.nextDouble() / 5000f + mLastPlace.longitude + vy / Math.max(vx, vy) / 5000;
-
-                Log.i(TAG, String.format("%s %s %s %s", vx, vy, a, b));
-
-                vx = mFinish.latitude - a;
-                vy = mFinish.longitude - b;
-                double sizeAfter = vx * vx + vy * vy;
-                Log.i(TAG, String.format("%f", sizeAfter));
-
-                if (sizeAfter < 5e-7) {
-                    Log.i(TAG, "end");
+                ind++;
+                if (ind >= path.size()) {
                     timer.cancel();
                     return;
                 }
 
-                mCenter = new LatLng(a, b);
-
-                mPath = new PolylineOptions()
-                        .add(mCenter)
-                        .add(mLastPlace)
-                        .color(0x9900ff11);
-
-                mLastPlace = new LatLng(a, b);
-
                 mActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mMap.addPolyline(mPath);
+                        mMap.getMapObjects().addCircle(new Circle(path.get(ind), 1),
+                                Color.BLACK, 1, Color.RED);
                     }
                 });
             }
