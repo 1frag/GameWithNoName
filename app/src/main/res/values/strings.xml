@@ -11,7 +11,7 @@
     <string name="activity_parameters_headline">Parameters</string>
     <string name="activity_parameters_speed">Speed</string>
     <string name="activity_parameters_button">Start</string>
-    <string name="activity_parameters_forest">Out of roads</string>
+    <string name="activity_parameters_forest">Oncoming sensitivity</string>
     <string name="activity_parameters_change">Deviation</string>
     <string name="activity_parameters_on_foot">On foot</string>
     <string name="activity_parameters_roller">Roller-skates</string>

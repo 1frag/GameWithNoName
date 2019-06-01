@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.gamewithnoname.maps.MapInGame;
@@ -19,6 +21,7 @@ public class ParametersDialog extends AppCompatActivity {
     private Double time;
     private Double shortestDistance;
     private Double changedDistance;
+    private Boolean oncomingSensitivity;
     private TextView textSpeed;
     private TextView textTime;
 
@@ -49,6 +52,17 @@ public class ParametersDialog extends AppCompatActivity {
 
         SeekBar deviationSeekBar = findViewById(R.id.seekBarChange);
         deviationSeekBar.setOnSeekBarChangeListener(new deviationListener());
+
+        Switch sw = findViewById(R.id.switchSensitivity);
+        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    oncomingSensitivity = true;
+                } else {
+                    oncomingSensitivity = false;
+                }
+            }
+        });
     }
     private class speedListener implements SeekBar.OnSeekBarChangeListener {
 
@@ -100,6 +114,8 @@ public class ParametersDialog extends AppCompatActivity {
         // todo: generation point of bot's start, put them in:
         intentStart.putExtra("start_latitude", 56.489233);
         intentStart.putExtra("start_longitude", 84.979591);
+        intentStart.putExtra("oncomingSensitivity", oncomingSensitivity);
+        intentStart.putExtra("distance", changedDistance);
 
         startActivity(intentStart);
     }
