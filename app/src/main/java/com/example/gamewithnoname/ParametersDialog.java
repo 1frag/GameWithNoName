@@ -70,24 +70,32 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
     }
 
     public Point botStart() {
-        Location position = UserLocation.imHere;
-        Double r = sqrt(pow((latit - position.getLatitude()), 2) + pow((longit - position.getLongitude()), 2));
-        Double mx = (latit + position.getLatitude()) / 2;
-        Double my = (longit + position.getLongitude()) / 2;
-        Double m = sqrt(3) * r / 2;
-        Double ax = latit - position.getLatitude();
-        Double ay = longit - position.getLongitude();
+        Double r = sqrt(pow((latit - start.getLatitude()), 2) + pow((longit - start.getLongitude()), 2));
+        Double mx = (latit + start.getLatitude()) / 2f;
+        Double my = (longit + start.getLongitude()) / 2f;
+        Double ax = latit - start.getLatitude();
+        Double ay = longit - start.getLongitude();
         Double bx = -ay;
-        Double cmy1 = sqrt(3 * r / (4 + (4 * bx * bx / (ax * ax))));
+        Double by;
+        by = ax;
+        Double cmy1 = sqrt(3.0 * r * r / (4.0 + (4.0 * bx * bx / (by * by))));
         Double cmy2 = -cmy1;
-        Double cmx1 = cmy1 * bx / ax;
+        Double cmx1 = cmy1 * bx / by;
         Double cmx2 = -cmx1;
         cmy1 += my;
         cmy2 += my;
         cmx1 += mx;
         cmx2 += mx;
         Random random = new Random();
+        Log.i(TAG, String.format("%s==%s", dist(start, finish), dist(new Point(cmx1, cmy1), finish)));
         if (random.nextBoolean()) {return new Point(cmx1, cmy1);} else {return new Point(cmx2, cmy2);}
+    }
+
+    private double dist(Point a, Point b) {
+        return (a.getLongitude() - b.getLongitude()) *
+                (a.getLongitude() - b.getLongitude()) +
+                (a.getLatitude() - b.getLatitude()) *
+                        (a.getLatitude() - b.getLatitude());
     }
 
     private TimeOptions initOptions() {
@@ -205,8 +213,10 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
         intentStart.putExtra("oncomingSensitivity", oncomingSensitivity);
         intentStart.putExtra("distance", changedDistance);
         intentStart.putExtra("speed", speed*1000.0/60.0);
-        intentStart.putExtra("botStartLatitude", botStart().getLatitude());
-        intentStart.putExtra("botStartLongitude", botStart().getLongitude());
+        Point point = botStart();
+        // sometimes problem with point
+        intentStart.putExtra("botStartLatitude", point.getLatitude());
+        intentStart.putExtra("botStartLongitude", point.getLongitude());
 
         startActivity(intentStart);
     }

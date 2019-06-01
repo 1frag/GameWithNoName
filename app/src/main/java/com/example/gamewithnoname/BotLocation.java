@@ -82,6 +82,21 @@ public class BotLocation {
                     return;
                 }
 
+                Location now = UserLocation.imHere;
+                double a = now.getLatitude() - path.get(ind).getLatitude();
+                double b = now.getLongitude() - path.get(ind).getLongitude();
+                double z = a * a + b * b;
+                if (z < 0.000003) {
+                    mActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(mActivity,
+                                    "You win", 1).show();
+                        }
+                    });
+                    timer.cancel();
+                }
+
                 mActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

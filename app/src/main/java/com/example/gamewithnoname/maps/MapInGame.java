@@ -1,5 +1,6 @@
 package com.example.gamewithnoname.maps;
 
+import android.graphics.Color;
 import android.location.Location;
 import android.nfc.Tag;
 import android.os.AsyncTask;
@@ -14,6 +15,7 @@ import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.RequestPoint;
 import com.yandex.mapkit.RequestPointType;
+import com.yandex.mapkit.geometry.Circle;
 import com.yandex.mapkit.geometry.Point;
 import com.yandex.mapkit.geometry.Polyline;
 import com.yandex.mapkit.map.CameraPosition;
@@ -80,11 +82,18 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
         finish = new Point(c, d);
         map.getMapObjects().addPlacemark(finish);
 
+        map.getUserLocationLayer().setEnabled(true);
+
         // todo: visualization start and path to finish
         // todo: connect bot in this map
 
 //        pedestrianRouter = DirectionsFactory.getInstance().createDrivingRouter();
         runBot(new Point(a, b), new Point(c, d));
+
+        mMap.getMapObjects().addCircle(new Circle(
+                new Point(UserLocation.imHere.getLatitude(),
+                        UserLocation.imHere.getLongitude()), 15),
+                Color.RED, 4, Color.BLACK);
 
     }
 
