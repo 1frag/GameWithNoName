@@ -1,23 +1,27 @@
 package com.example.gamewithnoname.maps;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
-import android.nfc.Tag;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.gamewithnoname.BotLocation;
 import com.example.gamewithnoname.DistanceBetweenTwoPoints;
+import com.example.gamewithnoname.MainActivity;
+import com.example.gamewithnoname.ParametersDialog;
 import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.RequestPoint;
 import com.yandex.mapkit.RequestPointType;
 import com.yandex.mapkit.geometry.Circle;
 import com.yandex.mapkit.geometry.Point;
-import com.yandex.mapkit.geometry.Polyline;
 import com.yandex.mapkit.map.CameraPosition;
 
 import com.example.gamewithnoname.R;
@@ -61,6 +65,42 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
 
     }
 
+    public void setGameResult(int result) {
+        if (result == -1) {
+            final LayoutInflater factory = getLayoutInflater();
+            final View menu = factory.inflate(R.layout.layout_lose, null);
+            LinearLayout linearLayout = findViewById(R.id.resultLayout);
+            linearLayout.removeAllViews();
+            linearLayout.addView(menu, 0);
+
+            Button buttonOkLose = findViewById(R.id.buttonOkLose);
+            buttonOkLose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                     Intent intent = new Intent(MapInGame.this, MainActivity.class);
+                     startActivity(intent);
+                }
+            });
+
+        } else { //result == 1
+            final LayoutInflater factory = getLayoutInflater();
+            final View menu = factory.inflate(R.layout.layout_lose, null);
+            LinearLayout linearLayout = findViewById(R.id.resultLayout);
+            linearLayout.removeAllViews();
+            linearLayout.addView(menu, 0);
+
+            Button buttonOkWin = findViewById(R.id.buttonOkWin);
+            buttonOkWin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MapInGame.this, MainActivity.class);
+                    startActivity(intent);
+                }
+            });
+
+        }
+    }
+
     private void configMap(Map map) {
         Log.i(TAG, "configMap");
         Location now = UserLocation.imHere;
@@ -91,8 +131,8 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
         runBot(new Point(a, b), new Point(c, d));
 
         mMap.getMapObjects().addCircle(new Circle(
-                new Point(UserLocation.imHere.getLatitude(),
-                        UserLocation.imHere.getLongitude()), 15),
+                        new Point(UserLocation.imHere.getLatitude(),
+                                UserLocation.imHere.getLongitude()), 15),
                 Color.RED, 4, Color.BLACK);
 
     }

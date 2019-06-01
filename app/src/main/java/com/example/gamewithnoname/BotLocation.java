@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.location.Location;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Toast;
 
+import com.example.gamewithnoname.maps.MapInGame;
 import com.yandex.mapkit.geometry.Circle;
 import com.yandex.mapkit.geometry.Point;
 import com.yandex.mapkit.geometry.Polyline;
@@ -24,13 +27,13 @@ import java.util.TimerTask;
 public class BotLocation {
 
     private Map mMap;
-    private Activity mActivity;
+    private MapInGame mActivity;
     private int ind = 0;
     private ArrayList<Point> path = new ArrayList<>();
     private final String TAG = String.format("%s/%s",
             "HITS", "BotLocation");
 
-    public BotLocation(Activity activity, Map map, Polyline linePath) {
+    public BotLocation(MapInGame activity, Map map, Polyline linePath) {
         mActivity = activity;
         mMap = map;
         List<Point> points = linePath.getPoints();
@@ -86,6 +89,13 @@ public class BotLocation {
             public void run() {
                 ind++;
                 if (ind >= path.size()) {
+                    // todo: layout_lose
+                    mActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mActivity.setGameResult(-1);
+                        }
+                    });
                     timer.cancel();
                     return;
                 }
@@ -97,8 +107,9 @@ public class BotLocation {
                     mActivity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            // todo: layout_win
                             Toast.makeText(mActivity,
-                                    "You win",
+                                    "You layout_win",
                                     Toast.LENGTH_LONG).show();
                         }
                     });
