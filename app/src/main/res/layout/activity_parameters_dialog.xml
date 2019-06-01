@@ -74,14 +74,11 @@
         app:layout_constraintGuide_begin="293dp" />
 
     <Switch
-        android:id="@+id/switchForest"
+        android:id="@+id/switchSensitivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:text="@string/activity_parameters_forest"
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
-        app:layout_constraintHorizontal_bias="0.256"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
@@ -121,7 +118,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="141dp" />
+        app:layout_constraintGuide_begin="152dp" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline4"

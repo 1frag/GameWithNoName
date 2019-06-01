@@ -39,9 +39,9 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
     private Double time;
     private Double shortestDistance;
     private Double changedDistance;
+    private Boolean oncomingSensitivity;
     private TextView textSpeed;
     private TextView textTime;
-    private Boolean oncomingSensitivity;
     private PedestrianRouter pdRouter;
     private Point start, finish;
     private final String TAG = String.format("%s/%s",
@@ -115,7 +115,6 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
                 }
             }
         });
-
     }
 
     @Override
@@ -180,7 +179,6 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
         // todo: generation point of bot's start, put them in:
         intentStart.putExtra("start_latitude", 56.489233);
         intentStart.putExtra("start_longitude", 84.979591);
-
         intentStart.putExtra("oncomingSensitivity", oncomingSensitivity);
         intentStart.putExtra("distance", changedDistance);
 
