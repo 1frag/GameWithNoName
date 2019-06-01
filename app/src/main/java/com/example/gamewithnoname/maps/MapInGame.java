@@ -102,38 +102,10 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
         pdRouter = TransportFactory.getInstance().createPedestrianRouter();
         pdRouter.requestRoutes(requestPoints, options, this);
 
-        // example for get distance between two points {to @Asya}
-//        GetDistance mt = new GetDistance();
-//        mt.execute();
         DistanceBetweenTwoPoints d = new DistanceBetweenTwoPoints(start, finish);
         resultAsync = d.getResult();
         Log.i(TAG, String.format("%s", resultAsync));
-//        if(resultAsync != null)
-//            Log.i(TAG, String.format("%s", resultAsync));
-//        else Log.i(TAG, "nothing");
     }
-
-//    class GetDistance extends AsyncTask<Void, Void, Void> {
-//
-//        private DistanceBetweenTwoPoints distanceBetweenTwoPoints;
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//        }
-//
-//        @Override
-//        protected Void doInBackground(Void... params) {
-//            distanceBetweenTwoPoints = new DistanceBetweenTwoPoints(start, finish);
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void result) {
-//            super.onPostExecute(result);
-//            resultAsync = distanceBetweenTwoPoints.getResult();
-//        }
-//    }
 
 
     @Override
