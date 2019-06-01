@@ -220,7 +220,7 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
         intentStart.putExtra("finishLongitude", longit);
         intentStart.putExtra("oncomingSensitivity", oncomingSensitivity);
         intentStart.putExtra("distance", changedDistance);
-        intentStart.putExtra("speed", speed*1000.0/60.0);
+        intentStart.putExtra("speed", speed);
 
         Point point = botStart();
         // sometimes problem with point

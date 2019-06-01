@@ -177,7 +177,8 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
         BotLocation bot = new BotLocation(this, mMap, routes.get(0).getGeometry());
 
         double speed = getIntent().getExtras().getDouble("speed");
-        bot.start((int)(1000f / speed));
+        Log.i(TAG, String.format("speed: %s", (int)(1000f / speed)));
+        bot.start((int)(3600f / speed));
         mMap.getMapObjects().addPolyline(routes.get(0).getGeometry());
     }
 
