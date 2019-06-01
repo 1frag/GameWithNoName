@@ -176,7 +176,8 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
     public void onMasstransitRoutes(List<Route> routes) {
         BotLocation bot = new BotLocation(this, mMap, routes.get(0).getGeometry());
 
-        bot.start(200);
+        double speed = getIntent().getExtras().getDouble("speed");
+        bot.start((int)(1000f / speed));
         mMap.getMapObjects().addPolyline(routes.get(0).getGeometry());
     }
 
