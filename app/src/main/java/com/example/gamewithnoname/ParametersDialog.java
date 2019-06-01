@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -48,12 +49,14 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
     private TextView textTime;
     private PedestrianRouter pdRouter;
     private Point start, finish;
+    private Button btnContinue;
     private final String TAG = String.format("%s/%s",
             "HITS", "ParametersDialog");
 
     @SuppressLint("DefaultLocale")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parameters_dialog);
 
@@ -66,6 +69,9 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
         TransportFactory.initialize(this);
         pdRouter = TransportFactory.getInstance().createPedestrianRouter();
         pdRouter.requestRoutes(initPath(start, finish), initOptions(), this);
+
+        btnContinue = findViewById(R.id.buttonContinue);
+        btnContinue.setEnabled(false);
 
     }
 
@@ -118,6 +124,7 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
     @SuppressLint("DefaultLocale")
     @Override
     public void onMasstransitRoutes(@NonNull List<Route> list) {
+        Log.i(TAG, "onMasstransitRoutes");
 
         speed = 5.0; //будет передаваться с сервера когда-нибудь (начальное значение)
         deviation = 1.0; //и это
@@ -127,7 +134,7 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
         textSpeed = findViewById(R.id.textSpeedValue);
         textSpeed.setText(String.format("%.1f km/h", speed));
 
-        time = shortestDistance * deviation / (speed * 1000 / 60);
+        time = shortestDistance * deviation / (speed * 1000 / 3600);
         textTime = findViewById(R.id.timeApproximate);
         textTime.setText(String.format("Approximate time is %.1f min", time));
 
@@ -149,6 +156,7 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
                 }
             }
         });
+        btnContinue.setEnabled(true);
     }
 
     @Override
@@ -213,6 +221,7 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
         intentStart.putExtra("oncomingSensitivity", oncomingSensitivity);
         intentStart.putExtra("distance", changedDistance);
         intentStart.putExtra("speed", speed*1000.0/60.0);
+
         Point point = botStart();
         // sometimes problem with point
         intentStart.putExtra("botStartLatitude", point.getLatitude());

@@ -10,6 +10,7 @@ import com.yandex.mapkit.geometry.Circle;
 import com.yandex.mapkit.geometry.Point;
 import com.yandex.mapkit.geometry.Polyline;
 import com.yandex.mapkit.map.Map;
+import com.yandex.mapkit.geometry.Geo;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -34,26 +35,33 @@ public class BotLocation {
         mMap = map;
         List<Point> points = linePath.getPoints();
         for (int i = 1; i < points.size(); i++) {
-            Point now = points.get(i - 1);
-            double vx0 = points.get(i).getLatitude() - points.get(i - 1).getLatitude();
-            double vy0 = points.get(i).getLongitude() - points.get(i - 1).getLongitude();
-            double ny = Math.sqrt((vy0 * vy0) / (vy0 * vy0 + vx0 * vx0)) / 111111.0;
-            double nx = Math.sqrt(1 - ny * ny) / 111111.0;
+//            Point now = points.get(i - 1);
+//            double vx0 = points.get(i).getLatitude() - points.get(i - 1).getLatitude();
+//            double vy0 = points.get(i).getLongitude() - points.get(i - 1).getLongitude();
+//            double ny = Math.sqrt((vy0 * vy0) / (vy0 * vy0 + vx0 * vx0)) / 111111.0;
+//            double nx = Math.sqrt(1 - ny * ny) / 111111.0;
+//
+//            if (vx0 < 0) nx = -nx;
+//            if (vy0 < 0) ny = -ny;
+//
+//            Log.i(TAG, String.format("(%s %s), (%s %s)", vx0, vy0, ny, nx));
+//            Log.i(TAG, String.format("%s == 1", ny * ny + nx * nx));
+//            Log.i(TAG, String.format("%s == %s", nx / ny, vx0 / vy0));
+            Point A = points.get(i - 1);
+            Point B = points.get(i);
+            double z = Math.sqrt((A.getLatitude() - B.getLatitude())
+                    * (A.getLatitude() - B.getLatitude()) +
+                    (A.getLongitude() - B.getLongitude()) *
+                            (A.getLongitude() - B.getLongitude())) * 111111f;
 
-            if (vx0 < 0) nx = -nx;
-            if (vy0 < 0) ny = -ny;
-
-            Log.i(TAG, String.format("(%s %s), (%s %s)", vx0, vy0, ny, nx));
-            Log.i(TAG, String.format("%s == 1", ny * ny + nx * nx));
-            Log.i(TAG, String.format("%s == %s", nx / ny, vx0 / vy0));
-
-            path.add(now);
-            while (check(points.get(i - 1), now, points.get(i))) {
-                now = new Point(
-                        now.getLatitude() + nx,
-                        now.getLongitude() + ny
+            path.add(A);
+            Log.i(TAG, String.format("%s %s", z, B.getLatitude() - A.getLatitude()));
+            for (double j = 0; j <= z; j += 1) {
+                Point C = new Point(
+                        A.getLatitude() + j * (B.getLatitude() - A.getLatitude()) / z,
+                        A.getLongitude() + j * (B.getLongitude() - A.getLongitude()) / z
                 );
-                path.add(now);
+                path.add(C);
 //                Log.i(TAG, String.format("%s %s", now.getLongitude(), now.getLongitude()));
             }
         }
@@ -83,15 +91,15 @@ public class BotLocation {
                 }
 
                 Location now = UserLocation.imHere;
-                double a = now.getLatitude() - path.get(ind).getLatitude();
-                double b = now.getLongitude() - path.get(ind).getLongitude();
-                double z = a * a + b * b;
-                if (z < 0.000003) {
+                Point pnow = new Point(now.getLatitude(), now.getLongitude());
+                double zd = Geo.distance(pnow, path.get(ind));
+                if (zd <= 5) {
                     mActivity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             Toast.makeText(mActivity,
-                                    "You win", 1).show();
+                                    "You win",
+                                    Toast.LENGTH_LONG).show();
                         }
                     });
                     timer.cancel();
