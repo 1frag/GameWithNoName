@@ -40,6 +40,5 @@
         android:layout_marginStart="138dp"
         android:layout_marginTop="185dp"
         android:layout_marginEnd="186dp"
-        android:onClick="finish"
         android:text="@string/maps_dialog_win_ok" />
 </RelativeLayout>
