@@ -29,6 +29,10 @@ import com.yandex.runtime.network.RemoteError;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
+
+import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
 
 public class ParametersDialog extends AppCompatActivity implements Session.RouteListener {
     private Double latit;
@@ -65,6 +69,27 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
 
     }
 
+    public Point botStart() {
+        Location position = UserLocation.imHere;
+        Double r = sqrt(pow((latit - position.getLatitude()), 2) + pow((longit - position.getLongitude()), 2));
+        Double mx = (latit + position.getLatitude()) / 2;
+        Double my = (longit + position.getLongitude()) / 2;
+        Double m = sqrt(3) * r / 2;
+        Double ax = latit - position.getLatitude();
+        Double ay = longit - position.getLongitude();
+        Double bx = -ay;
+        Double cmy1 = sqrt(3 * r / (4 + (4 * bx * bx / (ax * ax))));
+        Double cmy2 = -cmy1;
+        Double cmx1 = cmy1 * bx / ax;
+        Double cmx2 = -cmx1;
+        cmy1 += my;
+        cmy2 += my;
+        cmx1 += mx;
+        cmx2 += mx;
+        Random random = new Random();
+        if (random.nextBoolean()) {return new Point(cmx1, cmy1);} else {return new Point(cmx2, cmy2);}
+    }
+
     private TimeOptions initOptions() {
         return new TimeOptions();
     }
@@ -82,6 +107,7 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
         return requestPoints;
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     public void onMasstransitRoutes(@NonNull List<Route> list) {
 
@@ -181,6 +207,9 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
         intentStart.putExtra("start_longitude", 84.979591);
         intentStart.putExtra("oncomingSensitivity", oncomingSensitivity);
         intentStart.putExtra("distance", changedDistance);
+        intentStart.putExtra("speed", speed*1000/60);
+        intentStart.putExtra("botStartLatitude", botStart().getLatitude());
+        intentStart.putExtra("botStartLongitude", botStart().getLongitude());
 
         startActivity(intentStart);
     }
