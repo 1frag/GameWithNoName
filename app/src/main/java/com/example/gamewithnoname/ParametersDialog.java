@@ -2,15 +2,35 @@ package com.example.gamewithnoname;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.location.Location;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.gamewithnoname.maps.MapInGame;
+import com.yandex.mapkit.RequestPoint;
+import com.yandex.mapkit.RequestPointType;
+import com.yandex.mapkit.geometry.Point;
+import com.yandex.mapkit.transport.TransportFactory;
+import com.yandex.mapkit.transport.masstransit.PedestrianRouter;
+import com.yandex.mapkit.transport.masstransit.Route;
+import com.yandex.mapkit.transport.masstransit.Session;
+import com.yandex.mapkit.transport.masstransit.TimeOptions;
+import com.yandex.runtime.Error;
+import com.yandex.runtime.network.NetworkError;
+import com.yandex.runtime.network.RemoteError;
 
-public class ParametersDialog extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+public class ParametersDialog extends AppCompatActivity implements Session.RouteListener {
     private Double latit;
     private Double longit;
 
@@ -21,6 +41,11 @@ public class ParametersDialog extends AppCompatActivity {
     private Double changedDistance;
     private TextView textSpeed;
     private TextView textTime;
+    private Boolean oncomingSensitivity;
+    private PedestrianRouter pdRouter;
+    private Point start, finish;
+    private final String TAG = String.format("%s/%s",
+            "HITS", "ParametersDialog");
 
     @SuppressLint("DefaultLocale")
     @Override
@@ -30,10 +55,40 @@ public class ParametersDialog extends AppCompatActivity {
 
         latit = getIntent().getExtras().getDouble("latitude");
         longit = getIntent().getExtras().getDouble("longitude");
+        finish = new Point(latit, longit);
+        Location now = UserLocation.imHere;
+        start = new Point(now.getLatitude(), now.getLongitude());
+
+        TransportFactory.initialize(this);
+        pdRouter = TransportFactory.getInstance().createPedestrianRouter();
+        pdRouter.requestRoutes(initPath(start, finish), initOptions(), this);
+
+    }
+
+    private TimeOptions initOptions() {
+        return new TimeOptions();
+    }
+
+    private List<RequestPoint> initPath(Point start, Point finish) {
+        ArrayList<RequestPoint> requestPoints = new ArrayList<>();
+        requestPoints.add(new RequestPoint(
+                start,
+                RequestPointType.WAYPOINT,
+                null));
+        requestPoints.add(new RequestPoint(
+                finish,
+                RequestPointType.WAYPOINT,
+                null));
+        return requestPoints;
+    }
+
+    @Override
+    public void onMasstransitRoutes(@NonNull List<Route> list) {
 
         speed = 5.0; //будет передаваться с сервера когда-нибудь (начальное значение)
         deviation = 1.0; //и это
-        shortestDistance = 1000.0; //с предыдущего активити
+        shortestDistance = list.get(0).getMetadata().getWeight().getTime().getValue(); //с предыдущего активити
+        Log.i(TAG, String.format("%s", shortestDistance));
 
         textSpeed = findViewById(R.id.textSpeedValue);
         textSpeed.setText(String.format("%.1f km/h", speed));
@@ -49,7 +104,32 @@ public class ParametersDialog extends AppCompatActivity {
 
         SeekBar deviationSeekBar = findViewById(R.id.seekBarChange);
         deviationSeekBar.setOnSeekBarChangeListener(new deviationListener());
+
+        Switch sw = findViewById(R.id.switchSensitivity);
+        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    oncomingSensitivity = true;
+                } else {
+                    oncomingSensitivity = false;
+                }
+            }
+        });
+
     }
+
+    @Override
+    public void onMasstransitRoutesError(@NonNull Error error) {
+        String errorMessage = "unknown_error_message";
+        if (error instanceof RemoteError) {
+            errorMessage = "remote_error_message";
+        } else if (error instanceof NetworkError) {
+            errorMessage = "network_error_message";
+        }
+
+        Log.i(TAG, errorMessage);
+    }
+
     private class speedListener implements SeekBar.OnSeekBarChangeListener {
 
         @SuppressLint("DefaultLocale")
@@ -100,6 +180,9 @@ public class ParametersDialog extends AppCompatActivity {
         // todo: generation point of bot's start, put them in:
         intentStart.putExtra("start_latitude", 56.489233);
         intentStart.putExtra("start_longitude", 84.979591);
+
+        intentStart.putExtra("oncomingSensitivity", oncomingSensitivity);
+        intentStart.putExtra("distance", changedDistance);
 
         startActivity(intentStart);
     }

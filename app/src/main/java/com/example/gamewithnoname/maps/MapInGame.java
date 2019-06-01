@@ -1,41 +1,34 @@
 package com.example.gamewithnoname.maps;
 
 import android.location.Location;
+import android.nfc.Tag;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.gamewithnoname.DistanceBetweenTwoPoint;
+import com.example.gamewithnoname.DistanceBetweenTwoPoints;
 import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.RequestPoint;
 import com.yandex.mapkit.RequestPointType;
-import com.yandex.mapkit.directions.DirectionsFactory;
-import com.yandex.mapkit.directions.driving.DrivingRouter;
 import com.yandex.mapkit.geometry.Point;
 import com.yandex.mapkit.geometry.Polyline;
-import com.yandex.mapkit.geometry.PolylinePosition;
-import com.yandex.mapkit.geometry.SubpolylineHelper;
 import com.yandex.mapkit.map.CameraPosition;
 
 import com.example.gamewithnoname.R;
 import com.example.gamewithnoname.UserLocation;
 
 import com.yandex.mapkit.map.Map;
-import com.yandex.mapkit.map.PolylineMapObject;
 import com.yandex.mapkit.transport.TransportFactory;
 import com.yandex.mapkit.transport.masstransit.*;
 import com.yandex.mapkit.mapview.MapView;
 import com.yandex.runtime.Error;
-import com.yandex.runtime.image.ImageProvider;
 import com.yandex.runtime.network.NetworkError;
 import com.yandex.runtime.network.RemoteError;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class MapInGame extends AppCompatActivity implements Session.RouteListener {
@@ -43,6 +36,8 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
     private MapView mapView;
     private Map mMap;
     private PedestrianRouter pdRouter;
+    private Point start, finish;
+    private Double resultAsync;
     private final String TAG = String.format("%s/%s",
             "HITS", "MapInGame");
 
@@ -75,12 +70,14 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
         // draw finish:
         double a = getIntent().getExtras().getDouble("finish_latitude");
         double b = getIntent().getExtras().getDouble("finish_longitude");
-        map.getMapObjects().addPlacemark(new Point(a, b));
+        start = new Point(a, b);
+        map.getMapObjects().addPlacemark(start);
 
         // draw start:
         double c = getIntent().getExtras().getDouble("start_latitude");
         double d = getIntent().getExtras().getDouble("start_longitude");
-        map.getMapObjects().addPlacemark(new Point(c, d));
+        finish = new Point(c, d);
+        map.getMapObjects().addPlacemark(finish);
 
         // todo: visualization start and path to finish
         // todo: connect bot in this map
@@ -105,8 +102,38 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
         pdRouter = TransportFactory.getInstance().createPedestrianRouter();
         pdRouter.requestRoutes(requestPoints, options, this);
 
-        new DistanceBetweenTwoPoint(start, finish);
+        // example for get distance between two points {to @Asya}
+//        GetDistance mt = new GetDistance();
+//        mt.execute();
+        DistanceBetweenTwoPoints d = new DistanceBetweenTwoPoints(start, finish);
+        resultAsync = d.getResult();
+        Log.i(TAG, String.format("%s", resultAsync));
+//        if(resultAsync != null)
+//            Log.i(TAG, String.format("%s", resultAsync));
+//        else Log.i(TAG, "nothing");
     }
+
+//    class GetDistance extends AsyncTask<Void, Void, Void> {
+//
+//        private DistanceBetweenTwoPoints distanceBetweenTwoPoints;
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... params) {
+//            distanceBetweenTwoPoints = new DistanceBetweenTwoPoints(start, finish);
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void result) {
+//            super.onPostExecute(result);
+//            resultAsync = distanceBetweenTwoPoints.getResult();
+//        }
+//    }
 
 
     @Override

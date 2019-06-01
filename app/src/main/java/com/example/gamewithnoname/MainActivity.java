@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 intentStart.putExtra("latitude", finish.getLatitude());
                 intentStart.putExtra("longitude", finish.getLongitude());
+                // todo: detect invalid finish
                 startActivity(intentStart);
                 break;
             }
