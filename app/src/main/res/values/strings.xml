@@ -19,4 +19,9 @@
     <string name="activity_parameters_time">Place for approximate time</string>
     <string name="activity_parameters_speed_calc">Place for bot speed value</string>
 
+    <string name="maps_dialog_win">You win!</string>
+    <string name="maps_dialog_lose">You lose</string>
+    <string name="maps_dialog_win_ok">OK</string>
+    <string name="maps_dialog_lose_ok">OK</string>
+
 </resources>
