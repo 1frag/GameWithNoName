@@ -69,14 +69,14 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
 //        map.setNightModeEnabled(true);
 
         // draw finish:
-        double a = getIntent().getExtras().getDouble("start_latitude");
-        double b = getIntent().getExtras().getDouble("start_longitude");
+        double a = getIntent().getExtras().getDouble("botStartLatitude");
+        double b = getIntent().getExtras().getDouble("botStartLongitude");
         start = new Point(a, b);
         map.getMapObjects().addPlacemark(start);
 
         // draw start:
-        double c = getIntent().getExtras().getDouble("finish_latitude");
-        double d = getIntent().getExtras().getDouble("finish_longitude");
+        double c = getIntent().getExtras().getDouble("finishLatitude");
+        double d = getIntent().getExtras().getDouble("finishLongitude");
         finish = new Point(c, d);
         map.getMapObjects().addPlacemark(finish);
 

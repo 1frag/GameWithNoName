@@ -200,11 +200,8 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
 
     public void nextActivity (View view) {
         Intent intentStart = new Intent(this, MapInGame.class);
-        intentStart.putExtra("finish_latitude", latit);
-        intentStart.putExtra("finish_longitude", longit);
-        // todo: generation point of bot's start, put them in:
-        intentStart.putExtra("start_latitude", 56.489233);
-        intentStart.putExtra("start_longitude", 84.979591);
+        intentStart.putExtra("finishLatitude", latit);
+        intentStart.putExtra("finishLongitude", longit);
         intentStart.putExtra("oncomingSensitivity", oncomingSensitivity);
         intentStart.putExtra("distance", changedDistance);
         intentStart.putExtra("speed", speed*1000.0/60.0);
