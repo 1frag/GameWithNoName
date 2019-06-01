@@ -7,6 +7,8 @@
     <string name="main_activity_button_friends_description">Show friends</string>
     <string name="main_activity_button_info_description">Show instructions</string>
     <string name="main_activity_toast_no_finish">Touch to set finish</string>
+    <string name="main_activity_swipe_right">Flip if you want to run off</string>
+    <string name="main_activity_authorization">Sign in</string>
 
     <string name="activity_parameters_headline">Parameters</string>
     <string name="activity_parameters_speed">Speed</string>
@@ -23,5 +25,14 @@
     <string name="maps_dialog_lose">You lose</string>
     <string name="maps_dialog_win_ok">OK</string>
     <string name="maps_dialog_lose_ok">OK</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
 
 </resources>

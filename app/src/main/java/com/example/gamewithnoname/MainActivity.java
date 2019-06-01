@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.gamewithnoname.maps.MapMainMenu;
+import com.example.gamewithnoname.ui.login.LoginActivity;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Point;
 
@@ -99,6 +100,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.buttonInfo: {
                 Intent intentInfo = new Intent(MainActivity.this, InfoActivity.class);
                 startActivity(intentInfo);
+                break;
+            }
+            case R.id.buttonAutho: {
+                Intent authoIntent = new Intent(this, LoginActivity.class);
+                startActivity(authoIntent);
                 break;
             }
             default:
