@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#D2E0B4</color>
-    <!--or E8FFD1-->
+    <color name="colorPrimary">#E2F5C4</color>
+    <!--or E8FFD1 or first D2E0B4 or same D6E8BA-->
 
     <color name="colorPrimaryDark">#869468</color>
     <color name="colorAccent">#804837</color>
 
-    <color name="buttonStart">#FF5722</color>
+    <color name="buttonStart">#FF683B</color>
+    <!--FF5722-->
     <color name="buttonStartPressed">#912F10</color>
     <color name="buttonsForLayout">#83965A</color>
-    <color name="buttonsForLayoutPressed">#384726</color>
+    <color name="buttonsForLayoutPressed">#B5887F</color>
+    <!--384726-->
 
 </resources>
