@@ -29,7 +29,9 @@ public class BotLocation {
     private Map mMap;
     private MapInGame mActivity;
     private int ind = 0;
+    private int resultGame = 0;
     private ArrayList<Point> path = new ArrayList<>();
+    private Timer mTimer;
     private final String TAG = String.format("%s/%s",
             "HITS", "BotLocation");
 
@@ -81,22 +83,30 @@ public class BotLocation {
         return true;
     }
 
+    private void setGameResult(int result) {
+        if(mTimer != null){
+            mTimer.cancel();
+            mTimer = null;
+            resultGame = result;
+            mActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mActivity.setGameResult(resultGame);
+                }
+            });
+
+        }
+    }
+
     public void start(final int segment) {
-        final Timer timer = new Timer();
+        mTimer = new Timer();
 
         final TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
                 ind++;
                 if (ind >= path.size()) {
-                    // todo: layout_lose
-                    mActivity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mActivity.setGameResult(-1);
-                        }
-                    });
-                    timer.cancel();
+                    setGameResult(-1);
                     return;
                 }
 
@@ -104,16 +114,8 @@ public class BotLocation {
                 Point pnow = new Point(now.getLatitude(), now.getLongitude());
                 double zd = Geo.distance(pnow, path.get(ind));
                 if (zd <= 5) {
-                    mActivity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            // todo: layout_win
-                            Toast.makeText(mActivity,
-                                    "You layout_win",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
-                    timer.cancel();
+                    setGameResult(1);
+                    return;
                 }
 
                 mActivity.runOnUiThread(new Runnable() {
@@ -126,7 +128,7 @@ public class BotLocation {
             }
         };
 
-        timer.schedule(timerTask, 1000, segment);
+        mTimer.schedule(timerTask, 1000, segment);
 
     }
 

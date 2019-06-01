@@ -84,7 +84,7 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
 
         } else { //result == 1
             final LayoutInflater factory = getLayoutInflater();
-            final View menu = factory.inflate(R.layout.layout_lose, null);
+            final View menu = factory.inflate(R.layout.layout_win, null);
             LinearLayout linearLayout = findViewById(R.id.resultLayout);
             linearLayout.removeAllViews();
             linearLayout.addView(menu, 0);
@@ -175,6 +175,7 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
     @Override
     public void onMasstransitRoutes(List<Route> routes) {
         BotLocation bot = new BotLocation(this, mMap, routes.get(0).getGeometry());
+
         bot.start(200);
         mMap.getMapObjects().addPolyline(routes.get(0).getGeometry());
     }
