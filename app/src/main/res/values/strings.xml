@@ -25,6 +25,7 @@
     <string name="maps_dialog_lose">You lose</string>
     <string name="maps_dialog_win_ok">OK</string>
     <string name="maps_dialog_lose_ok">OK</string>
+
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -35,4 +36,11 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
 
+    <string name="registration_date">Birth date</string>
+    <string name="registration">Registration</string>
+    <string name="registration_ok">OK</string>
+    <string name="registration_name">Login</string>
+    <string name="registration_male">Male</string>
+    <string name="registration_female">Female</string>
+    <string name="registration_rpt_password">Confirm password</string>
 </resources>
