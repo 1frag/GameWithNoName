@@ -28,13 +28,19 @@ public class LoginViewModel extends ViewModel {
         return loginResult;
     }
 
-    public void login(String username, String password) {
+    public void login(String username, String password, int serverResult) {
         // can be launched in a separate asynchronous job
-        Result<LoggedInUser> result = loginRepository.login(username, password);
+        Result<LoggedInUser> result = loginRepository.login(username, serverResult);
 
         if (result instanceof Result.Success) {
             LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
             loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
+        } else if (result instanceof Result.Error) {
+            if (((Result.Error) result).getError().getMessage().equals("Invalid name or password")){
+                loginResult.setValue(new LoginResult(R.string.invalid_login_or_password));
+            } else {
+                loginResult.setValue(new LoginResult(R.string.login_failed));
+            }
         } else {
             loginResult.setValue(new LoginResult(R.string.login_failed));
         }

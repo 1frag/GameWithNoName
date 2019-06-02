@@ -1,5 +1,10 @@
 package com.example.gamewithnoname.data;
 
+import android.support.annotation.NonNull;
+import android.util.Log;
+
+import com.example.gamewithnoname.ServerConnection.ConnectionServer;
+import com.example.gamewithnoname.ServerConnection.LoginCallbacks;
 import com.example.gamewithnoname.data.model.LoggedInUser;
 
 import java.io.IOException;
@@ -9,15 +14,25 @@ import java.io.IOException;
  */
 public class LoginDataSource {
 
-    public Result<LoggedInUser> login(String username, String password) {
+    private final String TAG = String.format("%s/%s",
+            "HITS",
+            "LoginDataSource");
+
+    public Result<LoggedInUser> login(String username, int serverResult) {
 
         try {
-            // TODO: handle loggedInUser authentication
-            LoggedInUser fakeUser =
-                    new LoggedInUser(
-                            java.util.UUID.randomUUID().toString(),
-                            "Jane Doe");
-            return new Result.Success<>(fakeUser);
+            Log.i(TAG, String.format("server send: %s", serverResult));
+
+            if (serverResult == 1) {
+                LoggedInUser User =
+                        new LoggedInUser(username);
+                return new Result.Success<>(User);
+            }
+            if (serverResult == 0) {
+                return new Result.Error(new IOException("Invalid name or password"));
+            }
+            return new Result.Error(new IOException("Error logging in"));
+
         } catch (Exception e) {
             return new Result.Error(new IOException("Error logging in", e));
         }

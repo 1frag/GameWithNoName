@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -19,12 +21,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gamewithnoname.R;
-import com.example.gamewithnoname.ui.login.LoginViewModel;
-import com.example.gamewithnoname.ui.login.LoginViewModelFactory;
+import com.example.gamewithnoname.ServerConnection.ConnectionServer;
+import com.example.gamewithnoname.ServerConnection.LoginCallbacks;
 
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
+    private final String TAG = String.format("%s/%s",
+            "HITS",
+            "LoginActivity");
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
 
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);
-        final Button loginButton = findViewById(R.id.login);
+        final Button loginButton = findViewById(R.id.signIn);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
@@ -98,8 +103,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginViewModel.login(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
+                    final String username = usernameEditText.getText().toString();
+                    final String password = passwordEditText.getText().toString();
+                    beginLogin(username, password);
                 }
                 return false;
             }
@@ -109,14 +115,35 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                final String username = usernameEditText.getText().toString();
+                final String password = passwordEditText.getText().toString();
+                beginLogin(username, password);
             }
         });
     }
 
+    private void beginLogin(final String username, final String password) {
+        ConnectionServer connectionServer = new ConnectionServer();
+        connectionServer.fetchServerResult
+                (username, password, new LoginCallbacks() {
+                    @Override
+                    public void onSuccess(@NonNull String value) {
+                        Log.i(TAG, "LoginCallbacks -> onSuccess");
+                        int result = Integer.parseInt(value);
+                        loginViewModel.login(username, password, result);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable throwable) {
+                        Log.i(TAG, "LoginCallbacks -> onError");
+                        Log.i(TAG, throwable.getMessage());
+                        // todo: toast maybe or smth other?
+                    }
+                });
+    }
+
     private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome) + model.getDisplayName();
+        String welcome = getString(R.string.welcome) + model.getName();
         // TODO : initiate successful logged in experience
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
     }

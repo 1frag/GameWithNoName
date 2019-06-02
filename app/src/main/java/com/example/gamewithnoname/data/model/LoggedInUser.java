@@ -5,19 +5,13 @@ package com.example.gamewithnoname.data.model;
  */
 public class LoggedInUser {
 
-    private String userId;
-    private String displayName;
+    private String Name;
 
-    public LoggedInUser(String userId, String displayName) {
-        this.userId = userId;
-        this.displayName = displayName;
-    }
-
-    public String getUserId() {
-        return userId;
+    public LoggedInUser(String Name) {
+        this.Name = Name;
     }
 
     public String getDisplayName() {
-        return displayName;
+        return Name;
     }
 }

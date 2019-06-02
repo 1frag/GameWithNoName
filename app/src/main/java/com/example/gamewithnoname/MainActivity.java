@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.gamewithnoname.ServerConnection.ConnectionServer;
 import com.example.gamewithnoname.maps.MapMainMenu;
 import com.example.gamewithnoname.ui.login.LoginActivity;
 import com.yandex.mapkit.MapKitFactory;
