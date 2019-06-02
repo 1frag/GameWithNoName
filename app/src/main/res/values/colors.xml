@@ -5,8 +5,8 @@
 
     <color name="colorPrimaryDark">#7C7A63</color>
     <!--869468 or 2B4A3A-->
-    <color name="colorAccent">#9D7D88</color>
-    <!--804837-->
+    <color name="colorAccent">#9D5A62</color>
+    <!--804837 9D7D88-->
 
     <color name="buttonStart">#FF683B</color>
     <!--FF5722-->
@@ -15,6 +15,8 @@
     <!--83965A OR 559374-->
     <color name="buttonsForLayoutPressed">#444127</color>
     <!--384726-->
+    <color name="buttonsForLayoutAnother">#A8A797</color>
+    <color name="buttonsForLayoutAnotherPressed">#7C7A63</color>
 
 </resources>
 
