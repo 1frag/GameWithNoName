@@ -136,7 +136,7 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
 
         time = shortestDistance * deviation / (speed * 1000 / 3600);
         textTime = findViewById(R.id.timeApproximate);
-        textTime.setText(String.format("Approximate time is %.1f min", time));
+        textTime.setText(String.format("About %.1f min", time));
 
         changedDistance = shortestDistance * deviation;
 
@@ -183,7 +183,7 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
             value = 3.0 + value / 10.0;
             speed = value;
             time = shortestDistance * deviation / (speed * 1000 / 60);
-            textTime.setText(String.format("Approximate time is %.1f min", time));
+            textTime.setText(String.format("About %.1f min", time));
             textSpeed.setText(String.format("%.1f km/h", value));
         }
 
@@ -205,7 +205,7 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
             deviation = 1.0 + temp / 10.0;
             time = shortestDistance * deviation / (speed * 1000 / 60);
             changedDistance = shortestDistance * deviation;
-            textTime.setText(String.format("Approximate time is %.1f min", time));
+            textTime.setText(String.format("About %.1f min", time));
         }
 
         public void onStartTrackingTouch(SeekBar seekBar) {}

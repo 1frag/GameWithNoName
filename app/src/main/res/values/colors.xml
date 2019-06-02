@@ -17,6 +17,7 @@
     <!--384726-->
     <color name="buttonsForLayoutAnother">#A8A797</color>
     <color name="buttonsForLayoutAnotherPressed">#7C7A63</color>
+    <color name="colorText">#474041</color>
 
 </resources>
 
