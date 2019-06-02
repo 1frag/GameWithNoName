@@ -19,7 +19,7 @@
     <string name="activity_parameters_roller">Roller-skates</string>
     <string name="activity_parameters_bike">Bicycle</string>
     <string name="activity_parameters_time">Place for approximate time</string>
-    <string name="activity_parameters_speed_calc">Place for bot speed value</string>
+    <string name="activity_parameters_speed_calc">Speed val</string>
 
     <string name="maps_dialog_win">You win!</string>
     <string name="maps_dialog_lose">You lose</string>
