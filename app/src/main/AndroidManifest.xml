@@ -21,6 +21,10 @@
             android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login">
         </activity>
+        <activity
+            android:name=".ui.login.RegistrationActivity"
+            android:label="Sign up">
+        </activity>
         <activity android:name=".ParametersDialog" />
         <activity android:name=".InfoActivity" />
         <activity android:name=".FriendsActivity" />

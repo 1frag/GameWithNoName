@@ -3,6 +3,8 @@ package com.example.gamewithnoname.ServerConnection;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import java.util.Date;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -17,22 +19,38 @@ public class ConnectionServer {
             "ConnectionServer");
     private final String BASE_URL = "https://nameless-tundra-47166.herokuapp.com";
     private String result = "-1";
+    private ServerAPIs serverAPIs;
+    private Call call;
 
-    public String fetchServerResult(String name, String password, @Nullable final LoginCallbacks callbacks) {
-
+    public ConnectionServer(){
+        // prepare to connect
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
 
-        ServerAPIs serverAPIs = retrofit.create(ServerAPIs.class);
+        serverAPIs = retrofit.create(ServerAPIs.class);
 
-        Call call = serverAPIs.getResultSignIn(
+    }
+
+    public void initLogin(String name, String password){
+        call = serverAPIs.getResultSignIn(
                 name,
                 password
         );
+    }
 
+    public void initRegistration(String name, String password, Date birthday, Integer sex){
+        call = serverAPIs.getResultSignUp(
+                name,
+                password,
+                birthday,
+                sex
+        );
+    }
+
+    public void connect(@Nullable final ServerCallbacks callbacks) {
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
@@ -56,7 +74,6 @@ public class ConnectionServer {
                 }
             }
         });
-        return result;
     }
 
 }

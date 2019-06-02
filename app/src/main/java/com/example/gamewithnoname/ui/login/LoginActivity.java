@@ -3,6 +3,7 @@ package com.example.gamewithnoname.ui.login;
 import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,7 +23,7 @@ import android.widget.Toast;
 
 import com.example.gamewithnoname.R;
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
-import com.example.gamewithnoname.ServerConnection.LoginCallbacks;
+import com.example.gamewithnoname.ServerConnection.ServerCallbacks;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -42,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText passwordEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.signIn);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
+        final Button regButton = findViewById(R.id.signUp);
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -120,22 +122,30 @@ public class LoginActivity extends AppCompatActivity {
                 beginLogin(username, password);
             }
         });
+
+        regButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void beginLogin(final String username, final String password) {
         ConnectionServer connectionServer = new ConnectionServer();
-        connectionServer.fetchServerResult
-                (username, password, new LoginCallbacks() {
+        connectionServer.initLogin(username, password);
+        connectionServer.connect(new ServerCallbacks() {
                     @Override
                     public void onSuccess(@NonNull String value) {
-                        Log.i(TAG, "LoginCallbacks -> onSuccess");
+                        Log.i(TAG, "ServerCallbacks -> onSuccess");
                         int result = Integer.parseInt(value);
                         loginViewModel.login(username, password, result);
                     }
 
                     @Override
                     public void onError(@NonNull Throwable throwable) {
-                        Log.i(TAG, "LoginCallbacks -> onError");
+                        Log.i(TAG, "ServerCallbacks -> onError");
                         Log.i(TAG, throwable.getMessage());
                         // todo: toast maybe or smth other?
                     }

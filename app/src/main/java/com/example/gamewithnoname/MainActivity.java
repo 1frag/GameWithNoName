@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void configureMap() {
         Log.i(TAG, "configureMap");
-        MapKitFactory.setApiKey("4431f62e-4cef-4ce6-b1d5-07602abde3fd");
+        MapKitFactory.setApiKey("4431f62e-4cef-4ce6-b1d5-07602abde3fd"); // todo: remove pls
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         map = new MapMainMenu();

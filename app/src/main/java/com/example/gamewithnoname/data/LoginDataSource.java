@@ -1,10 +1,7 @@
 package com.example.gamewithnoname.data;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.gamewithnoname.ServerConnection.ConnectionServer;
-import com.example.gamewithnoname.ServerConnection.LoginCallbacks;
 import com.example.gamewithnoname.data.model.LoggedInUser;
 
 import java.io.IOException;
