@@ -124,10 +124,6 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
 
         map.getUserLocationLayer().setEnabled(true);
 
-        // todo: visualization start and path to finish
-        // todo: connect bot in this map
-
-//        pedestrianRouter = DirectionsFactory.getInstance().createDrivingRouter();
         runBot(new Point(a, b), new Point(c, d));
 
         mMap.getMapObjects().addCircle(new Circle(

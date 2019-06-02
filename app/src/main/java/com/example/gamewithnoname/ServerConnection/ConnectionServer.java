@@ -28,7 +28,7 @@ public class ConnectionServer {
 
         ServerAPIs serverAPIs = retrofit.create(ServerAPIs.class);
 
-        Call call = serverAPIs.getResultLogin(
+        Call call = serverAPIs.getResultSignIn(
                 name,
                 password
         );

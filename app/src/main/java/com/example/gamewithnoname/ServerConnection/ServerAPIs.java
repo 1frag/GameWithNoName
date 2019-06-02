@@ -8,12 +8,17 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ServerAPIs {
-    /*
-    Get request to fetch city weather.Takes in two parameter-city name and API key.
-    */
+
     @GET("/sign_in")
-    Call<ServerResponse> getResultLogin(
+    Call<ServerResponse> getResultSignIn(
             @Query("name") String name,
             @Query("password") String password
     );
+
+    @GET("/sign_up")
+    Call<ServerResponse> getResultSignUp(
+            @Query("name") String name,
+            @Query("password") String password
+    );
+
 }
