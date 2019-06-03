@@ -95,7 +95,7 @@
                 <TextView
                     android:id="@+id/textSpeedValue"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_marginTop="12dp"
                     android:layout_weight="1"
                     android:text="@string/activity_parameters_speed_calc"
@@ -159,8 +159,46 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/textSensitivitySwitch"
                     tools:ignore="RtlHardcoded" />
+            </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="32dp"
+                android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/textViewAngle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/activity_parameters_change"
+                    android:textColor="@color/colorText"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <SeekBar
+                    android:id="@+id/seekBarAngle"
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp"
+                    android:layout_marginTop="12dp"
+                    android:max="350"
+                    android:progress="100"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewAngle" />
+
+                <TextView
+                    android:id="@+id/textViewAngleVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorText"
+                    android:textSize="18sp"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/seekBarAngle"
+                    android:text="@string/activity_parameters_angle_val" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
@@ -179,6 +217,7 @@
         app:layout_constraintBottom_toTopOf="@+id/buttonContinue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 
     <Button
         android:id="@+id/buttonContinue"

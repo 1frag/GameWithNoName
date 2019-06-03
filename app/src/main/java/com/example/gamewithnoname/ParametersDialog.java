@@ -97,6 +97,50 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
         if (random.nextBoolean()) {return new Point(cmx1, cmy1);} else {return new Point(cmx2, cmy2);}
     }
 
+    public Point anotherBotStart() {
+        Double r = sqrt(pow((latit - start.getLatitude()), 2) + pow((longit - start.getLongitude()), 2));
+        double alpha = 90.0;
+        alpha = Math.tan(Math.toRadians(alpha));
+        Double x1 = latit;
+        Double y1 = longit;
+        Double x2 = start.getLatitude();
+        Double y2 = start.getLongitude();
+        Double k1 = (y2 - y1) / (x2 - x1);
+        // todo: division 0
+        Double k2_1 = (k1 - alpha) / (1 + alpha * k1);
+        Double k2_2 = (k1 + alpha) / (1 - alpha * k1);
+        Double b2_1 = y1 - k2_1 * x1;
+        Double b2_2 = y1 - k2_2 * x1;
+        Double b_for_d1 = -2 * x1 + 2 * k2_1 * b2_1 - 2 * k2_1 * y1;
+        Double b_for_d2 = -2 * x1 + 2 * k2_2 * b2_2 - 2 * k2_2 * y1;
+        Double d1 = pow(b_for_d1, 2) - 4 * (1 + pow(k2_1, 2)) *
+                (pow(x1, 2) + pow(b2_1, 2) - 2 * b2_1 * y1 + pow(y1, 2) - pow(r, 2));
+        Double d2 = pow(b_for_d2, 2) - 4 * (1 + pow(k2_2, 2)) *
+                (pow(x1, 2) + pow(b2_2, 2) - 2 * b2_2 * y1 + pow(y1, 2) - pow(r, 2));
+        Double x_a = (-b_for_d1 + sqrt(d1)) / (2 * (1 + pow(k2_1, 2)));
+        Double y_a = k2_1 * x_a + b2_1;
+        Double x_b = (-b_for_d1 - sqrt(d1)) / (2 * (1 + pow(k2_1, 2)));
+        Double y_b = k2_1 * x_b + b2_1;
+        Double x_c = (-b_for_d2 + sqrt(d2)) / (2 * (1 + pow(k2_2, 2)));
+        Double y_c = k2_2 * x_c + b2_2;
+        Double x_d = (-b_for_d2 - sqrt(d2)) / (2 * (1 + pow(k2_2, 2)));
+        Double y_d = k2_2 * x_d + b2_2;
+        Point a;
+        Point b;
+        if (sqrt((pow((x2 - x_a), 2) + pow((y2 - y_a), 2))) < sqrt((pow((x2 - x_b), 2) + pow((y2 - y_b), 2)))) {
+            a = new Point(x_a, y_a);
+        } else {
+            a = new Point(x_b, y_b);
+        }
+        if (sqrt((pow((x2 - x_c), 2) + pow((y2 - y_c), 2))) < sqrt((pow((x2 - x_d), 2) + pow((y2 - y_d), 2)))) {
+            b = new Point(x_c, y_c);
+        } else {
+            b = new Point(x_d, y_d);
+        }
+        Random random = new Random();
+        if (random.nextBoolean()) {return a;} else {return b;}
+    }
+
     private double dist(Point a, Point b) {
         return (a.getLongitude() - b.getLongitude()) *
                 (a.getLongitude() - b.getLongitude()) +
@@ -222,7 +266,7 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
         intentStart.putExtra("distance", changedDistance);
         intentStart.putExtra("speed", speed);
 
-        Point point = botStart();
+        Point point = anotherBotStart();
         // sometimes problem with point
         intentStart.putExtra("botStartLatitude", point.getLatitude());
         intentStart.putExtra("botStartLongitude", point.getLongitude());
