@@ -47,6 +47,8 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
     private Boolean oncomingSensitivity;
     private TextView textSpeed;
     private TextView textTime;
+    private TextView textAngle;
+    private Double angle;
     private PedestrianRouter pdRouter;
     private Point start, finish;
     private Button btnContinue;
@@ -99,7 +101,7 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
 
     public Point anotherBotStart() {
         Double r = sqrt(pow((latit - start.getLatitude()), 2) + pow((longit - start.getLongitude()), 2));
-        double alpha = 90.0;
+        double alpha = angle;
         alpha = Math.tan(Math.toRadians(alpha));
         Double x1 = latit;
         Double y1 = longit;
@@ -172,6 +174,7 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
 
         speed = 5.0; //будет передаваться с сервера когда-нибудь (начальное значение)
         deviation = 1.0; //и это
+        angle = 40.0; //и это тоже
         shortestDistance = list.get(0).getMetadata().getWeight().getTime().getValue(); //с предыдущего активити
         Log.i(TAG, String.format("%s", shortestDistance));
 
@@ -181,6 +184,8 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
         time = shortestDistance * deviation / (speed * 1000 / 3600);
         textTime = findViewById(R.id.timeApproximate);
         textTime.setText(String.format("About %.1f min", time));
+        textAngle = findViewById(R.id.textViewAngleVal);
+        textAngle.setText(String.format("%.0f", angle));
 
         changedDistance = shortestDistance * deviation;
 
@@ -189,6 +194,9 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
 
         SeekBar deviationSeekBar = findViewById(R.id.seekBarChange);
         deviationSeekBar.setOnSeekBarChangeListener(new deviationListener());
+
+        SeekBar angleSeekBar = findViewById(R.id.seekBarAngle);
+        angleSeekBar.setOnSeekBarChangeListener(new angleListener());
 
         Switch sw = findViewById(R.id.switchSensitivity);
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -250,6 +258,26 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
             time = shortestDistance * deviation / (speed * 1000 / 60);
             changedDistance = shortestDistance * deviation;
             textTime.setText(String.format("About %.1f min", time));
+        }
+
+        public void onStartTrackingTouch(SeekBar seekBar) {}
+
+        public void onStopTrackingTouch(SeekBar seekBar) {}
+
+    }
+
+    private class angleListener implements SeekBar.OnSeekBarChangeListener {
+
+        @SuppressLint("DefaultLocale")
+        public void onProgressChanged(SeekBar seekBar, int progress,
+                                      boolean fromUser) {
+            // Log the progress
+            //Log.d("DEBUG", "Progress is: "+progress);
+            //set textView's text
+            Double value = (double) progress;
+            value = 20.0 + value * 5.0;
+            angle = value;
+            textAngle.setText(String.format("%.0f", value));
         }
 
         public void onStartTrackingTouch(SeekBar seekBar) {}
