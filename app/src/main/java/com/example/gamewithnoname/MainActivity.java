@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.gamewithnoname.ServerConnection.ConnectionServer;
 import com.example.gamewithnoname.maps.MapMainMenu;
 import com.example.gamewithnoname.ui.login.LoginActivity;
 import com.yandex.mapkit.MapKitFactory;
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void configureMap() {
         Log.i(TAG, "configureMap");
-        MapKitFactory.setApiKey("4431f62e-4cef-4ce6-b1d5-07602abde3fd");
+        MapKitFactory.setApiKey("4431f62e-4cef-4ce6-b1d5-07602abde3fd"); // todo: remove pls
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         map = new MapMainMenu();

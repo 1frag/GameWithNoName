@@ -76,6 +76,7 @@ public class MapMainMenu extends Fragment {
             }
         };
         mMap.addInputListener(mInputListener);
+        mMap.getUserLocationLayer().setEnabled(true);
         // end.
 
         return rootView;

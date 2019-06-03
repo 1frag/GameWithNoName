@@ -1,5 +1,7 @@
 package com.example.gamewithnoname.data;
 
+import android.util.Log;
+
 import com.example.gamewithnoname.data.model.LoggedInUser;
 
 /**
@@ -7,6 +9,10 @@ import com.example.gamewithnoname.data.model.LoggedInUser;
  * maintains an in-memory cache of login status and user credentials information.
  */
 public class LoginRepository {
+
+    private final String TAG = String.format("%s/%s",
+            "HITS",
+            "LoginRepository");
 
     private static volatile LoginRepository instance;
 
@@ -43,9 +49,10 @@ public class LoginRepository {
         // @see https://developer.android.com/training/articles/keystore
     }
 
-    public Result<LoggedInUser> login(String username, String password) {
+    public Result<LoggedInUser> login(String username, int serverResult) {
         // handle login
-        Result<LoggedInUser> result = dataSource.login(username, password);
+        Result<LoggedInUser> result = dataSource.login(username, serverResult);
+        Log.i(TAG, result.toString());
         if (result instanceof Result.Success) {
             setLoggedInUser(((Result.Success<LoggedInUser>) result).getData());
         }
