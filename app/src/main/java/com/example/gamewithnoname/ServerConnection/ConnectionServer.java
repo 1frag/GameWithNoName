@@ -50,6 +50,18 @@ public class ConnectionServer {
         );
     }
 
+    public void initEventHandler(){
+        call = serverAPIs.getResultEvent();
+    }
+
+    public void initPutOnline(String name){
+        call = serverAPIs.putOnline(name);
+    }
+
+    public void initPutMyPosition(String name, double latit, double longit){
+        call = serverAPIs.putMyPosition(name, latit, longit);
+    }
+
     public void connect(@Nullable final ServerCallbacks callbacks) {
         call.enqueue(new Callback() {
             @Override

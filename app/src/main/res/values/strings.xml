@@ -9,6 +9,14 @@
     <string name="main_activity_toast_no_finish">Touch to set finish</string>
     <string name="main_activity_swipe_right">Flip if you want to run off</string>
     <string name="main_activity_authorization">Sign in</string>
+    <string name="main_activity_button_catch_bot">Catch bot</string>
+    <string name="main_activity_button_runaway_bot">Run away from bots</string>
+    <string name="main_activity_button_seek_coins">Seek for coins</string>
+    <string name="main_activity_button_game_friends">Overtake your friend</string>
+    <string name="main_activity_button_another_mode">Unknown mode</string>
+    <string name="main_activity_text_hello">Username</string>
+    <string name="main_activity_text_rating">0</string>
+    <string name="main_activity_text_coins">0</string>
 
     <string name="activity_parameters_headline">Parameters</string>
     <string name="activity_parameters_speed">Speed</string>

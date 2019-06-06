@@ -25,4 +25,19 @@ public interface ServerAPIs {
             @Query("sex") Integer sex
     );
 
+    @GET("/get_event")
+    Call<ServerResponse> getResultEvent();
+
+    @GET("/put_online")
+    Call<ServerResponse> putOnline(
+            @Query("name") String name
+    );
+
+    @GET("/put_my_position")
+    Call<ServerResponse> putMyPosition(
+            @Query("name") String name,
+            @Query("latit") double latit,
+            @Query("tongit") double tongit
+    );
+
 }

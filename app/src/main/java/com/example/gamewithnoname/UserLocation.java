@@ -14,6 +14,7 @@ import android.util.Log;
 public class UserLocation implements LocationListener {
 
     public static Location imHere; // здесь будет всегда доступна самая последняя информация о местоположении пользователя.
+    public static boolean enable = false;
     private static final String TAG = String.format("%s/%s",
             "HITS", "UserLocation");
 
@@ -32,10 +33,11 @@ public class UserLocation implements LocationListener {
             //  карту без синего кружочка
             return;
         }
+        enable = true;
         locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,
                 5000,
-                10,
+                2,
                 locationListener);
 
         imHere = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);

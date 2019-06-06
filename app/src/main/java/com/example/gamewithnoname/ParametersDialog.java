@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.location.Location;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,8 +14,11 @@ import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.gamewithnoname.maps.MapInGame;
+import com.example.gamewithnoname.maps.MapMainMenu;
+import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.RequestPoint;
 import com.yandex.mapkit.RequestPointType;
 import com.yandex.mapkit.geometry.Point;
@@ -35,9 +39,7 @@ import java.util.Random;
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 
-public class ParametersDialog extends AppCompatActivity implements Session.RouteListener {
-    private Double latit;
-    private Double longit;
+public class ParametersDialog extends AppCompatActivity {
 
     private Double speed;
     private Double deviation;
@@ -52,6 +54,7 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
     private PedestrianRouter pdRouter;
     private Point start, finish;
     private Button btnContinue;
+    private MapMainMenu map;
     private final String TAG = String.format("%s/%s",
             "HITS", "ParametersDialog");
 
@@ -62,27 +65,46 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parameters_dialog);
 
-        latit = getIntent().getExtras().getDouble("latitude");
-        longit = getIntent().getExtras().getDouble("longitude");
-        finish = new Point(latit, longit);
-        Location now = UserLocation.imHere;
-        start = new Point(now.getLatitude(), now.getLongitude());
-
-        TransportFactory.initialize(this);
-        pdRouter = TransportFactory.getInstance().createPedestrianRouter();
-        pdRouter.requestRoutes(initPath(start, finish), initOptions(), this);
-
         btnContinue = findViewById(R.id.buttonContinue);
         btnContinue.setEnabled(false);
+
+        configureMap();
+
+    }
+
+    private void configureMap() {
+        Log.i(TAG, "configureMap");
+        MapKitFactory.setApiKey("4431f62e-4cef-4ce6-b1d5-07602abde3fd"); // todo: remove pls
+        TransportFactory.initialize(this);
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        map = new MapMainMenu();
+        map.setCallback(new Session.RouteListener() {
+            @Override
+            public void onMasstransitRoutes(@NonNull List<Route> list) {
+                // Эта функция может сказать гораздо больше чем делает это сейчас
+                initNewParams(list.get(0).getMetadata().getWeight().getTime().getValue());
+            }
+
+            @Override
+            public void onMasstransitRoutesError(@NonNull Error error) {
+                Log.i(TAG, "onMasstransitRoutesError");
+                Toast.makeText(ParametersDialog.this,
+                        "Произошла ошибка. Выберите другую точку финиша", // todo: translate
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+        transaction.replace(R.id.mapHolder, map);
+        transaction.commit();
 
     }
 
     public Point botStart() {
-        Double r = sqrt(pow((latit - start.getLatitude()), 2) + pow((longit - start.getLongitude()), 2));
-        Double mx = (latit + start.getLatitude()) / 2f;
-        Double my = (longit + start.getLongitude()) / 2f;
-        Double ax = latit - start.getLatitude();
-        Double ay = longit - start.getLongitude();
+        Double r = sqrt(pow((finish.getLatitude() - start.getLatitude()), 2) + pow((finish.getLongitude() - start.getLongitude()), 2));
+        Double mx = (finish.getLatitude() + start.getLatitude()) / 2f;
+        Double my = (finish.getLongitude() + start.getLongitude()) / 2f;
+        Double ax = finish.getLatitude() - start.getLatitude();
+        Double ay = finish.getLongitude() - start.getLongitude();
         Double bx = -ay;
         Double by;
         by = ax;
@@ -96,15 +118,21 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
         cmx2 += mx;
         Random random = new Random();
         Log.i(TAG, String.format("%s==%s", dist(start, finish), dist(new Point(cmx1, cmy1), finish)));
-        if (random.nextBoolean()) {return new Point(cmx1, cmy1);} else {return new Point(cmx2, cmy2);}
+        if (random.nextBoolean()) {
+            return new Point(cmx1, cmy1);
+        } else {
+            return new Point(cmx2, cmy2);
+        }
     }
 
     public Point anotherBotStart() {
-        Double r = sqrt(pow((latit - start.getLatitude()), 2) + pow((longit - start.getLongitude()), 2));
+        Double r = sqrt(
+                pow((finish.getLatitude() - start.getLatitude()), 2)
+                        + pow((finish.getLongitude() - start.getLongitude()), 2));
         double alpha = angle;
         alpha = Math.tan(Math.toRadians(alpha));
-        Double x1 = latit;
-        Double y1 = longit;
+        Double x1 = finish.getLatitude();
+        Double y1 = finish.getLongitude();
         Double x2 = start.getLatitude();
         Double y2 = start.getLongitude();
         Double k1 = (y2 - y1) / (x2 - x1);
@@ -140,7 +168,11 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
             b = new Point(x_d, y_d);
         }
         Random random = new Random();
-        if (random.nextBoolean()) {return a;} else {return b;}
+        if (random.nextBoolean()) {
+            return a;
+        } else {
+            return b;
+        }
     }
 
     private double dist(Point a, Point b) {
@@ -150,54 +182,31 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
                         (a.getLatitude() - b.getLatitude());
     }
 
-    private TimeOptions initOptions() {
-        return new TimeOptions();
-    }
+    @SuppressLint("DefaultLocale") // todo: change after adding different language
+    public void initNewParams(Double distance) {
+        Log.i(TAG, "initNewParams");
 
-    private List<RequestPoint> initPath(Point start, Point finish) {
-        ArrayList<RequestPoint> requestPoints = new ArrayList<>();
-        requestPoints.add(new RequestPoint(
-                start,
-                RequestPointType.WAYPOINT,
-                null));
-        requestPoints.add(new RequestPoint(
-                finish,
-                RequestPointType.WAYPOINT,
-                null));
-        return requestPoints;
-    }
-
-    @SuppressLint("DefaultLocale")
-    @Override
-    public void onMasstransitRoutes(@NonNull List<Route> list) {
-        Log.i(TAG, "onMasstransitRoutes");
-
+        Location now = UserLocation.imHere;
+        start = new Point(now.getLatitude(), now.getLongitude());
         speed = 5.0; //будет передаваться с сервера когда-нибудь (начальное значение)
         deviation = 1.0; //и это
         angle = 40.0; //и это тоже
-        shortestDistance = list.get(0).getMetadata().getWeight().getTime().getValue(); //с предыдущего активити
+        shortestDistance = distance; //с предыдущего активити
         Log.i(TAG, String.format("%s", shortestDistance));
-
         textSpeed = findViewById(R.id.textSpeedValue);
         textSpeed.setText(String.format("%.1f km/h", speed));
-
         time = shortestDistance * deviation / (speed * 1000 / 3600);
         textTime = findViewById(R.id.timeApproximate);
         textTime.setText(String.format("About %.1f min", time));
         textAngle = findViewById(R.id.textViewAngleVal);
         textAngle.setText(String.format("%.0f", angle));
-
         changedDistance = shortestDistance * deviation;
-
         SeekBar speedSeekBar = findViewById(R.id.seekBarSpeed);
         speedSeekBar.setOnSeekBarChangeListener(new speedListener());
-
         SeekBar deviationSeekBar = findViewById(R.id.seekBarChange);
         deviationSeekBar.setOnSeekBarChangeListener(new deviationListener());
-
         SeekBar angleSeekBar = findViewById(R.id.seekBarAngle);
         angleSeekBar.setOnSeekBarChangeListener(new angleListener());
-
         Switch sw = findViewById(R.id.switchSensitivity);
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -209,18 +218,6 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
             }
         });
         btnContinue.setEnabled(true);
-    }
-
-    @Override
-    public void onMasstransitRoutesError(@NonNull Error error) {
-        String errorMessage = "unknown_error_message";
-        if (error instanceof RemoteError) {
-            errorMessage = "remote_error_message";
-        } else if (error instanceof NetworkError) {
-            errorMessage = "network_error_message";
-        }
-
-        Log.i(TAG, errorMessage);
     }
 
     private class speedListener implements SeekBar.OnSeekBarChangeListener {
@@ -239,14 +236,15 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
             textSpeed.setText(String.format("%.1f km/h", value));
         }
 
-        public void onStartTrackingTouch(SeekBar seekBar) {}
+        public void onStartTrackingTouch(SeekBar seekBar) {
+        }
 
-        public void onStopTrackingTouch(SeekBar seekBar) {}
+        public void onStopTrackingTouch(SeekBar seekBar) {
+        }
 
     }
 
     private class deviationListener implements SeekBar.OnSeekBarChangeListener {
-
         @SuppressLint("DefaultLocale")
         public void onProgressChanged(SeekBar seekBar, int progress,
                                       boolean fromUser) {
@@ -260,14 +258,15 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
             textTime.setText(String.format("About %.1f min", time));
         }
 
-        public void onStartTrackingTouch(SeekBar seekBar) {}
+        public void onStartTrackingTouch(SeekBar seekBar) {
+        }
 
-        public void onStopTrackingTouch(SeekBar seekBar) {}
+        public void onStopTrackingTouch(SeekBar seekBar) {
+        }
 
     }
 
     private class angleListener implements SeekBar.OnSeekBarChangeListener {
-
         @SuppressLint("DefaultLocale")
         public void onProgressChanged(SeekBar seekBar, int progress,
                                       boolean fromUser) {
@@ -280,25 +279,37 @@ public class ParametersDialog extends AppCompatActivity implements Session.Route
             textAngle.setText(String.format("%.0f", value));
         }
 
-        public void onStartTrackingTouch(SeekBar seekBar) {}
+        public void onStartTrackingTouch(SeekBar seekBar) {
+        }
 
-        public void onStopTrackingTouch(SeekBar seekBar) {}
+        public void onStopTrackingTouch(SeekBar seekBar) {
+        }
 
     }
 
-    public void nextActivity (View view) {
+    public void nextActivity(View view) {
         Intent intentStart = new Intent(this, MapInGame.class);
-        intentStart.putExtra("finishLatitude", latit);
-        intentStart.putExtra("finishLongitude", longit);
+
+        finish = map.getFinishMarker();
+        if (finish == null) {
+            // todo: вообще сюда то я не должен никогда зайти
+            //  потому что nextActivity вызывается кнопкой
+            //  которая разблокируется только при вызове onMasstransitRoutes
+            //  который в свою очередь сдалает точку финиша не null
+            //  но я пожалуй оставлю эту проверку
+            Toast.makeText(this, "Connect with developer pls", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        intentStart.putExtra("finishLatitude", finish.getLatitude());
+        intentStart.putExtra("finishLongitude", finish.getLongitude());
         intentStart.putExtra("oncomingSensitivity", oncomingSensitivity);
         intentStart.putExtra("distance", changedDistance);
         intentStart.putExtra("speed", speed);
-
         Point point = anotherBotStart();
         // sometimes problem with point
         intentStart.putExtra("botStartLatitude", point.getLatitude());
         intentStart.putExtra("botStartLongitude", point.getLongitude());
-
         startActivity(intentStart);
     }
 }

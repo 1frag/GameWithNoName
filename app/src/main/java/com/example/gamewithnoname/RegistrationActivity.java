@@ -1,4 +1,4 @@
-package com.example.gamewithnoname.ui.login;
+package com.example.gamewithnoname;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import com.example.gamewithnoname.R;
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
 import com.example.gamewithnoname.ServerConnection.ServerCallbacks;
 

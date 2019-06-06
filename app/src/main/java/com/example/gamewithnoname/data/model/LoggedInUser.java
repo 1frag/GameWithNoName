@@ -5,13 +5,19 @@ package com.example.gamewithnoname.data.model;
  */
 public class LoggedInUser {
 
-    private String Name;
+    private static String Name;
+    private static String Password;
 
-    public LoggedInUser(String Name) {
-        this.Name = Name;
+    public LoggedInUser(String Name, String Password) {
+        LoggedInUser.Name = Name;
+        LoggedInUser.Password = Password;
     }
 
-    public String getDisplayName() {
+    public static String getName() {
         return Name;
+    }
+
+    public static String getPassword() {
+        return Password;
     }
 }
