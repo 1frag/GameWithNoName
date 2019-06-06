@@ -21,7 +21,7 @@ public interface ServerAPIs {
     Call<ServerResponse> getResultSignUp(
             @Query("name") String name,
             @Query("password") String password,
-            @Query("birthday") Date birthday,
+            @Query("birthday") String birthday,
             @Query("sex") Integer sex
     );
 

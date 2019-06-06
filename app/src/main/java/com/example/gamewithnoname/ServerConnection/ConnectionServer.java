@@ -41,7 +41,7 @@ public class ConnectionServer {
         );
     }
 
-    public void initRegistration(String name, String password, Date birthday, Integer sex){
+    public void initRegistration(String name, String password, String birthday, Integer sex){
         call = serverAPIs.getResultSignUp(
                 name,
                 password,

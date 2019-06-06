@@ -36,7 +36,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 final String name = ((EditText)findViewById(R.id.editTextName)).getText().toString();
                 final String password = ((EditText)findViewById(R.id.editTextPassword)).getText().toString();
                 final String confirm = ((EditText)findViewById(R.id.editTextConfirmPassword)).getText().toString();
-                final Date birth = getDateBirth();
+                final String birth = getDateBirth();
                 final Integer sex = sexHandler();
                 if (dataValid(name, password, confirm, birth, sex)){
                     beginRegistration(name, password, birth, sex);
@@ -50,8 +50,10 @@ public class RegistrationActivity extends AppCompatActivity {
         });
     }
 
-    private Date getDateBirth() {
-        return new Date(123123); // todo: catch date from editText
+    private String getDateBirth() {
+        return ((EditText)findViewById(R.id.editTextBirth))
+                .getText()
+                .toString();
     }
 
     private boolean dataValid(String name, String password, String confirm, Date bith, Integer sex) {
@@ -72,7 +74,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void beginRegistration(final String username,
                                    final String password,
-                                   final Date birth,
+                                   final String birth,
                                    final Integer sex) {
         ConnectionServer connectionServer = new ConnectionServer();
         connectionServer.initRegistration(username, password, birth, sex);
