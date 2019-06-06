@@ -62,4 +62,5 @@
     <string name="login_activity_you_need_reg">You can`t play until we have your private information</string>
     <string name="registration_activity_data_not_valid">Data is not valid</string>
     <string name="registration_activity_name_problem">That name already exists, try another one</string>
+    <string name="login_activity_incorrect_data">Doesn`t seem like true</string>
 </resources>

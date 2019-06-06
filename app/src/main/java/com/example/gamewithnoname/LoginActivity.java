@@ -75,20 +75,21 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final String name = ((EditText) findViewById(R.id.username)).getText().toString();
                 final String password = ((EditText) findViewById(R.id.password)).getText().toString();
-                if (dataIsVavid(name, password)) {
+                if (dataIsValid(name, password)) {
                     beginLogin(name, password);
                 } else {
                     Toast.makeText(LoginActivity.this,
-                            "не похоже даже на правду",
+                            R.string.login_activity_incorrect_data,
                             Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-    private boolean dataIsVavid(String name, String password) {
-        // todo: some check during text inputting
-        return true;
+    private boolean dataIsValid(String name, String password) {
+        if (!name.equals("") && !password.equals("")) {return true;}
+        // todo: more check during text inputting
+        else {return false;}
     }
 
     private void beginLogin(final String username, final String password) {
@@ -132,7 +133,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void showLoginFailed() {
         Toast.makeText(getApplicationContext(),
-                R.string.login_activity_you_need_reg,
+                R.string.registration_activity_data_not_valid,
                 Toast.LENGTH_SHORT).show();
         Log.i(TAG, "showLoginFailed");
 
