@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.i(TAG, "ServerCallbacks -> onSuccess");
                 int result = Integer.parseInt(value);
                 if (result != 1) {
-                    showLoginFailed(result);
+                    showLoginFailed();
                 } else {
                     updateUiWithUser(username, password);
                 }
@@ -130,8 +130,10 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
-    private void showLoginFailed(@StringRes Integer errorString) {
-        Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
+    private void showLoginFailed() {
+        Toast.makeText(getApplicationContext(),
+                "Ошибка входа",
+                Toast.LENGTH_SHORT).show();
         Log.i(TAG, "showLoginFailed");
 
         loginPrefsEditor.putBoolean("saveLogin", false);

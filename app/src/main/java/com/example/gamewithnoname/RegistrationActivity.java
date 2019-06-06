@@ -56,7 +56,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 .toString();
     }
 
-    private boolean dataValid(String name, String password, String confirm, Date bith, Integer sex) {
+    private boolean dataValid(String name, String password, String confirm, String bith, Integer sex) {
         if (!password.equals(confirm)) return false;
         // todo: add smth conditions
         return true;
@@ -84,7 +84,11 @@ public class RegistrationActivity extends AppCompatActivity {
                         Log.i(TAG, "ServerCallbacks -> onSuccess");
                         int result = Integer.parseInt(value);
                         Log.i(TAG, String.format("result Reg: %s", result));
-                        // todo: smth actions!!!
+                        // если result 1 -- значит успешно
+                        // если result 0 -- неизвестная ошибка
+                        // если result 2 -- логин уже был такой
+
+                        // todo: smth actions!!! сервер вернул нормальный ответ
                     }
 
                     @Override
@@ -92,6 +96,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         Log.i(TAG, "ServerCallbacks -> onError");
                         Log.i(TAG, throwable.getMessage());
                         // todo: toast maybe or smth other?
+                        //  скорей всего интернет отрубился или сервер сдох
                     }
                 });
     }
