@@ -56,7 +56,7 @@
     <string name="registration_rpt_password">Confirm password</string>
     <string name="registration_example_login">6 symbols min</string>
     <string name="registration_example_password">password</string>
-    <string name="registration_example_date">18.10.1999</string>
+    <string name="registration_example_date">1999-10-18</string>
 
 
     <string name="login_activity_you_need_reg">Log in first</string>
