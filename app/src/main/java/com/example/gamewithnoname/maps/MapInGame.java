@@ -110,26 +110,33 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
                 null);
 //        map.setNightModeEnabled(true);
 
-        // draw finish:
-        double a = getIntent().getExtras().getDouble("botStartLatitude");
-        double b = getIntent().getExtras().getDouble("botStartLongitude");
-        start = new Point(a, b);
-        map.getMapObjects().addPlacemark(start);
+        map.getUserLocationLayer().setEnabled(true);
 
-        // draw start:
+        // draw finish:
         double c = getIntent().getExtras().getDouble("finishLatitude");
         double d = getIntent().getExtras().getDouble("finishLongitude");
         finish = new Point(c, d);
         map.getMapObjects().addPlacemark(finish);
 
-        map.getUserLocationLayer().setEnabled(true);
+        int typeGame = getIntent().getExtras().getInt("typeGame");
+        if (typeGame == 2) {
+            // bot mode
+            // draw start:
+            double a = getIntent().getExtras().getDouble("botStartLatitude");
+            double b = getIntent().getExtras().getDouble("botStartLongitude");
+            start = new Point(a, b);
+            map.getMapObjects().addPlacemark(start);
 
-        runBot(new Point(a, b), new Point(c, d));
+            runBot(new Point(a, b), new Point(c, d));
+        } else if(typeGame == 1){
+            // online
 
-        mMap.getMapObjects().addCircle(new Circle(
-                        new Point(UserLocation.imHere.getLatitude(),
-                                UserLocation.imHere.getLongitude()), 15),
-                Color.RED, 4, Color.BLACK);
+            onlineRush();
+        }
+
+    }
+
+    private void onlineRush() {
 
     }
 

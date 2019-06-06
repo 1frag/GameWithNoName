@@ -39,6 +39,7 @@
         <activity
             android:name=".maps.MapInGame"
             android:screenOrientation="portrait" />
+        <activity android:name=".OnlineMode" />
     </application>
 
 </manifest>

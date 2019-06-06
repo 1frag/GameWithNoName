@@ -300,6 +300,7 @@ public class ParametersDialog extends AppCompatActivity {
             Toast.makeText(this, "Connect with developer pls", Toast.LENGTH_LONG).show();
             return;
         }
+        intentStart.putExtra("typeGame", 2); // type=2 -> BotMode
 
         intentStart.putExtra("finishLatitude", finish.getLatitude());
         intentStart.putExtra("finishLongitude", finish.getLongitude());
