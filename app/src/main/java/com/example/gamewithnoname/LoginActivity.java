@@ -142,7 +142,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Toast.makeText(this,
-                "Вы должны зарегистрироваться",
+                getString(R.string.login_activity_you_need_reg),
                 Toast.LENGTH_LONG).show();
     }
 }

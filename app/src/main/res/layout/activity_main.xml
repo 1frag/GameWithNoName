@@ -18,7 +18,27 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textUsername"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="28sp"
+            app:layout_constraintEnd_toEndOf="@id/buttonAutho"
+            android:text="@string/main_activity_text_hello" />
+
+        <ImageButton
+            android:id="@+id/buttonAutho"
+            android:scaleType="centerCrop"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:onClick="processButtonPressing"
+            app:srcCompat="@drawable/ic_cancel_black_24dp" />
+    </LinearLayout>
 
     <ScrollView
         android:id="@+id/scrollModes"
@@ -33,15 +53,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="67dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
             android:orientation="vertical">
 
             <Button
                 android:id="@+id/buttonCatchBot"
                 android:layout_width="match_parent"
-                android:layout_height="67dp"
-                android:layout_marginTop="24dp"
+                android:layout_height="64dp"
+                android:layout_marginTop="18dp"
                 android:background="@drawable/round_buttons"
                 android:onClick="processButtonPressing"
                 android:text="@string/main_activity_button_catch_bot"
@@ -50,8 +70,8 @@
             <Button
                 android:id="@+id/button4"
                 android:layout_width="match_parent"
-                android:layout_height="67dp"
-                android:layout_marginTop="24dp"
+                android:layout_height="64dp"
+                android:layout_marginTop="18dp"
                 android:background="@drawable/round_buttons"
                 android:enabled="false"
                 android:onClick="processButtonPressing"
@@ -61,8 +81,8 @@
             <Button
                 android:id="@+id/button"
                 android:layout_width="match_parent"
-                android:layout_height="67dp"
-                android:layout_marginTop="24dp"
+                android:layout_height="64dp"
+                android:layout_marginTop="18dp"
                 android:background="@drawable/round_buttons"
                 android:enabled="false"
                 android:onClick="processButtonPressing"
@@ -123,15 +143,4 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_info_outline_black_24dp" />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/buttonAutho"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="104dp"
-        android:layout_marginTop="356dp"
-        android:text="put me pls"
-        android:onClick="processButtonPressing"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/scrollModes" />
 </android.support.constraint.ConstraintLayout>
