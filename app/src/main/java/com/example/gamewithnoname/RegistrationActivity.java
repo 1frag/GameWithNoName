@@ -42,7 +42,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     beginRegistration(name, password, birth, sex);
                 } else {
                     Toast.makeText(RegistrationActivity.this,
-                            "Data is not valid",
+                            R.string.registration_activity_data_not_valid,
                             Toast.LENGTH_LONG).show();
                 }
 
@@ -84,6 +84,19 @@ public class RegistrationActivity extends AppCompatActivity {
                         Log.i(TAG, "ServerCallbacks -> onSuccess");
                         int result = Integer.parseInt(value);
                         Log.i(TAG, String.format("result Reg: %s", result));
+                        if (result == 1) {
+                            finish();
+                        }
+                        else if (result == 0) {
+                            Toast.makeText(RegistrationActivity.this,
+                                    R.string.main_activity_error,
+                                    Toast.LENGTH_LONG).show();
+                        }
+                        else if (result == 2) {
+                            Toast.makeText(RegistrationActivity.this,
+                                    R.string.registration_activity_name_problem,
+                                    Toast.LENGTH_LONG).show();
+                        }
                         // если result 1 -- значит успешно
                         // если result 0 -- неизвестная ошибка
                         // если result 2 -- логин уже был такой
@@ -95,6 +108,9 @@ public class RegistrationActivity extends AppCompatActivity {
                     public void onError(@NonNull Throwable throwable) {
                         Log.i(TAG, "ServerCallbacks -> onError");
                         Log.i(TAG, throwable.getMessage());
+                        Toast.makeText(RegistrationActivity.this,
+                                R.string.main_activity_error,
+                                Toast.LENGTH_LONG).show();
                         // todo: toast maybe or smth other?
                         //  скорей всего интернет отрубился или сервер сдох
                     }

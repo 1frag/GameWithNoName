@@ -132,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void showLoginFailed() {
         Toast.makeText(getApplicationContext(),
-                "Ошибка входа",
+                R.string.login_activity_you_need_reg,
                 Toast.LENGTH_SHORT).show();
         Log.i(TAG, "showLoginFailed");
 

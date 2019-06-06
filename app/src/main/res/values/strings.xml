@@ -17,6 +17,7 @@
     <string name="main_activity_text_hello">Username</string>
     <string name="main_activity_text_rating">0</string>
     <string name="main_activity_text_coins">0</string>
+    <string name="main_activity_error">Smth error!</string>
 
     <string name="activity_parameters_headline">Parameters</string>
     <string name="activity_parameters_speed">Speed</string>
@@ -55,9 +56,10 @@
     <string name="registration_female">Female</string>
     <string name="registration_rpt_password">Confirm password</string>
     <string name="registration_example_login">6 symbols min</string>
-    <string name="registration_example_password">password</string>
-    <string name="registration_example_date">1999-10-18</string>
+    <string name="registration_example_date">1999-01-08</string>
 
 
-    <string name="login_activity_you_need_reg">Log in first</string>
+    <string name="login_activity_you_need_reg">You can`t play until we have your private information</string>
+    <string name="registration_activity_data_not_valid">Data is not valid</string>
+    <string name="registration_activity_name_problem">That name already exists, try another one</string>
 </resources>

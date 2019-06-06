@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
@@ -37,12 +38,15 @@ public class MainActivity extends AppCompatActivity {
     private ServerCallbacks serverCallbacks;
     private ConnectionServer connectionServer;
     private Integer resultServerCallbacks = -1;
+    private TextView textUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        textUsername = findViewById(R.id.textUsername);
 
         // todo: catch all problems with permission
         permissionsChecker();
@@ -78,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Toast.makeText(MainActivity.this,
-                                "Smth error!",
+                                R.string.main_activity_error,
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -133,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intentLogin, 1);
 
         Log.i(TAG, String.format("Hello, %s", LoggedInUser.getName()));
-
     }
 
     @Override
@@ -143,13 +146,14 @@ public class MainActivity extends AppCompatActivity {
         if (result == null || !result.equals("1")) {
             // Человек так и не залогинился!!
             Toast.makeText(this,
-                    "Вы должны зарегистрироваться!",
+                    R.string.login_activity_you_need_reg,
                     Toast.LENGTH_LONG).show();
-            loginUser(); // пока не залогинешься так и будешь
+            loginUser(); // пока не залогинишься так и будешь
         }
         if (LoggedInUser.getName() != null) {
             Log.i(TAG, LoggedInUser.getName());
             Log.i(TAG, LoggedInUser.getPassword());
+            textUsername.setText(LoggedInUser.getName());
         }
     }
 
