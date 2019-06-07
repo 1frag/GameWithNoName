@@ -23,8 +23,8 @@
         <TextView
             android:id="@+id/textUsername"
             android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="28sp"
             app:layout_constraintEnd_toEndOf="@id/buttonAutho"
@@ -32,12 +32,12 @@
 
         <ImageButton
             android:id="@+id/buttonAutho"
-            android:scaleType="centerCrop"
-            android:layout_width="wrap_content"
+            android:background="@color/colorPrimary"
+            android:layout_width="60dp"
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:onClick="processButtonPressing"
-            app:srcCompat="@drawable/ic_cancel_black_24dp" />
+            app:srcCompat="@drawable/ic_logout" />
     </LinearLayout>
 
     <ScrollView
