@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
 import com.example.gamewithnoname.ServerConnection.SimpleCallbacks;
 import com.example.gamewithnoname.data.model.LoggedInUser;
+import com.yandex.mapkit.MapKitFactory;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        MapKitFactory.setApiKey("4431f62e-4cef-4ce6-b1d5-07602abde3fd"); // todo: remove pls
         setContentView(R.layout.activity_main);
 
         textUsername = findViewById(R.id.textUsername);
