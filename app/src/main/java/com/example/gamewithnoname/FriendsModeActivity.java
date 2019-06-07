@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
@@ -32,6 +33,7 @@ public class FriendsModeActivity extends Activity {
     private Timer mTimer;
     private PointsCallbacks gameCallbacks;
     private SimpleCallbacks initCallbacks;
+    private SimpleCallbacks goCallbacks;
     private ConnectionServer connectionServer;
     private String inviteString;
     private MapView mapView;
@@ -55,6 +57,48 @@ public class FriendsModeActivity extends Activity {
         connectionServer = new ConnectionServer();
         configCreateMode();
         configJoinGame();
+        configGoButton();
+
+    }
+
+    private void configGoButton() {
+        Button btn = findViewById(R.id.button_go);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                goCallbacks = new SimpleCallbacks() {
+                    @Override
+                    public void onSuccess(@NonNull String value) {
+                        if(value.equals("2")){
+                            Toast.makeText(FriendsModeActivity.this,
+                                    "begin_game :: 2 (param is invalid)",
+                                    Toast.LENGTH_SHORT).show();
+                            return;
+                        } else if(value.equals("3")){
+                            Toast.makeText(FriendsModeActivity.this,
+                                    "begin_game :: 3 (game there is not)",
+                                    Toast.LENGTH_SHORT).show();
+                            return;
+                        } else if(value.equals("4")){
+                            Toast.makeText(FriendsModeActivity.this,
+                                    "begin_game :: 4 (access denied)",
+                                    //начать может только создатель ссылки
+                                    Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        ((Button)findViewById(R.id.button_join_game)).setEnabled(false);
+                        ((Button)findViewById(R.id.button_create_game)).setEnabled(false);
+                        ((EditText)findViewById(R.id.editTextCode)).setEnabled(false);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable throwable) {
+
+                    }
+                }
+            }
+        });
 
     }
 
@@ -92,8 +136,8 @@ public class FriendsModeActivity extends Activity {
                                     Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        ((EditText) findViewById(R.id.textViewCode)).setText(value);
-                        inviteString = ((EditText) findViewById(R.id.textViewCode))
+                        ((TextView) findViewById(R.id.textViewCode)).setText(value);
+                        inviteString = ((TextView) findViewById(R.id.textViewCode))
                                 .getText().toString();
                         mainGameLoop();
                     }
@@ -139,8 +183,8 @@ public class FriendsModeActivity extends Activity {
                                     // чтобы разработчики знали что это произошло
                                     Toast.LENGTH_SHORT).show();
                         }
-                        ((EditText) findViewById(R.id.textViewCode)).setText(value);
-                        inviteString = ((EditText) findViewById(R.id.textViewCode))
+                        ((TextView) findViewById(R.id.textViewCode)).setText(value);
+                        inviteString = ((TextView) findViewById(R.id.textViewCode))
                                 .getText().toString();
                         mainGameLoop();
                     }

@@ -19,25 +19,11 @@
         app:layout_constraintStart_toEndOf="@+id/textViewCode"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/textViewCode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="place to code"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <com.yandex.mapkit.mapview.MapView
         android:id="@+id/mapViewFrMode"
         android:layout_width="match_parent"
         android:layout_height="500dp"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-    </com.yandex.mapkit.mapview.MapView>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <EditText
         android:id="@+id/editTextCode"
@@ -64,7 +50,7 @@
         app:layout_constraintTop_toBottomOf="@+id/button_create_game" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button_go"
         android:layout_width="167dp"
         android:layout_height="39dp"
         android:layout_marginStart="120dp"
@@ -72,4 +58,16 @@
         android:text="GO!"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:ems="10"
+        android:text="place to code"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
