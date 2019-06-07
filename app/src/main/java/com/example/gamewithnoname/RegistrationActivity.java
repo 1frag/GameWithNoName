@@ -11,9 +11,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
-import com.example.gamewithnoname.ServerConnection.ServerCallbacks;
-
-import java.util.Date;
+import com.example.gamewithnoname.ServerConnection.SimpleCallbacks;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -27,7 +25,6 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
 
         // todo: disable signUp if ... (smth conditions)
-        // todo: request to server (again Retrofit =( )
 
         Button signUp = findViewById(R.id.buttonReg);
         signUp.setOnClickListener(new View.OnClickListener() {
@@ -78,11 +75,14 @@ public class RegistrationActivity extends AppCompatActivity {
                                    final Integer sex) {
         ConnectionServer connectionServer = new ConnectionServer();
         connectionServer.initRegistration(username, password, birth, sex);
-        connectionServer.connect(new ServerCallbacks() {
+        connectionServer.connect(new SimpleCallbacks() {
                     @Override
                     public void onSuccess(@NonNull String value) {
-                        Log.i(TAG, "ServerCallbacks -> onSuccess");
+                        Log.i(TAG, "SimpleCallbacks -> onSuccess");
                         int result = Integer.parseInt(value);
+                        // если result 1 -- значит успешно
+                        // если result 0 -- неизвестная ошибка
+                        // если result 2 -- логин уже был такой
                         Log.i(TAG, String.format("result Reg: %s", result));
                         if (result == 1) {
                             finish();
@@ -97,22 +97,15 @@ public class RegistrationActivity extends AppCompatActivity {
                                     R.string.registration_activity_name_problem,
                                     Toast.LENGTH_LONG).show();
                         }
-                        // если result 1 -- значит успешно
-                        // если result 0 -- неизвестная ошибка
-                        // если result 2 -- логин уже был такой
-
-                        // todo: smth actions!!! сервер вернул нормальный ответ
                     }
 
                     @Override
                     public void onError(@NonNull Throwable throwable) {
-                        Log.i(TAG, "ServerCallbacks -> onError");
+                        Log.i(TAG, "SimpleCallbacks -> onError");
                         Log.i(TAG, throwable.getMessage());
                         Toast.makeText(RegistrationActivity.this,
                                 R.string.main_activity_error,
                                 Toast.LENGTH_LONG).show();
-                        // todo: toast maybe or smth other?
-                        //  скорей всего интернет отрубился или сервер сдох
                     }
                 });
     }

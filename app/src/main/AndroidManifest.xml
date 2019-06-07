@@ -40,6 +40,7 @@
             android:name=".maps.MapInGame"
             android:screenOrientation="portrait" />
         <activity android:name=".OnlineMode" />
+        <activity android:name=".FriendsModeActivity" />
     </application>
 
 </manifest>

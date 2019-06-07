@@ -3,7 +3,7 @@ package com.example.gamewithnoname.ServerConnection;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ServerResponse {
+public class SimpleResponse {
     @SerializedName("result")
     @Expose
     private String result;

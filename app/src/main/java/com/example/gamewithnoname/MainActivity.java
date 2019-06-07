@@ -2,11 +2,9 @@ package com.example.gamewithnoname;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,11 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
-import com.example.gamewithnoname.ServerConnection.ServerCallbacks;
+import com.example.gamewithnoname.ServerConnection.SimpleCallbacks;
 import com.example.gamewithnoname.data.model.LoggedInUser;
-import com.example.gamewithnoname.maps.MapMainMenu;
-import com.yandex.mapkit.MapKitFactory;
-import com.yandex.mapkit.geometry.Point;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -35,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_LOCATION = 123;
 
     private Timer mTimer;
-    private ServerCallbacks serverCallbacks;
+    private SimpleCallbacks simpleCallbacks;
     private ConnectionServer connectionServer;
     private Integer resultServerCallbacks = -1;
     private TextView textUsername;
@@ -59,11 +54,11 @@ public class MainActivity extends AppCompatActivity {
 
         connectionServer = new ConnectionServer();
 
-        serverCallbacks = new ServerCallbacks() {
+        simpleCallbacks = new SimpleCallbacks() {
             @Override
             public void onSuccess(@NonNull String value) {
 
-//                Log.i(TAG, "ServerCallbacks -> onSuccess");
+//                Log.i(TAG, "SimpleCallbacks -> onSuccess");
                 resultServerCallbacks = Integer.parseInt(value);
 
                 MainActivity.this.runOnUiThread(new Runnable() {
@@ -92,12 +87,12 @@ public class MainActivity extends AppCompatActivity {
         final TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                connectionServer.initPutMyPosition(
+                connectionServer.initCreateGame(
                         LoggedInUser.getName(),
                         UserLocation.imHere.getLatitude(),
                         UserLocation.imHere.getLongitude()
                 );
-                connectionServer.connect(serverCallbacks);
+                connectionServer.connect(simpleCallbacks);
             }
         };
 
@@ -183,6 +178,11 @@ public class MainActivity extends AppCompatActivity {
                 LoginActivity.clearLoginOptions();
                 Intent authoIntent = new Intent(this, LoginActivity.class);
                 startActivity(authoIntent);
+                break;
+            }
+            case R.id.buttonWithFriends: {
+                Intent fmIntent = new Intent(this, FriendsModeActivity.class);
+                startActivity(fmIntent);
                 break;
             }
             default:

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
-import com.example.gamewithnoname.ServerConnection.ServerCallbacks;
+import com.example.gamewithnoname.ServerConnection.SimpleCallbacks;
 import com.example.gamewithnoname.data.model.LoggedInUser;
 
 public class LoginActivity extends AppCompatActivity {
@@ -95,10 +94,10 @@ public class LoginActivity extends AppCompatActivity {
     private void beginLogin(final String username, final String password) {
         ConnectionServer connectionServer = new ConnectionServer();
         connectionServer.initLogin(username, password);
-        connectionServer.connect(new ServerCallbacks() {
+        connectionServer.connect(new SimpleCallbacks() {
             @Override
             public void onSuccess(@NonNull String value) {
-                Log.i(TAG, "ServerCallbacks -> onSuccess");
+                Log.i(TAG, "SimpleCallbacks -> onSuccess");
                 int result = Integer.parseInt(value);
                 if (result != 1) {
                     showLoginFailed();
@@ -109,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onError(@NonNull Throwable throwable) {
-                Log.i(TAG, "ServerCallbacks -> onError");
+                Log.i(TAG, "SimpleCallbacks -> onError");
                 Log.i(TAG, throwable.getMessage());
                 // todo: toast maybe or smth other?
             }

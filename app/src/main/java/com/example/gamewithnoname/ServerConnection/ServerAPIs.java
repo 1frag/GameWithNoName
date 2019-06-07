@@ -1,24 +1,19 @@
 package com.example.gamewithnoname.ServerConnection;
 
-import java.util.Date;
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ServerAPIs {
 
     @GET("/sign_in")
-    Call<ServerResponse> getResultSignIn(
+    Call<SimpleResponse> getResultSignIn(
             @Query("name") String name,
             @Query("password") String password
     );
 
     @GET("/sign_up")
-    Call<ServerResponse> getResultSignUp(
+    Call<SimpleResponse> getResultSignUp(
             @Query("name") String name,
             @Query("password") String password,
             @Query("birthday") String birthday,
@@ -26,18 +21,26 @@ public interface ServerAPIs {
     );
 
     @GET("/get_event")
-    Call<ServerResponse> getResultEvent();
+    Call<SimpleResponse> getResultEvent();
 
     @GET("/put_online")
-    Call<ServerResponse> putOnline(
+    Call<SimpleResponse> putOnline(
             @Query("name") String name
     );
 
-    @GET("/put_my_position")
-    Call<ServerResponse> putMyPosition(
+    @GET("/create_game")
+    Call<SimpleResponse> createGame(
             @Query("name") String name,
-            @Query("latit") double latit,
-            @Query("tongit") double tongit
+            @Query("latitude") double latit,
+            @Query("longitude") double tongit
+    );
+
+    @GET("/join_game")
+    Call<SimpleResponse> joinGame(
+            @Query("name") String name,
+            @Query("latitude") double latit,
+            @Query("longitude") double tongit,
+            @Query("string_invite") String key
     );
 
 }
