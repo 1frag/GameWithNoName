@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                         UserLocation.imHere.getLatitude(),
                         UserLocation.imHere.getLongitude()
                 );
-                connectionServer.connect(simpleCallbacks);
+                connectionServer.connectSimple(simpleCallbacks);
             }
         };
 
@@ -144,11 +144,6 @@ public class MainActivity extends AppCompatActivity {
                     R.string.login_activity_you_need_reg,
                     Toast.LENGTH_LONG).show();
             loginUser(); // пока не залогинишься так и будешь
-        }
-        if (LoggedInUser.getName() != null) {
-            Log.i(TAG, LoggedInUser.getName());
-            Log.i(TAG, LoggedInUser.getPassword());
-            textUsername.setText(LoggedInUser.getName());
         }
     }
 

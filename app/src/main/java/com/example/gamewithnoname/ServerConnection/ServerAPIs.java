@@ -1,5 +1,7 @@
 package com.example.gamewithnoname.ServerConnection;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -41,6 +43,14 @@ public interface ServerAPIs {
             @Query("latitude") double latit,
             @Query("longitude") double tongit,
             @Query("string_invite") String key
+    );
+
+    @GET("/update_map_in_game")
+    Call<List<PointResponse>> updateMap(
+            @Query("name") String name,
+            @Query("string_invite") String string_invite,
+            @Query("latitude") double latit,
+            @Query("longitude") double tongit
     );
 
 }

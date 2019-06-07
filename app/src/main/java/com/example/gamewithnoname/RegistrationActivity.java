@@ -75,7 +75,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                    final Integer sex) {
         ConnectionServer connectionServer = new ConnectionServer();
         connectionServer.initRegistration(username, password, birth, sex);
-        connectionServer.connect(new SimpleCallbacks() {
+        connectionServer.connectSimple(new SimpleCallbacks() {
                     @Override
                     public void onSuccess(@NonNull String value) {
                         Log.i(TAG, "SimpleCallbacks -> onSuccess");

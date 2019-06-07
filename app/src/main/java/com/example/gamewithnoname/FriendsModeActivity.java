@@ -1,18 +1,29 @@
 package com.example.gamewithnoname;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
+import com.example.gamewithnoname.ServerConnection.PointResponse;
 import com.example.gamewithnoname.ServerConnection.PointsCallbacks;
 import com.example.gamewithnoname.ServerConnection.SimpleCallbacks;
 import com.example.gamewithnoname.data.model.LoggedInUser;
+import com.yandex.mapkit.Animation;
+import com.yandex.mapkit.geometry.Circle;
+import com.yandex.mapkit.geometry.Point;
+import com.yandex.mapkit.map.CameraPosition;
+import com.yandex.mapkit.map.Map;
+import com.yandex.mapkit.mapview.MapView;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -23,8 +34,13 @@ public class FriendsModeActivity extends Activity {
     private SimpleCallbacks initCallbacks;
     private ConnectionServer connectionServer;
     private String inviteString;
+    private MapView mapView;
+    private Map mMap;
     private int choise = 0;
     private Integer resultServerCallbacks = -1;
+    private final String TAG = String.format("%s/%s",
+            "HITS", "FriendsModeActivity"
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +48,26 @@ public class FriendsModeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends_mode);
 
-//        mainGameLoop(); todo: put it after:
+        mapView = findViewById(R.id.mapViewFrMode);
+        mMap = mapView.getMap();
+        configMap();
+
         connectionServer = new ConnectionServer();
         configCreateMode();
         configJoinGame();
+
+    }
+
+    private void configMap() {
+        Log.i(TAG, "configMap");
+        Location now = UserLocation.imHere;
+        mMap.move(
+                new CameraPosition(new Point(now.getLatitude(), now.getLongitude()), 11.0f, 0.0f, 0.0f),
+                new Animation(Animation.Type.SMOOTH, 0),
+                null);
+//        map.setNightModeEnabled(true);
+
+        mMap.getUserLocationLayer().setEnabled(true);
 
     }
 
@@ -78,9 +110,9 @@ public class FriendsModeActivity extends Activity {
                         LoggedInUser.getName(),
                         UserLocation.imHere.getLatitude(),
                         UserLocation.imHere.getLongitude(),
-                        ((EditText)findViewById(R.id.editTextCode)).getText().toString()
+                        ((EditText) findViewById(R.id.editTextCode)).getText().toString()
                 );
-                connectionServer.connect(initCallbacks);
+                connectionServer.connectSimple(initCallbacks);
                 // todo: обратиться к серверу чтобы заjoinиться
             }
         });
@@ -126,7 +158,7 @@ public class FriendsModeActivity extends Activity {
                         UserLocation.imHere.getLatitude(),
                         UserLocation.imHere.getLongitude()
                 );
-                connectionServer.connect(initCallbacks);
+                connectionServer.connectSimple(initCallbacks);
             }
         });
 
@@ -137,43 +169,61 @@ public class FriendsModeActivity extends Activity {
         mTimer = new Timer();
 
         gameCallbacks = new PointsCallbacks() {
+
             @Override
-            public void onSuccess(@NonNull String value) {
-
-                resultServerCallbacks = Integer.parseInt(value);
-
-                FriendsModeActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-//                        Toast.makeText(MainActivity.this,
-//                                resultServerCallbacks.toString(),
-//                                Toast.LENGTH_SHORT).show();
+            public void onSuccess(@NonNull List<PointResponse> result) {
+                for (PointResponse point : result) {
+                    if (point.getType() == 1) { // coin
+                        mMap.getMapObjects().addCircle(
+                                new Circle(
+                                        new Point(
+                                                point.getLatitude(),
+                                                point.getLongitude()
+                                        ),
+                                        15
+                                ),
+                                Color.YELLOW,
+                                10,
+                                Color.YELLOW
+                        );
+                    } else if (point.getType() == 2) { // human
+                        mMap.getMapObjects().addCircle(
+                                new Circle(
+                                        new Point(
+                                                point.getLatitude(),
+                                                point.getLongitude()
+                                        ),
+                                        15
+                                ),
+                                Color.GRAY,
+                                10,
+                                Color.GREEN
+                        );
+                    } else if (point.getType() == 3) { // old coin
+                        // todo: тип пропавшей монеты (она была зобрана)
+                        //  можем обработать если надо
                     }
-                });
+                }
             }
 
             @Override
             public void onError(@NonNull Throwable throwable) {
-                FriendsModeActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(FriendsModeActivity.this,
-                                R.string.main_activity_error,
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
+                Log.i(TAG, "lol kek");
+                // todo: ну это опять у них проблемки
+                //  с интернетом, хз че делать
             }
         };
 
         final TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                connectionServer.initCreateGame(
+                connectionServer.initUpdateMap(
                         LoggedInUser.getName(),
+                        inviteString,
                         UserLocation.imHere.getLatitude(),
                         UserLocation.imHere.getLongitude()
                 );
-                connectionServer.connect(gameCallbacks);
+                connectionServer.connectPoints(gameCallbacks);
             }
         };
 

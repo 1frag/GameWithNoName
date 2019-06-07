@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
     private void beginLogin(final String username, final String password) {
         ConnectionServer connectionServer = new ConnectionServer();
         connectionServer.initLogin(username, password);
-        connectionServer.connect(new SimpleCallbacks() {
+        connectionServer.connectSimple(new SimpleCallbacks() {
             @Override
             public void onSuccess(@NonNull String value) {
                 Log.i(TAG, "SimpleCallbacks -> onSuccess");
