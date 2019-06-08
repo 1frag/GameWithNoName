@@ -32,20 +32,19 @@
 
         <ImageButton
             android:id="@+id/buttonAutho"
-            android:background="@color/colorPrimary"
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:layout_gravity="end"
+            android:background="@color/colorPrimary"
             android:onClick="processButtonPressing"
-            app:srcCompat="@drawable/ic_logout" />
+            app:srcCompat="@drawable/ic_logout_2" />
     </LinearLayout>
 
     <ScrollView
         android:id="@+id/scrollModes"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toTopOf="@id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username_layout">
@@ -114,7 +113,7 @@
             app:layout_constraintEnd_toStartOf="@id/buttonFriends"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_poll_black_24dp" />
+            app:srcCompat="@drawable/ic_statistics" />
 
         <ImageButton
             android:id="@+id/buttonFriends"
@@ -128,7 +127,7 @@
             app:layout_constraintEnd_toStartOf="@id/buttonInfo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_group_black_24dp" />
+            app:srcCompat="@drawable/ic_star" />
 
         <ImageButton
             android:id="@+id/buttonInfo"
@@ -141,6 +140,36 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_info_outline_black_24dp" />
+            app:srcCompat="@drawable/ic_question" />
     </LinearLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/layout_stat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollModes">
+
+        <ImageView
+            android:id="@+id/imageCoins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/ic_coins" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="18dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageCoins"
+            app:srcCompat="@drawable/ic_favourite" />
+
+    </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>
