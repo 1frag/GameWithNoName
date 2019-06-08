@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#CBD5A6</color>
-    <!--or E8FFD1 or first D2E0B4 or same D6E8BA OR D4E4DC-->
+    <color name="colorPrimary">#D6E8BA</color>
+    <!--or E8FFD1 or first D2E0B4 or same D6E8BA OR D4E4DC or green CBD5A6-->
 
     <color name="colorPrimaryDark">#7C7A63</color>
     <!--869468 or 2B4A3A-->
     <color name="colorAccent">#9D5A62</color>
     <!--804837 9D7D88-->
 
-    <color name="buttonStart">#FF683B</color>
-    <!--FF5722-->
+    <color name="buttonStart">#CC5649</color>
+    <!--FF5722 FF683B-->
     <color name="buttonStartPressed">#912F10</color>
     <color name="buttonsForLayout">#869468</color>
     <!--83965A OR 559374-->

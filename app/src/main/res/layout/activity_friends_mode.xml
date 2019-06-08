@@ -23,11 +23,9 @@
         android:id="@+id/textViewCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
         android:ems="10"
+        android:hint="place to code"
         android:inputType="textPersonName"
-        android:text="place to code"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,11 +41,9 @@
         android:id="@+id/editTextCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
         android:ems="10"
+        android:hint="insert code"
         android:inputType="textPersonName"
-        android:text="insert code"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewCode" />
 

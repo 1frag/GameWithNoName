@@ -20,12 +20,11 @@
 
     <Button
         android:id="@+id/buttonContinue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_weight="1"
         android:background="@drawable/button_menu"
         android:onClick="nextActivity"
         android:text="@string/activity_parameters_button"
@@ -59,7 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:context="com.androidsample.BottomSheetActivity">
+        >
         <!-- include bottom sheet -->
         <include layout="@layout/layout_parameters" />
 

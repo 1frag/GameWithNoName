@@ -65,7 +65,6 @@ public class ParametersDialog extends AppCompatActivity {
         btnContinue.setEnabled(false);
 
 //        dialog = findViewById(R.id.layout_parameters);
-//        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(dialog);
         configureMap();
 
     }
@@ -295,7 +294,7 @@ public class ParametersDialog extends AppCompatActivity {
             //  которая разблокируется только при вызове onMasstransitRoutes
             //  который в свою очередь сдалает точку финиша не null
             //  но я пожалуй оставлю эту проверку
-            Toast.makeText(this, "Connect with developer pls", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.activity_parameters_unknown_error), Toast.LENGTH_LONG).show();
             return;
         }
         intentStart.putExtra("typeGame", 2); // type=2 -> BotMode
