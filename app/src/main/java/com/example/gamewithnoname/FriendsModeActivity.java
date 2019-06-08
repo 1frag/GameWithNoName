@@ -1,6 +1,7 @@
 package com.example.gamewithnoname;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -21,8 +22,12 @@ import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.geometry.Circle;
 import com.yandex.mapkit.geometry.Point;
 import com.yandex.mapkit.map.CameraPosition;
+import com.yandex.mapkit.map.IconStyle;
 import com.yandex.mapkit.map.Map;
+import com.yandex.mapkit.map.PlacemarkMapObject;
 import com.yandex.mapkit.mapview.MapView;
+import com.yandex.runtime.image.ImageProvider;
+import com.yandex.runtime.ui_view.ViewProvider;
 
 import java.util.List;
 import java.util.Timer;
@@ -70,33 +75,40 @@ public class FriendsModeActivity extends Activity {
                 goCallbacks = new SimpleCallbacks() {
                     @Override
                     public void onSuccess(@NonNull String value) {
-                        if(value.equals("2")){
+                        if (value.equals("2")) {
                             Toast.makeText(FriendsModeActivity.this,
                                     "begin_game :: 2 (param is invalid)",
                                     Toast.LENGTH_SHORT).show();
                             return;
-                        } else if(value.equals("3")){
+                        } else if (value.equals("3")) {
                             Toast.makeText(FriendsModeActivity.this,
                                     "begin_game :: 3 (game there is not)",
                                     Toast.LENGTH_SHORT).show();
                             return;
-                        } else if(value.equals("4")){
+                        } else if (value.equals("4")) {
                             Toast.makeText(FriendsModeActivity.this,
                                     "begin_game :: 4 (access denied)",
                                     //начать может только создатель ссылки
                                     Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        ((Button)findViewById(R.id.button_join_game)).setEnabled(false);
-                        ((Button)findViewById(R.id.button_create_game)).setEnabled(false);
-                        ((EditText)findViewById(R.id.editTextCode)).setEnabled(false);
+                        ((Button) findViewById(R.id.button_join_game)).setEnabled(false);
+                        ((Button) findViewById(R.id.button_create_game)).setEnabled(false);
+                        ((EditText) findViewById(R.id.editTextCode)).setEnabled(false);
                     }
 
                     @Override
                     public void onError(@NonNull Throwable throwable) {
-
+                        Log.i(TAG, "eroor!");
                     }
-                }
+                };
+
+                connectionServer.initBeginGame(
+                        LoggedInUser.getName(),
+                        inviteString
+                );
+                connectionServer.connectSimple(goCallbacks);
+
             }
         });
 
@@ -157,7 +169,7 @@ public class FriendsModeActivity extends Activity {
                         ((EditText) findViewById(R.id.editTextCode)).getText().toString()
                 );
                 connectionServer.connectSimple(initCallbacks);
-                // todo: обратиться к серверу чтобы заjoinиться
+
             }
         });
 
@@ -203,6 +215,7 @@ public class FriendsModeActivity extends Activity {
                         UserLocation.imHere.getLongitude()
                 );
                 connectionServer.connectSimple(initCallbacks);
+
             }
         });
 
@@ -218,18 +231,42 @@ public class FriendsModeActivity extends Activity {
             public void onSuccess(@NonNull List<PointResponse> result) {
                 for (PointResponse point : result) {
                     if (point.getType() == 1) { // coin
-                        mMap.getMapObjects().addCircle(
-                                new Circle(
-                                        new Point(
-                                                point.getLatitude(),
-                                                point.getLongitude()
-                                        ),
-                                        15
+
+                        IconStyle iconStyle = new IconStyle();
+                        iconStyle.setFlat(true);
+                        iconStyle.setVisible(true);
+                        final String namePoint = point.getName();
+                        ImageProvider imageProvider = new ImageProvider() {
+                            @Override
+                            public String getId() {
+                                return namePoint;
+                            }
+
+                            @Override
+                            public Bitmap getImage() {
+                                Bitmap bitmap = Bitmap.createBitmap(10, 10, Bitmap.Config.ARGB_8888);
+                                bitmap.eraseColor(Color.TRANSPARENT);
+                                for (int i = 0; i < 10; i++) {
+                                    for (int j = 0; j < 10; j++) {
+                                        if ((i - 5) * (i - 5) + (j - 5) * (j - 5) <= 25) {
+                                            bitmap.setPixel(i, j, Color.BLUE);
+                                        }
+                                    }
+                                }
+                                return bitmap;
+                            }
+                        };
+
+
+                        mMap.getMapObjects().addPlacemark(
+                                new Point(
+                                        point.getLatitude(),
+                                        point.getLongitude()
                                 ),
-                                Color.YELLOW,
-                                10,
-                                Color.YELLOW
+                                imageProvider,
+                                iconStyle
                         );
+
                     } else if (point.getType() == 2) { // human
                         mMap.getMapObjects().addCircle(
                                 new Circle(

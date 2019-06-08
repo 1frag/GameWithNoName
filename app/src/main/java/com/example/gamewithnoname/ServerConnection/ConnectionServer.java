@@ -72,6 +72,10 @@ public class ConnectionServer {
         call = serverAPIs.updateMap(name, key, latit, longit);
     }
 
+    public void initBeginGame(String name, String key) {
+        call = serverAPIs.beginGame(name, key);
+    }
+
     public void connectSimple(@Nullable final SimpleCallbacks callbacks) {
         call.enqueue(new Callback() {
             @Override
@@ -105,7 +109,7 @@ public class ConnectionServer {
                 /*This is the success callback. Though the response type is JSON, with Retrofit we get the response in the form of WResponse POJO class
                  */
                 if (response.body() != null) {
-                    Log.i(TAG, "Successful");
+//                    Log.i(TAG, "Successful");
                     pointResult = response.body();
                 }
 

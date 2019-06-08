@@ -53,4 +53,10 @@ public interface ServerAPIs {
             @Query("longitude") double tongit
     );
 
+    @GET("/begin_game")
+    Call<SimpleResponse> beginGame(
+            @Query("name") String name,
+            @Query("string_invite") String string_invite
+    );
+
 }
