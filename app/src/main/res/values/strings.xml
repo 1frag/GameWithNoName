@@ -11,8 +11,8 @@
     <string name="main_activity_authorization">Sign in</string>
     <string name="main_activity_button_catch_bot">Catch bot</string>
     <string name="main_activity_button_runaway_bot">Run away from bots</string>
-    <string name="main_activity_button_seek_coins">Seek for coins</string>
-    <string name="main_activity_button_game_friends">Overtake your friend</string>
+    <string name="main_activity_button_seek_coins">Seek for coins (stranger on map)</string>
+    <string name="main_activity_button_game_friends">Seek for coins (team)</string>
     <string name="main_activity_button_another_mode">Unknown mode</string>
     <string name="main_activity_text_hello">Username</string>
     <string name="main_activity_text_rating">0</string>
@@ -67,5 +67,9 @@
     <string name="registration_activity_name_problem">That name already exists, try another one</string>
     <string name="login_activity_incorrect_data">Doesn`t seem like true</string>
     <string name="activity_parameters_unknown_error">Connect with developer pls</string>
+    <string name="activity_main_coins">Coins</string>
+    <string name="activity_main_rating">Rating</string>
+    <string name="activity_main_all_km">0 km</string>
+    <string name="activity_main_all_time_description">for all time</string>
 
 </resources>
