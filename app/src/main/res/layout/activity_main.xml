@@ -27,6 +27,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="28sp"
+            android:textColor="@color/colorText"
             app:layout_constraintEnd_toEndOf="@id/buttonAutho"
             android:text="@string/main_activity_text_hello" />
 
@@ -52,8 +53,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginEnd="28dp"
             android:orientation="vertical">
 
             <Button
@@ -162,14 +163,66 @@
             app:srcCompat="@drawable/ic_coins" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/imageRating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="18dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imageCoins"
             app:srcCompat="@drawable/ic_favourite" />
+
+        <TextView
+            android:id="@+id/textCoins"
+            android:textColor="@color/colorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/activity_main_coins"
+            android:textSize="20sp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imageCoins"
+            />
+
+        <TextView
+            android:id="@+id/textRating"
+            android:textColor="@color/colorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/activity_main_rating"
+            android:textSize="20sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="18dp"
+            app:layout_constraintStart_toEndOf="@id/imageRating"
+            app:layout_constraintTop_toBottomOf="@id/imageCoins"/>
+
+        <LinearLayout
+            android:id="@+id/layout_all_km"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="18dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageRating"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/textAllKm"
+                android:textColor="@color/colorText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_main_all_km"
+                android:textSize="42sp" />
+
+            <TextView
+                android:id="@+id/textAllKmDescription"
+                android:textColor="@color/colorText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="13dp"
+                android:text="@string/activity_main_all_time_description"
+                android:textSize="20sp" />
+        </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>
