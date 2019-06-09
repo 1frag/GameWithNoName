@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AppResultsReceiver.Receiver {
 
     private final String TAG = String.format("%s/%s",
             "HITS",
@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private ConnectionServer connectionServer;
     private Integer resultServerCallbacks = -1;
     private TextView textUsername;
+
+    public static AppResultsReceiver mainReceiver; // it's super collback
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +135,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intentLogin = new Intent(MainActivity.this, LoginActivity.class);
         startActivityForResult(intentLogin, 1);
 
-        Log.i(TAG, String.format("Hello, %s", LoggedInUser.getName()));
     }
 
     @Override
@@ -185,5 +186,21 @@ public class MainActivity extends AppCompatActivity {
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onReceiveResult(int resultCode, Bundle data) {
+        switch (resultCode) {
+            case Constants.STATUS_RUNNING :
+                /**/
+                Log.i(TAG, "qweqwe");
+                break;
+            case Constants.STATUS_FINISHED :
+                Log.i(TAG, "asdsasd");
+                Toast.makeText(this, "Service finished with data: "
+                        + data.getString(Constants.RECEIVER_DATA), Toast.LENGTH_SHORT).show();
+                break;
+        }
+        Log.i(TAG, String.format("valiiiiiid: %s", resultCode));
     }
 }

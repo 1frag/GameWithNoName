@@ -56,6 +56,18 @@ public interface ServerAPIs {
     @GET("/begin_game")
     Call<SimpleResponse> beginGame(
             @Query("name") String name,
+            @Query("string_invite") String string_invite,
+            @Query("duration") Integer duration
+    );
+
+    @GET("/get_positions_coins")
+    Call<List<PointResponse>> updateCoins(
+            @Query("string_invite") String string_invite
+    );
+
+    @GET("/kill_run_game")
+    Call<SimpleResponse> killRunGame(
+            @Query("name") String name,
             @Query("string_invite") String string_invite
     );
 

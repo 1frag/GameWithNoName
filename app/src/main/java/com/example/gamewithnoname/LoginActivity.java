@@ -10,10 +10,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.os.Handler;
 
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
+import com.example.gamewithnoname.ServerConnection.LoginCallback;
 import com.example.gamewithnoname.ServerConnection.SimpleCallbacks;
 import com.example.gamewithnoname.data.model.LoggedInUser;
+
+import static com.example.gamewithnoname.MainActivity.mainReceiver;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -22,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
             "LoginActivity");
     private static SharedPreferences loginPreferences;
     private static SharedPreferences.Editor loginPrefsEditor;
+    private LoginCallback loginCallback;
     private Boolean saveLogin;
 
     @Override
@@ -126,7 +131,16 @@ public class LoginActivity extends AppCompatActivity {
 
         new LoggedInUser(name, password);
 
+
+        // todo: fix this
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+
+        final Intent intent = new Intent("SOME_COMMAND_ACTION", null, this, AppService.class);
+
+        mainReceiver = new AppResultsReceiver(new Handler());
+        intent.putExtra(Constants.RECEIVER, mainReceiver);
+        startService(intent);
+
         finish();
     }
 

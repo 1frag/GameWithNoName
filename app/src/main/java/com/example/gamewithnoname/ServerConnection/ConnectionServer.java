@@ -19,8 +19,9 @@ public class ConnectionServer {
             "HITS",
             "ConnectionServer");
     private final String BASE_URL = "https://nameless-tundra-47166.herokuapp.com";
-    private String simpleResult = "-1";
-    private List<PointResponse> pointResult = new ArrayList<>();
+    private String simpleStringResult = "-1";
+    private Integer simpleIntegerResult = -1;
+    private ArrayList<PointResponse> pointResult = new ArrayList<>();
     private ServerAPIs serverAPIs;
     private Call call;
 
@@ -72,8 +73,16 @@ public class ConnectionServer {
         call = serverAPIs.updateMap(name, key, latit, longit);
     }
 
-    public void initBeginGame(String name, String key) {
-        call = serverAPIs.beginGame(name, key);
+    public void initUpdateCoins(String key) {
+        call = serverAPIs.updateCoins(key);
+    }
+
+    public void initBeginGame(String name, String key, Integer duration) {
+        call = serverAPIs.beginGame(name, key, duration);
+    }
+
+    public void initKillRunGame(String name, String key) {
+        call = serverAPIs.killRunGame(name, key);
     }
 
     public void connectSimple(@Nullable final SimpleCallbacks callbacks) {
@@ -84,11 +93,11 @@ public class ConnectionServer {
                  */
                 if (response.body() != null) {
                     Log.i(TAG, ((SimpleResponse) response.body()).getResult());
-                    simpleResult = ((SimpleResponse) response.body()).getResult();
+                    simpleStringResult = ((SimpleResponse) response.body()).getResult();
                 }
 
                 if (callbacks != null) {
-                    callbacks.onSuccess(simpleResult);
+                    callbacks.onSuccess(simpleStringResult);
                 }
             }
 
@@ -110,11 +119,29 @@ public class ConnectionServer {
                  */
                 if (response.body() != null) {
 //                    Log.i(TAG, "Successful");
-                    pointResult = response.body();
+                    if (response.body().size() == 0) {
+                        Log.i(TAG, "Сервер вернул что-то не то");
+                        // в тестовом режиме можно вернуть это колбаку,
+                        // хотя бы узнаем кто послал такой запрос
+                        if (callbacks != null)
+                            callbacks.onSuccess(-1, new ArrayList<PointResponse>());
+                        return;
+                    }
+                    int j = 1;
+                    if (response.body().get(0).getLatitude() == -1) {
+                        simpleIntegerResult = response.body().get(0).getLongitude().intValue();
+                    } else {
+                        simpleIntegerResult = 1;
+                        j = 0;
+                    }
+                    pointResult.clear();
+                    for (int i = j; i < response.body().size(); i++) {
+                        pointResult.add(response.body().get(i));
+                    }
                 }
 
                 if (callbacks != null) {
-                    callbacks.onSuccess(pointResult);
+                    callbacks.onSuccess(simpleIntegerResult, pointResult);
                 }
             }
 
