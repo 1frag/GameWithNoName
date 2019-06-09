@@ -32,6 +32,15 @@
             android:text="@string/main_activity_text_hello"
             android:layout_width="0dp" />
 
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="TIME" />
+
     </LinearLayout>
 
     <LinearLayout

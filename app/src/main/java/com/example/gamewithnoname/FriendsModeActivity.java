@@ -271,10 +271,12 @@ public class FriendsModeActivity extends Activity {
                     }
                 };
 
+                int time = Integer.parseInt( ((EditText)findViewById(R.id.editText2)).getText().toString());
+
                 connectionServer.initBeginGame(
                         LoggedInUser.getName(),
                         inviteString,
-                        10 * 60 // todo: надо бы где то это менять, не? to @Asya
+                        time // todo: надо бы где то это менять, не? to @Asya
                 );
                 connectionServer.connectSimple(goCallbacks);
 
