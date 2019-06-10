@@ -40,6 +40,7 @@
     <string name="activity_login_headline">Sign in</string>
     <string name="activity_login_ok">OK</string>
     <string name="activity_login_account_offer">Create new account</string>
+    <string name="activity_login_login">Login</string>
 
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_email">Email</string>
@@ -59,7 +60,7 @@
     <string name="registration_female">Female</string>
     <string name="registration_rpt_password">Confirm password</string>
     <string name="registration_example_login">6 symbols min</string>
-    <string name="registration_example_date">1999-01-08</string>
+    <string name="registration_example_date">yyyy-mm-dd</string>
 
 
     <string name="login_activity_you_need_reg">You can`t play until we have your private information</string>
