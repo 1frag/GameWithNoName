@@ -85,6 +85,14 @@ public class ConnectionServer {
         call = serverAPIs.killRunGame(name, key);
     }
 
+    public void initGetMoney(String name) {
+        call = serverAPIs.getMoney(name);
+    }
+
+    public void initGetRating(String name) {
+        call = serverAPIs.getRating(name);
+    }
+
     public void connectSimple(@Nullable final SimpleCallbacks callbacks) {
         call.enqueue(new Callback() {
             @Override
@@ -92,7 +100,6 @@ public class ConnectionServer {
                 /*This is the success callback. Though the response type is JSON, with Retrofit we get the response in the form of WResponse POJO class
                  */
                 if (response.body() != null) {
-                    Log.i(TAG, ((SimpleResponse) response.body()).getResult());
                     simpleStringResult = ((SimpleResponse) response.body()).getResult();
                 }
 

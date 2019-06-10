@@ -71,4 +71,14 @@ public interface ServerAPIs {
             @Query("string_invite") String string_invite
     );
 
+    @GET("/get_money")
+    Call<SimpleResponse> getMoney(
+            @Query("name") String name
+    );
+
+    @GET("/get_rating")
+    Call<SimpleResponse> getRating(
+            @Query("name") String name
+    );
+
 }

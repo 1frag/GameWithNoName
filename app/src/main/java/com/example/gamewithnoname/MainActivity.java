@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements AppResultsReceive
     private Timer mTimer;
     private SimpleCallbacks simpleCallbacks;
     private ConnectionServer connectionServer;
+    private Timer mTimerLogin;
     private Integer resultServerCallbacks = -1;
     private TextView textUsername;
 
@@ -50,6 +51,77 @@ public class MainActivity extends AppCompatActivity implements AppResultsReceive
         // todo: catch all problems with permission
         permissionsChecker();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initTimerLogin();
+        Log.i(TAG, "Resume");
+    }
+
+    private void initTimerLogin() {
+        mTimerLogin = new Timer();
+
+        final SimpleCallbacks moneyCallback = new SimpleCallbacks() {
+            @Override
+            public void onSuccess(@NonNull String value) {
+                ((TextView) findViewById(R.id.textCoins)).setText(value);
+            }
+
+            @Override
+            public void onError(@NonNull Throwable throwable) {
+                Log.i(TAG, "onError --> moneyCallback");
+            }
+        };
+
+        final SimpleCallbacks ratingCallback = new SimpleCallbacks() {
+            @Override
+            public void onSuccess(@NonNull String value) {
+                ((TextView) findViewById(R.id.textRating)).setText(value);
+            }
+
+            @Override
+            public void onError(@NonNull Throwable throwable) {
+                Log.i(TAG, "onError --> ratingCallback");
+            }
+        };
+
+        final TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                if (LoggedInUser.getName() == null)
+                    return;
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((TextView) findViewById(R.id.textUsername)).setText(LoggedInUser.getName());
+
+                        try {
+                            connectionServer.initGetMoney(
+                                    LoggedInUser.getName()
+                            );
+                            connectionServer.connectSimple(moneyCallback);
+                        } catch (IllegalStateException e) {
+                            Log.i(TAG, "Some problem =( money");
+                        }
+
+                        try {
+                            connectionServer.initGetRating(
+                                    LoggedInUser.getName()
+                            );
+                            connectionServer.connectSimple(ratingCallback);
+                        } catch (IllegalStateException e) {
+                            Log.i(TAG, "Some problem =( rating");
+                        }
+
+                    }
+                });
+            }
+        };
+
+        mTimerLogin.schedule(timerTask, 0, 5000);
     }
 
     public void startBackgroundConnect() {
@@ -139,7 +211,9 @@ public class MainActivity extends AppCompatActivity implements AppResultsReceive
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data == null) {return;}
+        if (data == null) {
+            return;
+        }
         String result = data.getStringExtra("resultLogin");
         if (result == null || !result.equals("1")) {
             // Человек так и не залогинился!!
@@ -191,11 +265,11 @@ public class MainActivity extends AppCompatActivity implements AppResultsReceive
     @Override
     public void onReceiveResult(int resultCode, Bundle data) {
         switch (resultCode) {
-            case Constants.STATUS_RUNNING :
+            case Constants.STATUS_RUNNING:
                 /**/
                 Log.i(TAG, "qweqwe");
                 break;
-            case Constants.STATUS_FINISHED :
+            case Constants.STATUS_FINISHED:
                 Log.i(TAG, "asdsasd");
                 Toast.makeText(this, "Service finished with data: "
                         + data.getString(Constants.RECEIVER_DATA), Toast.LENGTH_SHORT).show();
