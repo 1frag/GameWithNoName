@@ -20,5 +20,8 @@
     <color name="buttonsForLayoutAnotherPressed">#7C7A63</color>
     <color name="colorText">#474041</color>
 
+    <color name="colorWin">#FFA28A</color>
+    <color name="colorLose">#4D4F4F</color>
+
 </resources>
 

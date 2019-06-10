@@ -72,5 +72,11 @@
     <string name="activity_main_rating">Rating</string>
     <string name="activity_main_all_km">0 km</string>
     <string name="activity_main_all_time_description">for all time</string>
+    <string name="activity_maps_score">Your score:</string>
+    <string name="activity_maps_speed">Your speed:</string>
+    <string name="activity_registration_notequal_passwords">Passwords are different</string>
+    <string name="activity_registration_small_login">Login must contain more than 5 symbols</string>
+    <string name="activity_registration_incorrect_login">Login cannot start with digit, have you ever registered?</string>
+    <string name="activity_registration_small_password">Password must contain more than 5 symbols</string>
 
 </resources>
