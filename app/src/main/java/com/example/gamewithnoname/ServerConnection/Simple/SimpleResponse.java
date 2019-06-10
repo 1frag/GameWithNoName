@@ -1,4 +1,4 @@
-package com.example.gamewithnoname.ServerConnection;
+package com.example.gamewithnoname.ServerConnection.Simple;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

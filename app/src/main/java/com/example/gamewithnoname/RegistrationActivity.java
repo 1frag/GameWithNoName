@@ -11,7 +11,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
-import com.example.gamewithnoname.ServerConnection.SimpleCallbacks;
+import com.example.gamewithnoname.ServerConnection.Simple.SimpleCallbacks;
 
 public class RegistrationActivity extends AppCompatActivity {
 

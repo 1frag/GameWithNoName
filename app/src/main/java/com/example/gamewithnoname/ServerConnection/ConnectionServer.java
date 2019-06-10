@@ -3,6 +3,13 @@ package com.example.gamewithnoname.ServerConnection;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.gamewithnoname.ServerConnection.Gamers.GameStateResponse;
+import com.example.gamewithnoname.ServerConnection.Gamers.GamersResponse;
+import com.example.gamewithnoname.ServerConnection.Points.PointResponse;
+import com.example.gamewithnoname.ServerConnection.Points.PointsCallbacks;
+import com.example.gamewithnoname.ServerConnection.Simple.SimpleCallbacks;
+import com.example.gamewithnoname.ServerConnection.Simple.SimpleResponse;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +29,7 @@ public class ConnectionServer {
     private String simpleStringResult = "-1";
     private Integer simpleIntegerResult = -1;
     private ArrayList<PointResponse> pointResult = new ArrayList<>();
+    private ArrayList<GamersResponse> gamersResult = new ArrayList<>();
     private ServerAPIs serverAPIs;
     private Call call;
 
@@ -51,14 +59,6 @@ public class ConnectionServer {
                 birthday,
                 sex
         );
-    }
-
-    public void initEventHandler() {
-        call = serverAPIs.getResultEvent();
-    }
-
-    public void initPutOnline(String name) {
-        call = serverAPIs.putOnline(name);
     }
 
     public void initCreateGame(String name, double latit, double longit) {
@@ -158,6 +158,27 @@ public class ConnectionServer {
                 if (callbacks != null) {
                     callbacks.onError(t);
                 }
+            }
+        });
+    }
+
+    public void connectUpdateState(@Nullable final UpdateStateCallbacks callbacks) {
+        call.enqueue(new Callback<GameStateResponse>() {
+
+            @Override
+            public void onResponse(Call<GameStateResponse> call, Response<GameStateResponse> response) {
+                if (response.body() != null && callbacks != null) {
+                    callbacks.onSuccess(
+                            response.body().getState(),
+                            response.body().getGamers()
+                    );
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GameStateResponse> call, Throwable t) {
+                Log.i(TAG, "onFailure in GameStateResponse");
+                Log.i(TAG, t.getMessage());
             }
         });
     }

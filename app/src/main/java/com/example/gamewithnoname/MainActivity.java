@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
-import com.example.gamewithnoname.ServerConnection.SimpleCallbacks;
+import com.example.gamewithnoname.ServerConnection.Simple.SimpleCallbacks;
 import com.example.gamewithnoname.data.model.LoggedInUser;
 import com.yandex.mapkit.MapKitFactory;
 

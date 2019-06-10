@@ -1,4 +1,4 @@
-package com.example.gamewithnoname.ServerConnection;
+package com.example.gamewithnoname.ServerConnection.Points;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

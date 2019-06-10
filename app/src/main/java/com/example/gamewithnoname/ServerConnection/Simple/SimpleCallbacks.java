@@ -1,4 +1,4 @@
-package com.example.gamewithnoname.ServerConnection;
+package com.example.gamewithnoname.ServerConnection.Simple;
 
 import android.support.annotation.NonNull;
 

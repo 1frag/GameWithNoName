@@ -5,11 +5,9 @@ import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
-import android.net.LinkAddress;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -24,9 +22,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
-import com.example.gamewithnoname.ServerConnection.PointResponse;
-import com.example.gamewithnoname.ServerConnection.PointsCallbacks;
-import com.example.gamewithnoname.ServerConnection.SimpleCallbacks;
+import com.example.gamewithnoname.ServerConnection.Gamers.GamersResponse;
+import com.example.gamewithnoname.ServerConnection.Points.PointResponse;
+import com.example.gamewithnoname.ServerConnection.Points.PointsCallbacks;
+import com.example.gamewithnoname.ServerConnection.Simple.SimpleCallbacks;
+import com.example.gamewithnoname.ServerConnection.UpdateStateCallbacks;
 import com.example.gamewithnoname.data.model.LoggedInUser;
 import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.geometry.Circle;
@@ -572,6 +572,33 @@ public class FriendsModeActivity extends Activity {
             }
         };
 
+        final UpdateStateCallbacks gameStateCallback = new UpdateStateCallbacks() {
+            @Override
+            public void onSuccess(@NonNull Integer value, @NonNull List<GamersResponse> gamers) {
+                if (value != 1) {
+                    Log.i(TAG, String.format("Произошла ошибка №%s", value));
+                    return;
+                }
+                for (GamersResponse gamer : gamers) {
+                    // todo: рисовать gamerов подругому!!!
+                    lastPlayersPositions.add(
+                            mMap.getMapObjects().addCircle(
+                                    new Circle(
+                                            new Point(
+                                                    gamer.getLatitude(),
+                                                    gamer.getLongitude()
+                                            ),
+                                            5
+                                    ),
+                                    gamer.getColor(),
+                                    0,
+                                    gamer.getColor()
+                            )
+                    );
+                }
+            }
+        };
+
         final TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
@@ -581,7 +608,8 @@ public class FriendsModeActivity extends Activity {
                         UserLocation.imHere.getLatitude(),
                         UserLocation.imHere.getLongitude()
                 );
-                connectionServer.connectPoints(gameCallbacks);
+                connectionServer.connectUpdateState(gameStateCallback);
+//                connectionServer.connectPoints(gameCallbacks);
             }
         };
 
