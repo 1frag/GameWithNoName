@@ -3,14 +3,16 @@ package com.example.gamewithnoname.ServerConnection.Points;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class PointResponse {
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
 
-    @SerializedName("latitude")
-    @Expose
+@Root(name = "point", strict = false)
+public class PointsResponse {
+
+    @Element(name = "latitude")
     private Double latitude;
 
-    @SerializedName("longitude")
-    @Expose
+    @Element(name = "longitude")
     private Double longitude;
 
     public Double getLongitude() {

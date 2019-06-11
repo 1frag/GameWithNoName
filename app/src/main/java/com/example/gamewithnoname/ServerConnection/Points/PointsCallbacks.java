@@ -7,7 +7,7 @@ import java.util.List;
 public interface PointsCallbacks {
     void onSuccess(
             @NonNull Integer value,
-            @NonNull List<PointResponse> points
+            @NonNull List<PointsResponse> points
     );
     void onError(@NonNull Throwable throwable);
 }

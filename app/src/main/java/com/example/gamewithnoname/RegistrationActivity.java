@@ -78,7 +78,7 @@ public class RegistrationActivity extends AppCompatActivity {
         connectionServer.connectSimple(new SimpleCallbacks() {
                     @Override
                     public void onSuccess(@NonNull String value) {
-                        Log.i(TAG, "SimpleCallbacks -> onSuccess");
+                        Log.i(TAG, "SimpleCallbacks -> gamersUpdate");
                         int result = Integer.parseInt(value);
                         // если result 1 -- значит успешно
                         // если result 0 -- неизвестная ошибка

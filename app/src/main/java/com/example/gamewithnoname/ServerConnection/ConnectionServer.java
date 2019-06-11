@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.example.gamewithnoname.ServerConnection.Gamers.GameStateResponse;
 import com.example.gamewithnoname.ServerConnection.Gamers.GamersResponse;
-import com.example.gamewithnoname.ServerConnection.Points.PointResponse;
+import com.example.gamewithnoname.ServerConnection.Points.PointsResponse;
 import com.example.gamewithnoname.ServerConnection.Points.PointsCallbacks;
 import com.example.gamewithnoname.ServerConnection.Simple.SimpleCallbacks;
 import com.example.gamewithnoname.ServerConnection.Simple.SimpleResponse;
@@ -28,7 +28,7 @@ public class ConnectionServer {
     private final String BASE_URL = "https://nameless-tundra-47166.herokuapp.com";
     private String simpleStringResult = "-1";
     private Integer simpleIntegerResult = -1;
-    private ArrayList<PointResponse> pointResult = new ArrayList<>();
+    private ArrayList<PointsResponse> pointResult = new ArrayList<>();
     private ArrayList<GamersResponse> gamersResult = new ArrayList<>();
     private ServerAPIs serverAPIs;
     private Call call;
@@ -119,9 +119,9 @@ public class ConnectionServer {
     }
 
     public void connectPoints(@Nullable final PointsCallbacks callbacks) {
-        call.enqueue(new Callback<List<PointResponse>>() {
+        call.enqueue(new Callback<List<PointsResponse>>() {
             @Override
-            public void onResponse(Call<List<PointResponse>> call, Response<List<PointResponse>> response) {
+            public void onResponse(Call<List<PointsResponse>> call, Response<List<PointsResponse>> response) {
                 /*This is the success callback. Though the response type is JSON, with Retrofit we get the response in the form of WResponse POJO class
                  */
                 if (response.body() != null) {
@@ -131,7 +131,7 @@ public class ConnectionServer {
                         // в тестовом режиме можно вернуть это колбаку,
                         // хотя бы узнаем кто послал такой запрос
                         if (callbacks != null)
-                            callbacks.onSuccess(-1, new ArrayList<PointResponse>());
+                            callbacks.onSuccess(-1, new ArrayList<PointsResponse>());
                         return;
                     }
                     int j = 1;
@@ -153,7 +153,7 @@ public class ConnectionServer {
             }
 
             @Override
-            public void onFailure(Call<List<PointResponse>> call, Throwable t) {
+            public void onFailure(Call<List<PointsResponse>> call, Throwable t) {
                 Log.i(TAG, "error!");
                 if (callbacks != null) {
                     callbacks.onError(t);
@@ -168,10 +168,31 @@ public class ConnectionServer {
             @Override
             public void onResponse(Call<GameStateResponse> call, Response<GameStateResponse> response) {
                 if (response.body() != null && callbacks != null) {
-                    callbacks.onSuccess(
-                            response.body().getState(),
-                            response.body().getGamers()
-                    );
+                    if (response.body().getState() == -1) {
+                        Log.i(TAG, "This it");
+                    }
+                    Log.i(TAG, response.body().getState().toString());
+                    switch (response.body().getState()){
+                        case 1:
+                            // update gamers
+                            callbacks.gamersUpdate(
+                                    response.body().getGamers()
+                            );
+                            break;
+                        case -1:
+                            // update coins
+                            callbacks.coinsUpdate(
+                                    response.body().getPoints()
+                            );
+                            break;
+                        case -2:
+                            // game over, pick statistics
+                            callbacks.gameOver(
+                                    response.body().getStats()
+                            );
+                            break;
+                    }
+
                 }
             }
 

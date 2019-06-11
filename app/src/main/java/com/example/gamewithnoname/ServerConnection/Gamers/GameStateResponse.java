@@ -1,5 +1,8 @@
 package com.example.gamewithnoname.ServerConnection.Gamers;
 
+import com.example.gamewithnoname.ServerConnection.Points.PointsResponse;
+import com.example.gamewithnoname.ServerConnection.Statistics.StatisticsResponse;
+
 import java.util.List;
 
 import org.simpleframework.xml.Element;
@@ -14,9 +17,17 @@ public class GameStateResponse {
     @Path("channel")
     private Integer state;
 
-    @ElementList(name="item", inline=true)
+    @ElementList(name="gamer", inline=true)
     @Path("channel")
     private List<GamersResponse> gamers;
+
+    @ElementList(name="point", inline=true)
+    @Path("channel")
+    private List<PointsResponse> points;
+
+    @ElementList(name="stats", inline=true)
+    @Path("channel")
+    private StatisticsResponse stats;
 
     public Integer getState() {
         return state;
@@ -35,4 +46,19 @@ public class GameStateResponse {
     }
 
 
+    public List<PointsResponse> getPoints() {
+        return points;
+    }
+
+    public void setPoints(List<PointsResponse> points) {
+        this.points = points;
+    }
+
+    public StatisticsResponse getStats() {
+        return stats;
+    }
+
+    public void setStats(StatisticsResponse stats) {
+        this.stats = stats;
+    }
 }

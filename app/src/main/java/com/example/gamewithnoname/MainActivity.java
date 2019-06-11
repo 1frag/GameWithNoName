@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements AppResultsReceive
             @Override
             public void onSuccess(@NonNull String value) {
 
-//                Log.i(TAG, "SimpleCallbacks -> onSuccess");
+//                Log.i(TAG, "SimpleCallbacks -> gamersUpdate");
                 resultServerCallbacks = Integer.parseInt(value);
 
                 MainActivity.this.runOnUiThread(new Runnable() {

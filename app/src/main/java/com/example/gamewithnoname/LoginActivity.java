@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
         connectionServer.connectSimple(new SimpleCallbacks() {
             @Override
             public void onSuccess(@NonNull String value) {
-                Log.i(TAG, "SimpleCallbacks -> onSuccess");
+                Log.i(TAG, "SimpleCallbacks -> gamersUpdate");
                 int result = Integer.parseInt(value);
                 if (result != 1) {
                     showLoginFailed();

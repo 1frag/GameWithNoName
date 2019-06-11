@@ -23,9 +23,10 @@ import android.widget.Toast;
 
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
 import com.example.gamewithnoname.ServerConnection.Gamers.GamersResponse;
-import com.example.gamewithnoname.ServerConnection.Points.PointResponse;
+import com.example.gamewithnoname.ServerConnection.Points.PointsResponse;
 import com.example.gamewithnoname.ServerConnection.Points.PointsCallbacks;
 import com.example.gamewithnoname.ServerConnection.Simple.SimpleCallbacks;
+import com.example.gamewithnoname.ServerConnection.Statistics.StatisticsResponse;
 import com.example.gamewithnoname.ServerConnection.UpdateStateCallbacks;
 import com.example.gamewithnoname.data.model.LoggedInUser;
 import com.yandex.mapkit.Animation;
@@ -49,8 +50,6 @@ public class FriendsModeActivity extends Activity {
 
     private SimpleCallbacks initCallbacks;
     private SimpleCallbacks goCallbacks;
-    private PointsCallbacks gameCallbacks;
-    private PointsCallbacks queryCoinsCallbacks;
     private SimpleCallbacks killRunningGameCallbacks;
 
     private ConnectionServer connectionServer;
@@ -101,6 +100,20 @@ public class FriendsModeActivity extends Activity {
             ViewGroup.LayoutParams params = layout.getLayoutParams();
 
             layout.setLayoutParams(params);
+
+            if (coinspositions != null){
+                for (MapObject mapObject : coinspositions){
+                    mMap.getMapObjects().remove(mapObject);
+                }
+                coinspositions.clear();
+            }
+
+            if (lastPlayersPositions != null){
+                for (MapObject mapObject : lastPlayersPositions){
+                    mMap.getMapObjects().remove(mapObject);
+                }
+                lastPlayersPositions.clear();
+            }
 
         } else if (stage == 1) {
             /*После того как заджойнился или создал игру*/
@@ -167,7 +180,7 @@ public class FriendsModeActivity extends Activity {
         });
     }
 
-    private void drawCoins(List<PointResponse> points) {
+    private void drawCoins(List<PointsResponse> points) {
         int translucentRed = 0x55FF0000;
         counterCoins = 0;
         for (MapObject obj : coinspositions) {
@@ -175,7 +188,7 @@ public class FriendsModeActivity extends Activity {
         }
         coinspositions.clear();
 
-        for (PointResponse point : points) {
+        for (PointsResponse point : points) {
             coinspositions.add(
                     mMap.getMapObjects().addCircle(
                             new Circle(
@@ -195,7 +208,7 @@ public class FriendsModeActivity extends Activity {
             iconStyle.setVisible(true);
             ImageProvider imageProvider = new ImageProvider() {
                 @Override
-                public String getId() { // todo: что за функция?
+                public String getId() {
                     counterCoins++;
                     return String.format("coins#%s", counterCoins);
                 }
@@ -472,114 +485,19 @@ public class FriendsModeActivity extends Activity {
 
         mTimer = new Timer();
 
-        queryCoinsCallbacks = new PointsCallbacks() {
+        final UpdateStateCallbacks gameStateCallback = new UpdateStateCallbacks() {
             @Override
-            public void onSuccess(@NonNull Integer value, @NonNull List<PointResponse> points) {
-                Log.i(TAG, "onSuccess -> queryCoinsCallbacks"); // todo: comment it after testing
-                drawCoins(points);
-            }
-
-            @Override
-            public void onError(@NonNull Throwable throwable) {
-                Log.i(TAG, "onError -> queryCoinsCallbacks");
-            }
-        };
-
-        gameCallbacks = new PointsCallbacks() {
-
-            @Override
-            public void onSuccess(@NonNull Integer value,
-                                  @NonNull List<PointResponse> points) {
-                Log.i(TAG, String.format("value is %s", value));
-                if (value == 3) {
-                    Toast.makeText(FriendsModeActivity.this,
-                            "Ошибка аутентификации",
-                            Toast.LENGTH_SHORT).show();
-                    Log.i(TAG, "case#3$mainGameLoop");
-                    return;
-                }
-                if (value == 2) {
-                    Toast.makeText(FriendsModeActivity.this,
-                            "Потеряна связь с сервером",
-                            Toast.LENGTH_SHORT).show();
-                    Log.i(TAG, "case#2$mainGameLoop");
-                    return;
-                }
+            public void gamersUpdate(@NonNull List<GamersResponse> gamers) {
 
                 for (MapObject circle : lastPlayersPositions) {
                     mMap.getMapObjects().remove(circle);
                 }
                 lastPlayersPositions.clear();
-                boolean checkCoins = false;
-                boolean gameOver = false;
 
-                for (PointResponse point : points) {
-                    Log.i(TAG, String.format(":%s-%s:",
-                            point.getLatitude(), point.getLongitude()));
-                    if (point.getLatitude() == -2 && point.getLongitude() == 1) {
-                        // Это специальная точка означающая,
-                        // что надо сделать запрос к монетам
-                        checkCoins = true;
-                        continue;
-                    }
-                    if (point.getLatitude() == -2 && point.getLongitude() == 2) {
-                        // Это специальная точка означающая,
-                        // что надо сделать запрос к монетам
-                        gameOver = true;
-                        break;
-                    }
+                for (final GamersResponse gamer : gamers) {
+                    // сервер не выдаст большое число
+                    gamer.setColor(0xFF000000 + gamer.getColor());
 
-                    lastPlayersPositions.add(
-                            mMap.getMapObjects().addCircle(
-                                    new Circle(
-                                            new Point(
-                                                    point.getLatitude(),
-                                                    point.getLongitude()
-                                            ),
-                                            5
-                                    ),
-                                    Color.GREEN,
-                                    0,
-                                    Color.GREEN
-                            )
-                    );
-                }
-
-                if (checkCoins) {
-                    Log.i(TAG, "checkCoins is true");
-                    connectionServer.initUpdateCoins(
-                            inviteString
-                    );
-                    connectionServer.connectPoints(queryCoinsCallbacks);
-                }
-
-                if (gameOver) {
-                    Log.i(TAG, "gameOver is true");
-                    Toast.makeText(FriendsModeActivity.this,
-                            String.format("Вам дали %s монет", points.get(1).getLongitude()),
-                            Toast.LENGTH_LONG).show();
-                    stageHandler(0);
-                    mTimer.cancel();
-                }
-
-            }
-
-            @Override
-            public void onError(@NonNull Throwable throwable) {
-                Log.i(TAG, "onError --> mainGameLoop");
-                // todo: стоит задуматься о том как бы
-                //  прекратить данный процесс
-            }
-        };
-
-        final UpdateStateCallbacks gameStateCallback = new UpdateStateCallbacks() {
-            @Override
-            public void onSuccess(@NonNull Integer value, @NonNull List<GamersResponse> gamers) {
-                if (value != 1) {
-                    Log.i(TAG, String.format("Произошла ошибка №%s", value));
-                    return;
-                }
-                for (GamersResponse gamer : gamers) {
                     // todo: рисовать gamerов подругому!!!
                     lastPlayersPositions.add(
                             mMap.getMapObjects().addCircle(
@@ -591,11 +509,62 @@ public class FriendsModeActivity extends Activity {
                                             5
                                     ),
                                     gamer.getColor(),
-                                    0,
+                                    15,
                                     gamer.getColor()
                             )
                     );
+
+                    IconStyle iconStyle = new IconStyle();
+                    iconStyle.setFlat(true);
+                    iconStyle.setVisible(true);
+                    ImageProvider imageProvider = new ImageProvider() {
+                        @Override
+                        public String getId() {
+                            return gamer.getName();
+                        }
+
+                        @Override
+                        public Bitmap getImage() {
+                            Bitmap bitmap = Bitmap.createBitmap(10, 10, Bitmap.Config.ARGB_8888);
+                            bitmap.eraseColor(Color.TRANSPARENT);
+                            for (int i = 0; i < 10; i++) {
+                                for (int j = 0; j < 10; j++) {
+                                    if ((i - 5) * (i - 5) + (j - 5) * (j - 5) <= 25) {
+                                        bitmap.setPixel(i, j, gamer.getColor());
+                                    }
+                                }
+                            }
+                            return bitmap;
+                        }
+                    };
+
+                    lastPlayersPositions.add(
+                            mMap.getMapObjects().addPlacemark(
+                                    new Point(
+                                            gamer.getLatitude(),
+                                            gamer.getLongitude()
+                                    ),
+                                    imageProvider,
+                                    iconStyle
+                            )
+                    );
                 }
+            }
+
+            @Override
+            public void coinsUpdate(@NonNull List<PointsResponse> coins) {
+                Log.i(TAG, "checkCoins is true (2)");
+                drawCoins(coins);
+            }
+
+            @Override
+            public void gameOver(@NonNull StatisticsResponse stats) {
+                Toast.makeText(FriendsModeActivity.this,
+                        String.format("You get %s coins and %s rating, great!",
+                                stats.getCoins(), stats.getRating()),
+                        Toast.LENGTH_LONG).show();
+                stageHandler(0);
+                mTimer.cancel();
             }
         };
 

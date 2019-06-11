@@ -1,7 +1,7 @@
 package com.example.gamewithnoname.ServerConnection;
 
 import com.example.gamewithnoname.ServerConnection.Gamers.GameStateResponse;
-import com.example.gamewithnoname.ServerConnection.Points.PointResponse;
+import com.example.gamewithnoname.ServerConnection.Points.PointsResponse;
 import com.example.gamewithnoname.ServerConnection.Simple.SimpleResponse;
 
 import java.util.List;
@@ -65,7 +65,7 @@ public interface ServerAPIs {
     );
 
     @GET("/get_positions_coins")
-    Call<List<PointResponse>> updateCoins(
+    Call<List<PointsResponse>> updateCoins(
             @Query("string_invite") String string_invite
     );
 

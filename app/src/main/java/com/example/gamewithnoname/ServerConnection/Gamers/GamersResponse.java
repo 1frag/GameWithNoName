@@ -3,7 +3,7 @@ package com.example.gamewithnoname.ServerConnection.Gamers;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
-@Root(name = "item", strict = false)
+@Root(name = "gamer", strict = false)
 public class GamersResponse {
 
     @Element(name = "name")
