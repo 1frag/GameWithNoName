@@ -13,6 +13,8 @@ import android.widget.Toast;
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
 import com.example.gamewithnoname.ServerConnection.Simple.SimpleCallbacks;
 
+import static java.lang.Character.isDigit;
+
 public class RegistrationActivity extends AppCompatActivity {
 
     private final String TAG = String.format("%s/%s",
@@ -35,12 +37,41 @@ public class RegistrationActivity extends AppCompatActivity {
                 final String confirm = ((EditText)findViewById(R.id.editTextConfirmPassword)).getText().toString();
                 final String birth = getDateBirth();
                 final Integer sex = sexHandler();
-                if (dataValid(name, password, confirm, birth, sex)){
-                    beginRegistration(name, password, birth, sex);
-                } else {
-                    Toast.makeText(RegistrationActivity.this,
-                            R.string.registration_activity_data_not_valid,
-                            Toast.LENGTH_LONG).show();
+                switch (dataValid(name, password, confirm, birth, sex)) {
+                    case 1: {
+                        beginRegistration(name, password, birth, sex);
+                        break;
+                    }
+                    case 2: {
+                        Toast.makeText(RegistrationActivity.this,
+                                R.string.activity_registration_notequal_passwords,
+                                Toast.LENGTH_LONG).show();
+                        break;
+                    }
+                    case 3: {
+                        Toast.makeText(RegistrationActivity.this,
+                                R.string.activity_registration_small_login,
+                                Toast.LENGTH_LONG).show();
+                        break;
+                    }
+                    case 4: {
+                        Toast.makeText(RegistrationActivity.this,
+                                R.string.activity_registration_incorrect_login,
+                                Toast.LENGTH_LONG).show();
+                        break;
+                    }
+                    case 5: {
+                        Toast.makeText(RegistrationActivity.this,
+                                R.string.activity_registration_small_password,
+                                Toast.LENGTH_LONG).show();
+                        break;
+                    }
+                    default: {
+                        Toast.makeText(RegistrationActivity.this,
+                                R.string.registration_activity_data_not_valid,
+                                Toast.LENGTH_LONG).show();
+                        break;
+                    }
                 }
 
             }
@@ -53,10 +84,12 @@ public class RegistrationActivity extends AppCompatActivity {
                 .toString();
     }
 
-    private boolean dataValid(String name, String password, String confirm, String bith, Integer sex) {
-        if (!password.equals(confirm)) return false;
-        // todo: add smth conditions
-        return true;
+    private int dataValid(String name, String password, String confirm, String bith, Integer sex) {
+        if (!password.equals(confirm)) return 2;
+        if (name.length() < 6) return 3;
+        if (isDigit(name.charAt(0))) return 4;
+        if (password.length() < 6) return 5;
+        return 1;
     }
 
     private Integer sexHandler() {

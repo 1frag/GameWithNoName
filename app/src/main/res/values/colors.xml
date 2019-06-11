@@ -2,6 +2,7 @@
 <resources>
     <color name="colorPrimary">#D6E8BA</color>
     <!--or E8FFD1 or first D2E0B4 or same D6E8BA OR D4E4DC or green CBD5A6-->
+    <color name="colorPrimaryBright">#E6F0D3</color>
 
     <color name="colorPrimaryDark">#7C7A63</color>
     <!--869468 or 2B4A3A-->
@@ -18,6 +19,9 @@
     <color name="buttonsForLayoutAnother">#A8A797</color>
     <color name="buttonsForLayoutAnotherPressed">#7C7A63</color>
     <color name="colorText">#474041</color>
+
+    <color name="colorWin">#FFA28A</color>
+    <color name="colorLose">#4D4F4F</color>
 
 </resources>
 

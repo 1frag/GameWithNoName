@@ -60,28 +60,28 @@
             <Button
                 android:id="@+id/buttonCatchBot"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
+                android:layout_height="74dp"
                 android:layout_marginTop="18dp"
                 android:background="@drawable/round_buttons"
                 android:onClick="processButtonPressing"
                 android:text="@string/main_activity_button_catch_bot"
                 android:textSize="16sp" />
 
-            <Button
-                android:id="@+id/button4"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginTop="18dp"
-                android:background="@drawable/round_buttons"
-                android:enabled="true"
-                android:onClick="processButtonPressing"
-                android:text="@string/main_activity_button_seek_coins"
-                android:textSize="16sp" />
+            <!--<Button-->
+                <!--android:id="@+id/button4"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="64dp"-->
+                <!--android:layout_marginTop="18dp"-->
+                <!--android:background="@drawable/round_buttons"-->
+                <!--android:enabled="true"-->
+                <!--android:onClick="processButtonPressing"-->
+                <!--android:text="@string/main_activity_button_seek_coins"-->
+                <!--android:textSize="16sp" />-->
 
             <Button
                 android:id="@+id/buttonWithFriends"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
+                android:layout_height="74dp"
                 android:layout_marginTop="18dp"
                 android:background="@drawable/round_buttons"
                 android:enabled="true"
@@ -148,6 +148,9 @@
         android:id="@+id/layout_stat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@color/colorPrimaryBright"
         android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -157,6 +160,7 @@
             android:id="@+id/imageCoins"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
             android:layout_marginStart="30dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -178,8 +182,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/activity_main_coins"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="18dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/imageCoins"
             />
@@ -190,7 +195,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/activity_main_rating"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="18dp"
             app:layout_constraintStart_toEndOf="@id/imageRating"
@@ -212,7 +217,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/activity_main_all_km"
-                android:textSize="42sp" />
+                android:textSize="40sp" />
 
             <TextView
                 android:id="@+id/textAllKmDescription"
@@ -221,7 +226,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="13dp"
                 android:text="@string/activity_main_all_time_description"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
         </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
