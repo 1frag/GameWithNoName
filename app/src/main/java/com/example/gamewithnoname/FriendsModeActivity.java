@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -93,7 +94,7 @@ public class FriendsModeActivity extends Activity {
             (findViewById(R.id.textViewCode)).setVisibility(View.INVISIBLE);
 
             // go button set first type
-            (findViewById(R.id.button_go)).setVisibility(View.GONE);
+            (findViewById(R.id.button_go)).setEnabled(false);
 
             // linearlayout's param magic:
             LinearLayout layout = findViewById(R.id.layout_mapview);
@@ -122,7 +123,7 @@ public class FriendsModeActivity extends Activity {
             (findViewById(R.id.imageButton)).setVisibility(View.VISIBLE);
             (findViewById(R.id.imageButton2)).setVisibility(View.VISIBLE);
             (findViewById(R.id.textViewCode)).setVisibility(View.VISIBLE);
-            (findViewById(R.id.button_go)).setVisibility(View.VISIBLE);
+            (findViewById(R.id.button_go)).setEnabled(true);
 
             // go button set second type
             configGoButton();
@@ -142,9 +143,9 @@ public class FriendsModeActivity extends Activity {
     }
 
     private void configGoCancelButton() {
-        Button btn = findViewById(R.id.button_go);
+        ImageButton btn = findViewById(R.id.button_go);
         btn.setBackgroundColor(0x55FF0000);
-        btn.setText("Закончить игру");
+//        btn.setText("Закончить игру");
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -243,9 +244,9 @@ public class FriendsModeActivity extends Activity {
     }
 
     private void configGoButton() {
-        Button btn = findViewById(R.id.button_go);
+        ImageButton btn = findViewById(R.id.button_go);
         btn.setBackgroundColor(0xff0099cc); // in colors_holo.xml holo_blue_dark
-        btn.setText("I'm ready to start"); // todo: already in strings.xml
+//        btn.setText("I'm ready to start"); // todo: already in strings.xml
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -498,7 +499,7 @@ public class FriendsModeActivity extends Activity {
                     // сервер не выдаст большое число
                     gamer.setColor(0xFF000000 + gamer.getColor());
 
-                    // todo: рисовать gamerов подругому!!!
+                    // todo: рисовать gamerов по-другому!!!
                     lastPlayersPositions.add(
                             mMap.getMapObjects().addCircle(
                                     new Circle(

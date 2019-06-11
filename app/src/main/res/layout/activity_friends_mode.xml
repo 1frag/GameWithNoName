@@ -49,7 +49,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="100dp"
         android:layout_marginBottom="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/button_go"
+        app:layout_constraintBottom_toTopOf="@+id/layout_multi_params"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username_layout">
@@ -61,16 +61,6 @@
             android:layout_gravity="bottom"
             android:background="@drawable/yandex_logo_en_white" />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/button_go"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_dark"
-        android:text="I'm ready to start"
-        android:textColor="@android:color/white"
-        android:textSize="35sp"
-        app:layout_constraintBottom_toBottomOf="parent" />
 
     <Button
         android:id="@+id/button_create_game"
@@ -123,5 +113,44 @@
         android:background="@drawable/textview_border"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/username_layout" />
+
+    <LinearLayout
+        android:id="@+id/layout_multi_params"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/button_go"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ic_remove" />
+
+        <ImageButton
+            android:id="@+id/button_multi_legend"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ic_network" />
+
+        <ImageButton
+            android:id="@+id/button_multi_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ic_chat" />
+
+        <ImageButton
+            android:id="@+id/button_multi_info"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ic_question" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
