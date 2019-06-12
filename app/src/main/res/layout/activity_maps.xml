@@ -43,6 +43,7 @@
 
         <ImageButton
             android:id="@+id/mapsButtonPause"
+            android:onClick="stopBot"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

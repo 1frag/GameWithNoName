@@ -1,35 +1,51 @@
 package com.example.gamewithnoname;
 
-import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Toast;
 
 import com.example.gamewithnoname.maps.MapInGame;
 import com.yandex.mapkit.geometry.Circle;
 import com.yandex.mapkit.geometry.Point;
 import com.yandex.mapkit.geometry.Polyline;
+import com.yandex.mapkit.map.IconStyle;
 import com.yandex.mapkit.map.Map;
 import com.yandex.mapkit.geometry.Geo;
+import com.yandex.mapkit.map.MapObject;
+import com.yandex.runtime.image.ImageProvider;
 
-import java.sql.Time;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class BotLocation {
 
+    private final static Integer WIN = 1;
+    private final static Integer LOSE = -1;
+    private final static Integer DISTANCE_BOT_CATCH = 5;
+    private final static Integer DELAY_TO_START = 1000;
+    private final static Integer FILL_COLOR_BOT_AFTER = 0x33ff0000;
+    private final static Integer SIZE_POINT_BOT_AFTER = 1;
+    private final static Integer STROKE_COLOR_BOT_AFTER = Color.BLACK;
+    private final static Integer SIZE_STROKE_BOT_AFTER = 0;
+    private final static Integer FILL_COLOR_BOT_IN = Color.RED;
+    private final static Integer SIZE_POINT_BOT_IN = 50;
+
+    public final static Integer ACTION_STOP = 1;
+    public final static Integer ACTION_GO = 2;
+
+    private MapObject nowPointBot;
+
+    private IconStyle iconStyle;
+    private ImageProvider imageProvider;
+
     private Map mMap;
     private MapInGame mActivity;
     private int ind = 0;
     private int resultGame = 0;
+    private boolean stopped = false;
+
     private ArrayList<Point> path = new ArrayList<>();
     private Timer mTimer;
     private final String TAG = String.format("%s/%s",
@@ -40,51 +56,67 @@ public class BotLocation {
         mMap = map;
         List<Point> points = linePath.getPoints();
         for (int i = 1; i < points.size(); i++) {
-//            Point now = points.get(i - 1);
-//            double vx0 = points.get(i).getLatitude() - points.get(i - 1).getLatitude();
-//            double vy0 = points.get(i).getLongitude() - points.get(i - 1).getLongitude();
-//            double ny = Math.sqrt((vy0 * vy0) / (vy0 * vy0 + vx0 * vx0)) / 111111.0;
-//            double nx = Math.sqrt(1 - ny * ny) / 111111.0;
-//
-//            if (vx0 < 0) nx = -nx;
-//            if (vy0 < 0) ny = -ny;
-//
-//            Log.i(TAG, String.format("(%s %s), (%s %s)", vx0, vy0, ny, nx));
-//            Log.i(TAG, String.format("%s == 1", ny * ny + nx * nx));
-//            Log.i(TAG, String.format("%s == %s", nx / ny, vx0 / vy0));
             Point A = points.get(i - 1);
             Point B = points.get(i);
-            double z = Math.sqrt((A.getLatitude() - B.getLatitude())
-                    * (A.getLatitude() - B.getLatitude()) +
-                    (A.getLongitude() - B.getLongitude()) *
-                            (A.getLongitude() - B.getLongitude())) * 111111f;
-
+            // I change some code, pls test it, and report if it needs
+            double z = Geo.distance(A, B);
             path.add(A);
-            Log.i(TAG, String.format("%s %s", z, B.getLatitude() - A.getLatitude()));
+
             for (double j = 0; j <= z; j += 1) {
                 Point C = new Point(
                         A.getLatitude() + j * (B.getLatitude() - A.getLatitude()) / z,
                         A.getLongitude() + j * (B.getLongitude() - A.getLongitude()) / z
                 );
                 path.add(C);
-//                Log.i(TAG, String.format("%s %s", now.getLongitude(), now.getLongitude()));
             }
+        }
+
+
+        // some setting for point bot:
+        iconStyle = new IconStyle();
+        iconStyle.setFlat(true);
+        iconStyle.setVisible(true);
+        imageProvider = new ImageProvider() {
+            @Override
+            public String getId() {
+                return "Bot";
+            }
+
+            @Override
+            public Bitmap getImage() {
+                Bitmap bitmap = Bitmap.createBitmap(
+                        SIZE_POINT_BOT_IN,
+                        SIZE_POINT_BOT_IN,
+                        Bitmap.Config.ARGB_8888
+                );
+                bitmap.eraseColor(Color.TRANSPARENT);
+                int rad = SIZE_POINT_BOT_IN / 2;
+                for (int i = 0; i < SIZE_POINT_BOT_IN; i++) {
+                    for (int j = 0; j < SIZE_POINT_BOT_IN; j++) {
+                        if ((i - rad) * (i - rad) + (j - rad) * (j - rad) <= rad * rad) {
+                            bitmap.setPixel(i, j, FILL_COLOR_BOT_IN);
+                        }
+                    }
+                }
+                return bitmap;
+            }
+        };
+
+    }
+
+    public void manageBot(Integer action) {
+        if (action.equals(ACTION_STOP)) {
+            stopped = true;
+        }
+
+        if (action.equals(ACTION_GO)) {
+            stopped = false;
         }
 
     }
 
-    private boolean check(Point start, Point now, Point finish) {
-        double fx = Math.abs(start.getLatitude() - finish.getLatitude());
-        double fy = Math.abs(start.getLongitude() - finish.getLongitude());
-        double nx = Math.abs(start.getLatitude() - now.getLatitude());
-        double ny = Math.abs(start.getLongitude() - now.getLongitude());
-        if (fx <= nx) return false;
-        if (fy <= ny) return false;
-        return true;
-    }
-
     private void setGameResult(int result) {
-        if(mTimer != null){
+        if (mTimer != null) {
             mTimer.cancel();
             mTimer = null;
             resultGame = result;
@@ -94,41 +126,77 @@ public class BotLocation {
                     mActivity.setGameResult(resultGame);
                 }
             });
-
         }
     }
 
-    public void start(final int segment) {
+    public void start(final int segment, final UpdateStateBotCallback callback) {
         mTimer = new Timer();
 
         final TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
+
+                if (stopped){
+                    return;
+                }
+
                 ind++;
                 if (ind >= path.size()) {
-                    setGameResult(-1);
+                    setGameResult(LOSE);
                     return;
                 }
 
                 Location now = UserLocation.imHere;
-                Point pnow = new Point(now.getLatitude(), now.getLongitude());
+                final Point pnow = new Point(now.getLatitude(), now.getLongitude());
                 double zd = Geo.distance(pnow, path.get(ind));
-                if (zd <= 5) {
-                    setGameResult(1);
+                if (zd <= DISTANCE_BOT_CATCH) {
+                    setGameResult(WIN);
                     return;
                 }
 
                 mActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mMap.getMapObjects().addCircle(new Circle(path.get(ind), 1),
-                                Color.BLACK, 1, Color.RED);
+                        // todo: может что-то реально убрать из главного потока?
+                        // вызываем колбак
+                        callback.timeBotToFinish(
+                                segment * (path.size() - ind) / 1000
+                        );
+                        callback.distGamerToBot(
+                                (int) Geo.distance(
+                                        path.get(ind),
+                                        pnow
+                                )
+                        );
+
+                        // нарисуем path.get(ind - 1) как старую точку
+                        if (ind != 0) {
+                            mMap.getMapObjects().addCircle(
+                                    new Circle(
+                                            path.get(ind - 1),
+                                            SIZE_POINT_BOT_AFTER
+                                    ),
+                                    STROKE_COLOR_BOT_AFTER,
+                                    SIZE_STROKE_BOT_AFTER,
+                                    FILL_COLOR_BOT_AFTER);
+                        }
+
+                        // удаляем на карте now
+                        if (nowPointBot != null)
+                            mMap.getMapObjects().remove(nowPointBot);
+
+                        // рисуем текущее положение бота
+                        nowPointBot = mMap.getMapObjects().addPlacemark(
+                                path.get(ind),
+                                imageProvider,
+                                iconStyle
+                        );
                     }
                 });
             }
         };
 
-        mTimer.schedule(timerTask, 1000, segment);
+        mTimer.schedule(timerTask, DELAY_TO_START, segment);
 
     }
 

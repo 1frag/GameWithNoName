@@ -54,6 +54,13 @@ public class ConnectionServer {
         );
     }
 
+    public void initChangeCoins(String name, Integer count) {
+        call = serverAPIs.changeCoins(
+                name,
+                count
+        );
+    }
+
     public void initRegistration(String name, String password, String birthday, Integer sex) {
         call = serverAPIs.getResultSignUp(
                 name,
@@ -174,7 +181,7 @@ public class ConnectionServer {
                         Log.i(TAG, "This it");
                     }
                     Log.i(TAG, response.body().getState().toString());
-                    switch (response.body().getState()){
+                    switch (response.body().getState()) {
                         case 1:
                             // update gamers
                             callbacks.gamersUpdate(
@@ -213,7 +220,7 @@ public class ConnectionServer {
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 if (response.body() != null && callback != null) {
                     int value = response.body().getResult();
-                    switch (value){
+                    switch (value) {
                         case 1:
                             callback.onSuccess(
                                     response.body().getName(),
@@ -230,9 +237,39 @@ public class ConnectionServer {
 
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
-                if (callback != null){
+                if (callback != null) {
                     callback.errorConnection();
                 }
+            }
+
+        });
+    }
+
+    public void connectChangeCoins(@Nullable final ChangeCoinsCallbacks callback) {
+        call.enqueue(new Callback<SimpleResponse>() {
+
+            @Override
+            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                if (response.body() != null && callback != null) {
+                    int value = Integer.parseInt(response.body().getResult());
+                    switch (value) {
+                        case -2:
+                            callback.badQuery();
+                            break;
+                        case -3:
+                            callback.userDoesNotExist();
+                            break;
+                        case -4:
+                            callback.notEnoughMoney();
+                        default:
+                            callback.successful(value);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SimpleResponse> call, Throwable t) {
+                Log.i(TAG, "onFailure --> connectChangeCoins");
             }
 
         });

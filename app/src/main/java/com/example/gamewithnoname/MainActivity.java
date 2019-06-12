@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements AppResultsReceive
                 ((TextView) findViewById(R.id.textUsername)).setText(name);
                 ((TextView) findViewById(R.id.textCoins)).setText(coins.toString());
                 ((TextView) findViewById(R.id.textRating)).setText(rating.toString());
+                new LoggedInUser(name, password);
             }
 
             @Override

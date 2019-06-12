@@ -9,13 +9,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gamewithnoname.BotLocation;
 import com.example.gamewithnoname.DistanceBetweenTwoPoints;
 import com.example.gamewithnoname.MainActivity;
 import com.example.gamewithnoname.ParametersDialog;
+import com.example.gamewithnoname.ServerConnection.ChangeCoinsCallbacks;
+import com.example.gamewithnoname.ServerConnection.ConnectionServer;
+import com.example.gamewithnoname.ServerConnection.Login.LoginCallbacks;
+import com.example.gamewithnoname.UpdateStateBotCallback;
+import com.example.gamewithnoname.data.model.LoggedInUser;
 import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.RequestPoint;
@@ -37,14 +44,24 @@ import com.yandex.runtime.network.RemoteError;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static com.example.gamewithnoname.BotLocation.ACTION_GO;
+import static com.example.gamewithnoname.BotLocation.ACTION_STOP;
 
 public class MapInGame extends AppCompatActivity implements Session.RouteListener {
+
+    private static final Integer PRICE_STOP_BOT = -1;
+    private static final Integer DELAY_IN_STOPPED = 10000; // todo: getDelayInStopped
+    private static final Integer DELAY_IN_DISABLE = 5000; // todo: getDelayInDisable
 
     private MapView mapView;
     private Map mMap;
     private PedestrianRouter pdRouter;
     private Point start, finish;
     private Double resultAsync;
+    private BotLocation bot;
     private final String TAG = String.format("%s/%s",
             "HITS", "MapInGame");
 
@@ -118,25 +135,14 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
         finish = new Point(c, d);
         map.getMapObjects().addPlacemark(finish);
 
-        int typeGame = getIntent().getExtras().getInt("typeGame");
-        if (typeGame == 2) {
-            // bot mode
-            // draw start:
-            double a = getIntent().getExtras().getDouble("botStartLatitude");
-            double b = getIntent().getExtras().getDouble("botStartLongitude");
-            start = new Point(a, b);
-            map.getMapObjects().addPlacemark(start);
+        // bot mode
+        // draw start:
+        double a = getIntent().getExtras().getDouble("botStartLatitude");
+        double b = getIntent().getExtras().getDouble("botStartLongitude");
+        start = new Point(a, b);
+        map.getMapObjects().addPlacemark(start);
 
-            runBot(new Point(a, b), new Point(c, d));
-        } else if(typeGame == 1){
-            // online
-
-            onlineRush();
-        }
-
-    }
-
-    private void onlineRush() {
+        runBot(new Point(a, b), new Point(c, d));
 
     }
 
@@ -157,6 +163,10 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
 
         DistanceBetweenTwoPoints d = new DistanceBetweenTwoPoints(start, finish);
         resultAsync = d.getResult();
+        // todo: это явно было написано человеком
+        //  который не сильно то разбирался в этом
+        //  если появится $$время$$ то надо разобраться
+        //  в этом кусочке кода и привести его в нормальный вид
         Log.i(TAG, String.format("%s", resultAsync));
     }
 
@@ -177,12 +187,33 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
 
     @Override
     public void onMasstransitRoutes(List<Route> routes) {
-        BotLocation bot = new BotLocation(this, mMap, routes.get(0).getGeometry());
+        bot = new BotLocation(this, mMap, routes.get(0).getGeometry());
 
         double speed = getIntent().getExtras().getDouble("speed");
         Log.i(TAG, String.format("speed: %s", (int)(1000f / speed)));
-        bot.start((int)(3600f / speed));
-        mMap.getMapObjects().addPolyline(routes.get(0).getGeometry());
+        bot.start(
+                (int)(3600f / speed),
+                new UpdateStateBotCallback() {
+                    @Override
+                    public void timeBotToFinish(int seconds) {
+                        TextView textView = findViewById(R.id.textBotToEnd);
+                        textView.setText(
+                                String.format(
+                                        getResources().getString(R.string.activity_maps_bot_finishes),
+                                        seconds / 60
+                                )
+                        );
+                    }
+
+                    @Override
+                    public void distGamerToBot(int dist) {
+                        //todo: put dist in any textview
+//                        Log.i(TAG, String.format("distGamerToBot is %s", dist));
+                    }
+                }
+        );
+//        рисуем путь сразу весь:
+//        mMap.getMapObjects().addPolyline(routes.get(0).getGeometry());
     }
 
     @Override
@@ -197,4 +228,65 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
     }
 
+    public void stopBot(View view) {
+
+        ConnectionServer connectionServer = new ConnectionServer();
+        connectionServer.initChangeCoins(
+                LoggedInUser.getName(),
+                PRICE_STOP_BOT
+        );
+        connectionServer.connectChangeCoins(new ChangeCoinsCallbacks() {
+            @Override
+            public void successful(int money) {
+
+                bot.manageBot(ACTION_STOP);
+                findViewById(R.id.mapsButtonPause).setEnabled(false);
+                Timer timerManageBot = new Timer();
+
+                final TimerTask goBotTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        bot.manageBot(ACTION_GO);
+                        Log.i(TAG, "Он пошел!");
+                    }
+                };
+
+                final TimerTask enableButtonTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                findViewById(R.id.mapsButtonPause).setEnabled(true);
+                                Log.i(TAG, "Оно разблокировалось!");
+                            }
+                        });
+                    }
+                };
+
+                timerManageBot.schedule(goBotTask, DELAY_IN_STOPPED);
+                timerManageBot.schedule(enableButtonTask,
+                        DELAY_IN_STOPPED + DELAY_IN_DISABLE);
+            }
+
+            @Override
+            public void badQuery() {
+                // todo: Ася, пожалуйста, разберись с
+                //  этой и последующими функциями. Я не знаю
+                //  зачем я их ловлю, но надо чето наверно ответить =/
+                Log.i(TAG, "badQuery");
+            }
+
+            @Override
+            public void userDoesNotExist() {
+                Log.i(TAG, "userDoesNotExist");
+            }
+
+            @Override
+            public void notEnoughMoney() {
+                Log.i(TAG, "notEnoughMoney");
+            }
+        });
+
+    }
 }

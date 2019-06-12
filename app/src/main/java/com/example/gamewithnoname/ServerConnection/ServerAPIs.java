@@ -86,4 +86,10 @@ public interface ServerAPIs {
             @Query("name") String name
     );
 
+    @GET("/change_coins")
+    Call<SimpleResponse> changeCoins(
+            @Query("name") String name,
+            @Query("count") Integer count
+    );
+
 }

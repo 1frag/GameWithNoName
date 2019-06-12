@@ -31,6 +31,7 @@ import com.example.gamewithnoname.ServerConnection.Statistics.StatisticsResponse
 import com.example.gamewithnoname.ServerConnection.UpdateStateCallbacks;
 import com.example.gamewithnoname.data.model.LoggedInUser;
 import com.yandex.mapkit.Animation;
+import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Circle;
 import com.yandex.mapkit.geometry.Point;
 import com.yandex.mapkit.map.CameraPosition;
