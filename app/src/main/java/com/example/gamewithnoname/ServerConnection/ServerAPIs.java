@@ -1,6 +1,7 @@
 package com.example.gamewithnoname.ServerConnection;
 
 import com.example.gamewithnoname.ServerConnection.Gamers.GameStateResponse;
+import com.example.gamewithnoname.ServerConnection.Login.UserResponse;
 import com.example.gamewithnoname.ServerConnection.Points.PointsResponse;
 import com.example.gamewithnoname.ServerConnection.Simple.SimpleResponse;
 
@@ -13,7 +14,7 @@ import retrofit2.http.Query;
 public interface ServerAPIs {
 
     @GET("/sign_in")
-    Call<SimpleResponse> getResultSignIn(
+    Call<UserResponse> getResultSignIn(
             @Query("name") String name,
             @Query("password") String password
     );

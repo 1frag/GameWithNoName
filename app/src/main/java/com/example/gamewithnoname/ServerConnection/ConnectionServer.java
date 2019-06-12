@@ -5,6 +5,8 @@ import android.util.Log;
 
 import com.example.gamewithnoname.ServerConnection.Gamers.GameStateResponse;
 import com.example.gamewithnoname.ServerConnection.Gamers.GamersResponse;
+import com.example.gamewithnoname.ServerConnection.Login.LoginCallbacks;
+import com.example.gamewithnoname.ServerConnection.Login.UserResponse;
 import com.example.gamewithnoname.ServerConnection.Points.PointsResponse;
 import com.example.gamewithnoname.ServerConnection.Points.PointsCallbacks;
 import com.example.gamewithnoname.ServerConnection.Simple.SimpleCallbacks;
@@ -201,6 +203,38 @@ public class ConnectionServer {
                 Log.i(TAG, "onFailure in GameStateResponse");
                 Log.i(TAG, t.getMessage());
             }
+        });
+    }
+
+    public void connectLogin(@Nullable final LoginCallbacks callback) {
+        call.enqueue(new Callback<UserResponse>() {
+
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                if (response.body() != null && callback != null) {
+                    int value = response.body().getResult();
+                    switch (value){
+                        case 1:
+                            callback.onSuccess(
+                                    response.body().getName(),
+                                    response.body().getMoney(),
+                                    response.body().getRating()
+                            );
+                            break;
+                        case 0:
+                            callback.permissionDenied();
+                            break;
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                if (callback != null){
+                    callback.errorConnection();
+                }
+            }
+
         });
     }
 

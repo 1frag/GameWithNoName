@@ -9,10 +9,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
-import com.example.gamewithnoname.ServerConnection.LoginCallback;
+import com.example.gamewithnoname.ServerConnection.Login.LoginCallbacks;
 import com.example.gamewithnoname.ServerConnection.Simple.SimpleCallbacks;
 import com.example.gamewithnoname.data.model.LoggedInUser;
 
@@ -23,7 +24,6 @@ public class LoginActivity extends AppCompatActivity {
             "LoginActivity");
     private static SharedPreferences loginPreferences;
     private static SharedPreferences.Editor loginPrefsEditor;
-    private LoginCallback loginCallback;
     private Boolean saveLogin;
 
     @Override
@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String name = ((EditText) findViewById(R.id.username)).getText().toString();
+                final String name = ((EditText) findViewById(R.id.edittext_username)).getText().toString();
                 final String password = ((EditText) findViewById(R.id.password)).getText().toString();
                 if (dataIsValid(name, password)) {
                     beginLogin(name, password);
@@ -96,25 +96,29 @@ public class LoginActivity extends AppCompatActivity {
     private void beginLogin(final String username, final String password) {
         ConnectionServer connectionServer = new ConnectionServer();
         connectionServer.initLogin(username, password);
-        connectionServer.connectSimple(new SimpleCallbacks() {
+        connectionServer.connectLogin(new LoginCallbacks() {
+
             @Override
-            public void onSuccess(@NonNull String value) {
-                Log.i(TAG, "SimpleCallbacks -> gamersUpdate");
-                int result = Integer.parseInt(value);
-                if (result != 1) {
-                    showLoginFailed();
-                } else {
-                    updateUiWithUser(username, password);
-                }
+            public void onSuccess(String name, Integer coins, Integer rating) {
+                updateUiWithUser(username, password);
             }
 
             @Override
-            public void onError(@NonNull Throwable throwable) {
-                Log.i(TAG, "SimpleCallbacks -> onError");
-                Log.i(TAG, throwable.getMessage());
-                // todo: toast maybe or smth other?
+            public void permissionDenied() {
+                showLoginFailed();
+            }
+
+            @Override
+            public void errorConnection() {
+                showFailedWithConnection();
             }
         });
+    }
+
+    private void showFailedWithConnection() {
+        Toast.makeText(this,
+                "You have problem with internet connetion",
+                Toast.LENGTH_SHORT).show();
     }
 
     private void updateUiWithUser(String name, String password) {

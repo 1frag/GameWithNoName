@@ -2,6 +2,7 @@ package com.example.gamewithnoname;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
+import com.example.gamewithnoname.ServerConnection.Login.LoginCallbacks;
 import com.example.gamewithnoname.ServerConnection.Simple.SimpleCallbacks;
 import com.example.gamewithnoname.data.model.LoggedInUser;
 import com.yandex.mapkit.MapKitFactory;
@@ -37,6 +39,10 @@ public class MainActivity extends AppCompatActivity implements AppResultsReceive
     private Integer resultServerCallbacks = -1;
     private TextView textUsername;
 
+    private static SharedPreferences loginPreferences;
+    private static SharedPreferences.Editor loginPrefsEditor;
+    private static Boolean saveLogin;
+
     public static AppResultsReceiver mainReceiver; // it's super collback
 
     @Override
@@ -45,19 +51,54 @@ public class MainActivity extends AppCompatActivity implements AppResultsReceive
         super.onCreate(savedInstanceState);
         MapKitFactory.setApiKey("4431f62e-4cef-4ce6-b1d5-07602abde3fd"); // todo: remove pls
         setContentView(R.layout.activity_main);
+    }
 
-        textUsername = findViewById(R.id.textUsername);
+    private void beginLogin(final String username, final String password) {
+        ConnectionServer connectionServer = new ConnectionServer();
+        connectionServer.initLogin(username, password);
+        connectionServer.connectLogin(new LoginCallbacks() {
 
-        // todo: catch all problems with permission
-        permissionsChecker();
+            @Override
+            public void onSuccess(String name, Integer coins, Integer rating) {
+                permissionsChecker(false);
+                ((TextView) findViewById(R.id.textUsername)).setText(name);
+                ((TextView) findViewById(R.id.textCoins)).setText(coins.toString());
+                ((TextView) findViewById(R.id.textRating)).setText(rating.toString());
+            }
 
+            @Override
+            public void permissionDenied() {
+                permissionsChecker(true);
+            }
+
+            @Override
+            public void errorConnection() {
+                permissionsChecker(true);
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        initTimerLogin();
-        Log.i(TAG, "Resume");
+//        initTimerLogin();
+
+        loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
+        loginPrefsEditor = loginPreferences.edit();
+
+        saveLogin = loginPreferences.getBoolean("saveLogin", false);
+
+        if (saveLogin) {
+            Log.i(TAG, loginPreferences.getString("username", ""));
+            Log.i(TAG, loginPreferences.getString("password", ""));
+            beginLogin(
+                    loginPreferences.getString("username", ""),
+                    loginPreferences.getString("password", "")
+            );
+        }else{
+            permissionsChecker(true);
+        }
+
     }
 
     private void initTimerLogin() {
@@ -124,59 +165,7 @@ public class MainActivity extends AppCompatActivity implements AppResultsReceive
         mTimerLogin.schedule(timerTask, 0, 5000);
     }
 
-    public void startBackgroundConnect() {
-
-        mTimer = new Timer();
-
-        connectionServer = new ConnectionServer();
-
-        simpleCallbacks = new SimpleCallbacks() {
-            @Override
-            public void onSuccess(@NonNull String value) {
-
-//                Log.i(TAG, "SimpleCallbacks -> gamersUpdate");
-                resultServerCallbacks = Integer.parseInt(value);
-
-                MainActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-//                        Toast.makeText(MainActivity.this,
-//                                resultServerCallbacks.toString(),
-//                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-
-            @Override
-            public void onError(@NonNull Throwable throwable) {
-                MainActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(MainActivity.this,
-                                R.string.main_activity_error,
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        };
-
-        final TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                connectionServer.initCreateGame(
-                        LoggedInUser.getName(),
-                        UserLocation.imHere.getLatitude(),
-                        UserLocation.imHere.getLongitude()
-                );
-                connectionServer.connectSimple(simpleCallbacks);
-            }
-        };
-
-//        mTimer.schedule(timerTask, 1000, 1000);
-
-    }
-
-    public void permissionsChecker() {
+    public void permissionsChecker(boolean login) {
         ArrayList<String> allPermissions = new ArrayList<>();
 
         allPermissions.add(Manifest.permission.INTERNET);
@@ -196,9 +185,9 @@ public class MainActivity extends AppCompatActivity implements AppResultsReceive
             }
         }
 
-        loginUser();
+        if (login)
+            loginUser();
         UserLocation.SetUpLocationListener(this);
-        startBackgroundConnect();
 
     }
 
