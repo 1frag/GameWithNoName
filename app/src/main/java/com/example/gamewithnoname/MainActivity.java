@@ -236,7 +236,8 @@ public class MainActivity extends AppCompatActivity implements AppResultsReceive
                 break;
             }
             case R.id.buttonAutho: {
-                LoginActivity.clearLoginOptions();
+                loginPrefsEditor.clear();
+                loginPrefsEditor.commit();
                 Intent authoIntent = new Intent(this, LoginActivity.class);
                 startActivity(authoIntent);
                 break;

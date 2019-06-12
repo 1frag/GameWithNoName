@@ -50,11 +50,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public static void clearLoginOptions(){
-        loginPrefsEditor.clear();
-        loginPrefsEditor.commit();
-    }
-
     private void configSignUpButton() {
         Button btn = findViewById(R.id.signUp);
         btn.setOnClickListener(new View.OnClickListener() {
