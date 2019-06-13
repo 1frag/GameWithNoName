@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.location.Location;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.yandex.mapkit.transport.TransportFactory;
 import com.yandex.mapkit.transport.masstransit.Route;
 import com.yandex.mapkit.transport.masstransit.Session;
 import com.yandex.runtime.Error;
+
 import java.util.List;
 import java.util.Random;
 
@@ -75,7 +77,8 @@ public class ParametersActivity extends AppCompatActivity {
             @Override
             public void onMasstransitRoutes(@NonNull List<Route> list) {
                 // Эта функция может сказать гораздо больше чем делает это сейчас
-                initNewParams(list.get(0).getMetadata().getWeight().getTime().getValue());
+                if (list.size() == 0) initNewParams(null);
+                else initNewParams(list.get(0).getMetadata().getWeight().getTime().getValue());
             }
 
             @Override
@@ -175,7 +178,15 @@ public class ParametersActivity extends AppCompatActivity {
     }
 
     @SuppressLint("DefaultLocale") // todo: change after adding different language
-    public void initNewParams(Double distance) {
+    public void initNewParams(@Nullable Double distance) {
+
+        if (distance == null) {
+            Toast.makeText(ParametersActivity.this,
+                    "Way not found",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Log.i(TAG, "initNewParams");
 
         Location now = UserLocation.imHere;

@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,6 +96,8 @@ public class FriendsModeActivity extends Activity {
         configCreateMode();
         configJoinGame();
     }
+
+
 
     private void stageHandler(int stage) {
         if (stage == 0) {
