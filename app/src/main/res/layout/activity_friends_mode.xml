@@ -129,6 +129,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/buttonsForLayout"
             android:src="@drawable/ic_remove" />
 
         <ImageButton
@@ -136,6 +137,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/buttonsForLayout"
+            android:onClick="legendDialog"
             android:src="@drawable/ic_network" />
 
         <ImageButton
@@ -143,14 +146,16 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/buttonsForLayout"
             android:src="@drawable/ic_chat" />
 
         <ImageButton
-            android:id="@+id/button_multi_info"
+            android:id="@+id/button_multi_params"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/ic_question" />
+            android:background="@color/buttonsForLayout"
+            android:src="@drawable/ic_parameters" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

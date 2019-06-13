@@ -11,8 +11,8 @@
     <string name="main_activity_authorization">Sign in</string>
     <string name="main_activity_button_catch_bot">Catch bot</string>
     <string name="main_activity_button_runaway_bot">Run away from bots</string>
-    <string name="main_activity_button_seek_coins">Seek for money (stranger on map)</string>
-    <string name="main_activity_button_game_friends">Seek for money (team)</string>
+    <string name="main_activity_button_seek_coins">Seek for coins (stranger on map)</string>
+    <string name="main_activity_button_game_friends">Seek for coins (team)</string>
     <string name="main_activity_button_another_mode">Unknown mode</string>
     <string name="main_activity_text_hello">Username</string>
     <string name="main_activity_text_rating">0</string>
@@ -47,7 +47,7 @@
     <string name="prompt_password">Password</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid name</string>
+    <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="invalid_login_or_password">"Invalid name or password"</string>
@@ -78,6 +78,7 @@
     <string name="activity_registration_small_login">Login must contain more than 5 symbols</string>
     <string name="activity_registration_incorrect_login">Login cannot start with digit, have you ever registered?</string>
     <string name="activity_registration_small_password">Password must contain more than 5 symbols</string>
-    <string name="activity_maps_bot_finishes">Bot finishes in %d minutes</string>
+    <string name="activity_maps_bot_finishes">Bot finishes in x minutes</string>
+    <string name="layout_multi_people_close">Close</string>
 
 </resources>

@@ -586,4 +586,14 @@ public class FriendsModeActivity extends Activity {
 
         mTimer.schedule(timerTask, 1000, 1000);
     }
+
+    public void legendDialog(View view) {
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.layout_multi_people);
+        dialog.show();
+    }
+
+    public void closeDialog(View view) {
+
+    }
 }
