@@ -81,5 +81,7 @@
     <string name="activity_maps_bot_finishes">Bot finishes in %d minutes</string>
     <string name="layout_multi_people_close">Close</string>
     <string name="activity_friends_mode_name">Loading</string>
+    <string name="activity_multiplayer_send_message">Send</string>
+    <string name="activity_multiplayer_hint_write_message">Write message</string>
 
 </resources>
