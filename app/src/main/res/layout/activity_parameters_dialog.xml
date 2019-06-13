@@ -7,6 +7,8 @@
     tools:context=".activities.ParametersActivity"
     android:background="@color/colorPrimary">
 
+    <include layout="@layout/layout_parameters" android:visibility="invisible" android:id="@+id/include"/>
+
     <FrameLayout
         android:id="@+id/mapHolder"
         android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -14,54 +16,53 @@
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/coord_layout"
+        app:layout_constraintBottom_toTopOf="@id/linearLayoutParameters"
         app:layout_constraintTop_toTopOf="parent">
+
     </FrameLayout>
 
-    <Button
-        android:id="@+id/buttonContinue"
-        android:layout_width="120dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/button_menu"
-        android:onClick="nextActivity"
-        android:text="@string/activity_parameters_button"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/mapHolder" />
-
-    <!--<LinearLayout-->
-        <!--android:id="@+id/layout_temp"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="60dp"-->
-        <!--android:orientation="horizontal"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintStart_toStartOf="parent">-->
-
-        <!--<Button-->
-            <!--android:id="@+id/button2"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1"-->
-            <!--android:background="@color/buttonsForLayout"-->
-            <!--android:text="@string/activity_parameters_headline" />-->
-
-    <!--</LinearLayout>-->
-    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/coord_layout"
+    <LinearLayout
+        android:id="@+id/linearLayoutParameters"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        >
-        <!-- include bottom sheet -->
-        <include layout="@layout/layout_parameters" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-    </android.support.design.widget.CoordinatorLayout>
+        <Button
+            android:id="@+id/buttonParameters"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="@string/activity_parameters_headline"
+            android:onClick="watchParameters"
+            android:background="@color/buttonsForLayout"
+            android:layout_weight="1"
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/buttonContinue"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/button_menu"
+            android:onClick="nextActivity"
+            android:text="@string/activity_parameters_button"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textInstruction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/activity_parameters_instruction"
+        android:textSize="40sp"
+        android:textColor="@android:color/holo_red_dark"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutParameters"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

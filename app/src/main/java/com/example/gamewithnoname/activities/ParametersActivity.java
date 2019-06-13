@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -48,9 +49,11 @@ public class ParametersActivity extends AppCompatActivity {
     private Double angle;
     private Point start, finish;
     private Button btnContinue;
+    private Button btnParameters;
     private MapMainMenu map;
     private final String TAG = String.format("%s/%s",
             "HITS", "ParametersActivity");
+    private BottomSheetDialog dialog;
 
     @SuppressLint("DefaultLocale")
     @Override
@@ -61,6 +64,9 @@ public class ParametersActivity extends AppCompatActivity {
 
         btnContinue = findViewById(R.id.buttonContinue);
         btnContinue.setEnabled(false);
+
+        btnParameters = findViewById(R.id.buttonParameters);
+        btnParameters.setEnabled(false);
 
         configureMap();
 
@@ -221,6 +227,8 @@ public class ParametersActivity extends AppCompatActivity {
             }
         });
         btnContinue.setEnabled(true);
+        btnParameters.setEnabled(true);
+        findViewById(R.id.textInstruction).setVisibility(TextView.INVISIBLE);
     }
 
     private class speedListener implements SeekBar.OnSeekBarChangeListener {
@@ -279,6 +287,13 @@ public class ParametersActivity extends AppCompatActivity {
         public void onStopTrackingTouch(SeekBar seekBar) {
         }
 
+    }
+
+    public void watchParameters(View view) {
+        dialog = new BottomSheetDialog(this);
+        View sheetView = getLayoutInflater().inflate(R.layout.layout_parameters, null);
+        dialog.setContentView(sheetView);
+        dialog.show();
     }
 
     public void nextActivity(View view) {

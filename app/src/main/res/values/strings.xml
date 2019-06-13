@@ -35,6 +35,7 @@
     <string name="activity_parameters_speed_calc">Speed val</string>
     <string name="activity_parameters_angle">Angle</string>
     <string name="activity_parameters_angle_val">Angle value</string>
+    <string name="activity_parameters_instruction">Select finish point</string>
 
     <string name="maps_dialog_win">You win!</string>
     <string name="maps_dialog_lose">You lose</string>
