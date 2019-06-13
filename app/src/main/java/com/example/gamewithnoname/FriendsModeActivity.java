@@ -19,19 +19,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
 import com.example.gamewithnoname.ServerConnection.Gamers.GamersResponse;
 import com.example.gamewithnoname.ServerConnection.Points.PointsResponse;
-import com.example.gamewithnoname.ServerConnection.Points.PointsCallbacks;
 import com.example.gamewithnoname.ServerConnection.Simple.SimpleCallbacks;
 import com.example.gamewithnoname.ServerConnection.Statistics.StatisticsResponse;
 import com.example.gamewithnoname.ServerConnection.UpdateStateCallbacks;
 import com.example.gamewithnoname.data.model.LoggedInUser;
 import com.yandex.mapkit.Animation;
-import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Circle;
 import com.yandex.mapkit.geometry.Point;
 import com.yandex.mapkit.map.CameraPosition;
@@ -291,7 +290,7 @@ public class FriendsModeActivity extends Activity {
                 connectionServer.initBeginGame(
                         LoggedInUser.getName(),
                         inviteString,
-                        time // todo: надо бы где то это менять, не? to @Asya
+                        time
                 );
                 connectionServer.connectSimple(goCallbacks);
 
@@ -318,7 +317,7 @@ public class FriendsModeActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                Dialog dialog = openSettingsDialog();
+                Dialog dialog = openJoinDialogMenu();
                 dialog.setOnShowListener(new DialogInterface.OnShowListener() {
                     @Override
                     public void onShow(final DialogInterface dialog) {
@@ -349,7 +348,7 @@ public class FriendsModeActivity extends Activity {
 
     }
 
-    private Dialog openSettingsDialog() {
+    private Dialog openJoinDialogMenu() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
 
@@ -588,12 +587,34 @@ public class FriendsModeActivity extends Activity {
     }
 
     public void legendDialog(View view) {
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.layout_multi_people);
+        Dialog dialog = openLegendDialog();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                // show some information
+                AlertDialog alertDialog = (AlertDialog) dialog;
+                ScrollView scrollView = alertDialog.findViewById();
+            }
+        });
         dialog.show();
     }
 
     public void closeDialog(View view) {
 
     }
+
+    private Dialog openLegendDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+
+        builder.setView(inflater.inflate(R.layout.layout_multi_people, null))
+                .setPositiveButton("Ok!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        // nothing to do
+                    }
+                });
+        return builder.create();
+    }
+
 }
