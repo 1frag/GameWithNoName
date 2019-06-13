@@ -308,5 +308,6 @@ public class ParametersDialog extends AppCompatActivity {
         intentStart.putExtra("botStartLatitude", point.getLatitude());
         intentStart.putExtra("botStartLongitude", point.getLongitude());
         startActivity(intentStart);
+        finish();
     }
 }

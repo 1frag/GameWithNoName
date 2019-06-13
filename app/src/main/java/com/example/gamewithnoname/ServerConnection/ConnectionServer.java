@@ -261,8 +261,10 @@ public class ConnectionServer {
                             break;
                         case -4:
                             callback.notEnoughMoney();
+                            break;
                         default:
                             callback.successful(value);
+                            break;
                     }
                 }
             }

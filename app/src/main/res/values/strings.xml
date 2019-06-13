@@ -78,7 +78,7 @@
     <string name="activity_registration_small_login">Login must contain more than 5 symbols</string>
     <string name="activity_registration_incorrect_login">Login cannot start with digit, have you ever registered?</string>
     <string name="activity_registration_small_password">Password must contain more than 5 symbols</string>
-    <string name="activity_maps_bot_finishes">Bot finishes in x minutes</string>
+    <string name="activity_maps_bot_finishes">Bot finishes in %d minutes</string>
     <string name="layout_multi_people_close">Close</string>
     <string name="activity_friends_mode_name">Loading</string>
 

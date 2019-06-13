@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements AppResultsReceive
                 findViewById(R.id.buttonStatistics).setEnabled(true);
                 findViewById(R.id.buttonFriends).setEnabled(true);
                 findViewById(R.id.buttonInfo).setEnabled(true);
+                findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
                 permissionsChecker(false);
                 ((TextView) findViewById(R.id.textUsername)).setText(name);
                 ((TextView) findViewById(R.id.textCoins)).setText(coins.toString());
@@ -99,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements AppResultsReceive
         findViewById(R.id.buttonFriends).setEnabled(false);
         findViewById(R.id.buttonInfo).setEnabled(false);
         saveLogin = loginPreferences.getBoolean("saveLogin", false);
+        findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
 
         if (saveLogin) {
             Log.i(TAG, loginPreferences.getString("username", ""));
@@ -107,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements AppResultsReceive
                     loginPreferences.getString("username", ""),
                     loginPreferences.getString("password", "")
             );
-        }else{
+        } else {
             permissionsChecker(true);
         }
 
@@ -183,7 +185,6 @@ public class MainActivity extends AppCompatActivity implements AppResultsReceive
         allPermissions.add(Manifest.permission.INTERNET);
         allPermissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
         allPermissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
-        allPermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         allPermissions.add(Manifest.permission.ACCESS_NETWORK_STATE);
 
         for (int i = 0; i < allPermissions.size(); i++) {

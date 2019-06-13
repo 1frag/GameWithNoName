@@ -57,6 +57,7 @@ public class FriendsModeActivity extends Activity {
     private String inviteString;
     private MapView mapView;
     private Map mMap;
+    private ArrayList<Gamer> dataLegend;
     private Integer counterCoins = 0;
     private ArrayList<MapObject> coinspositions = new ArrayList<>();
     private ArrayList<MapObject> lastPlayersPositions = new ArrayList<>();
@@ -67,6 +68,16 @@ public class FriendsModeActivity extends Activity {
     private final String TAG = String.format("%s/%s",
             "HITS", "FriendsModeActivity"
     );
+
+    class Gamer {
+        String name;
+        Integer color;
+
+        Gamer(String name, Integer color) {
+            this.name = name;
+            this.color = color;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,15 +113,15 @@ public class FriendsModeActivity extends Activity {
 
             layout.setLayoutParams(params);
 
-            if (coinspositions != null){
-                for (MapObject mapObject : coinspositions){
+            if (coinspositions != null) {
+                for (MapObject mapObject : coinspositions) {
                     mMap.getMapObjects().remove(mapObject);
                 }
                 coinspositions.clear();
             }
 
-            if (lastPlayersPositions != null){
-                for (MapObject mapObject : lastPlayersPositions){
+            if (lastPlayersPositions != null) {
+                for (MapObject mapObject : lastPlayersPositions) {
                     mMap.getMapObjects().remove(mapObject);
                 }
                 lastPlayersPositions.clear();
@@ -285,7 +296,7 @@ public class FriendsModeActivity extends Activity {
                     }
                 };
 
-                int time = Integer.parseInt( ((EditText)findViewById(R.id.editText2)).getText().toString());
+                int time = Integer.parseInt(((EditText) findViewById(R.id.editText2)).getText().toString());
 
                 connectionServer.initBeginGame(
                         LoggedInUser.getName(),
@@ -490,6 +501,14 @@ public class FriendsModeActivity extends Activity {
             @Override
             public void gamersUpdate(@NonNull List<GamersResponse> gamers) {
 
+                dataLegend = new ArrayList<>();
+                for (GamersResponse player : gamers) {
+                    dataLegend.add(new Gamer(
+                            player.getName(),
+                            0xFF000000 + player.getColor()
+                    ));
+                }
+
                 for (MapObject circle : lastPlayersPositions) {
                     mMap.getMapObjects().remove(circle);
                 }
@@ -593,7 +612,20 @@ public class FriendsModeActivity extends Activity {
             public void onShow(DialogInterface dialog) {
                 // show some information
                 AlertDialog alertDialog = (AlertDialog) dialog;
-                ScrollView scrollView = alertDialog.findViewById();
+                LinearLayout linearLayout = alertDialog.findViewById(R.id.layout_for_add);
+
+                if (dataLegend != null) {
+                    for (Gamer gamer : dataLegend) {
+                        LinearLayout newView = new LinearLayout(
+                                FriendsModeActivity.this);
+                        getLayoutInflater().inflate(
+                                R.layout.layout_multi_name,
+                                newView);
+                        linearLayout.addView(newView);
+                        ((TextView)newView.findViewById(R.id.textView)).setText(gamer.name);
+                        newView.findViewById(R.id.imageView2).setBackgroundColor(gamer.color);
+                    }
+                }
             }
         });
         dialog.show();

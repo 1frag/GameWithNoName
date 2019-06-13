@@ -94,8 +94,9 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
             buttonOkLose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                     Intent intent = new Intent(MapInGame.this, MainActivity.class);
-                     startActivity(intent);
+                    Intent intent = new Intent(MapInGame.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
             });
 
@@ -112,6 +113,7 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
                 public void onClick(View v) {
                     Intent intent = new Intent(MapInGame.this, MainActivity.class);
                     startActivity(intent);
+                    finish();
                 }
             });
 
@@ -190,9 +192,9 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
         bot = new BotLocation(this, mMap, routes.get(0).getGeometry());
 
         double speed = getIntent().getExtras().getDouble("speed");
-        Log.i(TAG, String.format("speed: %s", (int)(1000f / speed)));
+        Log.i(TAG, String.format("speed: %s", (int) (1000f / speed)));
         bot.start(
-                (int)(3600f / speed),
+                (int) (3600f / speed),
                 new UpdateStateBotCallback() {
                     @Override
                     public void timeBotToFinish(int seconds) {
@@ -271,9 +273,6 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
 
             @Override
             public void badQuery() {
-                // todo: Ася, пожалуйста, разберись с
-                //  этой и последующими функциями. Я не знаю
-                //  зачем я их ловлю, но надо чето наверно ответить =/
                 Log.i(TAG, "badQuery");
             }
 
