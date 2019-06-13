@@ -99,8 +99,6 @@ public class FriendsModeActivity extends Activity {
         configJoinGame();
     }
 
-
-
     private void stageHandler(int stage) {
         if (stage == 0) {
             /*Стартовое положение дел*/
@@ -638,6 +636,14 @@ public class FriendsModeActivity extends Activity {
     }
 
     public void openMessages(View view) {
+
+        dialog = new BottomSheetDialog(this);
+        View sheetView = getLayoutInflater().inflate(R.layout.layout_messages, null);
+        dialog.setContentView(sheetView);
+        dialog.show();
+        // to refer view in layout_messages:
+        // sheetView.findViewById(R.id.some_id)
+
     }
 
     private Dialog openLegendDialog() {
