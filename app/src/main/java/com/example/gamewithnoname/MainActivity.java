@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +61,11 @@ public class MainActivity extends AppCompatActivity implements AppResultsReceive
 
             @Override
             public void onSuccess(String name, Integer coins, Integer rating) {
+                findViewById(R.id.buttonCatchBot).setEnabled(true);
+                findViewById(R.id.buttonWithFriends).setEnabled(true);
+                findViewById(R.id.buttonStatistics).setEnabled(true);
+                findViewById(R.id.buttonFriends).setEnabled(true);
+                findViewById(R.id.buttonInfo).setEnabled(true);
                 permissionsChecker(false);
                 ((TextView) findViewById(R.id.textUsername)).setText(name);
                 ((TextView) findViewById(R.id.textCoins)).setText(coins.toString());
@@ -87,6 +93,11 @@ public class MainActivity extends AppCompatActivity implements AppResultsReceive
         loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
         loginPrefsEditor = loginPreferences.edit();
 
+        findViewById(R.id.buttonCatchBot).setEnabled(false);
+        findViewById(R.id.buttonWithFriends).setEnabled(false);
+        findViewById(R.id.buttonStatistics).setEnabled(false);
+        findViewById(R.id.buttonFriends).setEnabled(false);
+        findViewById(R.id.buttonInfo).setEnabled(false);
         saveLogin = loginPreferences.getBoolean("saveLogin", false);
 
         if (saveLogin) {

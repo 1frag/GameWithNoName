@@ -64,6 +64,7 @@
                 android:layout_marginTop="18dp"
                 android:background="@drawable/round_buttons"
                 android:onClick="processButtonPressing"
+                android:enabled="false"
                 android:text="@string/main_activity_button_catch_bot"
                 android:textSize="16sp" />
 
@@ -84,7 +85,7 @@
                 android:layout_height="74dp"
                 android:layout_marginTop="18dp"
                 android:background="@drawable/round_buttons"
-                android:enabled="true"
+                android:enabled="false"
                 android:onClick="processButtonPressing"
                 android:text="@string/main_activity_button_game_friends"
                 android:textSize="16sp" />
@@ -114,6 +115,7 @@
             app:layout_constraintEnd_toStartOf="@id/buttonFriends"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:enabled="false"
             app:srcCompat="@drawable/ic_statistics" />
 
         <ImageButton
@@ -128,6 +130,7 @@
             app:layout_constraintEnd_toStartOf="@id/buttonInfo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:enabled="false"
             app:srcCompat="@drawable/ic_star" />
 
         <ImageButton
@@ -141,6 +144,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:enabled="false"
             app:srcCompat="@drawable/ic_question" />
     </LinearLayout>
 

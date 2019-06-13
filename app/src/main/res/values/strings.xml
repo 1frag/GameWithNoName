@@ -14,10 +14,14 @@
     <string name="main_activity_button_seek_coins">Seek for coins (stranger on map)</string>
     <string name="main_activity_button_game_friends">Seek for coins (team)</string>
     <string name="main_activity_button_another_mode">Unknown mode</string>
-    <string name="main_activity_text_hello">Username</string>
-    <string name="main_activity_text_rating">0</string>
-    <string name="main_activity_text_coins">0</string>
+    <string name="main_activity_text_hello">Loading</string>
+    <string name="main_activity_text_rating">Loading</string>
+    <string name="main_activity_text_coins">Loading</string>
     <string name="main_activity_error">Smth error!</string>
+    <string name="activity_main_coins">Loading</string>
+    <string name="activity_main_rating">Loading</string>
+    <string name="activity_main_all_km">Loading</string>
+    <string name="activity_main_all_time_description">for all time</string>
 
     <string name="activity_parameters_headline">Parameters</string>
     <string name="activity_parameters_speed">Speed</string>
@@ -68,10 +72,6 @@
     <string name="registration_activity_name_problem">That name already exists, try another one</string>
     <string name="login_activity_incorrect_data">Doesn`t seem like true</string>
     <string name="activity_parameters_unknown_error">Connect with developer pls</string>
-    <string name="activity_main_coins">Coins</string>
-    <string name="activity_main_rating">Rating</string>
-    <string name="activity_main_all_km">0 km</string>
-    <string name="activity_main_all_time_description">for all time</string>
     <string name="activity_maps_score">Your score:</string>
     <string name="activity_maps_speed">Your speed:</string>
     <string name="activity_registration_notequal_passwords">Passwords are different</string>
@@ -80,5 +80,6 @@
     <string name="activity_registration_small_password">Password must contain more than 5 symbols</string>
     <string name="activity_maps_bot_finishes">Bot finishes in x minutes</string>
     <string name="layout_multi_people_close">Close</string>
+    <string name="activity_friends_mode_name">Loading</string>
 
 </resources>
