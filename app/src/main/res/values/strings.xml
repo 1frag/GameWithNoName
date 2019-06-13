@@ -14,13 +14,13 @@
     <string name="main_activity_button_seek_coins">Seek for coins (stranger on map)</string>
     <string name="main_activity_button_game_friends">Seek for coins (team)</string>
     <string name="main_activity_button_another_mode">Unknown mode</string>
-    <string name="main_activity_text_hello">Loading</string>
-    <string name="main_activity_text_rating">Loading</string>
-    <string name="main_activity_text_coins">Loading</string>
+    <string name="main_activity_text_hello">Username</string>
+    <string name="main_activity_text_rating">0</string>
+    <string name="main_activity_text_coins">0</string>
     <string name="main_activity_error">Smth error!</string>
-    <string name="activity_main_coins">Loading</string>
-    <string name="activity_main_rating">Loading</string>
-    <string name="activity_main_all_km">Loading</string>
+    <string name="activity_main_coins">0</string>
+    <string name="activity_main_rating">0</string>
+    <string name="activity_main_all_km">km</string>
     <string name="activity_main_all_time_description">for all time</string>
 
     <string name="activity_parameters_headline">Parameters</string>

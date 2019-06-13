@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -69,6 +70,7 @@ public class FriendsModeActivity extends Activity {
     private final String TAG = String.format("%s/%s",
             "HITS", "FriendsModeActivity"
     );
+    private BottomSheetDialog dialog;
 
     class Gamer {
         String name;
@@ -624,7 +626,7 @@ public class FriendsModeActivity extends Activity {
                                 newView);
                         linearLayout.addView(newView);
                         ((TextView)newView.findViewById(R.id.textView)).setText(gamer.name);
-                        newView.findViewById(R.id.imageView2).setBackgroundColor(gamer.color);
+                        newView.findViewById(R.id.imageViewLegend).setBackgroundColor(gamer.color);
                     }
                 }
             }
@@ -632,8 +634,7 @@ public class FriendsModeActivity extends Activity {
         dialog.show();
     }
 
-    public void closeDialog(View view) {
-
+    public void openMessages(View view) {
     }
 
     private Dialog openLegendDialog() {
