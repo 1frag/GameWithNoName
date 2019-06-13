@@ -54,6 +54,7 @@ public class ParametersActivity extends AppCompatActivity {
     private final String TAG = String.format("%s/%s",
             "HITS", "ParametersActivity");
     private BottomSheetDialog dialog;
+    private View sheetView;
 
     @SuppressLint("DefaultLocale")
     @Override
@@ -67,6 +68,10 @@ public class ParametersActivity extends AppCompatActivity {
 
         btnParameters = findViewById(R.id.buttonParameters);
         btnParameters.setEnabled(false);
+
+        sheetView = getLayoutInflater().inflate(R.layout.layout_parameters, null);
+        dialog = new BottomSheetDialog(this);
+        dialog.setContentView(sheetView);
 
         configureMap();
 
@@ -202,21 +207,21 @@ public class ParametersActivity extends AppCompatActivity {
         angle = 40.0; //и это тоже
         shortestDistance = distance; //с предыдущего активити
         Log.i(TAG, String.format("%s", shortestDistance));
-        textSpeed = findViewById(R.id.textSpeedValue);
+        textSpeed = sheetView.findViewById(R.id.textSpeedValue);
         textSpeed.setText(String.format("%.1f km/h", speed));
         time = shortestDistance * deviation / (speed * 1000 / 3600);
-        textTime = findViewById(R.id.timeApproximate);
+        textTime = sheetView.findViewById(R.id.timeApproximate);
         textTime.setText(String.format("About %.1f min", time));
-        textAngle = findViewById(R.id.textViewAngleVal);
+        textAngle = sheetView.findViewById(R.id.textViewAngleVal);
         textAngle.setText(String.format("%.0f", angle));
         changedDistance = shortestDistance * deviation;
-        SeekBar speedSeekBar = findViewById(R.id.seekBarSpeed);
+        SeekBar speedSeekBar = sheetView.findViewById(R.id.seekBarSpeed);
         speedSeekBar.setOnSeekBarChangeListener(new speedListener());
-        SeekBar deviationSeekBar = findViewById(R.id.seekBarChange);
+        SeekBar deviationSeekBar = sheetView.findViewById(R.id.seekBarChange);
         deviationSeekBar.setOnSeekBarChangeListener(new deviationListener());
-        SeekBar angleSeekBar = findViewById(R.id.seekBarAngle);
+        SeekBar angleSeekBar = sheetView.findViewById(R.id.seekBarAngle);
         angleSeekBar.setOnSeekBarChangeListener(new angleListener());
-        Switch sw = findViewById(R.id.switchSensitivity);
+        Switch sw = sheetView.findViewById(R.id.switchSensitivity);
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -290,9 +295,6 @@ public class ParametersActivity extends AppCompatActivity {
     }
 
     public void watchParameters(View view) {
-        dialog = new BottomSheetDialog(this);
-        View sheetView = getLayoutInflater().inflate(R.layout.layout_parameters, null);
-        dialog.setContentView(sheetView);
         dialog.show();
     }
 
