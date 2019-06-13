@@ -19,7 +19,7 @@ import com.yandex.mapkit.geometry.Point;
 import com.yandex.mapkit.map.CameraPosition;
 
 import com.example.gamewithnoname.R;
-import com.example.gamewithnoname.UserLocation;
+import com.example.gamewithnoname.utils.UserLocation;
 
 import com.yandex.mapkit.map.InputListener;
 import com.yandex.mapkit.map.Map;

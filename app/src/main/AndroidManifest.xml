@@ -17,19 +17,19 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:label="@string/title_activity_login">
         </activity>
         <activity
-            android:name=".RegistrationActivity"
+            android:name=".activities.RegistrationActivity"
             android:label="Sign up">
         </activity>
-        <activity android:name=".ParametersDialog" />
-        <activity android:name=".InfoActivity" />
-        <activity android:name=".FriendsActivity" />
-        <activity android:name=".StatisticsActivity" />
+        <activity android:name=".activities.ParametersActivity" />
+        <activity android:name=".activities.InfoActivity" />
+        <activity android:name=".activities.FriendsActivity" />
+        <activity android:name=".activities.StatisticsActivity" />
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,8 +39,7 @@
         <activity
             android:name=".maps.MapInGame"
             android:screenOrientation="portrait" />
-        <activity android:name=".OnlineMode" />
-        <activity android:name=".FriendsModeActivity" />
+        <activity android:name=".activities.FriendsModeActivity" />
     </application>
 
 </manifest>

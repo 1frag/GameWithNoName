@@ -1,38 +1,34 @@
 package com.example.gamewithnoname.maps;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.gamewithnoname.BotLocation;
-import com.example.gamewithnoname.DistanceBetweenTwoPoints;
-import com.example.gamewithnoname.MainActivity;
-import com.example.gamewithnoname.ParametersDialog;
-import com.example.gamewithnoname.ServerConnection.ChangeCoinsCallbacks;
+import com.example.gamewithnoname.utils.BotLocation;
+import com.example.gamewithnoname.utils.DistanceBetweenTwoPoints;
+import com.example.gamewithnoname.activities.MainActivity;
+import com.example.gamewithnoname.callbacks.ChangeCoinsCallbacks;
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
-import com.example.gamewithnoname.ServerConnection.Login.LoginCallbacks;
-import com.example.gamewithnoname.UpdateStateBotCallback;
-import com.example.gamewithnoname.data.model.LoggedInUser;
+import com.example.gamewithnoname.callbacks.UpdateStateBotCallbacks;
+import com.example.gamewithnoname.models.LoggedInUser;
 import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.RequestPoint;
 import com.yandex.mapkit.RequestPointType;
-import com.yandex.mapkit.geometry.Circle;
 import com.yandex.mapkit.geometry.Point;
 import com.yandex.mapkit.map.CameraPosition;
 
 import com.example.gamewithnoname.R;
-import com.example.gamewithnoname.UserLocation;
+import com.example.gamewithnoname.utils.UserLocation;
 
 import com.yandex.mapkit.map.Map;
 import com.yandex.mapkit.transport.TransportFactory;
@@ -47,8 +43,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.example.gamewithnoname.BotLocation.ACTION_GO;
-import static com.example.gamewithnoname.BotLocation.ACTION_STOP;
+import static com.example.gamewithnoname.utils.Constants.ACTION_GO;
+import static com.example.gamewithnoname.utils.Constants.ACTION_STOP;
 
 public class MapInGame extends AppCompatActivity implements Session.RouteListener {
 
@@ -58,12 +54,8 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
 
     private MapView mapView;
     private Map mMap;
-    private PedestrianRouter pdRouter;
-    private Point start, finish;
-    private Double resultAsync;
     private BotLocation bot;
-    private final String TAG = String.format("%s/%s",
-            "HITS", "MapInGame");
+    private final String TAG = String.format("%s/%s", "HITS", "MapInGame");
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -134,14 +126,14 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
         // draw finish:
         double c = getIntent().getExtras().getDouble("finishLatitude");
         double d = getIntent().getExtras().getDouble("finishLongitude");
-        finish = new Point(c, d);
+        Point finish = new Point(c, d);
         map.getMapObjects().addPlacemark(finish);
 
         // bot mode
         // draw start:
         double a = getIntent().getExtras().getDouble("botStartLatitude");
         double b = getIntent().getExtras().getDouble("botStartLongitude");
-        start = new Point(a, b);
+        Point start = new Point(a, b);
         map.getMapObjects().addPlacemark(start);
 
         runBot(new Point(a, b), new Point(c, d));
@@ -160,11 +152,11 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
                 RequestPointType.WAYPOINT,
                 null));
 
-        pdRouter = TransportFactory.getInstance().createPedestrianRouter();
+        PedestrianRouter pdRouter = TransportFactory.getInstance().createPedestrianRouter();
         pdRouter.requestRoutes(requestPoints, options, this);
 
         DistanceBetweenTwoPoints d = new DistanceBetweenTwoPoints(start, finish);
-        resultAsync = d.getResult();
+        Double resultAsync = d.getResult();
         // todo: это явно было написано человеком
         //  который не сильно то разбирался в этом
         //  если появится $$время$$ то надо разобраться
@@ -195,7 +187,7 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
         Log.i(TAG, String.format("speed: %s", (int) (1000f / speed)));
         bot.start(
                 (int) (3600f / speed),
-                new UpdateStateBotCallback() {
+                new UpdateStateBotCallbacks() {
                     @Override
                     public void timeBotToFinish(int seconds) {
                         TextView textView = findViewById(R.id.textBotToEnd);
@@ -219,7 +211,7 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
     }
 
     @Override
-    public void onMasstransitRoutesError(Error error) {
+    public void onMasstransitRoutesError(@NonNull Error error) {
         String errorMessage = "unknown_error_message";
         if (error instanceof RemoteError) {
             errorMessage = "remote_error_message";

@@ -3,14 +3,16 @@ package com.example.gamewithnoname.ServerConnection;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.example.gamewithnoname.ServerConnection.Gamers.GameStateResponse;
-import com.example.gamewithnoname.ServerConnection.Gamers.GamersResponse;
-import com.example.gamewithnoname.ServerConnection.Login.LoginCallbacks;
-import com.example.gamewithnoname.ServerConnection.Login.UserResponse;
-import com.example.gamewithnoname.ServerConnection.Points.PointsResponse;
-import com.example.gamewithnoname.ServerConnection.Points.PointsCallbacks;
-import com.example.gamewithnoname.ServerConnection.Simple.SimpleCallbacks;
-import com.example.gamewithnoname.ServerConnection.Simple.SimpleResponse;
+import com.example.gamewithnoname.callbacks.ChangeCoinsCallbacks;
+import com.example.gamewithnoname.callbacks.UpdateStateCallbacks;
+import com.example.gamewithnoname.models.responses.GameStateResponse;
+import com.example.gamewithnoname.models.responses.GamersResponse;
+import com.example.gamewithnoname.callbacks.LoginCallbacks;
+import com.example.gamewithnoname.models.responses.UserResponse;
+import com.example.gamewithnoname.models.responses.PointsResponse;
+import com.example.gamewithnoname.callbacks.PointsCallbacks;
+import com.example.gamewithnoname.callbacks.SimpleCallbacks;
+import com.example.gamewithnoname.models.responses.SimpleResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,14 +96,6 @@ public class ConnectionServer {
         call = serverAPIs.killRunGame(name, key);
     }
 
-    public void initGetMoney(String name) {
-        call = serverAPIs.getMoney(name);
-    }
-
-    public void initGetRating(String name) {
-        call = serverAPIs.getRating(name);
-    }
-
     public void connectSimple(@Nullable final SimpleCallbacks callbacks) {
         call.enqueue(new Callback() {
             @Override
@@ -119,50 +113,6 @@ public class ConnectionServer {
 
             @Override
             public void onFailure(Call call, Throwable t) {
-                Log.i(TAG, "error!");
-                if (callbacks != null) {
-                    callbacks.onError(t);
-                }
-            }
-        });
-    }
-
-    public void connectPoints(@Nullable final PointsCallbacks callbacks) {
-        call.enqueue(new Callback<List<PointsResponse>>() {
-            @Override
-            public void onResponse(Call<List<PointsResponse>> call, Response<List<PointsResponse>> response) {
-                /*This is the success callback. Though the response type is JSON, with Retrofit we get the response in the form of WResponse POJO class
-                 */
-                if (response.body() != null) {
-//                    Log.i(TAG, "Successful");
-                    if (response.body().size() == 0) {
-                        Log.i(TAG, "Сервер вернул что-то не то");
-                        // в тестовом режиме можно вернуть это колбаку,
-                        // хотя бы узнаем кто послал такой запрос
-                        if (callbacks != null)
-                            callbacks.onSuccess(-1, new ArrayList<PointsResponse>());
-                        return;
-                    }
-                    int j = 1;
-                    if (response.body().get(0).getLatitude() == -1) {
-                        simpleIntegerResult = response.body().get(0).getLongitude().intValue();
-                    } else {
-                        simpleIntegerResult = 1;
-                        j = 0;
-                    }
-                    pointResult.clear();
-                    for (int i = j; i < response.body().size(); i++) {
-                        pointResult.add(response.body().get(i));
-                    }
-                }
-
-                if (callbacks != null) {
-                    callbacks.onSuccess(simpleIntegerResult, pointResult);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<PointsResponse>> call, Throwable t) {
                 Log.i(TAG, "error!");
                 if (callbacks != null) {
                     callbacks.onError(t);

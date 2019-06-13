@@ -1,9 +1,9 @@
 package com.example.gamewithnoname.ServerConnection;
 
-import com.example.gamewithnoname.ServerConnection.Gamers.GameStateResponse;
-import com.example.gamewithnoname.ServerConnection.Login.UserResponse;
-import com.example.gamewithnoname.ServerConnection.Points.PointsResponse;
-import com.example.gamewithnoname.ServerConnection.Simple.SimpleResponse;
+import com.example.gamewithnoname.models.responses.GameStateResponse;
+import com.example.gamewithnoname.models.responses.UserResponse;
+import com.example.gamewithnoname.models.responses.PointsResponse;
+import com.example.gamewithnoname.models.responses.SimpleResponse;
 
 import java.util.List;
 
@@ -25,14 +25,6 @@ public interface ServerAPIs {
             @Query("password") String password,
             @Query("birthday") String birthday,
             @Query("sex") Integer sex
-    );
-
-    @GET("/get_event")
-    Call<SimpleResponse> getResultEvent();
-
-    @GET("/put_online")
-    Call<SimpleResponse> putOnline(
-            @Query("name") String name
     );
 
     @GET("/create_game")
@@ -74,16 +66,6 @@ public interface ServerAPIs {
     Call<SimpleResponse> killRunGame(
             @Query("name") String name,
             @Query("string_invite") String string_invite
-    );
-
-    @GET("/get_money")
-    Call<SimpleResponse> getMoney(
-            @Query("name") String name
-    );
-
-    @GET("/get_rating")
-    Call<SimpleResponse> getRating(
-            @Query("name") String name
     );
 
     @GET("/change_coins")
