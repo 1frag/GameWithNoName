@@ -1,5 +1,6 @@
 package com.example.gamewithnoname.ServerConnection;
 
+import com.example.gamewithnoname.models.responses.CheckGameResponse;
 import com.example.gamewithnoname.models.responses.GameStateResponse;
 import com.example.gamewithnoname.models.responses.UserResponse;
 import com.example.gamewithnoname.models.responses.PointsResponse;
@@ -72,6 +73,17 @@ public interface ServerAPIs {
     Call<SimpleResponse> changeCoins(
             @Query("name") String name,
             @Query("count") Integer count
+    );
+
+    @GET("/send_message")
+    Call<SimpleResponse> sendMessage(
+            @Query("name") String name,
+            @Query("text") String text
+    );
+
+    @GET("/check_game")
+    Call<CheckGameResponse> checkGame(
+            @Query("name") String name
     );
 
 }

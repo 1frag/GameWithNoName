@@ -224,12 +224,11 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
 
     public void stopBot(View view) {
 
-        ConnectionServer connectionServer = new ConnectionServer();
-        connectionServer.initChangeCoins(
+        ConnectionServer.getInstance().initChangeCoins(
                 LoggedInUser.getName(),
                 PRICE_STOP_BOT
         );
-        connectionServer.connectChangeCoins(new ChangeCoinsCallbacks() {
+        ConnectionServer.getInstance().connectChangeCoins(new ChangeCoinsCallbacks() {
             @Override
             public void successful(int money) {
 

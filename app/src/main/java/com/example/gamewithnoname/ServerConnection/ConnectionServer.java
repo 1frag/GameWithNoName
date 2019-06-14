@@ -4,18 +4,18 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.gamewithnoname.callbacks.ChangeCoinsCallbacks;
+import com.example.gamewithnoname.callbacks.CheckGameCallbacks;
 import com.example.gamewithnoname.callbacks.UpdateStateCallbacks;
+import com.example.gamewithnoname.models.responses.CheckGameResponse;
 import com.example.gamewithnoname.models.responses.GameStateResponse;
 import com.example.gamewithnoname.models.responses.GamersResponse;
 import com.example.gamewithnoname.callbacks.LoginCallbacks;
 import com.example.gamewithnoname.models.responses.UserResponse;
 import com.example.gamewithnoname.models.responses.PointsResponse;
-import com.example.gamewithnoname.callbacks.PointsCallbacks;
 import com.example.gamewithnoname.callbacks.SimpleCallbacks;
 import com.example.gamewithnoname.models.responses.SimpleResponse;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,6 +25,8 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ConnectionServer {
+
+    private static final ConnectionServer server = new ConnectionServer();
 
     private final String TAG = String.format("%s/%s",
             "HITS",
@@ -37,7 +39,11 @@ public class ConnectionServer {
     private ServerAPIs serverAPIs;
     private Call call;
 
-    public ConnectionServer() {
+    public static ConnectionServer getInstance() {
+        return server;
+    }
+
+    private ConnectionServer() {
         // prepare to connectSimple
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -84,16 +90,20 @@ public class ConnectionServer {
         call = serverAPIs.updateMap(name, key, latit, longit);
     }
 
-    public void initUpdateCoins(String key) {
-        call = serverAPIs.updateCoins(key);
-    }
-
     public void initBeginGame(String name, String key, Integer duration) {
         call = serverAPIs.beginGame(name, key, duration);
     }
 
     public void initKillRunGame(String name, String key) {
         call = serverAPIs.killRunGame(name, key);
+    }
+
+    public void initSendMessage(String name, String text) {
+        call = serverAPIs.sendMessage(name, text);
+    }
+
+    public void initCheckGame(String name) {
+        call = serverAPIs.checkGame(name);
     }
 
     public void connectSimple(@Nullable final SimpleCallbacks callbacks) {
@@ -117,6 +127,26 @@ public class ConnectionServer {
                 if (callbacks != null) {
                     callbacks.onError(t);
                 }
+            }
+        });
+    }
+
+    public void connectCheckGame(@Nullable final CheckGameCallbacks callback) {
+        call.enqueue(new Callback<CheckGameResponse>() {
+
+            @Override
+            public void onResponse(Call<CheckGameResponse> call, Response<CheckGameResponse> response) {
+                if(response.body() != null && callback != null){
+                    int value = response.body().getResult();
+                    if (value == 11) callback.inRun(response.body().getLink());
+                    if (value == 12) callback.inWait(response.body().getLink());
+                    if (value == 13) callback.inFree();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CheckGameResponse> call, Throwable t) {
+                Log.i(TAG, "onFailure --> connectCheckGame");
             }
         });
     }

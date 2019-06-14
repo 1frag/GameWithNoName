@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.example.gamewithnoname.R;
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
+import com.example.gamewithnoname.callbacks.CheckGameCallbacks;
 import com.example.gamewithnoname.utils.UserLocation;
 import com.example.gamewithnoname.models.responses.GamersResponse;
 import com.example.gamewithnoname.models.responses.PointsResponse;
@@ -56,7 +57,6 @@ public class FriendsModeActivity extends Activity {
     private SimpleCallbacks goCallbacks;
     private SimpleCallbacks killRunningGameCallbacks;
 
-    private ConnectionServer connectionServer;
     private String inviteString;
     private MapView mapView;
     private Map mMap;
@@ -93,10 +93,36 @@ public class FriendsModeActivity extends Activity {
         mMap = mapView.getMap();
         configMap();
 
-        connectionServer = new ConnectionServer();
-        stageHandler(0);
         configCreateMode();
         configJoinGame();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        ConnectionServer.getInstance().initCheckGame(LoggedInUser.getName());
+        ConnectionServer.getInstance().connectCheckGame(new CheckGameCallbacks() {
+            @Override
+            public void inRun(String link) {
+                ((TextView)findViewById(R.id.textViewCode)).setText(link);
+                inviteString = link;
+                stageHandler(2);
+            }
+
+            @Override
+            public void inWait(String link) {
+                ((TextView)findViewById(R.id.textViewCode)).setText(link);
+                inviteString = link;
+                stageHandler(1);
+            }
+
+            @Override
+            public void inFree() {
+                stageHandler(0);
+            }
+        });
+
     }
 
     private void stageHandler(int stage) {
@@ -130,6 +156,8 @@ public class FriendsModeActivity extends Activity {
                 }
                 lastPlayersPositions.clear();
             }
+
+            findViewById(R.id.button_go).setOnClickListener(null);
 
         } else if (stage == 1) {
             /*После того как заджойнился или создал игру*/
@@ -170,7 +198,10 @@ public class FriendsModeActivity extends Activity {
                     @Override
                     public void onSuccess(@NonNull String value) {
                         stageHandler(0);
-                        mTimer.cancel();
+                        if(mTimer != null){
+                            mTimer.cancel();
+                            mTimer.purge();
+                        }
                         for (MapObject mapObject : coinspositions) {
                             mMap.getMapObjects().remove(mapObject);
                         }
@@ -186,11 +217,11 @@ public class FriendsModeActivity extends Activity {
                     }
                 };
 
-                connectionServer.initKillRunGame(
+                ConnectionServer.getInstance().initKillRunGame(
                         LoggedInUser.getName(),
                         inviteString
                 );
-                connectionServer.connectSimple(killRunningGameCallbacks);
+                ConnectionServer.getInstance().connectSimple(killRunningGameCallbacks);
 
             }
         });
@@ -302,12 +333,12 @@ public class FriendsModeActivity extends Activity {
 
                 int time = Integer.parseInt(((EditText) findViewById(R.id.editText2)).getText().toString());
 
-                connectionServer.initBeginGame(
+                ConnectionServer.getInstance().initBeginGame(
                         LoggedInUser.getName(),
                         inviteString,
                         time
                 );
-                connectionServer.connectSimple(goCallbacks);
+                ConnectionServer.getInstance().connectSimple(goCallbacks);
 
             }
         });
@@ -427,13 +458,13 @@ public class FriendsModeActivity extends Activity {
                                 Log.i(TAG, "onError --> joinButton");
                             }
                         };
-                        connectionServer.initJoinGame(
+                        ConnectionServer.getInstance().initJoinGame(
                                 LoggedInUser.getName(),
                                 UserLocation.imHere.getLatitude(),
                                 UserLocation.imHere.getLongitude(),
                                 inviteString
                         );
-                        connectionServer.connectSimple(initCallbacks);
+                        ConnectionServer.getInstance().connectSimple(initCallbacks);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -485,12 +516,12 @@ public class FriendsModeActivity extends Activity {
                     }
                 };
 
-                connectionServer.initCreateGame(
+                ConnectionServer.getInstance().initCreateGame(
                         LoggedInUser.getName(),
                         UserLocation.imHere.getLatitude(),
                         UserLocation.imHere.getLongitude()
                 );
-                connectionServer.connectSimple(initCallbacks);
+                ConnectionServer.getInstance().connectSimple(initCallbacks);
 
             }
         });
@@ -589,19 +620,20 @@ public class FriendsModeActivity extends Activity {
                         Toast.LENGTH_LONG).show();
                 stageHandler(0);
                 mTimer.cancel();
+                mTimer.purge();
             }
         };
 
         final TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                connectionServer.initUpdateMap(
+                ConnectionServer.getInstance().initUpdateMap(
                         LoggedInUser.getName(),
                         inviteString,
                         UserLocation.imHere.getLatitude(),
                         UserLocation.imHere.getLongitude()
                 );
-                connectionServer.connectUpdateState(gameStateCallback);
+                ConnectionServer.getInstance().connectUpdateState(gameStateCallback);
 //                connectionServer.connectPoints(gameCallbacks);
             }
         };
@@ -638,12 +670,30 @@ public class FriendsModeActivity extends Activity {
     public void openMessages(View view) {
 
         dialog = new BottomSheetDialog(this);
-        View sheetView = getLayoutInflater().inflate(R.layout.layout_messages, null);
+        final View sheetView = getLayoutInflater().inflate(R.layout.layout_messages, null);
         dialog.setContentView(sheetView);
-        dialog.show();
         // to refer view in layout_messages:
         // sheetView.findViewById(R.id.some_id)
 
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                Button btnSend = sheetView.findViewById(R.id.buttonSendMessage);
+                btnSend.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EditText editText = sheetView.findViewById(R.id.writeMessage);
+                        String text = editText.getText().toString();
+                        editText.setText("");
+
+                        ConnectionServer.getInstance().initSendMessage(LoggedInUser.getName(), text);
+
+                    }
+                });
+            }
+        });
+
+        dialog.show();
     }
 
     private Dialog openLegendDialog() {

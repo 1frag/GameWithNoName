@@ -39,9 +39,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void beginLogin(final String username, final String password) {
-        ConnectionServer connectionServer = new ConnectionServer();
-        connectionServer.initLogin(username, password);
-        connectionServer.connectLogin(new LoginCallbacks() {
+        ConnectionServer.getInstance().initLogin(username, password);
+        ConnectionServer.getInstance().connectLogin(new LoginCallbacks() {
 
             @Override
             public void onSuccess(String name, Integer coins, Integer rating) {

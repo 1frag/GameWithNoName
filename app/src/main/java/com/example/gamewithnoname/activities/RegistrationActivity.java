@@ -107,9 +107,8 @@ public class RegistrationActivity extends AppCompatActivity {
                                    final String password,
                                    final String birth,
                                    final Integer sex) {
-        ConnectionServer connectionServer = new ConnectionServer();
-        connectionServer.initRegistration(username, password, birth, sex);
-        connectionServer.connectSimple(new SimpleCallbacks() {
+        ConnectionServer.getInstance().initRegistration(username, password, birth, sex);
+        ConnectionServer.getInstance().connectSimple(new SimpleCallbacks() {
                     @Override
                     public void onSuccess(@NonNull String value) {
                         Log.i(TAG, "SimpleCallbacks -> gamersUpdate");
