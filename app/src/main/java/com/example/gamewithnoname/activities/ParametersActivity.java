@@ -205,7 +205,7 @@ public class ParametersActivity extends AppCompatActivity {
         speed = 5.0; //будет передаваться с сервера когда-нибудь (начальное значение)
         deviation = 1.0; //и это
         angle = 40.0; //и это тоже
-        shortestDistance = distance; //с предыдущего активити
+        shortestDistance = distance;
         Log.i(TAG, String.format("%s", shortestDistance));
         textSpeed = sheetView.findViewById(R.id.textSpeedValue);
         textSpeed.setText(String.format("%.1f km/h", speed));

@@ -24,7 +24,7 @@
     <string name="activity_main_all_time_description">for all time</string>
 
     <string name="activity_parameters_headline">Parameters</string>
-    <string name="activity_parameters_speed">Speed</string>
+    <string name="activity_parameters_speed">Speed - </string>
     <string name="activity_parameters_button">Start</string>
     <string name="activity_parameters_forest">Oncoming sensitivity</string>
     <string name="activity_parameters_change">Deviation</string>
@@ -33,7 +33,7 @@
     <string name="activity_parameters_bike">Bicycle</string>
     <string name="activity_parameters_time">Place for approximate time</string>
     <string name="activity_parameters_speed_calc">Speed val</string>
-    <string name="activity_parameters_angle">Angle</string>
+    <string name="activity_parameters_angle">Angle - </string>
     <string name="activity_parameters_angle_val">Angle value</string>
     <string name="activity_parameters_instruction">Select finish point</string>
 
@@ -84,5 +84,11 @@
     <string name="activity_friends_mode_name">Loading</string>
     <string name="activity_multiplayer_send_message">Send</string>
     <string name="activity_multiplayer_hint_write_message">Write message</string>
+    <string name="alert_2m_in_team">In team</string>
+    <string name="alert_2m_individually">Individually</string>
+    <string name="alert_2m_time">time (min)</string>
+    <string name="alert_2m_create">Create your game:</string>
+    <string name="alert_2m_code">four digit code</string>
+    <string name="alert_2m_join">Or join:</string>
 
 </resources>
