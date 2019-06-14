@@ -30,7 +30,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@android:color/white"
+        android:background="@color/buttonsForLayout"
         android:orientation="horizontal">
 
         <TextView
@@ -38,7 +38,9 @@
             android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:textSize="18sp"
+            android:textColor="@android:color/white"
             android:text="@string/activity_maps_bot_finishes" />
 
         <ImageButton
@@ -50,12 +52,6 @@
             android:layout_marginStart="8dp"
             app:srcCompat="@drawable/ic_pause" />
 
-        <ImageButton
-            android:id="@+id/mapsButtonQuestion"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/ic_question" />
 
     </LinearLayout>
 

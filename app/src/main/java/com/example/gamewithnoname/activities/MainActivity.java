@@ -1,11 +1,13 @@
 package com.example.gamewithnoname.activities;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,11 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(String name, Integer coins, Integer rating) {
-                findViewById(R.id.buttonCatchBot).setEnabled(true);
-                findViewById(R.id.buttonWithFriends).setEnabled(true);
-                findViewById(R.id.buttonStatistics).setEnabled(true);
-                findViewById(R.id.buttonFriends).setEnabled(true);
-                findViewById(R.id.buttonInfo).setEnabled(true);
                 findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
                 permissionsChecker(false);
                 ((TextView) findViewById(R.id.textUsername)).setText(name);
@@ -77,11 +74,6 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
         loginPrefsEditor = loginPreferences.edit();
 
-        findViewById(R.id.buttonCatchBot).setEnabled(false);
-        findViewById(R.id.buttonWithFriends).setEnabled(false);
-        findViewById(R.id.buttonStatistics).setEnabled(false);
-        findViewById(R.id.buttonFriends).setEnabled(false);
-        findViewById(R.id.buttonInfo).setEnabled(false);
         Boolean saveLogin = loginPreferences.getBoolean("saveLogin", false);
         findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
 
@@ -172,8 +164,11 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
             case R.id.buttonWithFriends: {
-                Intent fmIntent = new Intent(this, FriendsModeActivity.class);
-                startActivity(fmIntent);
+//                Intent fmIntent = new Intent(this, FriendsModeActivity.class);
+//                startActivity(fmIntent);
+                final Dialog dialog = new Dialog(this);
+                dialog.setContentView(R.layout.alert_second_mode);
+                dialog.show();
                 break;
             }
             default:
