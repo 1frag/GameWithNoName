@@ -18,4 +18,7 @@ public interface UpdateStateCallbacks {
     void gameOver(
             @NonNull StatisticsResponse stats
     );
+    void updateLink(
+            @NonNull String link
+    );
 }

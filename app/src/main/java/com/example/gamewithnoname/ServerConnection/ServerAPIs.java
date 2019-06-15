@@ -32,7 +32,8 @@ public interface ServerAPIs {
     Call<SimpleResponse> createGame(
             @Query("name") String name,
             @Query("latitude") double latit,
-            @Query("longitude") double tongit
+            @Query("longitude") double tongit,
+            @Query("duration") int duration
     );
 
     @GET("/join_game")
@@ -46,27 +47,18 @@ public interface ServerAPIs {
     @GET("/update_map_in_game")
     Call<GameStateResponse> updateMap(
             @Query("name") String name,
-            @Query("string_invite") String string_invite,
             @Query("latitude") double latit,
             @Query("longitude") double tongit
     );
 
     @GET("/begin_game")
     Call<SimpleResponse> beginGame(
-            @Query("name") String name,
-            @Query("string_invite") String string_invite,
-            @Query("duration") Integer duration
-    );
-
-    @GET("/get_positions_coins")
-    Call<List<PointsResponse>> updateCoins(
-            @Query("string_invite") String string_invite
+            @Query("name") String name
     );
 
     @GET("/kill_run_game")
     Call<SimpleResponse> killRunGame(
-            @Query("name") String name,
-            @Query("string_invite") String string_invite
+            @Query("name") String name
     );
 
     @GET("/change_coins")

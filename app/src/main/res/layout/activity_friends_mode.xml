@@ -104,7 +104,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
         android:src="?attr/actionModeCopyDrawable"
-        app:layout_constraintStart_toEndOf="@+id/textViewCode"
+        app:layout_constraintStart_toEndOf="@+id/text_view_code"
         app:layout_constraintTop_toBottomOf="@id/username_layout" />
 
     <ImageButton
@@ -119,7 +119,7 @@
         app:layout_constraintTop_toBottomOf="@id/username_layout" />
 
     <TextView
-        android:id="@+id/textViewCode"
+        android:id="@+id/text_view_code"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginTop="8dp"

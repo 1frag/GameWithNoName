@@ -17,4 +17,8 @@ public final class Constants {
     public final static Integer SIZE_POINT_BOT_IN = 50;
     public final static Integer ACTION_STOP = 1;
     public final static Integer ACTION_GO = 2;
+    public final static Integer CREATOR = 101;
+    public final static Integer JOINER = 102;
+    public final static Integer WAIT_GAME = 103;
+    public final static Integer PLAY_GAME = 104;
 }

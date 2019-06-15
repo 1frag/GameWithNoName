@@ -24,6 +24,9 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.example.gamewithnoname.utils.Constants.CREATOR;
+import static com.example.gamewithnoname.utils.Constants.JOINER;
+
 public class ConnectionServer {
 
     private static final ConnectionServer server = new ConnectionServer();
@@ -78,24 +81,24 @@ public class ConnectionServer {
         );
     }
 
-    public void initCreateGame(String name, double latit, double longit) {
-        call = serverAPIs.createGame(name, latit, longit);
+    public void initCreateGame(String name, double latit, double longit, int duration) {
+        call = serverAPIs.createGame(name, latit, longit, duration);
     }
 
     public void initJoinGame(String name, double latit, double longit, String key) {
         call = serverAPIs.joinGame(name, latit, longit, key);
     }
 
-    public void initUpdateMap(String name, String key, double latit, double longit) {
-        call = serverAPIs.updateMap(name, key, latit, longit);
+    public void initUpdateMap(String name, double latit, double longit) {
+        call = serverAPIs.updateMap(name, latit, longit);
     }
 
-    public void initBeginGame(String name, String key, Integer duration) {
-        call = serverAPIs.beginGame(name, key, duration);
+    public void initBeginGame(String name) {
+        call = serverAPIs.beginGame(name);
     }
 
-    public void initKillRunGame(String name, String key) {
-        call = serverAPIs.killRunGame(name, key);
+    public void initKillRunGame(String name) {
+        call = serverAPIs.killRunGame(name);
     }
 
     public void initSendMessage(String name, String text) {
@@ -136,10 +139,11 @@ public class ConnectionServer {
 
             @Override
             public void onResponse(Call<CheckGameResponse> call, Response<CheckGameResponse> response) {
-                if(response.body() != null && callback != null){
-                    int value = response.body().getResult();
-                    if (value == 11) callback.inRun(response.body().getLink());
-                    if (value == 12) callback.inWait(response.body().getLink());
+                if (response.body() != null && callback != null) {
+                    int value = response.body().getResult() % 100;
+                    int type = (response.body().getResult() > 100 ? CREATOR : JOINER);
+                    if (value == 11) callback.inRun(response.body().getLink(), type);
+                    if (value == 12) callback.inWait(response.body().getLink(), type);
                     if (value == 13) callback.inFree();
                 }
             }
@@ -159,6 +163,9 @@ public class ConnectionServer {
                 if (response.body() != null && callbacks != null) {
                     if (response.body().getState() == -1) {
                         Log.i(TAG, "This it");
+                    }
+                    if (response.body().getLink() != null) {
+                        callbacks.updateLink(response.body().getLink());
                     }
                     Log.i(TAG, response.body().getState().toString());
                     switch (response.body().getState()) {

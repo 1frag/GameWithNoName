@@ -2,27 +2,42 @@ package com.example.gamewithnoname.activities;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gamewithnoname.R;
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
+import com.example.gamewithnoname.callbacks.CheckGameCallbacks;
+import com.example.gamewithnoname.callbacks.SimpleCallbacks;
+import com.example.gamewithnoname.maps.MapInGame;
+import com.example.gamewithnoname.utils.DialogSecondMode;
 import com.example.gamewithnoname.utils.UserLocation;
 import com.example.gamewithnoname.callbacks.LoginCallbacks;
 import com.example.gamewithnoname.models.LoggedInUser;
 import com.yandex.mapkit.MapKitFactory;
 
 import java.util.ArrayList;
+
+import static com.example.gamewithnoname.utils.Constants.JOINER;
+import static com.example.gamewithnoname.utils.Constants.PLAY_GAME;
+import static com.example.gamewithnoname.utils.Constants.WAIT_GAME;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -165,9 +180,38 @@ public class MainActivity extends AppCompatActivity {
             case R.id.buttonWithFriends: {
 //                Intent fmIntent = new Intent(this, FriendsModeActivity.class);
 //                startActivity(fmIntent);
-                final Dialog dialog = new Dialog(this);
-                dialog.setContentView(R.layout.alert_second_mode);
-                dialog.show();
+
+                ConnectionServer.getInstance().initCheckGame(LoggedInUser.getName());
+                ConnectionServer.getInstance().connectCheckGame(new CheckGameCallbacks() {
+                    @Override
+                    public void inRun(String link, Integer type) {
+                        Intent fmIntent = new Intent(MainActivity.this, FriendsModeActivity.class);
+                        Toast.makeText(MainActivity.this,
+                                "You have an unfinished game", // И она уже идет
+                                Toast.LENGTH_LONG).show();
+                        fmIntent.putExtra("type", type);
+                        fmIntent.putExtra("stage", PLAY_GAME);
+                        startActivity(fmIntent);
+                    }
+
+                    @Override
+                    public void inWait(String link, Integer type) {
+                        Intent fmIntent = new Intent(MainActivity.this, FriendsModeActivity.class);
+                        Toast.makeText(MainActivity.this,
+                                "You have an unfinished game", // Но её еще не запустили
+                                Toast.LENGTH_LONG).show();
+                        fmIntent.putExtra("type", type);
+                        fmIntent.putExtra("stage", WAIT_GAME);
+                        startActivity(fmIntent);
+                    }
+
+                    @Override
+                    public void inFree() {
+                        final Dialog dialog = new Dialog(MainActivity.this);
+                        dialog.setOnShowListener(new DialogSecondMode());
+                        dialog.show();
+                    }
+                });
                 break;
             }
             default:

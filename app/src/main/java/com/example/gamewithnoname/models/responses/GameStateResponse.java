@@ -1,5 +1,8 @@
 package com.example.gamewithnoname.models.responses;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 import org.simpleframework.xml.Element;
@@ -25,6 +28,10 @@ public class GameStateResponse {
     @ElementList(name="stats", inline=true)
     @Path("channel")
     private StatisticsResponse stats;
+
+    @SerializedName("link")
+    @Expose
+    private String link;
 
     public Integer getState() {
         return state;
@@ -57,5 +64,13 @@ public class GameStateResponse {
 
     public void setStats(StatisticsResponse stats) {
         this.stats = stats;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 }

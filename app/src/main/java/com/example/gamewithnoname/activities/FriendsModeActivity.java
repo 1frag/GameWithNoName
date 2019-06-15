@@ -2,9 +2,8 @@ package com.example.gamewithnoname.activities;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
@@ -13,10 +12,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -26,7 +23,6 @@ import android.widget.Toast;
 
 import com.example.gamewithnoname.R;
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
-import com.example.gamewithnoname.callbacks.CheckGameCallbacks;
 import com.example.gamewithnoname.utils.UserLocation;
 import com.example.gamewithnoname.models.responses.GamersResponse;
 import com.example.gamewithnoname.models.responses.PointsResponse;
@@ -49,6 +45,9 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.example.gamewithnoname.utils.Constants.CREATOR;
+import static com.example.gamewithnoname.utils.Constants.WAIT_GAME;
+
 public class FriendsModeActivity extends Activity {
 
     private Timer mTimer;
@@ -57,7 +56,6 @@ public class FriendsModeActivity extends Activity {
     private SimpleCallbacks goCallbacks;
     private SimpleCallbacks killRunningGameCallbacks;
 
-    private String inviteString;
     private MapView mapView;
     private Map mMap;
     private ArrayList<Gamer> dataLegend;
@@ -93,71 +91,34 @@ public class FriendsModeActivity extends Activity {
         mMap = mapView.getMap();
         configMap();
 
-        configCreateMode();
-        configJoinGame();
+        if (getIntent().getExtras() == null) {
+            stageHandler(0);
+            return;
+        }
+
+        int type = getIntent().getExtras().getInt("type"); // creator or joiner
+        int stage = getIntent().getExtras().getInt("stage"); // run or wait
+        mainGameLoop();
+        if (stage == WAIT_GAME)
+            stageHandler(1);
+        else /* PLAY_GAME **/
+            stageHandler(2);
+        buildOwn(type);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        ConnectionServer.getInstance().initCheckGame(LoggedInUser.getName());
-        ConnectionServer.getInstance().connectCheckGame(new CheckGameCallbacks() {
-            @Override
-            public void inRun(String link) {
-                ((TextView)findViewById(R.id.textViewCode)).setText(link);
-                inviteString = link;
-                stageHandler(2);
-            }
-
-            @Override
-            public void inWait(String link) {
-                ((TextView)findViewById(R.id.textViewCode)).setText(link);
-                inviteString = link;
-                stageHandler(1);
-            }
-
-            @Override
-            public void inFree() {
-                stageHandler(0);
-            }
-        });
-
+    private void buildOwn(int type) {
+        if (type == CREATOR) {
+            // todo: есть кнопочка запустить игру
+        } else /* JOINER **/ {
+            // todo: нет этой кнопки и прочее
+        }
     }
 
     private void stageHandler(int stage) {
         if (stage == 0) {
-            /*Стартовое положение дел*/
-            (findViewById(R.id.button_create_game)).setVisibility(View.VISIBLE);
-            (findViewById(R.id.button_join_game)).setVisibility(View.VISIBLE);
-            (findViewById(R.id.imageButton)).setVisibility(View.INVISIBLE);
-            (findViewById(R.id.imageButton2)).setVisibility(View.INVISIBLE);
-            (findViewById(R.id.textViewCode)).setVisibility(View.INVISIBLE);
-
-            // go button set first type
-            (findViewById(R.id.button_go)).setEnabled(false);
-
-            // linearlayout's param magic:
-            LinearLayout layout = findViewById(R.id.layout_mapview);
-            ViewGroup.LayoutParams params = layout.getLayoutParams();
-
-            layout.setLayoutParams(params);
-
-            if (coinspositions != null) {
-                for (MapObject mapObject : coinspositions) {
-                    mMap.getMapObjects().remove(mapObject);
-                }
-                coinspositions.clear();
-            }
-
-            if (lastPlayersPositions != null) {
-                for (MapObject mapObject : lastPlayersPositions) {
-                    mMap.getMapObjects().remove(mapObject);
-                }
-                lastPlayersPositions.clear();
-            }
-
-            findViewById(R.id.button_go).setOnClickListener(null);
+            Intent onBack = new Intent(this, MainActivity.class);
+            finish();
+            startActivity(onBack);
 
         } else if (stage == 1) {
             /*После того как заджойнился или создал игру*/
@@ -165,7 +126,7 @@ public class FriendsModeActivity extends Activity {
             (findViewById(R.id.button_join_game)).setVisibility(View.INVISIBLE);
             (findViewById(R.id.imageButton)).setVisibility(View.VISIBLE);
             (findViewById(R.id.imageButton2)).setVisibility(View.VISIBLE);
-            (findViewById(R.id.textViewCode)).setVisibility(View.VISIBLE);
+            (findViewById(R.id.text_view_code)).setVisibility(View.VISIBLE);
             (findViewById(R.id.button_go)).setEnabled(true);
 
             // go button set second type
@@ -177,7 +138,7 @@ public class FriendsModeActivity extends Activity {
             (findViewById(R.id.button_join_game)).setVisibility(View.INVISIBLE);
             (findViewById(R.id.imageButton)).setVisibility(View.INVISIBLE);
             (findViewById(R.id.imageButton2)).setVisibility(View.INVISIBLE);
-            (findViewById(R.id.textViewCode)).setVisibility(View.INVISIBLE);
+            (findViewById(R.id.text_view_code)).setVisibility(View.INVISIBLE);
             (findViewById(R.id.button_go)).setVisibility(View.VISIBLE);
 
             // go button set second type
@@ -198,7 +159,7 @@ public class FriendsModeActivity extends Activity {
                     @Override
                     public void onSuccess(@NonNull String value) {
                         stageHandler(0);
-                        if(mTimer != null){
+                        if (mTimer != null) {
                             mTimer.cancel();
                             mTimer.purge();
                         }
@@ -218,8 +179,7 @@ public class FriendsModeActivity extends Activity {
                 };
 
                 ConnectionServer.getInstance().initKillRunGame(
-                        LoggedInUser.getName(),
-                        inviteString
+                        LoggedInUser.getName()
                 );
                 ConnectionServer.getInstance().connectSimple(killRunningGameCallbacks);
 
@@ -334,9 +294,7 @@ public class FriendsModeActivity extends Activity {
                 int time = Integer.parseInt(((EditText) findViewById(R.id.editText2)).getText().toString());
 
                 ConnectionServer.getInstance().initBeginGame(
-                        LoggedInUser.getName(),
-                        inviteString,
-                        time
+                        LoggedInUser.getName()
                 );
                 ConnectionServer.getInstance().connectSimple(goCallbacks);
 
@@ -354,177 +312,6 @@ public class FriendsModeActivity extends Activity {
                 null);
 
 //        mMap.getUserLocationLayer().setEnabled(true);
-
-    }
-
-    private void configJoinGame() {
-        Button btn = findViewById(R.id.button_join_game);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Dialog dialog = openJoinDialogMenu();
-                dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                    @Override
-                    public void onShow(final DialogInterface dialog) {
-                        final AlertDialog alertDialog = (AlertDialog) dialog;
-                        alertDialog.findViewById(R.id.button_paste).setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                final ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                                ClipData clipData = clipboardManager.getPrimaryClip();
-                                int itemCount = clipData.getItemCount();
-
-                                if (itemCount > 0) {
-                                    // Get source text.
-                                    ClipData.Item item = clipData.getItemAt(0);
-                                    String text = item.getText().toString();
-
-                                    // Set the text to target textview.
-                                    ((EditText) alertDialog.findViewById(R.id.link_invite)).setText(text);
-                                }
-                            }
-                        });
-                    }
-                });
-                dialog.show();
-                //stop!
-            }
-        });
-
-    }
-
-    private Dialog openJoinDialogMenu() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-
-        builder.setView(inflater.inflate(R.layout.layout_join, null))
-                // todo: transfer to string.xml ("Join")
-                // todo: transfer to string.xml ("Cancel")
-                .setPositiveButton("Join", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-
-                        AlertDialog alertDialog = (AlertDialog) dialog;
-                        EditText linkInvite = alertDialog.findViewById(R.id.link_invite);
-                        if (linkInvite == null) {
-                            Log.i(TAG, "CATCH NULL POINTER EXCEPTION #1");
-                            return;
-                        }
-                        inviteString = linkInvite.getText().toString();
-
-                        initCallbacks = new SimpleCallbacks() {
-                            @Override
-                            public void onSuccess(@NonNull String value) {
-                                switch (value) {
-                                    case "2":
-                                        Toast.makeText(FriendsModeActivity.this,
-                                                "query is incorrect",
-                                                //todo: этого никогда не должно произойти
-                                                // но если случился такой тост то либо
-                                                // изменилось что-то на сервере либо на клиенте
-                                                // в любом случае надо сообщить об этом куда то
-                                                // чтобы разработчики знали что это произошло
-                                                Toast.LENGTH_SHORT).show();
-                                        return;
-                                    case "3":
-                                        Toast.makeText(FriendsModeActivity.this,
-                                                "Ошибка аутентификации", // todo: transfer to string.xml
-                                                Toast.LENGTH_SHORT).show();
-                                        return;
-                                    case "4":
-                                        Toast.makeText(FriendsModeActivity.this,
-                                                "Ссылка некорректна", // todo: transfer to string.xml
-                                                Toast.LENGTH_SHORT).show();
-                                        return;
-                                    case "5":
-                                        Toast.makeText(FriendsModeActivity.this,
-                                                "Игра уже началась", // todo: transfer to string.xml
-                                                Toast.LENGTH_SHORT).show();
-                                        return;
-                                }
-                                ((TextView) findViewById(R.id.textViewCode)).setText(value);
-                                inviteString = ((TextView) findViewById(R.id.textViewCode))
-                                        .getText().toString();
-                                mainGameLoop();
-                                stageHandler(1);
-                            }
-
-                            @Override
-                            public void onError(@NonNull Throwable throwable) {
-                                Toast.makeText(FriendsModeActivity.this,
-                                        "problem with internet", // todo: transfer to string.xml
-                                        Toast.LENGTH_SHORT).show();
-                                Log.i(TAG, "onError --> joinButton");
-                            }
-                        };
-                        ConnectionServer.getInstance().initJoinGame(
-                                LoggedInUser.getName(),
-                                UserLocation.imHere.getLatitude(),
-                                UserLocation.imHere.getLongitude(),
-                                inviteString
-                        );
-                        ConnectionServer.getInstance().connectSimple(initCallbacks);
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // nothing to say, just exit
-                    }
-                });
-        return builder.create();
-    }
-
-    private void configCreateMode() {
-        Button btn = findViewById(R.id.button_create_game);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                choise = 1;
-                initCallbacks = new SimpleCallbacks() {
-                    @Override
-                    public void onSuccess(@NonNull String value) {
-                        if (value.equals("2")) {
-                            Toast.makeText(FriendsModeActivity.this,
-                                    "query is incorrect",
-                                    //todo: этого никогда не должно произойти
-                                    // но если случился такой тост то либо
-                                    // изменилось что-то на сервере либо на клиенте
-                                    // в любом случае надо сообщить об этом куда то
-                                    // чтобы разработчики знали что это произошло
-                                    Toast.LENGTH_SHORT).show();
-                            return;
-                        } else if (value.equals("3")) {
-                            Toast.makeText(FriendsModeActivity.this,
-                                    "Ошибка аутентификации", // todo: transfer to string.xml
-                                    Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        ((TextView) findViewById(R.id.textViewCode)).setText(value);
-                        inviteString = ((TextView) findViewById(R.id.textViewCode))
-                                .getText().toString();
-                        mainGameLoop();
-                        stageHandler(1);
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable throwable) {
-                        Toast.makeText(FriendsModeActivity.this,
-                                "problem with internet", // todo: transfer to string.xml
-                                Toast.LENGTH_SHORT).show();
-                        Log.i(TAG, "onError --> configCreateMode");
-                    }
-                };
-
-                ConnectionServer.getInstance().initCreateGame(
-                        LoggedInUser.getName(),
-                        UserLocation.imHere.getLatitude(),
-                        UserLocation.imHere.getLongitude()
-                );
-                ConnectionServer.getInstance().connectSimple(initCallbacks);
-
-            }
-        });
 
     }
 
@@ -622,6 +409,11 @@ public class FriendsModeActivity extends Activity {
                 mTimer.cancel();
                 mTimer.purge();
             }
+
+            @Override
+            public void updateLink(@NonNull String link) {
+                ((TextView)findViewById(R.id.text_view_code)).setText(link);
+            }
         };
 
         final TimerTask timerTask = new TimerTask() {
@@ -629,7 +421,6 @@ public class FriendsModeActivity extends Activity {
             public void run() {
                 ConnectionServer.getInstance().initUpdateMap(
                         LoggedInUser.getName(),
-                        inviteString,
                         UserLocation.imHere.getLatitude(),
                         UserLocation.imHere.getLongitude()
                 );
@@ -658,7 +449,7 @@ public class FriendsModeActivity extends Activity {
                                 R.layout.layout_multi_name,
                                 newView);
                         linearLayout.addView(newView);
-                        ((TextView)newView.findViewById(R.id.textView)).setText(gamer.name);
+                        ((TextView) newView.findViewById(R.id.textView)).setText(gamer.name);
                         newView.findViewById(R.id.imageViewLegend).setBackgroundColor(gamer.color);
                     }
                 }
