@@ -6,14 +6,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gamewithnoname.R;
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
+import com.example.gamewithnoname.activities.FriendsModeActivity;
 import com.example.gamewithnoname.callbacks.GetMessagesCallbacks;
 import com.example.gamewithnoname.callbacks.SendMessageCallbacks;
 import com.example.gamewithnoname.models.LoggedInUser;
 import com.example.gamewithnoname.models.responses.MessageResponse;
+import com.yandex.mapkit.search.Line;
 
 import java.sql.Time;
 import java.util.List;
@@ -50,7 +54,8 @@ public class DialogMessages implements Dialog.OnShowListener {
                 ConnectionServer.getInstance().connectGetMessages(new GetMessagesCallbacks() {
                     @Override
                     public void success(List<MessageResponse> messages) {
-                        Log.i(TAG, "success");
+//                        Log.i(TAG, "success");
+                        addMessages(messages);
                     }
 
                     @Override
@@ -62,11 +67,27 @@ public class DialogMessages implements Dialog.OnShowListener {
         };
     }
 
+    private void addMessages(List<MessageResponse> messages) {
+        LinearLayout linearLayout = dialog.findViewById(R.id.layout_for_messages);
+        for (MessageResponse message : messages) {
+            Log.i(TAG, "mes add");
+            LinearLayout newView = new LinearLayout(
+                    dialog.getContext());
+            dialog.getLayoutInflater().inflate(
+                    R.layout.layout_multi_message,
+                    newView);
+            linearLayout.addView(newView);
+            ((TextView) newView.findViewById(R.id.textMessage)).setText(message.getText());
+            ((TextView) newView.findViewById(R.id.textView2)).setText(message.getColor().toString());
+        }
+    }
+
     private void configBtnSend() {
         Button btnSend = dialog.findViewById(R.id.buttonSendMessage);
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i(TAG, "qwe");
                 EditText editText = dialog.findViewById(R.id.writeMessage);
                 String text = editText.getText().toString();
                 editText.setText("");
@@ -80,6 +101,7 @@ public class DialogMessages implements Dialog.OnShowListener {
                         new SendMessageCallbacks() {
                             @Override
                             public void sended() {
+                                // todo: звук сообщение отправлено
                                 Toast.makeText(dialog.getContext(),
                                         "You message is sended successful",
                                         Toast.LENGTH_LONG).show();
@@ -87,6 +109,9 @@ public class DialogMessages implements Dialog.OnShowListener {
 
                             @Override
                             public void someProblem(int code) {
+                                // todo: звук сообщение не ушло или просто сказать как-то
+                                //  человеку что проблемка и его сообщение не получил никто =(
+                                Log.i(TAG, String.format("some problem %s", code));
                                 Toast.makeText(dialog.getContext(),
                                         String.format("problem is %s", code),
                                         Toast.LENGTH_LONG).show();

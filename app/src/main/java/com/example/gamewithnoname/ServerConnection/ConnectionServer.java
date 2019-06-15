@@ -176,7 +176,7 @@ public class ConnectionServer {
                     if (response.body().getLink() != null) {
                         callbacks.updateLink(response.body().getLink());
                     }
-                    Log.i(TAG, response.body().getState().toString());
+//                    Log.i(TAG, response.body().getState().toString());
                     switch (response.body().getState()) {
                         case 1:
                             // update gamers

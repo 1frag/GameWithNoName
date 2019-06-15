@@ -1,6 +1,7 @@
 package com.example.gamewithnoname.ServerConnection;
 
 import com.example.gamewithnoname.models.responses.CheckGameResponse;
+import com.example.gamewithnoname.models.responses.DialogResponse;
 import com.example.gamewithnoname.models.responses.GameStateResponse;
 import com.example.gamewithnoname.models.responses.MessageResponse;
 import com.example.gamewithnoname.models.responses.UserResponse;
@@ -81,7 +82,7 @@ public interface ServerAPIs {
     );
 
     @GET("/get_messages")
-    Call<List<MessageResponse>> getNewMessages(
+    Call<DialogResponse> getNewMessages(
             @Query("name") String name
     );
 

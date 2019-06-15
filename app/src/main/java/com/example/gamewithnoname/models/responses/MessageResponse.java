@@ -12,8 +12,8 @@ public class MessageResponse {
     @Element(name = "from")
     private String from;
 
-    @Element(name = "date")
-    private String date;
+    @Element(name = "color")
+    private Integer color;
 
     public String getText() {
         return text;
@@ -31,11 +31,11 @@ public class MessageResponse {
         this.from = from;
     }
 
-    public String getDate() {
-        return date;
+    public Integer getColor() {
+        return color;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setColor(Integer color) {
+        this.color = color;
     }
 }
