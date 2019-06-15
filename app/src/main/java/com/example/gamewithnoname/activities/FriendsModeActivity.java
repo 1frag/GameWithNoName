@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -459,14 +460,17 @@ public class FriendsModeActivity extends Activity {
 
     public void openMessages(View view) {
 
-        dialog = new BottomSheetDialog(this);
-
+//        dialog = new BottomSheetDialog(this);
+//        dialog.setOnShowListener(new DialogMessages());
+//        dialog.show();
         // to refer view in layout_messages:
         // sheetView.findViewById(R.id.some_id)
 
-        dialog.setOnShowListener(new DialogMessages());
+        findViewById(R.id.include).setVisibility(View.VISIBLE);
+    }
 
-        dialog.show();
+    public void closeMessages(View view) {
+        findViewById(R.id.include).setVisibility(View.INVISIBLE);
     }
 
     private Dialog openLegendDialog() {
