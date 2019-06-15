@@ -5,14 +5,14 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorPrimaryLight"
     tools:context=".activities.LoginActivity">
 
     <LinearLayout
         android:id="@+id/layout_signin_headline"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@color/colorAccent"
+        android:layout_height="64dp"
+        android:background="@color/colorPrimaryDark"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,12 +21,12 @@
         <TextView
             android:id="@+id/textSigninHeadline"
             android:text="@string/activity_login_headline"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="12dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
-            android:textSize="40sp"
+            android:textSize="35sp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -35,7 +35,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="24dp"
         android:hint="@string/activity_login_login"
         android:inputType="textEmailAddress"
@@ -70,8 +70,8 @@
         android:layout_marginStart="48dp"
         android:layout_marginEnd="48dp"
         android:enabled="true"
-        android:background="@drawable/main_linear_layout"
-        android:textColor="@android:color/white"
+        android:background="@color/colorAccent"
+        android:textColor="@android:color/black"
         android:text="@string/activity_login_ok"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -98,13 +98,41 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/main_linear_layout"
+        android:background="@color/colorPrimaryDark"
         android:text="@string/activity_login_account_offer"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signIn" />
+
+    <TextView
+        android:id="@+id/textAd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:textSize="18sp"
+        android:text="@string/activity_login_ad"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signUp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/activity_login_btn_ad"
+        android:textColor="@android:color/white"
+        android:background="@color/colorPrimaryDark"
+        android:onClick="showInfo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textAd" />
 
 </android.support.constraint.ConstraintLayout>

@@ -292,8 +292,6 @@ public class FriendsModeActivity extends Activity {
                     }
                 };
 
-                int time = Integer.parseInt(((EditText) findViewById(R.id.editText2)).getText().toString());
-
                 ConnectionServer.getInstance().initBeginGame(
                         LoggedInUser.getName()
                 );

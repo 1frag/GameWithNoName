@@ -12,7 +12,7 @@
     <string name="main_activity_button_catch_bot">Catch bot</string>
     <string name="main_activity_button_runaway_bot">Run away from bots</string>
     <string name="main_activity_button_seek_coins">Seek for coins (stranger on map)</string>
-    <string name="main_activity_button_game_friends">Seek for coins (team)</string>
+    <string name="main_activity_button_game_friends">Seek for coins</string>
     <string name="main_activity_button_another_mode">Unknown mode</string>
     <string name="main_activity_text_hello">Username</string>
     <string name="main_activity_text_rating">0</string>
@@ -68,7 +68,7 @@
     <string name="registration_example_date">yyyy-mm-dd</string>
 
 
-    <string name="login_activity_you_need_reg">You can`t play until we have your private information</string>
+    <string name="login_activity_you_need_reg">Sorry, please stay</string>
     <string name="registration_activity_data_not_valid">Data is not valid</string>
     <string name="registration_activity_name_problem">That name already exists, try another one</string>
     <string name="login_activity_incorrect_data">Doesn`t seem like true</string>
@@ -86,9 +86,11 @@
     <string name="activity_multiplayer_hint_write_message">Write message</string>
     <string name="alert_2m_in_team">In team</string>
     <string name="alert_2m_individually">Individually</string>
-    <string name="alert_2m_time">time (min)</string>
+    <string name="alert_2m_time">time (minutes)</string>
     <string name="alert_2m_create">Create your game:</string>
     <string name="alert_2m_code">four digit code</string>
     <string name="alert_2m_join">Or join:</string>
+    <string name="activity_login_ad">You don`t know, why we insist on registration?</string>
+    <string name="activity_login_btn_ad">Read about game</string>
 
 </resources>

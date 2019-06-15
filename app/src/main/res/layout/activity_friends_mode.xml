@@ -12,40 +12,6 @@
     <include layout="@layout/layout_messages" android:visibility="invisible" android:id="@+id/include"/>
 
     <LinearLayout
-        android:id="@+id/username_layout"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/textUsername"
-            android:layout_gravity="center"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textAlignment="center"
-            android:textSize="28sp"
-            app:layout_constraintEnd_toEndOf="@id/buttonAutho"
-            android:text="@string/main_activity_text_hello"
-            android:layout_width="0dp" />
-
-        <EditText
-            android:id="@+id/editText2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="30" />
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/layout_mapview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -105,7 +71,7 @@
         android:layout_marginTop="8dp"
         android:src="?attr/actionModeCopyDrawable"
         app:layout_constraintStart_toEndOf="@+id/text_view_code"
-        app:layout_constraintTop_toBottomOf="@id/username_layout" />
+        app:layout_constraintTop_toBottomOf="parent" />
 
     <ImageButton
         android:id="@+id/imageButton2"
@@ -116,19 +82,21 @@
         android:src="@android:drawable/ic_delete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageButton"
-        app:layout_constraintTop_toBottomOf="@id/username_layout" />
+        app:layout_constraintTop_toBottomOf="parent" />
 
     <TextView
         android:id="@+id/text_view_code"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:ems="10"
         android:gravity="center"
-        android:textSize="25sp"
-        android:background="@drawable/textview_border"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="@+id/button_create_game"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/username_layout" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/layout_multi_params"

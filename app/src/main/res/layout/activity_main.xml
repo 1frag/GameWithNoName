@@ -5,17 +5,15 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorPrimaryLight"
     tools:context=".activities.MainActivity">
 
     <LinearLayout
         android:id="@+id/username_layout"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_height="64dp"
         android:orientation="horizontal"
+        android:background="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -25,11 +23,13 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="3dp"
             android:layout_weight="1"
             android:text="@string/main_activity_text_hello"
-            android:textColor="@color/colorText"
-            android:textSize="28sp"
+            android:textColor="@android:color/white"
+            android:textSize="35sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/buttonAutho" />
 
         <ImageButton
@@ -37,7 +37,7 @@
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:layout_gravity="end"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorPrimaryDark"
             android:onClick="processButtonPressing"
             app:srcCompat="@drawable/ic_logout_2" />
     </LinearLayout>
@@ -46,48 +46,39 @@
         android:id="@+id/scrollModes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username_layout">
+        app:layout_constraintTop_toBottomOf="@id/layout_stat">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
-            android:layout_marginEnd="28dp"
+            android:layout_marginStart="40dp"
             android:orientation="vertical">
 
             <Button
                 android:id="@+id/buttonCatchBot"
                 android:layout_width="match_parent"
-                android:layout_height="74dp"
-                android:layout_marginTop="18dp"
+                android:layout_height="94dp"
                 android:background="@drawable/round_buttons"
+                android:fontFamily="@font/lekton"
                 android:onClick="processButtonPressing"
                 android:text="@string/main_activity_button_catch_bot"
-                android:textSize="16sp" />
-
-            <!--<Button-->
-            <!--android:id="@+id/button4"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="64dp"-->
-            <!--android:layout_marginTop="18dp"-->
-            <!--android:background="@drawable/round_buttons"-->
-            <!--android:enabled="true"-->
-            <!--android:onClick="processButtonPressing"-->
-            <!--android:text="@string/main_activity_button_seek_coins"-->
-            <!--android:textSize="16sp" />-->
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/buttonWithFriends"
                 android:layout_width="match_parent"
-                android:layout_height="74dp"
-                android:layout_marginTop="18dp"
+                android:layout_height="94dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/round_buttons"
+                android:fontFamily="@font/lekton"
                 android:onClick="processButtonPressing"
                 android:text="@string/main_activity_button_game_friends"
-                android:textSize="16sp" />
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>
@@ -95,7 +86,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="70dp"
         android:background="@color/buttonsForLayout"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -149,19 +140,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
-        android:background="@color/colorPrimaryBright"
+        android:background="@color/colorPrimaryLight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollModes">
+        app:layout_constraintTop_toBottomOf="@+id/username_layout">
 
         <ImageView
             android:id="@+id/imageCoins"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginStart="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_coins" />
@@ -170,10 +160,9 @@
             android:id="@+id/imageRating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="18dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageCoins"
+            android:layout_marginStart="35dp"
+            app:layout_constraintStart_toEndOf="@+id/textCoins"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_favourite" />
 
         <TextView
@@ -181,7 +170,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="18dp"
             android:text="@string/activity_main_coins"
             android:textColor="@color/colorText"
             android:textSize="18sp"
@@ -193,40 +181,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="18dp"
             android:text="@string/activity_main_rating"
             android:textColor="@color/colorText"
             android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@id/imageRating"
-            app:layout_constraintTop_toBottomOf="@id/imageCoins" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:id="@+id/layout_all_km"
+        <ImageView
+            android:id="@+id/imageWalker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:orientation="horizontal"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/textAllKm"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_walker" />
+
+        <TextView
+            android:id="@+id/textAllKm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@string/activity_main_all_km"
+            android:textColor="@color/colorText"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageRating">
-
-            <TextView
-                android:id="@+id/textAllKm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/activity_main_all_km"
-                android:textColor="@color/colorText"
-                android:textSize="40sp" />
-
-            <TextView
-                android:id="@+id/textAllKmDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="13dp"
-                android:text="@string/activity_main_all_time_description"
-                android:textColor="@color/colorText"
-                android:textSize="18sp" />
-        </LinearLayout>
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 

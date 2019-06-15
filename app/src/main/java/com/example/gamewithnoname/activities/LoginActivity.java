@@ -145,4 +145,9 @@ public class LoginActivity extends AppCompatActivity {
                 getString(R.string.login_activity_you_need_reg),
                 Toast.LENGTH_LONG).show();
     }
+
+    public void showInfo(View view) {
+        Intent intentInfo = new Intent(this, InfoActivity.class);
+        startActivity(intentInfo);
+    }
 }

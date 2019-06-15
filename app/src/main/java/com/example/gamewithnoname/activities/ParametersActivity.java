@@ -202,7 +202,7 @@ public class ParametersActivity extends AppCompatActivity {
 
         Location now = UserLocation.imHere;
         start = new Point(now.getLatitude(), now.getLongitude());
-        speed = 5.0; //будет передаваться с сервера когда-нибудь (начальное значение)
+        speed = 7.0; //будет передаваться с сервера когда-нибудь (начальное значение)
         deviation = 1.0; //и это
         angle = 40.0; //и это тоже
         shortestDistance = distance;

@@ -36,20 +36,20 @@
         <TextView
             android:id="@+id/textBotToEnd"
             android:layout_marginTop="16dp"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginStart="8dp"
             android:textSize="18sp"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:text="@string/activity_maps_bot_finishes" />
 
         <ImageButton
             android:id="@+id/mapsButtonPause"
             android:onClick="stopBot"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             app:srcCompat="@drawable/ic_pause" />
 
 
