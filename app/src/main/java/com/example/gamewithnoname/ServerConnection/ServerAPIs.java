@@ -83,7 +83,8 @@ public interface ServerAPIs {
 
     @GET("/get_messages")
     Call<DialogResponse> getNewMessages(
-            @Query("name") String name
+            @Query("name") String name,
+            @Query("flag") Integer flag
     );
 
 }

@@ -29,6 +29,7 @@ public class DialogMessages implements Dialog.OnShowListener {
     private Dialog dialog;
     private Timer mTimer;
     private TimerTask task;
+    private int first_time;
     private static final String TAG = "HITS/DialogMessages";
 
     @Override
@@ -40,6 +41,7 @@ public class DialogMessages implements Dialog.OnShowListener {
         configBtnSend();
         mTimer = new Timer();
         initTimerTask();
+        first_time = 1;
         mTimer.schedule(task, 0, 1000);
     }
 
@@ -48,9 +50,10 @@ public class DialogMessages implements Dialog.OnShowListener {
             @Override
             public void run() {
                 ConnectionServer.getInstance().initGetNewMessages(
-                        LoggedInUser.getName()
+                        LoggedInUser.getName(),
+                        first_time
                 );
-
+                first_time = 0;
                 ConnectionServer.getInstance().connectGetMessages(new GetMessagesCallbacks() {
                     @Override
                     public void success(List<MessageResponse> messages) {
@@ -69,7 +72,7 @@ public class DialogMessages implements Dialog.OnShowListener {
 
     private void addMessages(List<MessageResponse> messages) {
         LinearLayout linearLayout = dialog.findViewById(R.id.layout_for_messages);
-        for (MessageResponse message : messages) {
+        for (final MessageResponse message : messages) {
             Log.i(TAG, "mes add");
             LinearLayout newView = new LinearLayout(
                     dialog.getContext());
@@ -78,7 +81,15 @@ public class DialogMessages implements Dialog.OnShowListener {
                     newView);
             linearLayout.addView(newView);
             ((TextView) newView.findViewById(R.id.textMessage)).setText(message.getText());
-            ((TextView) newView.findViewById(R.id.textView2)).setText(message.getColor().toString());
+            newView.findViewById(R.id.imageWriter).setBackgroundColor(message.getColor() + 0xff000000);
+            newView.findViewById(R.id.imageWriter).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(dialog.getContext(),
+                            String.format("Это написал %s", message.getFrom()),
+                            Toast.LENGTH_LONG).show();
+                }
+            });
         }
     }
 

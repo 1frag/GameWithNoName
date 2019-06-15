@@ -110,8 +110,8 @@ public class ConnectionServer {
         call = serverAPIs.sendMessage(name, text);
     }
 
-    public void initGetNewMessages(String name) {
-        call = serverAPIs.getNewMessages(name);
+    public void initGetNewMessages(String name, int flag) {
+        call = serverAPIs.getNewMessages(name, flag);
     }
 
     public void initCheckGame(String name) {
