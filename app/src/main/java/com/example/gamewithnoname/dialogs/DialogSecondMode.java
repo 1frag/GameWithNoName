@@ -1,4 +1,4 @@
-package com.example.gamewithnoname.utils;
+package com.example.gamewithnoname.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.gamewithnoname.R;
@@ -17,6 +18,7 @@ import com.example.gamewithnoname.ServerConnection.ConnectionServer;
 import com.example.gamewithnoname.activities.FriendsModeActivity;
 import com.example.gamewithnoname.callbacks.SimpleCallbacks;
 import com.example.gamewithnoname.models.LoggedInUser;
+import com.example.gamewithnoname.utils.UserLocation;
 
 import static com.example.gamewithnoname.utils.Constants.CREATOR;
 import static com.example.gamewithnoname.utils.Constants.JOINER;
@@ -146,11 +148,15 @@ public class DialogSecondMode implements Dialog.OnShowListener {
                     }
                 };
 
+                RadioButton radioButton = dialog.findViewById(R.id.radio_button_in_team);
+                int type = (radioButton.isChecked() ? 1 : 2);
+
                 ConnectionServer.getInstance().initCreateGame(
                         LoggedInUser.getName(),
                         UserLocation.imHere.getLatitude(),
                         UserLocation.imHere.getLongitude(),
-                        time
+                        time,
+                        type
                 );
                 ConnectionServer.getInstance().connectSimple(initCallbacks);
 

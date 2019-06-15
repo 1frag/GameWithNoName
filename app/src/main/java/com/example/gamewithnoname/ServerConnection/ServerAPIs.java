@@ -2,6 +2,7 @@ package com.example.gamewithnoname.ServerConnection;
 
 import com.example.gamewithnoname.models.responses.CheckGameResponse;
 import com.example.gamewithnoname.models.responses.GameStateResponse;
+import com.example.gamewithnoname.models.responses.MessageResponse;
 import com.example.gamewithnoname.models.responses.UserResponse;
 import com.example.gamewithnoname.models.responses.PointsResponse;
 import com.example.gamewithnoname.models.responses.SimpleResponse;
@@ -33,7 +34,8 @@ public interface ServerAPIs {
             @Query("name") String name,
             @Query("latitude") double latit,
             @Query("longitude") double tongit,
-            @Query("duration") int duration
+            @Query("duration") int duration,
+            @Query("type") int type
     );
 
     @GET("/join_game")
@@ -75,6 +77,11 @@ public interface ServerAPIs {
 
     @GET("/check_game")
     Call<CheckGameResponse> checkGame(
+            @Query("name") String name
+    );
+
+    @GET("/get_messages")
+    Call<List<MessageResponse>> getNewMessages(
             @Query("name") String name
     );
 

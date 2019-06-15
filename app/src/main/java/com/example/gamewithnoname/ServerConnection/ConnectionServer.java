@@ -5,17 +5,22 @@ import android.util.Log;
 
 import com.example.gamewithnoname.callbacks.ChangeCoinsCallbacks;
 import com.example.gamewithnoname.callbacks.CheckGameCallbacks;
+import com.example.gamewithnoname.callbacks.GetMessagesCallbacks;
+import com.example.gamewithnoname.callbacks.SendMessageCallbacks;
 import com.example.gamewithnoname.callbacks.UpdateStateCallbacks;
 import com.example.gamewithnoname.models.responses.CheckGameResponse;
+import com.example.gamewithnoname.models.responses.DialogResponse;
 import com.example.gamewithnoname.models.responses.GameStateResponse;
 import com.example.gamewithnoname.models.responses.GamersResponse;
 import com.example.gamewithnoname.callbacks.LoginCallbacks;
+import com.example.gamewithnoname.models.responses.MessageResponse;
 import com.example.gamewithnoname.models.responses.UserResponse;
 import com.example.gamewithnoname.models.responses.PointsResponse;
 import com.example.gamewithnoname.callbacks.SimpleCallbacks;
 import com.example.gamewithnoname.models.responses.SimpleResponse;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -81,8 +86,8 @@ public class ConnectionServer {
         );
     }
 
-    public void initCreateGame(String name, double latit, double longit, int duration) {
-        call = serverAPIs.createGame(name, latit, longit, duration);
+    public void initCreateGame(String name, double latit, double longit, int duration, int type) {
+        call = serverAPIs.createGame(name, latit, longit, duration, type);
     }
 
     public void initJoinGame(String name, double latit, double longit, String key) {
@@ -103,6 +108,10 @@ public class ConnectionServer {
 
     public void initSendMessage(String name, String text) {
         call = serverAPIs.sendMessage(name, text);
+    }
+
+    public void initGetNewMessages(String name) {
+        call = serverAPIs.getNewMessages(name);
     }
 
     public void initCheckGame(String name) {
@@ -263,5 +272,51 @@ public class ConnectionServer {
 
         });
     }
+
+    public void connectSendMessage(@Nullable final SendMessageCallbacks callback) {
+        call.enqueue(new Callback<SimpleResponse>() {
+
+            @Override
+            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                if (response.body() != null && callback != null) {
+                    int value = Integer.parseInt(response.body().getResult());
+                    if (value == 1) {
+                        callback.sended();
+                    } else {
+                        callback.someProblem(value);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SimpleResponse> call, Throwable t) {
+                Log.i(TAG, "onFailure --> connectSendMessage");
+            }
+
+        });
+    }
+
+    public void connectGetMessages(@Nullable final GetMessagesCallbacks callback) {
+        call.enqueue(new Callback<DialogResponse>() {
+
+            @Override
+            public void onResponse(Call<DialogResponse> call, Response<DialogResponse> response) {
+                if (response.body() != null && callback != null) {
+                    int value = response.body().getResult();
+                    if (value == 1) {
+                        callback.success(response.body().getMessages());
+                    } else {
+                        callback.problem(value);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DialogResponse> call, Throwable t) {
+                Log.i(TAG, "onFailure --> connectGetMessages");
+            }
+        });
+    }
+
 
 }

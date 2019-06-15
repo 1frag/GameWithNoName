@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.gamewithnoname.R;
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
+import com.example.gamewithnoname.dialogs.DialogMessages;
 import com.example.gamewithnoname.utils.UserLocation;
 import com.example.gamewithnoname.models.responses.GamersResponse;
 import com.example.gamewithnoname.models.responses.PointsResponse;
@@ -461,28 +462,11 @@ public class FriendsModeActivity extends Activity {
     public void openMessages(View view) {
 
         dialog = new BottomSheetDialog(this);
-        final View sheetView = getLayoutInflater().inflate(R.layout.layout_messages, null);
-        dialog.setContentView(sheetView);
+
         // to refer view in layout_messages:
         // sheetView.findViewById(R.id.some_id)
 
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialog) {
-                Button btnSend = sheetView.findViewById(R.id.buttonSendMessage);
-                btnSend.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        EditText editText = sheetView.findViewById(R.id.writeMessage);
-                        String text = editText.getText().toString();
-                        editText.setText("");
-
-                        ConnectionServer.getInstance().initSendMessage(LoggedInUser.getName(), text);
-
-                    }
-                });
-            }
-        });
+        dialog.setOnShowListener(new DialogMessages());
 
         dialog.show();
     }

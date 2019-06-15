@@ -20,17 +20,17 @@
         android:layout_below="@+id/text_create"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:checkedButton="@id/radioButton">
+        android:checkedButton="@id/radio_button_in_team">
 
         <RadioButton
-            android:id="@+id/radioButton"
+            android:id="@+id/radio_button_in_team"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/alert_2m_in_team" />
 
         <RadioButton
-            android:id="@+id/radioButton2"
+            android:id="@+id/radio_button_individual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
