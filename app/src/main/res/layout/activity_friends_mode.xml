@@ -9,18 +9,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/layout_messages" android:visibility="invisible" android:id="@+id/include"/>
-
     <LinearLayout
         android:id="@+id/layout_mapview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/layout_multi_params"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username_layout">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <com.yandex.mapkit.mapview.MapView
             android:id="@+id/mapViewFrMode"
@@ -35,11 +31,21 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="26dp"
-                android:layout_marginBottom="25dp"
+                android:layout_marginStart="154dp"
+                android:layout_marginBottom="73dp"
                 android:clickable="true"
+                android:src="@drawable/ic_play"
+                android:visibility="invisible" />
+
+            <include layout="@layout/layout_messages"
                 android:visibility="invisible"
-                android:src="@drawable/ic_play" />
+                android:id="@+id/include"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="65dp"
+                android:layout_marginTop="65dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"/>
 
         </com.yandex.mapkit.mapview.MapView>
     </LinearLayout>
@@ -52,7 +58,7 @@
         android:background="@drawable/buttons_friends_mode_border"
         android:text="create new"
         android:textColor="@android:color/white"
-        app:layout_constraintTop_toBottomOf="@id/username_layout" />
+        app:layout_constraintTop_toBottomOf="parent" />
 
     <Button
         android:id="@+id/button_join_game"

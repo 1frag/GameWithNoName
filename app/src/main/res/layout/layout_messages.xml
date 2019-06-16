@@ -2,9 +2,10 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".dialogs.DialogMessages"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorAccentLight"
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
     >
 
@@ -12,9 +13,11 @@
     <ScrollView
         android:id="@+id/scrollView3"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginEnd="8dp"
+        android:layout_height="match_parent"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -27,15 +30,17 @@
     </ScrollView>
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/colorAccent"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView3">
+        app:layout_constraintStart_toStartOf="parent">
 
         <EditText
             android:id="@+id/writeMessage"
@@ -43,15 +48,34 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="@string/activity_multiplayer_hint_write_message" />
+            android:textColor="@android:color/white"
+            android:hint="@string/activity_multiplayer_hint_write_message"
+            android:inputType="textPersonName" />
 
-        <Button
+        <ImageButton
             android:id="@+id/buttonSendMessage"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:foregroundGravity="center"
+            android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:text="@string/activity_multiplayer_send_message" />
+            android:background="@color/colorAccent"
+            android:src="@drawable/ic_right_arrow"/>
+
     </LinearLayout>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Close"
+        android:background="@color/colorSecondary"
+        android:onClick="closeMessages"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

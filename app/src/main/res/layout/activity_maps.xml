@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -23,36 +24,41 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/mapViewInGame"></LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/layout_vals"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/mapsButtonPause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:onClick="stopBot"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@color/buttonsForLayout"
-        android:orientation="horizontal">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_pause"
+        android:background="@color/colorAccent"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="90dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal"
+        android:background="@drawable/round_buttons"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/textBotToEnd"
-            android:layout_marginTop="16dp"
-            android:layout_width="0dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginStart="8dp"
-            android:textSize="18sp"
+            android:text="@string/activity_maps_bot_finishes"
             android:textColor="@android:color/black"
-            android:text="@string/activity_maps_bot_finishes" />
-
-        <ImageButton
-            android:id="@+id/mapsButtonPause"
-            android:onClick="stopBot"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="8dp"
-            app:srcCompat="@drawable/ic_pause" />
-
-
+            android:fontFamily="@font/lekton"
+            android:textSize="18sp"/>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

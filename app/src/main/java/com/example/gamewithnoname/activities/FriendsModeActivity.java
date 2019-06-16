@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,6 +59,7 @@ public class FriendsModeActivity extends Activity {
     private SimpleCallbacks killRunningGameCallbacks;
 
     private MapView mapView;
+    private CurCntData datas;
     private Map mMap;
     private ArrayList<Gamer> dataLegend;
     private Integer counterCoins = 0;
@@ -82,12 +84,23 @@ public class FriendsModeActivity extends Activity {
         }
     }
 
+    class CurCntData {
+        Integer mMessages;
+        Integer mCoins;
+
+        CurCntData(){
+            mMessages = 0;
+            mCoins = 0;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends_mode);
 
+        datas = new CurCntData();
         mapView = findViewById(R.id.mapViewFrMode);
         mMap = mapView.getMap();
         configMap();
@@ -428,7 +441,9 @@ public class FriendsModeActivity extends Activity {
                 ConnectionServer.getInstance().initUpdateMap(
                         LoggedInUser.getName(),
                         UserLocation.imHere.getLatitude(),
-                        UserLocation.imHere.getLongitude()
+                        UserLocation.imHere.getLongitude(),
+                        datas.mMessages,
+                        datas.mCoins
                 );
                 ConnectionServer.getInstance().connectUpdateState(gameStateCallback);
 //                connectionServer.connectPoints(gameCallbacks);
@@ -466,16 +481,24 @@ public class FriendsModeActivity extends Activity {
 
     public void openMessages(View view) {
 
-        dialog = new BottomSheetDialog(this);
-
+//        dialog = new BottomSheetDialog(this);
+//        dialog.setOnShowListener(new DialogMessages());
+//        dialog.show();
         // to refer view in layout_messages:
         // sheetView.findViewById(R.id.some_id)
 
-        DialogMessages managerSheet = new DialogMessages();
-        dialog.setOnShowListener(managerSheet);
-        dialog.setOnCancelListener(managerSheet);
+//<<<<<<< HEAD
+//        DialogMessages managerSheet = new DialogMessages();
+//        dialog.setOnShowListener(managerSheet);
+//        dialog.setOnCancelListener(managerSheet);
+//=======
+        View include = findViewById(R.id.include);
+        include.setVisibility(View.VISIBLE);
 
-        dialog.show();
+    }
+
+    public void closeMessages(View view) {
+        findViewById(R.id.include).setVisibility(View.INVISIBLE);
     }
 
     private Dialog openLegendDialog() {

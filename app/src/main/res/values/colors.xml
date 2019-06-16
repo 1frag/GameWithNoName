@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#c5e1a5</color>
-    <!--or E8FFD1 or first D2E0B4 or same D6E8BA OR D4E4DC or green CBD5A6-->
     <color name="colorPrimaryLight">#f8ffd7</color>
-
     <color name="colorPrimaryDark">#94af76</color>
-    <!--869468 or 2B4A3A or 7C7A63-->
-    <color name="colorAccent">#ff8a65</color>
-    <!--804837 9D7D88 9D5A62 ff8a65-->
-    <color name="colorAccentLight">#ffbb93</color>
-    <color name="colorAccentDark">#c75b39</color>
 
-    <color name="buttonStart">#FF683B</color>
-    <!--FF5722 FF683B-->
-    <color name="buttonStartPressed">#912F10</color>
+
+    <color name="colorAccent">#1976d2</color>
+    <color name="colorAccentLight">#63a4ff</color>
+    <color name="colorAccentDark">#004ba0</color>
+    
+    <color name="colorSecondary">#ff8a65</color>
+    <color name="colorSecondaryLight">#ffbb93</color>
+    <color name="colorSecondaryDark">#c75b39</color>
+
     <color name="buttonsForLayout">#c5e1a5</color>
-    <!--83965A OR 559374 or last 869468 98BB69-->
     <color name="buttonsForLayoutPressed">#444127</color>
-    <!--384726-->
+
     <color name="colorText">#474041</color>
 
 </resources>

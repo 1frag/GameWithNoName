@@ -29,6 +29,10 @@ public class GameStateResponse {
     @Path("channel")
     private StatisticsResponse stats;
 
+    @ElementList(name="message", inline=true)
+    @Path("channel")
+    private List<MessageResponse> messages;
+
     @SerializedName("link")
     @Expose
     private String link;
@@ -48,7 +52,6 @@ public class GameStateResponse {
     public void setGamers(List<GamersResponse> gamers) {
         this.gamers = gamers;
     }
-
 
     public List<PointsResponse> getPoints() {
         return points;
@@ -72,5 +75,13 @@ public class GameStateResponse {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public List<MessageResponse> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<MessageResponse> messages) {
+        this.messages = messages;
     }
 }

@@ -45,7 +45,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/colorAccent"
+            android:background="@color/colorSecondary"
             android:onClick="nextActivity"
             android:text="@string/activity_parameters_button"
             android:textSize="18sp" />

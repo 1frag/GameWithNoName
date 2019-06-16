@@ -51,7 +51,9 @@ public interface ServerAPIs {
     Call<GameStateResponse> updateMap(
             @Query("name") String name,
             @Query("latitude") double latit,
-            @Query("longitude") double tongit
+            @Query("longitude") double tongit,
+            @Query("messages") int messages,
+            @Query("coins") int coins
     );
 
     @GET("/begin_game")

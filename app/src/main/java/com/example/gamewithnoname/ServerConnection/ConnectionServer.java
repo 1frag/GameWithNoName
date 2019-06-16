@@ -94,8 +94,8 @@ public class ConnectionServer {
         call = serverAPIs.joinGame(name, latit, longit, key);
     }
 
-    public void initUpdateMap(String name, double latit, double longit) {
-        call = serverAPIs.updateMap(name, latit, longit);
+    public void initUpdateMap(String name, double latit, double longit, int messages, int coins) {
+        call = serverAPIs.updateMap(name, latit, longit, messages, coins);
     }
 
     public void initBeginGame(String name) {
