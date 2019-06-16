@@ -107,6 +107,14 @@ public class FriendsModeActivity extends Activity {
         buildOwn(type);
     }
 
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mTimer.cancel();
+        mTimer.purge();
+    }
+
     private void buildOwn(int type) {
         if (type == CREATOR) {
             // todo: есть кнопочка запустить игру
@@ -216,9 +224,8 @@ public class FriendsModeActivity extends Activity {
             iconStyle.setVisible(true);
             ImageProvider imageProvider = new ImageProvider() {
                 @Override
-                public String getId() {
-                    counterCoins++;
-                    return String.format("coins#%s", counterCoins);
+                public String getId() { ;
+                    return "coin";
                 }
 
                 @Override
@@ -464,7 +471,9 @@ public class FriendsModeActivity extends Activity {
         // to refer view in layout_messages:
         // sheetView.findViewById(R.id.some_id)
 
-        dialog.setOnShowListener(new DialogMessages());
+        DialogMessages managerSheet = new DialogMessages();
+        dialog.setOnShowListener(managerSheet);
+        dialog.setOnCancelListener(managerSheet);
 
         dialog.show();
     }

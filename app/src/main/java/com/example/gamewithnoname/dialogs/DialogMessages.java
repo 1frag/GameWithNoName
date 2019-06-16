@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class DialogMessages implements Dialog.OnShowListener {
+public class DialogMessages implements Dialog.OnShowListener, Dialog.OnCancelListener {
 
     private Dialog dialog;
     private Timer mTimer;
@@ -58,6 +58,7 @@ public class DialogMessages implements Dialog.OnShowListener {
                     @Override
                     public void success(List<MessageResponse> messages) {
 //                        Log.i(TAG, "success");
+                        Log.i(TAG, "get in");
                         addMessages(messages);
                     }
 
@@ -132,5 +133,11 @@ public class DialogMessages implements Dialog.OnShowListener {
 
             }
         });
+    }
+
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        mTimer.cancel();
+        mTimer.purge();
     }
 }
