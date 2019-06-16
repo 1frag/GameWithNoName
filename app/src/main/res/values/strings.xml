@@ -92,5 +92,7 @@
     <string name="alert_2m_join">Or join:</string>
     <string name="activity_login_ad">You don`t know, why we insist on registration?</string>
     <string name="activity_login_btn_ad">Read about game</string>
+    <string name="alert_2m_finish_game_text">Are you sure you want to finish the game? You will not be able to return.</string>
+    <string name="alert_2m_finish_game">Finish this game</string>
 
 </resources>

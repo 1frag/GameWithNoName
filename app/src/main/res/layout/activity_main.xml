@@ -55,15 +55,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
             android:orientation="vertical">
 
             <Button
                 android:id="@+id/buttonCatchBot"
                 android:layout_width="match_parent"
                 android:layout_height="94dp"
-                android:background="@color/colorSecondary"
+                android:background="@drawable/modes_buttons"
+                android:elevation="5dp"
                 android:fontFamily="@font/lekton"
                 android:onClick="processButtonPressing"
+                android:shadowColor="#008D8585"
+                android:shadowDx="3"
                 android:text="@string/main_activity_button_catch_bot"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -73,7 +77,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="94dp"
                 android:layout_marginTop="16dp"
-                android:background="@color/colorSecondary"
+                android:background="@drawable/modes_buttons"
+                android:elevation="5dp"
                 android:fontFamily="@font/lekton"
                 android:onClick="processButtonPressing"
                 android:text="@string/main_activity_button_game_friends"
