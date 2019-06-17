@@ -384,6 +384,9 @@ public class FriendsModeActivity extends Activity {
             public void coinsUpdate(@NonNull List<PointsResponse> coins) {
                 Log.i(TAG, "checkCoins is true (2)");
                 drawCoins(coins);
+                if (datas.mCoins == 0 && coins.size() != 0){
+                    stageHandler(2);
+                }
                 datas.mCoins = coins.size();
             }
 
