@@ -451,12 +451,12 @@ public class FriendsModeActivity extends Activity {
     }
 
     private void addMessages(List<MessageResponse> messages) {
-        LinearLayout linearLayout = dialog.findViewById(R.id.layout_for_messages);
+        LinearLayout linearLayout = findViewById(R.id.layout_for_messages);
         for (final MessageResponse message : messages) {
             Log.i(TAG, "mes add");
             LinearLayout newView = new LinearLayout(
-                    dialog.getContext());
-            dialog.getLayoutInflater().inflate(
+                    FriendsModeActivity.this);
+            getLayoutInflater().inflate(
                     R.layout.layout_multi_message,
                     newView);
             linearLayout.addView(newView);
@@ -465,7 +465,7 @@ public class FriendsModeActivity extends Activity {
             newView.findViewById(R.id.imageWriter).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(dialog.getContext(),
+                    Toast.makeText(FriendsModeActivity.this,
                             String.format("Это написал %s", message.getFrom()),
                             Toast.LENGTH_LONG).show();
                 }
