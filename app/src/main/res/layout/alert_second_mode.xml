@@ -107,8 +107,8 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="1dp"
         android:layout_marginTop="4dp"
-        android:textColor="@color/colorPrimaryLight"
-        android:text="@string/main_activity_button_seek_coins" />
+        android:text="@string/main_activity_button_catch_bot"
+        android:textColor="@color/colorPrimaryLight" />
 
 
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.example.gamewithnoname.activities;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -9,7 +10,9 @@ import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -73,6 +76,8 @@ public class FriendsModeActivity extends Activity {
             "HITS", "FriendsModeActivity"
     );
     private BottomSheetDialog dialog;
+    private int type;
+    private int stage;
 
     class Gamer {
         String name;
@@ -110,8 +115,8 @@ public class FriendsModeActivity extends Activity {
             return;
         }
 
-        int type = getIntent().getExtras().getInt("type"); // creator or joiner
-        int stage = getIntent().getExtras().getInt("stage"); // run or wait
+        type = getIntent().getExtras().getInt("type"); // creator or joiner
+        stage = getIntent().getExtras().getInt("stage"); // run or wait
         mainGameLoop();
         if (stage == WAIT_GAME)
             stageHandler(1);
@@ -130,9 +135,7 @@ public class FriendsModeActivity extends Activity {
 
     private void buildOwn(int type) {
         if (type == CREATOR) {
-            // todo: есть кнопочка запустить игру
-        } else /* JOINER **/ {
-            // todo: нет этой кнопки и прочее
+            (findViewById(R.id.floatingAdmButton)).setVisibility(View.VISIBLE);
         }
     }
 
@@ -161,6 +164,7 @@ public class FriendsModeActivity extends Activity {
             (findViewById(R.id.imageButton)).setVisibility(View.INVISIBLE);
             (findViewById(R.id.imageButton2)).setVisibility(View.INVISIBLE);
             (findViewById(R.id.text_view_code)).setVisibility(View.INVISIBLE);
+            (findViewById(R.id.floatingAdmButton)).setVisibility(View.INVISIBLE);
             (findViewById(R.id.button_go)).setVisibility(View.VISIBLE);
 
             // go button set second type
@@ -170,41 +174,12 @@ public class FriendsModeActivity extends Activity {
 
     private void configGoCancelButton() {
         ImageButton btn = findViewById(R.id.button_go);
-        btn.setBackgroundColor(0x55FF0000);
-//        btn.setText("Закончить игру");
+        btn.setEnabled(true);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // todo: алерт на подтверждение
                 // Убить текущую запущенную игру
-                killRunningGameCallbacks = new SimpleCallbacks() {
-                    @Override
-                    public void onSuccess(@NonNull String value) {
-                        stageHandler(0);
-                        if (mTimer != null) {
-                            mTimer.cancel();
-                            mTimer.purge();
-                        }
-                        for (MapObject mapObject : coinspositions) {
-                            mMap.getMapObjects().remove(mapObject);
-                        }
-                        coinspositions.clear();
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable throwable) {
-                        Log.i(TAG, "onError --> killRunningGameCallbacks");
-                        Toast.makeText(FriendsModeActivity.this,
-                                "У нас проблемы))",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                };
-
-                ConnectionServer.getInstance().initKillRunGame(
-                        LoggedInUser.getName()
-                );
-                ConnectionServer.getInstance().connectSimple(killRunningGameCallbacks);
-
+                areYouSureAlert();
             }
         });
     }
@@ -271,9 +246,7 @@ public class FriendsModeActivity extends Activity {
     }
 
     private void configGoButton() {
-        ImageButton btn = findViewById(R.id.button_go);
-        btn.setBackgroundColor(0xff0099cc); // in colors_holo.xml holo_blue_dark
-//        btn.setText("I'm ready to start"); // todo: already in strings.xml
+        ImageButton btn = findViewById(R.id.floatingAdmButton);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -478,7 +451,49 @@ public class FriendsModeActivity extends Activity {
         });
         dialog.show();
     }
+    public void areYouSureAlert() {
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.alert_2m_finish_game))
+                .setMessage(getString(R.string.alert_2m_finish_game_text))
 
+                // Specifying a listener allows you to take an action before dismissing the dialog.
+                // The dialog is automatically dismissed when a dialog button is clicked.
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        killRunningGameCallbacks = new SimpleCallbacks() {
+                            @Override
+                            public void onSuccess(@NonNull String value) {
+                                stageHandler(0);
+                                if (mTimer != null) {
+                                    mTimer.cancel();
+                                    mTimer.purge();
+                                }
+                                for (MapObject mapObject : coinspositions) {
+                                    mMap.getMapObjects().remove(mapObject);
+                                }
+                                coinspositions.clear();
+                            }
+
+                            @Override
+                            public void onError(@NonNull Throwable throwable) {
+                                Log.i(TAG, "onError --> killRunningGameCallbacks");
+                                Toast.makeText(FriendsModeActivity.this,
+                                        "У нас проблемы))",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        };
+
+                        ConnectionServer.getInstance().initKillRunGame(
+                                LoggedInUser.getName()
+                        );
+                        ConnectionServer.getInstance().connectSimple(killRunningGameCallbacks);
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .show();
+    }
+
+    @SuppressLint("ResourceType")
     public void openMessages(View view) {
 
 //        dialog = new BottomSheetDialog(this);
@@ -486,19 +501,27 @@ public class FriendsModeActivity extends Activity {
 //        dialog.show();
         // to refer view in layout_messages:
         // sheetView.findViewById(R.id.some_id)
-
-//<<<<<<< HEAD
-//        DialogMessages managerSheet = new DialogMessages();
-//        dialog.setOnShowListener(managerSheet);
-//        dialog.setOnCancelListener(managerSheet);
-//=======
-        View include = findViewById(R.id.include);
-        include.setVisibility(View.VISIBLE);
-
+        ConstraintLayout chat = findViewById(R.id.include);
+        if (chat.getVisibility() == View.VISIBLE) {
+            closeMessages(chat);
+        }
+        else {
+            (findViewById(R.id.floatingAdmButton)).setVisibility(View.INVISIBLE);
+            (findViewById(R.id.text_view_code)).setVisibility(View.INVISIBLE);
+            (findViewById(R.id.button_multi_chat)).setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+            chat.setVisibility(View.VISIBLE);
+        }
     }
 
     public void closeMessages(View view) {
         findViewById(R.id.include).setVisibility(View.INVISIBLE);
+        (findViewById(R.id.button_multi_chat)).setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        if (!findViewById(R.id.button_go).isClickable()) {
+            (findViewById(R.id.text_view_code)).setVisibility(View.VISIBLE);
+            if (type == CREATOR) {
+                (findViewById(R.id.floatingAdmButton)).setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     private Dialog openLegendDialog() {

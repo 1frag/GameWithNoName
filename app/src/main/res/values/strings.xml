@@ -10,8 +10,6 @@
     <string name="main_activity_swipe_right">Flip if you want to run off</string>
     <string name="main_activity_authorization">Sign in</string>
     <string name="main_activity_button_catch_bot">Catch bot</string>
-    <string name="main_activity_button_runaway_bot">Run away from bots</string>
-    <string name="main_activity_button_seek_coins">Seek for coins (stranger on map)</string>
     <string name="main_activity_button_game_friends">Seek for coins</string>
     <string name="main_activity_button_another_mode">Unknown mode</string>
     <string name="main_activity_text_hello">Username</string>
@@ -92,5 +90,7 @@
     <string name="alert_2m_join">Or join:</string>
     <string name="activity_login_ad">You don`t know, why we insist on registration?</string>
     <string name="activity_login_btn_ad">Read about game</string>
+    <string name="alert_2m_finish_game_text">Are you sure you want to finish the game? You will not be able to return.</string>
+    <string name="alert_2m_finish_game">Finish this game</string>
 
 </resources>
