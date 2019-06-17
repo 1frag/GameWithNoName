@@ -9,9 +9,9 @@
     <color name="colorAccentLight">#bef67a</color>
     <color name="colorAccentDark">#5a9216</color>
     
-    <color name="colorSecondary">#ff7043</color>
-    <color name="colorSecondaryLight">#ffa270</color>
-    <color name="colorSecondaryDark">#c63f17</color>
+    <color name="colorSecondary">#FF7043</color>
+    <color name="colorSecondaryLight">#ffbb93</color>
+    <color name="colorSecondaryDark">#c75b39</color>
 
     <color name="buttonsForLayout">#c5e1a5</color>
     <color name="buttonsForLayoutPressed">#444127</color>

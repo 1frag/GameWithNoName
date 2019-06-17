@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -160,10 +161,25 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
             case R.id.buttonAutho: {
+                findViewById(R.id.include_me).setVisibility(View.INVISIBLE);
                 loginPrefsEditor.clear();
                 loginPrefsEditor.commit();
                 Intent authoIntent = new Intent(this, LoginActivity.class);
                 startActivity(authoIntent);
+                break;
+            }
+            case R.id.btn_me: {
+                ConstraintLayout me = findViewById(R.id.include_me);
+                if (me.getVisibility() == View.VISIBLE) {
+                    findViewById(R.id.include_me).setVisibility(View.INVISIBLE);
+                    findViewById(R.id.buttonCatchBot).setVisibility(View.VISIBLE);
+                    findViewById(R.id.textView2).setVisibility(View.VISIBLE);
+                }
+                else {
+                    findViewById(R.id.include_me).setVisibility(View.VISIBLE);
+                    findViewById(R.id.buttonCatchBot).setVisibility(View.INVISIBLE);
+                    findViewById(R.id.textView2).setVisibility(View.INVISIBLE);
+                }
                 break;
             }
             case R.id.buttonWithFriends: {

@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent"
+    android:background="@color/colorPrimaryDark"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <View
         android:id="@+id/imageWriter"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="@color/colorSecondaryDark"
+        android:background="@color/colorSecondaryLight"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"

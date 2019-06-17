@@ -10,8 +10,6 @@
     <string name="main_activity_swipe_right">Flip if you want to run off</string>
     <string name="main_activity_authorization">Sign in</string>
     <string name="main_activity_button_catch_bot">Catch bot</string>
-    <string name="main_activity_button_runaway_bot">Run away from bots</string>
-    <string name="main_activity_button_seek_coins">Seek for coins (stranger on map)</string>
     <string name="main_activity_button_game_friends">Seek for coins</string>
     <string name="main_activity_button_another_mode">Unknown mode</string>
     <string name="main_activity_text_hello">Username</string>
