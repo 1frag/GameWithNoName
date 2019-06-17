@@ -112,6 +112,7 @@ public class FriendsModeActivity extends Activity {
             return;
         }
 
+        configBtnSend();
         type = getIntent().getExtras().getInt("type"); // creator or joiner
         stage = getIntent().getExtras().getInt("stage"); // run or wait
         mainGameLoop();
