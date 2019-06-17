@@ -384,11 +384,13 @@ public class FriendsModeActivity extends Activity {
             public void coinsUpdate(@NonNull List<PointsResponse> coins) {
                 Log.i(TAG, "checkCoins is true (2)");
                 drawCoins(coins);
+                datas.mCoins = coins.size();
             }
 
             @Override
             public void messagesUpdate(@NonNull List<MessageResponse> messages) {
                 addMessages(messages);
+                datas.mMessages = messages.size();
             }
 
             @Override
