@@ -389,6 +389,7 @@ public class FriendsModeActivity extends Activity {
 
             @Override
             public void messagesUpdate(@NonNull List<MessageResponse> messages) {
+                Log.i(TAG, String.format("size %s", messages.size()));
                 addMessages(messages);
                 datas.mMessages = messages.size();
             }

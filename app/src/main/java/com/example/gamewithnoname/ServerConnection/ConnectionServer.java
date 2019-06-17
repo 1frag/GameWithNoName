@@ -301,8 +301,8 @@ public class ConnectionServer {
                     if (response.body().getMessages() != null)
                         callback.messagesUpdate(response.body().getMessages());
 
-                    if (response.body().getPoints() != null)
-                        callback.coinsUpdate(response.body().getPoints());
+                    if (response.body().getCoins() != null)
+                        callback.coinsUpdate(response.body().getCoins());
 
                     if (response.body().getLink() != null)
                         callback.linkUpdate(response.body().getLink());

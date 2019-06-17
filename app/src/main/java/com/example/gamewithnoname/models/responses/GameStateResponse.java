@@ -21,9 +21,9 @@ public class GameStateResponse {
     @Path("channel")
     private List<GamersResponse> gamers;
 
-    @ElementList(name="point", inline=true)
+    @ElementList(name="coins", inline=true)
     @Path("channel")
-    private List<PointsResponse> points;
+    private List<PointsResponse> coins;
 
     @ElementList(name="stats", inline=true)
     @Path("channel")
@@ -53,12 +53,12 @@ public class GameStateResponse {
         this.gamers = gamers;
     }
 
-    public List<PointsResponse> getPoints() {
-        return points;
+    public List<PointsResponse> getCoins() {
+        return coins;
     }
 
-    public void setPoints(List<PointsResponse> points) {
-        this.points = points;
+    public void setCoins(List<PointsResponse> coins) {
+        this.coins = coins;
     }
 
     public StatisticsResponse getStats() {
