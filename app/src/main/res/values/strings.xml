@@ -2,17 +2,9 @@
     <string name="app_name">GameWithNoName</string>
     <string name="title_activity_maps">Map</string>
 
-    <string name="main_activity_start">Continue</string>
-    <string name="main_activity_button_stat_description">Show user`s statistics</string>
-    <string name="main_activity_button_friends_description">Show friends</string>
-    <string name="main_activity_button_info_description">Show instructions</string>
-    <string name="main_activity_toast_no_finish">Touch to set finish</string>
-    <string name="main_activity_swipe_right">Flip if you want to run off</string>
-    <string name="main_activity_authorization">Sign in</string>
-    <string name="main_activity_button_catch_bot">Catch bot</string>
-    <string name="main_activity_button_game_friends">Seek for coins</string>
-    <string name="main_activity_button_another_mode">Unknown mode</string>
-    <string name="main_activity_text_hello">Username</string>
+    <string name="activity_main_btn_catch_bot">Catch bot</string>
+    <string name="activity_main_btn_game_friends">Seek for coins</string>
+    <string name="activity_main_text_hello">Username</string>
     <string name="main_activity_text_rating">0</string>
     <string name="main_activity_text_coins">0</string>
     <string name="main_activity_error">Smth error!</string>
@@ -20,6 +12,49 @@
     <string name="activity_main_rating">0</string>
     <string name="activity_main_all_km">km</string>
     <string name="activity_main_all_time_description">for all time</string>
+
+    <string name="activity_main_btn_stat_description">History</string>
+    <string name="activity_main_btn_friends_description">People</string>
+    <string name="activity_main_btn_info_description">Guide</string>
+    <string name="activity_main_btn_1m_description">Catch bot mode</string>
+    <string name="activity_main_btn_2m_description">Seek for coins mode</string>
+    <string name="activity_main_btn_profile_description">My profile</string>
+
+    <string name="activity_login_headline">Sign in</string>
+    <string name="activity_login_prompt_login">Login</string>
+    <string name="activity_login_prompt_password">Password</string>
+    <string name="activity_login_ok">OK</string>
+    <string name="activity_login_account_offer">Create new account</string>
+    <string name="welcome">"Welcome, "</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="invalid_login_or_password">"Invalid name or password"</string>
+    <string name="login_activity_you_need_reg">Sorry, please stay</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+
+    <string name="registration_date">Birth date</string>
+    <string name="registration">Registration</string>
+    <string name="registration_ok">OK</string>
+    <string name="registration_name">Login</string>
+    <string name="registration_male">Male</string>
+    <string name="registration_female">Female</string>
+    <string name="registration_password">Password</string>
+    <string name="registration_rpt_password">Confirm password</string>
+    <string name="registration_example_login">6 symbols min</string>
+    <string name="registration_example_date">yyyy-mm-dd</string>
+    <string name="registration_activity_data_not_valid">Data is not valid</string>
+    <string name="registration_activity_name_problem">That name already exists, try another one</string>
+    <string name="login_activity_incorrect_data">Doesn`t seem like true</string>
+    <string name="activity_parameters_unknown_error">Connect with developer pls</string>
+    <string name="activity_maps_score">Your score:</string>
+    <string name="activity_maps_speed">Your speed:</string>
+    <string name="activity_registration_notequal_passwords">Passwords are different</string>
+    <string name="activity_registration_small_login">Login must contain more than 5 symbols</string>
+    <string name="activity_registration_incorrect_login">Login cannot start with digit, have you ever registered?</string>
+    <string name="activity_registration_small_password">Password must contain more than 5 symbols</string>
+
 
     <string name="activity_parameters_headline">Parameters</string>
     <string name="activity_parameters_speed">Speed - </string>
@@ -40,43 +75,6 @@
     <string name="maps_dialog_win_ok">OK</string>
     <string name="maps_dialog_lose_ok">OK</string>
 
-    <string name="activity_login_headline">Sign in</string>
-    <string name="activity_login_ok">OK</string>
-    <string name="activity_login_account_offer">Create new account</string>
-    <string name="activity_login_login">Login</string>
-
-    <string name="title_activity_login">Sign in</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
-    <string name="invalid_login_or_password">"Invalid name or password"</string>
-
-    <string name="registration_date">Birth date</string>
-    <string name="registration">Registration</string>
-    <string name="registration_ok">OK</string>
-    <string name="registration_name">Login</string>
-    <string name="registration_male">Male</string>
-    <string name="registration_female">Female</string>
-    <string name="registration_rpt_password">Confirm password</string>
-    <string name="registration_example_login">6 symbols min</string>
-    <string name="registration_example_date">yyyy-mm-dd</string>
-
-
-    <string name="login_activity_you_need_reg">Sorry, please stay</string>
-    <string name="registration_activity_data_not_valid">Data is not valid</string>
-    <string name="registration_activity_name_problem">That name already exists, try another one</string>
-    <string name="login_activity_incorrect_data">Doesn`t seem like true</string>
-    <string name="activity_parameters_unknown_error">Connect with developer pls</string>
-    <string name="activity_maps_score">Your score:</string>
-    <string name="activity_maps_speed">Your speed:</string>
-    <string name="activity_registration_notequal_passwords">Passwords are different</string>
-    <string name="activity_registration_small_login">Login must contain more than 5 symbols</string>
-    <string name="activity_registration_incorrect_login">Login cannot start with digit, have you ever registered?</string>
-    <string name="activity_registration_small_password">Password must contain more than 5 symbols</string>
     <string name="activity_maps_bot_finishes">Bot finishes in %d minutes</string>
     <string name="layout_multi_people_close">Close</string>
     <string name="activity_friends_mode_name">Loading</string>

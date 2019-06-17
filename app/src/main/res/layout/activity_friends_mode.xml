@@ -93,6 +93,7 @@
         android:id="@+id/text_view_code"
         android:layout_width="300dp"
         android:layout_height="50dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
@@ -100,6 +101,7 @@
         android:textColor="@android:color/holo_red_dark"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="@+id/button_create_game"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout

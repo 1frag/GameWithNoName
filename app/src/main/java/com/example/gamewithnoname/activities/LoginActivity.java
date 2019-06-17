@@ -165,9 +165,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Toast.makeText(this,
-                getString(R.string.login_activity_you_need_reg),
-                Toast.LENGTH_LONG).show();
+        moveTaskToBack(true);
     }
 
     public void showInfo(View view) {

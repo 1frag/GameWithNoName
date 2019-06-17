@@ -5,10 +5,13 @@
     <color name="colorPrimaryDark">#94af76</color>
 
 
-    <color name="colorAccent">#8bc34a</color>
-    <color name="colorAccentLight">#bef67a</color>
-    <color name="colorAccentDark">#5a9216</color>
-    
+    <color name="colorAccent">#ff8a65</color>
+    <color name="colorAccentLight">#ffbb93</color>
+    <color name="colorAccentDark">#c75b39</color>
+
+    <color name="modeButtons">#ff7043</color>
+    <color name="modeButtonsPushed">#c75b39</color>
+
     <color name="colorSecondary">#FF7043</color>
     <color name="colorSecondaryLight">#ffbb93</color>
     <color name="colorSecondaryDark">#c75b39</color>

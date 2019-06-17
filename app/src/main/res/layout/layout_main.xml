@@ -22,7 +22,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="3dp"
             android:layout_weight="1"
-            android:text="@string/main_activity_text_hello"
+            android:text="@string/activity_main_text_hello"
             android:textSize="35sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/buttonAutho" />
