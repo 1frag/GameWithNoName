@@ -18,7 +18,8 @@
         android:onClick="processButtonPressing"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_avatar" />
+        app:srcCompat="@drawable/ic_avatar"
+        android:contentDescription="@string/activity_main_btn_profile_description"/>
 
     <include
         android:id="@+id/include_me"
@@ -56,6 +57,7 @@
             android:shadowColor="#008D8585"
             android:shadowDx="3"
             android:src="@drawable/ic_one"
+            android:contentDescription="@string/activity_main_btn_1m_description"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -66,7 +68,7 @@
             android:layout_marginTop="6dp"
             android:fontFamily="@font/lekton"
             android:gravity="right"
-            android:text="@string/main_activity_button_catch_bot"
+            android:text="@string/activity_main_btn_catch_bot"
             android:textSize="22dp"
             android:textStyle="bold" />
 
@@ -79,6 +81,7 @@
             android:elevation="5dp"
             android:onClick="processButtonPressing"
             android:src="@drawable/ic_one"
+            android:contentDescription="@string/activity_main_btn_2m_description"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -88,7 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:fontFamily="@font/lekton"
-            android:text="@string/main_activity_button_game_friends"
+            android:text="@string/activity_main_btn_game_friends"
             android:textSize="22dp"
             android:textStyle="bold" />
 
@@ -102,7 +105,7 @@
         android:layout_marginBottom="56dp"
         android:layout_weight="1"
         android:background="@drawable/sea_button"
-        android:contentDescription="@string/main_activity_button_info_description"
+        android:contentDescription="@string/activity_main_btn_info_description"
         android:onClick="processButtonPressing"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -116,11 +119,11 @@
         android:layout_marginBottom="56dp"
         android:layout_weight="1"
         android:background="@drawable/sea_button"
-        android:contentDescription="@string/main_activity_button_stat_description"
+        android:contentDescription="@string/activity_main_btn_stat_description"
         android:onClick="processButtonPressing"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_statistics" />
+        app:srcCompat="@drawable/ic_map" />
 
     <ImageButton
         android:id="@+id/buttonFriends"
@@ -130,7 +133,7 @@
         android:layout_marginBottom="56dp"
         android:layout_weight="1"
         android:background="@drawable/sea_button"
-        android:contentDescription="@string/main_activity_button_friends_description"
+        android:contentDescription="@string/activity_main_btn_friends_description"
         android:onClick="processButtonPressing"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

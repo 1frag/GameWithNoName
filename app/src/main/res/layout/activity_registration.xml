@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:textSize="18sp"
-            android:text="@string/prompt_password" />
+            android:text="@string/registration_password" />
 
         <EditText
             android:id="@+id/editTextPassword"
@@ -133,7 +133,7 @@
         android:layout_marginBottom="8dp"
         android:layout_weight="1"
         android:text="@string/registration_ok"
-        android:background="@color/colorAccent"
+        android:background="@color/colorAccentDark"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

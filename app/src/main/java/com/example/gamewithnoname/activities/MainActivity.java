@@ -160,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void processButtonPressing(View view) {
+        ConstraintLayout me = findViewById(R.id.include_me);
         switch (view.getId()) {
             case R.id.buttonCatchBot: {
                 Intent intentStart = new Intent(MainActivity.this, ParametersActivity.class);
@@ -167,22 +168,41 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
             case R.id.buttonStatistics: {
+                if (me.getVisibility() == View.VISIBLE) {
+                    findViewById(R.id.include_me).setVisibility(View.INVISIBLE);
+                    findViewById(R.id.buttonCatchBot).setVisibility(View.VISIBLE);
+                    findViewById(R.id.textView2).setVisibility(View.VISIBLE);
+                }
                 Intent intentStat = new Intent(MainActivity.this, StatisticsActivity.class);
                 startActivity(intentStat);
                 break;
             }
             case R.id.buttonFriends: {
+                if (me.getVisibility() == View.VISIBLE) {
+                    findViewById(R.id.include_me).setVisibility(View.INVISIBLE);
+                    findViewById(R.id.buttonCatchBot).setVisibility(View.VISIBLE);
+                    findViewById(R.id.textView2).setVisibility(View.VISIBLE);
+                }
                 Intent intentFriends = new Intent(MainActivity.this, FriendsActivity.class);
                 startActivity(intentFriends);
                 break;
             }
             case R.id.buttonInfo: {
+                if (me.getVisibility() == View.VISIBLE) {
+                    findViewById(R.id.include_me).setVisibility(View.INVISIBLE);
+                    findViewById(R.id.buttonCatchBot).setVisibility(View.VISIBLE);
+                    findViewById(R.id.textView2).setVisibility(View.VISIBLE);
+                }
                 Intent intentInfo = new Intent(MainActivity.this, InfoActivity.class);
                 startActivity(intentInfo);
                 break;
             }
             case R.id.buttonAutho: {
-                findViewById(R.id.include_me).setVisibility(View.INVISIBLE);
+                if (me.getVisibility() == View.VISIBLE) {
+                    findViewById(R.id.include_me).setVisibility(View.INVISIBLE);
+                    findViewById(R.id.buttonCatchBot).setVisibility(View.VISIBLE);
+                    findViewById(R.id.textView2).setVisibility(View.VISIBLE);
+                }
                 loginPrefsEditor.clear();
                 loginPrefsEditor.commit();
                 Intent authoIntent = new Intent(this, LoginActivity.class);
@@ -190,7 +210,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
             case R.id.btn_me: {
-                ConstraintLayout me = findViewById(R.id.include_me);
                 if (me.getVisibility() == View.VISIBLE) {
                     findViewById(R.id.include_me).setVisibility(View.INVISIBLE);
                     findViewById(R.id.buttonCatchBot).setVisibility(View.VISIBLE);
@@ -206,7 +225,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.buttonWithFriends: {
 //                Intent fmIntent = new Intent(this, FriendsModeActivity.class);
 //                startActivity(fmIntent);
-
+                if (me.getVisibility() == View.VISIBLE) {
+                    findViewById(R.id.include_me).setVisibility(View.INVISIBLE);
+                    findViewById(R.id.buttonCatchBot).setVisibility(View.VISIBLE);
+                    findViewById(R.id.textView2).setVisibility(View.VISIBLE);
+                }
                 ConnectionServer.getInstance().initCheckGame(User.getName());
                 ConnectionServer.getInstance().connectCheckGame(new CheckGameCallbacks() {
                     @Override
