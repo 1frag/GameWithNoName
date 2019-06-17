@@ -13,6 +13,22 @@ public class UserResponse {
     @Expose
     private String name;
 
+    @SerializedName("password")
+    @Expose
+    private String password;
+
+    @SerializedName("birthday")
+    @Expose
+    private String birthday;
+
+    @SerializedName("date_sign_up")
+    @Expose
+    private String date_sign_up;
+
+    @SerializedName("sex")
+    @Expose
+    private Integer sex;
+
     @SerializedName("money")
     @Expose
     private Integer money;
@@ -21,13 +37,9 @@ public class UserResponse {
     @Expose
     private Integer rating;
 
-    public Integer getResult() {
-        return result;
-    }
-
-    public void setResult(Integer result) {
-        this.result = result;
-    }
+    @SerializedName("mileage")
+    @Expose
+    private Integer mileage;
 
     public String getName() {
         return name;
@@ -35,6 +47,38 @@ public class UserResponse {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getDateSignUp() {
+        return date_sign_up;
+    }
+
+    public void setDate_sign_up(String date_sign_up) {
+        this.date_sign_up = date_sign_up;
+    }
+
+    public Integer getSex() {
+        return sex;
+    }
+
+    public void setSex(Integer sex) {
+        this.sex = sex;
     }
 
     public Integer getMoney() {
@@ -51,5 +95,21 @@ public class UserResponse {
 
     public void setRating(Integer rating) {
         this.rating = rating;
+    }
+
+    public Integer getMileage() {
+        return mileage;
+    }
+
+    public void setMileage(Integer mileage) {
+        this.mileage = mileage;
+    }
+
+    public Integer getResult() {
+        return result;
+    }
+
+    public void setResult(Integer result) {
+        this.result = result;
     }
 }

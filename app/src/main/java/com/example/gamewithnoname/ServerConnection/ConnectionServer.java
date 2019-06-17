@@ -3,24 +3,27 @@ package com.example.gamewithnoname.ServerConnection;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.gamewithnoname.callbacks.BeginGameCallbacks;
 import com.example.gamewithnoname.callbacks.ChangeCoinsCallbacks;
 import com.example.gamewithnoname.callbacks.CheckGameCallbacks;
+import com.example.gamewithnoname.callbacks.CreateGameCallbacks;
 import com.example.gamewithnoname.callbacks.GetMessagesCallbacks;
+import com.example.gamewithnoname.callbacks.JoinGameCallbacks;
+import com.example.gamewithnoname.callbacks.KillRGCallbacks;
 import com.example.gamewithnoname.callbacks.SendMessageCallbacks;
+import com.example.gamewithnoname.callbacks.SignUpCallbacks;
 import com.example.gamewithnoname.callbacks.UpdateStateCallbacks;
 import com.example.gamewithnoname.models.responses.CheckGameResponse;
 import com.example.gamewithnoname.models.responses.DialogResponse;
 import com.example.gamewithnoname.models.responses.GameStateResponse;
 import com.example.gamewithnoname.models.responses.GamersResponse;
-import com.example.gamewithnoname.callbacks.LoginCallbacks;
-import com.example.gamewithnoname.models.responses.MessageResponse;
+import com.example.gamewithnoname.callbacks.SignInCallbacks;
 import com.example.gamewithnoname.models.responses.UserResponse;
 import com.example.gamewithnoname.models.responses.PointsResponse;
 import com.example.gamewithnoname.callbacks.SimpleCallbacks;
 import com.example.gamewithnoname.models.responses.SimpleResponse;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,7 +66,7 @@ public class ConnectionServer {
 
     }
 
-    public void initLogin(String name, String password) {
+    public void initSignIn(String name, String password) {
         call = serverAPIs.getResultSignIn(
                 name,
                 password
@@ -77,7 +80,7 @@ public class ConnectionServer {
         );
     }
 
-    public void initRegistration(String name, String password, String birthday, Integer sex) {
+    public void initSignUp(String name, String password, String birthday, Integer sex) {
         call = serverAPIs.getResultSignUp(
                 name,
                 password,
@@ -86,12 +89,12 @@ public class ConnectionServer {
         );
     }
 
-    public void initCreateGame(String name, double latit, double longit, int duration, int type) {
-        call = serverAPIs.createGame(name, latit, longit, duration, type);
+    public void initCreateGame(String name, int duration, int type) {
+        call = serverAPIs.createGame(name, duration, type);
     }
 
-    public void initJoinGame(String name, double latit, double longit, String key) {
-        call = serverAPIs.joinGame(name, latit, longit, key);
+    public void initJoinGame(String name, String key) {
+        call = serverAPIs.joinGame(name, key);
     }
 
     public void initUpdateMap(String name, double latit, double longit, int messages, int coins) {
@@ -118,27 +121,138 @@ public class ConnectionServer {
         call = serverAPIs.checkGame(name);
     }
 
-    public void connectSimple(@Nullable final SimpleCallbacks callbacks) {
-        call.enqueue(new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                /*This is the success callback. Though the response type is JSON, with Retrofit we get the response in the form of WResponse POJO class
-                 */
-                if (response.body() != null) {
-                    simpleStringResult = ((SimpleResponse) response.body()).getResult();
-                }
+    private void reportStatusCode(int code, String fun) {
+        if (code != 200) {
+            Log.i(TAG, String.format("code != 200 :: %s", fun));
+        }
+    }
 
-                if (callbacks != null) {
-                    callbacks.onSuccess(simpleStringResult);
+    public void connectSimple(@Nullable final SimpleCallbacks callbacks) {
+        call.enqueue(new Callback<SimpleResponse>() {
+
+            @Override
+            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                if (response.body() != null && callbacks != null) {
+                    callbacks.onSuccess(response.body().getResult());
                 }
+                reportStatusCode(response.code(), "connectSimple");
             }
 
             @Override
-            public void onFailure(Call call, Throwable t) {
-                Log.i(TAG, "error!");
-                if (callbacks != null) {
-                    callbacks.onError(t);
+            public void onFailure(Call<SimpleResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void connectCreateGame(@Nullable final CreateGameCallbacks callback) {
+        call.enqueue(new Callback<SimpleResponse>() {
+
+            @Override
+            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                if (response.body() != null && callback != null) {
+                    if (response.body().getResult() == -1)
+                        callback.aLotOfGames();
+                    else
+                        callback.success(response.body().getResult());
                 }
+                reportStatusCode(response.code(), "connectSimple");
+            }
+
+            @Override
+            public void onFailure(Call<SimpleResponse> call, Throwable t) {
+                if (callback != null)
+                    callback.someProblem(t);
+            }
+        });
+    }
+
+    public void connectKillRG(@Nullable final KillRGCallbacks callback) {
+        call.enqueue(new Callback<SimpleResponse>() {
+
+            @Override
+            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                if (response.body() != null && callback != null) {
+                    callback.success();
+                }
+                reportStatusCode(response.code(), "connectSimple");
+            }
+
+            @Override
+            public void onFailure(Call<SimpleResponse> call, Throwable t) {
+                if (callback != null)
+                    callback.someProblem(t);
+            }
+        });
+    }
+
+    public void connectBeginGame(@Nullable final BeginGameCallbacks callback) {
+        call.enqueue(new Callback<SimpleResponse>() {
+
+            @Override
+            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                if (response.body() != null && callback != null) {
+                    if (response.body().getResult() == -1) {
+                        callback.youAreNotAuthor();
+                    } else if (response.body().getResult() == -2) {
+                        callback.notEnoughMan();
+                    } else if (response.body().getResult() == 1) {
+                        callback.success();
+                    }
+                }
+                reportStatusCode(response.code(), "connectSimple");
+            }
+
+            @Override
+            public void onFailure(Call<SimpleResponse> call, Throwable t) {
+                if (callback != null)
+                    callback.someProblem(t);
+            }
+        });
+    }
+
+    public void connectJoinGame(@Nullable final JoinGameCallbacks callback) {
+        call.enqueue(new Callback<SimpleResponse>() {
+
+            @Override
+            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                if (response.body() != null && callback != null) {
+                    if (response.body().getResult() == -1)
+                        callback.invalidLink();
+                    else if (response.body().getResult() == -2)
+                        callback.gameIsStarted();
+                    else
+                        callback.success(response.body().getResult());
+                }
+                reportStatusCode(response.code(), "connectSimple");
+            }
+
+            @Override
+            public void onFailure(Call<SimpleResponse> call, Throwable t) {
+                if (callback != null)
+                    callback.someProblem(t);
+            }
+        });
+    }
+
+    public void connectSignUp(@Nullable final SignUpCallbacks callbacks) {
+        call.enqueue(new Callback<SimpleResponse>() {
+
+            @Override
+            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                if (response.body() != null && callbacks != null) {
+                    if (response.body().getResult() == 1)
+                        callbacks.success();
+                    else
+                        callbacks.nameAlreadyExists();
+                }
+                reportStatusCode(response.code(), "connectSimple");
+            }
+
+            @Override
+            public void onFailure(Call<SimpleResponse> call, Throwable t) {
+                if (callbacks != null)
+                    callbacks.someProblem(t);
             }
         });
     }
@@ -149,55 +263,52 @@ public class ConnectionServer {
             @Override
             public void onResponse(Call<CheckGameResponse> call, Response<CheckGameResponse> response) {
                 if (response.body() != null && callback != null) {
-                    int value = response.body().getResult() % 100;
-                    int type = (response.body().getResult() > 100 ? CREATOR : JOINER);
-                    if (value == 11) callback.inRun(response.body().getLink(), type);
-                    if (value == 12) callback.inWait(response.body().getLink(), type);
-                    if (value == 13) callback.inFree();
+                    int value = response.body().getResult();
+                    if (value == 1) {
+                        callback.inFree();
+                        return;
+                    }
+                    String link = response.body().getLink();
+                    int type = (response.body().getOwn() == 1 ? CREATOR : JOINER);
+                    int is_run = response.body().getRun();
+
+                    if (is_run == 1) {
+                        callback.inRun(link, type);
+                    } else {
+                        callback.inWait(response.body().getLink(), type);
+                    }
+
                 }
             }
 
             @Override
             public void onFailure(Call<CheckGameResponse> call, Throwable t) {
                 Log.i(TAG, "onFailure --> connectCheckGame");
+                // todo: add someProblem
             }
         });
     }
 
-    public void connectUpdateState(@Nullable final UpdateStateCallbacks callbacks) {
+    public void connectUpdateState(@Nullable final UpdateStateCallbacks callback) {
         call.enqueue(new Callback<GameStateResponse>() {
 
             @Override
             public void onResponse(Call<GameStateResponse> call, Response<GameStateResponse> response) {
-                if (response.body() != null && callbacks != null) {
-                    if (response.body().getState() == -1) {
-                        Log.i(TAG, "This it");
-                    }
-                    if (response.body().getLink() != null) {
-                        callbacks.updateLink(response.body().getLink());
-                    }
-//                    Log.i(TAG, response.body().getState().toString());
-                    switch (response.body().getState()) {
-                        case 1:
-                            // update gamers
-                            callbacks.gamersUpdate(
-                                    response.body().getGamers()
-                            );
-                            break;
-                        case -1:
-                            // update coins
-                            callbacks.coinsUpdate(
-                                    response.body().getPoints()
-                            );
-                            break;
-                        case -2:
-                            // game over, pick statistics
-                            callbacks.gameOver(
-                                    response.body().getStats()
-                            );
-                            break;
-                    }
+                if (response.body() != null && callback != null) {
+                    if (response.body().getGamers() != null)
+                        callback.gamersUpdate(response.body().getGamers());
 
+                    if (response.body().getMessages() != null)
+                        callback.messagesUpdate(response.body().getMessages());
+
+                    if (response.body().getPoints() != null)
+                        callback.coinsUpdate(response.body().getPoints());
+
+                    if (response.body().getLink() != null)
+                        callback.linkUpdate(response.body().getLink());
+
+                    if (response.body().getState() != null)
+                        callback.gameOver(response.body().getStats());
                 }
             }
 
@@ -209,35 +320,45 @@ public class ConnectionServer {
         });
     }
 
-    public void connectLogin(@Nullable final LoginCallbacks callback) {
+    public void connectLogin(@Nullable final SignInCallbacks callback) {
         call.enqueue(new Callback<UserResponse>() {
-
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 if (response.body() != null && callback != null) {
                     int value = response.body().getResult();
-                    switch (value) {
-                        case 1:
-                            callback.onSuccess(
-                                    response.body().getName(),
-                                    response.body().getMoney(),
-                                    response.body().getRating()
-                            );
-                            break;
-                        case 0:
-                            callback.permissionDenied();
-                            break;
+                    if (value == -1) {
+                        callback.permissionDenied();
+                        return;
                     }
+                    UserResponse user = response.body();
+                    callback.baseSettingsAccount(
+                            user.getName(),
+                            user.getPassword()
+                    );
+                    callback.otherSettingsAccount(
+                            user.getSex(),
+                            user.getBirthday(),
+                            user.getDateSignUp()
+                    );
+                    callback.capital(
+                            user.getMoney(),
+                            user.getRating()
+                    );
+                    callback.statsData(
+                            user.getMileage()
+                    );
+                    callback.success(user);
                 }
+                reportStatusCode(response.code(), "connectLogin");
             }
 
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
                 if (callback != null) {
-                    callback.errorConnection();
+                    callback.someProblem(t);
+                    Log.i(TAG, String.format("connectLogin.onFailure %s", t.getMessage()));
                 }
             }
-
         });
     }
 
@@ -247,7 +368,7 @@ public class ConnectionServer {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                 if (response.body() != null && callback != null) {
-                    int value = Integer.parseInt(response.body().getResult());
+                    int value = response.body().getResult();
                     switch (value) {
                         case -2:
                             callback.badQuery();
@@ -279,7 +400,7 @@ public class ConnectionServer {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                 if (response.body() != null && callback != null) {
-                    int value = Integer.parseInt(response.body().getResult());
+                    int value = response.body().getResult();
                     if (value == 1) {
                         callback.sended();
                     } else {

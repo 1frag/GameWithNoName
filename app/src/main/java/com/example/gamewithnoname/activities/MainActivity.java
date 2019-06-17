@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -19,9 +20,10 @@ import com.example.gamewithnoname.R;
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
 import com.example.gamewithnoname.callbacks.CheckGameCallbacks;
 import com.example.gamewithnoname.dialogs.DialogSecondMode;
+import com.example.gamewithnoname.models.responses.UserResponse;
 import com.example.gamewithnoname.utils.UserLocation;
-import com.example.gamewithnoname.callbacks.LoginCallbacks;
-import com.example.gamewithnoname.models.LoggedInUser;
+import com.example.gamewithnoname.callbacks.SignInCallbacks;
+import com.example.gamewithnoname.models.User;
 import com.yandex.mapkit.MapKitFactory;
 
 import java.util.ArrayList;
@@ -46,17 +48,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void beginLogin(final String username, final String password) {
-        ConnectionServer.getInstance().initLogin(username, password);
-        ConnectionServer.getInstance().connectLogin(new LoginCallbacks() {
+        ConnectionServer.getInstance().initSignIn(username, password);
+        ConnectionServer.getInstance().connectLogin(new SignInCallbacks() {
 
             @Override
-            public void onSuccess(String name, Integer coins, Integer rating) {
+            public void baseSettingsAccount(String name, String password) {
+                ((TextView) findViewById(R.id.textUsername)).setText(name);
+            }
+
+            @Override
+            public void capital(Integer money, Integer rating) {
+                ((TextView) findViewById(R.id.textCoins)).setText(money.toString());
+                ((TextView) findViewById(R.id.textRating)).setText(rating.toString());
+            }
+
+            @Override
+            public void statsData(Integer mileage) {
+
+            }
+
+            @Override
+            public void otherSettingsAccount(@Nullable Integer sex, @Nullable String birthday, @Nullable String dateSignUp) {
+
+            }
+
+            @Override
+            public void success(UserResponse userResponse) {
                 findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
                 permissionsChecker(false);
-                ((TextView) findViewById(R.id.textUsername)).setText(name);
-                ((TextView) findViewById(R.id.textCoins)).setText(coins.toString());
-                ((TextView) findViewById(R.id.textRating)).setText(rating.toString());
-                new LoggedInUser(name, password);
+                new User(userResponse);
             }
 
             @Override
@@ -65,7 +85,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void errorConnection() {
+            public void someProblem(Throwable t) {
+                Log.i(TAG, t.getMessage());
                 permissionsChecker(true);
             }
         });
@@ -186,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
 //                Intent fmIntent = new Intent(this, FriendsModeActivity.class);
 //                startActivity(fmIntent);
 
-                ConnectionServer.getInstance().initCheckGame(LoggedInUser.getName());
+                ConnectionServer.getInstance().initCheckGame(User.getName());
                 ConnectionServer.getInstance().connectCheckGame(new CheckGameCallbacks() {
                     @Override
                     public void inRun(String link, Integer type) {

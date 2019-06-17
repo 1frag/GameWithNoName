@@ -1,8 +1,6 @@
 package com.example.gamewithnoname.dialogs;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -16,8 +14,10 @@ import android.widget.Toast;
 import com.example.gamewithnoname.R;
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
 import com.example.gamewithnoname.activities.FriendsModeActivity;
+import com.example.gamewithnoname.callbacks.CreateGameCallbacks;
+import com.example.gamewithnoname.callbacks.JoinGameCallbacks;
 import com.example.gamewithnoname.callbacks.SimpleCallbacks;
-import com.example.gamewithnoname.models.LoggedInUser;
+import com.example.gamewithnoname.models.User;
 import com.example.gamewithnoname.utils.UserLocation;
 
 import static com.example.gamewithnoname.utils.Constants.CREATOR;
@@ -51,51 +51,44 @@ public class DialogSecondMode implements Dialog.OnShowListener {
             public void onClick(View v) {
                 final Intent intent = new Intent(dialog.getContext(),
                         FriendsModeActivity.class);
-                SimpleCallbacks initCallbacks = new SimpleCallbacks() {
+                JoinGameCallbacks Callback = new JoinGameCallbacks() {
+
                     @Override
-                    public void onSuccess(@NonNull String value) {
-                        switch (value) {
-                            case "2":
-                                Toast.makeText(dialog.getContext(),
-                                        "query is incorrect",
-                                        Toast.LENGTH_SHORT).show();
-                                return;
-                            case "3":
-                                Toast.makeText(dialog.getContext(),
-                                        "Ошибка аутентификации",
-                                        Toast.LENGTH_SHORT).show();
-                                return;
-                            case "4":
-                                Toast.makeText(dialog.getContext(),
-                                        "Ссылка некорректна",
-                                        Toast.LENGTH_SHORT).show();
-                                return;
-                            case "5":
-                                Toast.makeText(dialog.getContext(),
-                                        "Игра уже началась",
-                                        Toast.LENGTH_SHORT).show();
-                                return;
-                        }
+                    public void invalidLink() {
+                        Toast.makeText(dialog.getContext(),
+                                "Ссылка некорректна / такой игры нет",
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void gameIsStarted() {
+                        Toast.makeText(dialog.getContext(),
+                                "Игра уже началась",
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void success(Integer key) {
                         intent.putExtra("stage", WAIT_GAME);
                         intent.putExtra("type", JOINER);
                         dialog.getContext().startActivity(intent);
                     }
 
                     @Override
-                    public void onError(@NonNull Throwable throwable) {
+                    public void someProblem(Throwable t) {
                         Toast.makeText(dialog.getContext(),
-                                "problem with internet",
+                                "Возникли технические неполадки",
                                 Toast.LENGTH_SHORT).show();
-                        Log.i(TAG, "onError --> joinButton");
+                        Log.i(TAG, t.getMessage());
                     }
                 };
+                EditText editText = dialog.findViewById(R.id.editText3);
+                String link = editText.getText().toString();
                 ConnectionServer.getInstance().initJoinGame(
-                        LoggedInUser.getName(),
-                        UserLocation.imHere.getLatitude(),
-                        UserLocation.imHere.getLongitude(),
-                        ((EditText) dialog.findViewById(R.id.editText3)).getText().toString()
+                        User.getName(),
+                        link
                 );
-                ConnectionServer.getInstance().connectSimple(initCallbacks);
+                ConnectionServer.getInstance().connectJoinGame(Callback);
             }
         });
     }
@@ -119,20 +112,19 @@ public class DialogSecondMode implements Dialog.OnShowListener {
 
                 final Intent intent = new Intent(dialog.getContext(),
                         FriendsModeActivity.class);
-                SimpleCallbacks initCallbacks = new SimpleCallbacks() {
+                CreateGameCallbacks callback = new CreateGameCallbacks() {
                     @Override
-                    public void onSuccess(@NonNull String value) {
-                        if (value.equals("2")) {
-                            Toast.makeText(dialog.getContext(),
-                                    "2. Query is incorrect",
-                                    Toast.LENGTH_SHORT).show();
-                            return;
-                        } else if (value.equals("3")) {
-                            Toast.makeText(dialog.getContext(),
-                                    "Ошибка аутентификации",
-                                    Toast.LENGTH_SHORT).show();
-                            return;
-                        }
+                    public void aLotOfGames() {
+                        // такая проблема может возникнуть
+                        // если игр сколько возможных комбинаций
+                        // ссылок приглашений
+                        Toast.makeText(dialog.getContext(),
+                                "Игра не создалась",
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void success(int key) {
                         intent.putExtra("stage", WAIT_GAME);
                         intent.putExtra("type", CREATOR);
                         dialog.getContext().startActivity(intent);
@@ -140,11 +132,8 @@ public class DialogSecondMode implements Dialog.OnShowListener {
                     }
 
                     @Override
-                    public void onError(@NonNull Throwable throwable) {
-                        Toast.makeText(dialog.getContext(),
-                                "problem with internet",
-                                Toast.LENGTH_SHORT).show();
-                        Log.i(TAG, "onError --> configCreateMode");
+                    public void someProblem(Throwable t) {
+                        Log.i(TAG, t.getMessage());
                     }
                 };
 
@@ -152,13 +141,11 @@ public class DialogSecondMode implements Dialog.OnShowListener {
                 int type = (radioButton.isChecked() ? 1 : 2);
 
                 ConnectionServer.getInstance().initCreateGame(
-                        LoggedInUser.getName(),
-                        UserLocation.imHere.getLatitude(),
-                        UserLocation.imHere.getLongitude(),
+                        User.getName(),
                         time,
                         type
                 );
-                ConnectionServer.getInstance().connectSimple(initCallbacks);
+                ConnectionServer.getInstance().connectCreateGame(callback);
 
             }
         });

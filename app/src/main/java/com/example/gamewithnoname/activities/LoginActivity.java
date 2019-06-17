@@ -3,6 +3,7 @@ package com.example.gamewithnoname.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -12,8 +13,9 @@ import android.widget.Toast;
 
 import com.example.gamewithnoname.R;
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
-import com.example.gamewithnoname.callbacks.LoginCallbacks;
-import com.example.gamewithnoname.models.LoggedInUser;
+import com.example.gamewithnoname.callbacks.SignInCallbacks;
+import com.example.gamewithnoname.models.User;
+import com.example.gamewithnoname.models.responses.UserResponse;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -39,8 +41,6 @@ public class LoginActivity extends AppCompatActivity {
         saveLogin = loginPreferences.getBoolean("saveLogin", false);
 
         if (saveLogin) {
-            Log.i(TAG, loginPreferences.getString("username", ""));
-            Log.i(TAG, loginPreferences.getString("password", ""));
             beginLogin(
                     loginPreferences.getString("username", ""),
                     loginPreferences.getString("password", "")
@@ -81,18 +81,47 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean dataIsValid(String name, String password) {
-        if (!name.equals("") && !password.equals("")) {return true;}
-        // todo: more check during text inputting
-        else {return false;}
+        if (name.equals("") || password.equals("")) return false;
+        else return true;
     }
 
     private void beginLogin(final String username, final String password) {
-        ConnectionServer.getInstance().initLogin(username, password);
-        ConnectionServer.getInstance().connectLogin(new LoginCallbacks() {
+        ConnectionServer.getInstance().initSignIn(username, password);
+        ConnectionServer.getInstance().connectLogin(new SignInCallbacks() {
 
             @Override
-            public void onSuccess(String name, Integer coins, Integer rating) {
-                updateUiWithUser(username, password);
+            public void baseSettingsAccount(String name, String password) {
+                User.setName(name);
+                User.setPassword(password);
+                rememberUser(name, password);
+            }
+
+            @Override
+            public void capital(Integer money, Integer rating) {
+                User.setMoney(money);
+                User.setRating(rating);
+            }
+
+            @Override
+            public void statsData(Integer mileage) {
+                User.setMoney(mileage);
+            }
+
+            @Override
+            public void otherSettingsAccount(@Nullable Integer sex,
+                                             @Nullable String birthday,
+                                             @Nullable String dateSignUp) {
+                User.setMoney(sex);
+                User.setBirthday(birthday);
+                User.setDateSignUp(dateSignUp);
+            }
+
+            @Override
+            public void success(UserResponse userResponse) {
+                String welcome = String.format("%s%s", getString(R.string.welcome), userResponse.getName());
+                Log.i(TAG, "initiate successful logged in experience");
+                Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+                finish();
             }
 
             @Override
@@ -101,7 +130,8 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void errorConnection() {
+            public void someProblem(Throwable t) {
+                Log.i(TAG, t.getMessage());
                 showFailedWithConnection();
             }
         });
@@ -113,19 +143,13 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.LENGTH_SHORT).show();
     }
 
-    private void updateUiWithUser(String name, String password) {
-        String welcome = String.format("%s%s", getString(R.string.welcome), name);
+    private void rememberUser(String name, String password) {
 
-        Log.i(TAG, "initiate successful logged in experience");
         loginPrefsEditor.putBoolean("saveLogin", true);
         loginPrefsEditor.putString("username", name);
         loginPrefsEditor.putString("password", password);
         loginPrefsEditor.commit();
 
-        new LoggedInUser(name, password);
-
-        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-        finish();
     }
 
     private void showLoginFailed() {

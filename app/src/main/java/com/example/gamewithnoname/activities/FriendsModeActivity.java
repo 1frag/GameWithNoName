@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,20 +20,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gamewithnoname.R;
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
-import com.example.gamewithnoname.dialogs.DialogMessages;
+import com.example.gamewithnoname.callbacks.BeginGameCallbacks;
+import com.example.gamewithnoname.callbacks.KillRGCallbacks;
+import com.example.gamewithnoname.callbacks.SendMessageCallbacks;
+import com.example.gamewithnoname.models.responses.MessageResponse;
 import com.example.gamewithnoname.utils.UserLocation;
 import com.example.gamewithnoname.models.responses.GamersResponse;
 import com.example.gamewithnoname.models.responses.PointsResponse;
 import com.example.gamewithnoname.callbacks.SimpleCallbacks;
 import com.example.gamewithnoname.models.responses.StatisticsResponse;
 import com.example.gamewithnoname.callbacks.UpdateStateCallbacks;
-import com.example.gamewithnoname.models.LoggedInUser;
+import com.example.gamewithnoname.models.User;
 import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.geometry.Circle;
 import com.yandex.mapkit.geometry.Point;
@@ -56,10 +57,6 @@ import static com.example.gamewithnoname.utils.Constants.WAIT_GAME;
 public class FriendsModeActivity extends Activity {
 
     private Timer mTimer;
-
-    private SimpleCallbacks initCallbacks;
-    private SimpleCallbacks goCallbacks;
-    private SimpleCallbacks killRunningGameCallbacks;
 
     private MapView mapView;
     private CurCntData datas;
@@ -93,7 +90,7 @@ public class FriendsModeActivity extends Activity {
         Integer mMessages;
         Integer mCoins;
 
-        CurCntData(){
+        CurCntData() {
             mMessages = 0;
             mCoins = 0;
         }
@@ -124,7 +121,6 @@ public class FriendsModeActivity extends Activity {
             stageHandler(2);
         buildOwn(type);
     }
-
 
     @Override
     protected void onStop() {
@@ -212,7 +208,8 @@ public class FriendsModeActivity extends Activity {
             iconStyle.setVisible(true);
             ImageProvider imageProvider = new ImageProvider() {
                 @Override
-                public String getId() { ;
+                public String getId() {
+                    ;
                     return "coin";
                 }
 
@@ -250,45 +247,42 @@ public class FriendsModeActivity extends Activity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // begin game
 
-                goCallbacks = new SimpleCallbacks() {
+                BeginGameCallbacks callback = new BeginGameCallbacks() {
                     @Override
-                    public void onSuccess(@NonNull String value) {
-                        Log.i(TAG, String.format("value in configGoButton: %s", value));
-                        switch (value) {
-                            case "2":
-                                Toast.makeText(FriendsModeActivity.this,
-                                        "begin_game :: 2 (param is invalid)",
-                                        Toast.LENGTH_SHORT).show();
-                                return;
-                            case "3":
-                                Toast.makeText(FriendsModeActivity.this,
-                                        "begin_game :: 3 (game there is not)",
-                                        Toast.LENGTH_SHORT).show();
-                                return;
-                            case "4":
-                                Toast.makeText(FriendsModeActivity.this,
-                                        "begin_game :: 4 (access denied)",
-                                        //начать может только создатель ссылки
-                                        Toast.LENGTH_SHORT).show();
-                                return;
-                        }
-                        if (!value.equals("1"))
-                            Log.i(TAG, String.format("value in goCallbacks: %s", value));
-                        else
-                            stageHandler(2); // единственный успешный вариант
+                    public void youAreNotAuthor() {
+                        Toast.makeText(FriendsModeActivity.this,
+                                "только автор может начать игру!!!",
+                                //начать может только создатель ссылки
+                                Toast.LENGTH_SHORT).show();
+                        // это не должно произойти
                     }
 
                     @Override
-                    public void onError(@NonNull Throwable throwable) {
-                        Log.i(TAG, "onError --> goCallbacks");
+                    public void notEnoughMan() {
+                        Toast.makeText(FriendsModeActivity.this,
+                                "Недостаточно людей для начала игры",
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void success() {
+                        stageHandler(2);
+                    }
+
+                    @Override
+                    public void someProblem(Throwable t) {
+                        Log.i(TAG, t.getMessage());
+                        Toast.makeText(FriendsModeActivity.this,
+                                t.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 };
 
                 ConnectionServer.getInstance().initBeginGame(
-                        LoggedInUser.getName()
+                        User.getName()
                 );
-                ConnectionServer.getInstance().connectSimple(goCallbacks);
+                ConnectionServer.getInstance().connectBeginGame(callback);
 
             }
         });
@@ -392,6 +386,11 @@ public class FriendsModeActivity extends Activity {
             }
 
             @Override
+            public void messagesUpdate(@NonNull List<MessageResponse> messages) {
+                addMessages(messages);
+            }
+
+            @Override
             public void gameOver(@NonNull StatisticsResponse stats) {
                 Toast.makeText(FriendsModeActivity.this,
                         String.format("You get %s coins and %s rating, great!",
@@ -403,8 +402,8 @@ public class FriendsModeActivity extends Activity {
             }
 
             @Override
-            public void updateLink(@NonNull String link) {
-                ((TextView)findViewById(R.id.text_view_code)).setText(link);
+            public void linkUpdate(@NonNull String link) {
+                ((TextView) findViewById(R.id.text_view_code)).setText(link);
             }
         };
 
@@ -412,14 +411,13 @@ public class FriendsModeActivity extends Activity {
             @Override
             public void run() {
                 ConnectionServer.getInstance().initUpdateMap(
-                        LoggedInUser.getName(),
+                        User.getName(),
                         UserLocation.imHere.getLatitude(),
                         UserLocation.imHere.getLongitude(),
                         datas.mMessages,
                         datas.mCoins
                 );
                 ConnectionServer.getInstance().connectUpdateState(gameStateCallback);
-//                connectionServer.connectPoints(gameCallbacks);
             }
         };
 
@@ -451,6 +449,71 @@ public class FriendsModeActivity extends Activity {
         });
         dialog.show();
     }
+
+    private void addMessages(List<MessageResponse> messages) {
+        LinearLayout linearLayout = dialog.findViewById(R.id.layout_for_messages);
+        for (final MessageResponse message : messages) {
+            Log.i(TAG, "mes add");
+            LinearLayout newView = new LinearLayout(
+                    dialog.getContext());
+            dialog.getLayoutInflater().inflate(
+                    R.layout.layout_multi_message,
+                    newView);
+            linearLayout.addView(newView);
+            ((TextView) newView.findViewById(R.id.textMessage)).setText(message.getText());
+            newView.findViewById(R.id.imageWriter).setBackgroundColor(message.getColor() + 0xff000000);
+            newView.findViewById(R.id.imageWriter).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(dialog.getContext(),
+                            String.format("Это написал %s", message.getFrom()),
+                            Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    }
+
+    private void configBtnSend() {
+        ImageButton btnSend = findViewById(R.id.buttonSendMessage);
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "qwe");
+                EditText editText = findViewById(R.id.writeMessage);
+                String text = editText.getText().toString();
+                editText.setText("");
+
+                ConnectionServer.getInstance().initSendMessage(
+                        User.getName(),
+                        text
+                );
+
+                ConnectionServer.getInstance().connectSendMessage(
+                        new SendMessageCallbacks() {
+                            @Override
+                            public void sended() {
+                                // todo: звук сообщение отправлено
+                                Toast.makeText(FriendsModeActivity.this,
+                                        "You message is sended successful",
+                                        Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void someProblem(int code) {
+                                // todo: звук сообщение не ушло или просто сказать как-то
+                                //  человеку что проблемка и его сообщение не получил никто =(
+                                Log.i(TAG, String.format("some problem %s", code));
+                                Toast.makeText(FriendsModeActivity.this,
+                                        String.format("problem is %s", code),
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        }
+                );
+
+            }
+        });
+    }
+
     public void areYouSureAlert() {
         new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.alert_2m_finish_game))
@@ -460,9 +523,9 @@ public class FriendsModeActivity extends Activity {
                 // The dialog is automatically dismissed when a dialog button is clicked.
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        killRunningGameCallbacks = new SimpleCallbacks() {
+                        KillRGCallbacks krgCallback = new KillRGCallbacks() {
                             @Override
-                            public void onSuccess(@NonNull String value) {
+                            public void success() {
                                 stageHandler(0);
                                 if (mTimer != null) {
                                     mTimer.cancel();
@@ -475,8 +538,8 @@ public class FriendsModeActivity extends Activity {
                             }
 
                             @Override
-                            public void onError(@NonNull Throwable throwable) {
-                                Log.i(TAG, "onError --> killRunningGameCallbacks");
+                            public void someProblem(Throwable t) {
+                                Log.i(TAG, t.getMessage());
                                 Toast.makeText(FriendsModeActivity.this,
                                         "У нас проблемы))",
                                         Toast.LENGTH_SHORT).show();
@@ -484,9 +547,9 @@ public class FriendsModeActivity extends Activity {
                         };
 
                         ConnectionServer.getInstance().initKillRunGame(
-                                LoggedInUser.getName()
+                                User.getName()
                         );
-                        ConnectionServer.getInstance().connectSimple(killRunningGameCallbacks);
+                        ConnectionServer.getInstance().connectKillRG(krgCallback);
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)
@@ -504,8 +567,7 @@ public class FriendsModeActivity extends Activity {
         ConstraintLayout chat = findViewById(R.id.include);
         if (chat.getVisibility() == View.VISIBLE) {
             closeMessages(chat);
-        }
-        else {
+        } else {
             (findViewById(R.id.floatingAdmButton)).setVisibility(View.INVISIBLE);
             (findViewById(R.id.text_view_code)).setVisibility(View.INVISIBLE);
             (findViewById(R.id.button_multi_chat)).setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));

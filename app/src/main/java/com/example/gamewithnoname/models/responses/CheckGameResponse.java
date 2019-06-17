@@ -13,6 +13,14 @@ public class CheckGameResponse {
     @Expose
     private String link;
 
+    @SerializedName("own")
+    @Expose
+    private Integer own;
+
+    @SerializedName("run")
+    @Expose
+    private Integer run;
+
     public Integer getResult() {
         return result;
     }
@@ -27,5 +35,21 @@ public class CheckGameResponse {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public Integer getRun() {
+        return run;
+    }
+
+    public void setRun(Integer run) {
+        this.run = run;
+    }
+
+    public Integer getOwn() {
+        return own;
+    }
+
+    public void setOwn(Integer own) {
+        this.own = own;
     }
 }

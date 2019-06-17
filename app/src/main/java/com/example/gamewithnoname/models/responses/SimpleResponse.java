@@ -6,13 +6,13 @@ import com.google.gson.annotations.SerializedName;
 public class SimpleResponse {
     @SerializedName("result")
     @Expose
-    private String result;
+    private Integer result;
 
-    public String getResult() {
+    public Integer getResult() {
         return result;
     }
 
-    public void setResult(String result) {
+    public void setResult(Integer result) {
         this.result = result;
     }
 

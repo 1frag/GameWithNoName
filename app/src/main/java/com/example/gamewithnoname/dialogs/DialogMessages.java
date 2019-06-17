@@ -12,14 +12,11 @@ import android.widget.Toast;
 
 import com.example.gamewithnoname.R;
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
-import com.example.gamewithnoname.activities.FriendsModeActivity;
 import com.example.gamewithnoname.callbacks.GetMessagesCallbacks;
 import com.example.gamewithnoname.callbacks.SendMessageCallbacks;
-import com.example.gamewithnoname.models.LoggedInUser;
+import com.example.gamewithnoname.models.User;
 import com.example.gamewithnoname.models.responses.MessageResponse;
-import com.yandex.mapkit.search.Line;
 
-import java.sql.Time;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -50,7 +47,7 @@ public class DialogMessages implements Dialog.OnShowListener, Dialog.OnCancelLis
             @Override
             public void run() {
                 ConnectionServer.getInstance().initGetNewMessages(
-                        LoggedInUser.getName(),
+                        User.getName(),
                         first_time
                 );
                 first_time = 0;
@@ -105,7 +102,7 @@ public class DialogMessages implements Dialog.OnShowListener, Dialog.OnCancelLis
                 editText.setText("");
 
                 ConnectionServer.getInstance().initSendMessage(
-                        LoggedInUser.getName(),
+                        User.getName(),
                         text
                 );
 

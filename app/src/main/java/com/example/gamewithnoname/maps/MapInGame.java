@@ -19,7 +19,7 @@ import com.example.gamewithnoname.activities.MainActivity;
 import com.example.gamewithnoname.callbacks.ChangeCoinsCallbacks;
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
 import com.example.gamewithnoname.callbacks.UpdateStateBotCallbacks;
-import com.example.gamewithnoname.models.LoggedInUser;
+import com.example.gamewithnoname.models.User;
 import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.RequestPoint;
@@ -225,7 +225,7 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
     public void stopBot(View view) {
 
         ConnectionServer.getInstance().initChangeCoins(
-                LoggedInUser.getName(),
+                User.getName(),
                 PRICE_STOP_BOT
         );
         ConnectionServer.getInstance().connectChangeCoins(new ChangeCoinsCallbacks() {

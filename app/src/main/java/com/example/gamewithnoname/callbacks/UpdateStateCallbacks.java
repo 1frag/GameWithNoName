@@ -3,6 +3,7 @@ package com.example.gamewithnoname.callbacks;
 import android.support.annotation.NonNull;
 
 import com.example.gamewithnoname.models.responses.GamersResponse;
+import com.example.gamewithnoname.models.responses.MessageResponse;
 import com.example.gamewithnoname.models.responses.PointsResponse;
 import com.example.gamewithnoname.models.responses.StatisticsResponse;
 
@@ -15,10 +16,13 @@ public interface UpdateStateCallbacks {
     void coinsUpdate(
             @NonNull List<PointsResponse> coins
     );
+    void messagesUpdate(
+            @NonNull List<MessageResponse> messages
+    );
     void gameOver(
             @NonNull StatisticsResponse stats
     );
-    void updateLink(
+    void linkUpdate(
             @NonNull String link
     );
 }

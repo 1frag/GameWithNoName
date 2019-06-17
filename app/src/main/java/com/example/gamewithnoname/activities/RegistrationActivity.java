@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.gamewithnoname.R;
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
+import com.example.gamewithnoname.callbacks.SignUpCallbacks;
 import com.example.gamewithnoname.callbacks.SimpleCallbacks;
 
 import static java.lang.Character.isDigit;
@@ -33,9 +34,9 @@ public class RegistrationActivity extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String name = ((EditText)findViewById(R.id.editTextName)).getText().toString();
-                final String password = ((EditText)findViewById(R.id.editTextPassword)).getText().toString();
-                final String confirm = ((EditText)findViewById(R.id.editTextConfirmPassword)).getText().toString();
+                final String name = ((EditText) findViewById(R.id.editTextName)).getText().toString();
+                final String password = ((EditText) findViewById(R.id.editTextPassword)).getText().toString();
+                final String confirm = ((EditText) findViewById(R.id.editTextConfirmPassword)).getText().toString();
                 final String birth = getDateBirth();
                 final Integer sex = sexHandler();
                 switch (dataValid(name, password, confirm, birth, sex)) {
@@ -80,7 +81,7 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private String getDateBirth() {
-        return ((EditText)findViewById(R.id.editTextBirth))
+        return ((EditText) findViewById(R.id.editTextBirth))
                 .getText()
                 .toString();
     }
@@ -94,9 +95,9 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private Integer sexHandler() {
-        if(((RadioButton)findViewById(R.id.radioButtonFemale)).isChecked()){
+        if (((RadioButton) findViewById(R.id.radioButtonFemale)).isChecked()) {
             return 1;
-        } else if (((RadioButton)findViewById(R.id.radioButtonMale)).isChecked()){
+        } else if (((RadioButton) findViewById(R.id.radioButtonMale)).isChecked()) {
             return -1;
         } else {
             return 0;
@@ -107,39 +108,30 @@ public class RegistrationActivity extends AppCompatActivity {
                                    final String password,
                                    final String birth,
                                    final Integer sex) {
-        ConnectionServer.getInstance().initRegistration(username, password, birth, sex);
-        ConnectionServer.getInstance().connectSimple(new SimpleCallbacks() {
-                    @Override
-                    public void onSuccess(@NonNull String value) {
-                        Log.i(TAG, "SimpleCallbacks -> gamersUpdate");
-                        int result = Integer.parseInt(value);
-                        // если result 1 -- значит успешно
-                        // если result 0 -- неизвестная ошибка
-                        // если result 2 -- логин уже был такой
-                        Log.i(TAG, String.format("result Reg: %s", result));
-                        if (result == 1) {
-                            finish();
-                        }
-                        else if (result == 0) {
-                            Toast.makeText(RegistrationActivity.this,
-                                    R.string.main_activity_error,
-                                    Toast.LENGTH_LONG).show();
-                        }
-                        else if (result == 2) {
-                            Toast.makeText(RegistrationActivity.this,
-                                    R.string.registration_activity_name_problem,
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    }
+        ConnectionServer.getInstance().initSignUp(username, password, birth, sex);
+        ConnectionServer.getInstance().connectSignUp(new SignUpCallbacks() {
+            @Override
+            public void success() {
+                Toast.makeText(RegistrationActivity.this,
+                        "Регистрации прошла успешно",
+                        Toast.LENGTH_LONG).show();
+                finish();
+            }
 
-                    @Override
-                    public void onError(@NonNull Throwable throwable) {
-                        Log.i(TAG, "SimpleCallbacks -> onError");
-                        Log.i(TAG, throwable.getMessage());
-                        Toast.makeText(RegistrationActivity.this,
-                                R.string.main_activity_error,
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
+            @Override
+            public void nameAlreadyExists() {
+                Toast.makeText(RegistrationActivity.this,
+                        R.string.registration_activity_name_problem,
+                        Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void someProblem(Throwable t) {
+                Log.i(TAG, t.getMessage());
+                Toast.makeText(RegistrationActivity.this,
+                        R.string.main_activity_error,
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
