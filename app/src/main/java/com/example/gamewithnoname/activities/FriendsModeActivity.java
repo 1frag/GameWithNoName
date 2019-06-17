@@ -16,7 +16,6 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -32,7 +31,6 @@ import com.example.gamewithnoname.models.responses.MessageResponse;
 import com.example.gamewithnoname.utils.UserLocation;
 import com.example.gamewithnoname.models.responses.GamersResponse;
 import com.example.gamewithnoname.models.responses.PointsResponse;
-import com.example.gamewithnoname.callbacks.SimpleCallbacks;
 import com.example.gamewithnoname.models.responses.StatisticsResponse;
 import com.example.gamewithnoname.callbacks.UpdateStateCallbacks;
 import com.example.gamewithnoname.models.User;
@@ -121,6 +119,7 @@ public class FriendsModeActivity extends Activity {
         else /* PLAY_GAME **/
             stageHandler(2);
         buildOwn(type);
+        configExitButton();
     }
 
     @Override
@@ -137,6 +136,7 @@ public class FriendsModeActivity extends Activity {
     }
 
     private void stageHandler(int stage) {
+        this.stage = stage;
         if (stage == 0) {
             Intent onBack = new Intent(this, MainActivity.class);
             finish();
@@ -149,7 +149,7 @@ public class FriendsModeActivity extends Activity {
             (findViewById(R.id.imageButton)).setVisibility(View.VISIBLE);
             (findViewById(R.id.imageButton2)).setVisibility(View.VISIBLE);
             (findViewById(R.id.text_view_code)).setVisibility(View.VISIBLE);
-            (findViewById(R.id.button_go)).setEnabled(true);
+            (findViewById(R.id.image_button_exit)).setEnabled(true);
 
             // go button set second type
             configGoButton();
@@ -162,15 +162,13 @@ public class FriendsModeActivity extends Activity {
             (findViewById(R.id.imageButton2)).setVisibility(View.INVISIBLE);
             (findViewById(R.id.text_view_code)).setVisibility(View.INVISIBLE);
             (findViewById(R.id.floatingAdmButton)).setVisibility(View.INVISIBLE);
-            (findViewById(R.id.button_go)).setVisibility(View.VISIBLE);
+            (findViewById(R.id.image_button_exit)).setVisibility(View.VISIBLE);
 
-            // go button set second type
-            configGoCancelButton();
         }
     }
 
-    private void configGoCancelButton() {
-        ImageButton btn = findViewById(R.id.button_go);
+    private void configExitButton() {
+        ImageButton btn = findViewById(R.id.image_button_exit);
         btn.setEnabled(true);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -384,9 +382,6 @@ public class FriendsModeActivity extends Activity {
             public void coinsUpdate(@NonNull List<PointsResponse> coins) {
                 Log.i(TAG, "checkCoins is true (2)");
                 drawCoins(coins);
-                if (datas.mCoins == 0 && coins.size() != 0){
-                    stageHandler(2);
-                }
                 datas.mCoins = coins.size();
             }
 
@@ -394,7 +389,7 @@ public class FriendsModeActivity extends Activity {
             public void messagesUpdate(@NonNull List<MessageResponse> messages) {
                 Log.i(TAG, String.format("size %s", messages.size()));
                 addMessages(messages);
-                datas.mMessages = messages.size();
+                datas.mMessages += messages.size();
             }
 
             @Override
@@ -533,15 +528,15 @@ public class FriendsModeActivity extends Activity {
                         KillRGCallbacks krgCallback = new KillRGCallbacks() {
                             @Override
                             public void success() {
-                                stageHandler(0);
-                                if (mTimer != null) {
-                                    mTimer.cancel();
-                                    mTimer.purge();
-                                }
                                 for (MapObject mapObject : coinspositions) {
                                     mMap.getMapObjects().remove(mapObject);
                                 }
                                 coinspositions.clear();
+                                if (mTimer != null) {
+                                    mTimer.cancel();
+                                    mTimer.purge();
+                                }
+                                stageHandler(0);
                             }
 
                             @Override
@@ -585,7 +580,7 @@ public class FriendsModeActivity extends Activity {
     public void closeMessages(View view) {
         findViewById(R.id.include).setVisibility(View.INVISIBLE);
         (findViewById(R.id.button_multi_chat)).setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        if (!findViewById(R.id.button_go).isClickable()) {
+        if (!findViewById(R.id.image_button_exit).isClickable()) {
             (findViewById(R.id.text_view_code)).setVisibility(View.VISIBLE);
             if (type == CREATOR) {
                 (findViewById(R.id.floatingAdmButton)).setVisibility(View.VISIBLE);
