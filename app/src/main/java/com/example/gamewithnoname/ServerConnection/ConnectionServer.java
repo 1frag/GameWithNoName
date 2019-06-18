@@ -9,6 +9,7 @@ import com.example.gamewithnoname.callbacks.CheckGameCallbacks;
 import com.example.gamewithnoname.callbacks.CreateGameCallbacks;
 import com.example.gamewithnoname.callbacks.GetMessagesCallbacks;
 import com.example.gamewithnoname.callbacks.JoinGameCallbacks;
+import com.example.gamewithnoname.callbacks.KickPlayerCallbacks;
 import com.example.gamewithnoname.callbacks.KillRGCallbacks;
 import com.example.gamewithnoname.callbacks.SendMessageCallbacks;
 import com.example.gamewithnoname.callbacks.SignUpCallbacks;
@@ -119,6 +120,10 @@ public class ConnectionServer {
 
     public void initCheckGame(String name) {
         call = serverAPIs.checkGame(name);
+    }
+
+    public void initKickPlayer(String target) {
+        call = serverAPIs.kickPlayer(target);
     }
 
     private void reportStatusCode(int code, String fun) {
@@ -235,6 +240,25 @@ public class ConnectionServer {
         });
     }
 
+    public void connectKickPlayer(final KickPlayerCallbacks callbacks) {
+        call.enqueue(new Callback<SimpleResponse>() {
+
+            @Override
+            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                if (response.body() != null && callbacks != null) {
+                    callbacks.success();
+                }
+                reportStatusCode(response.code(), "connectKickPlayer");
+            }
+
+            @Override
+            public void onFailure(Call<SimpleResponse> call, Throwable t) {
+                if (callbacks != null)
+                    callbacks.someProblem(t);
+            }
+        });
+    }
+
     public void connectSignUp(@Nullable final SignUpCallbacks callbacks) {
         call.enqueue(new Callback<SimpleResponse>() {
 
@@ -246,7 +270,7 @@ public class ConnectionServer {
                     else
                         callbacks.nameAlreadyExists();
                 }
-                reportStatusCode(response.code(), "connectSimple");
+                reportStatusCode(response.code(), "connectSignUp");
             }
 
             @Override
@@ -309,6 +333,15 @@ public class ConnectionServer {
 
                     if (response.body().getState() != null)
                         callback.gameOver(response.body().getStats());
+
+                    if (response.body().getAuthor() != null)
+                        callback.changeOwn(response.body().getAuthor());
+
+                    if (response.body().getProgress() != null)
+                        callback.changeProgress(response.body().getProgress());
+
+                    if (response.body().getType_game() != null)
+                        callback.changeTypeGame(response.body().getType_game());
                 }
             }
 

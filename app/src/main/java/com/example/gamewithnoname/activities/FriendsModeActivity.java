@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AlertDialog;
@@ -25,6 +24,7 @@ import android.widget.Toast;
 import com.example.gamewithnoname.R;
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
 import com.example.gamewithnoname.callbacks.BeginGameCallbacks;
+import com.example.gamewithnoname.callbacks.KickPlayerCallbacks;
 import com.example.gamewithnoname.callbacks.KillRGCallbacks;
 import com.example.gamewithnoname.callbacks.SendMessageCallbacks;
 import com.example.gamewithnoname.models.responses.MessageResponse;
@@ -50,6 +50,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static com.example.gamewithnoname.utils.Constants.CREATOR;
+import static com.example.gamewithnoname.utils.Constants.JOINER;
 import static com.example.gamewithnoname.utils.Constants.WAIT_GAME;
 
 public class FriendsModeActivity extends Activity {
@@ -71,8 +72,9 @@ public class FriendsModeActivity extends Activity {
             "HITS", "FriendsModeActivity"
     );
     private BottomSheetDialog dialog;
-    private int type;
+    private int own;
     private int stage;
+    private int type_game;
 
     class Gamer {
         String name;
@@ -111,14 +113,14 @@ public class FriendsModeActivity extends Activity {
         }
 
         configBtnSend();
-        type = getIntent().getExtras().getInt("type"); // creator or joiner
+        own = getIntent().getExtras().getInt("own"); // creator or joiner
         stage = getIntent().getExtras().getInt("stage"); // run or wait
         mainGameLoop();
         if (stage == WAIT_GAME)
             stageHandler(1);
         else /* PLAY_GAME **/
             stageHandler(2);
-        buildOwn(type);
+        buildOwn(own);
         configExitButton();
     }
 
@@ -151,7 +153,7 @@ public class FriendsModeActivity extends Activity {
             (findViewById(R.id.text_view_code)).setVisibility(View.VISIBLE);
             (findViewById(R.id.image_button_exit)).setEnabled(true);
 
-            // go button set second type
+            // go button set second own
             configGoButton();
 
         } else if (stage == 2) {
@@ -306,7 +308,7 @@ public class FriendsModeActivity extends Activity {
 
         final UpdateStateCallbacks gameStateCallback = new UpdateStateCallbacks() {
             @Override
-            public void gamersUpdate(@NonNull List<GamersResponse> gamers) {
+            public void gamersUpdate(List<GamersResponse> gamers) {
 
                 dataLegend = new ArrayList<>();
                 for (GamersResponse player : gamers) {
@@ -379,21 +381,21 @@ public class FriendsModeActivity extends Activity {
             }
 
             @Override
-            public void coinsUpdate(@NonNull List<PointsResponse> coins) {
+            public void coinsUpdate(List<PointsResponse> coins) {
                 Log.i(TAG, "checkCoins is true (2)");
                 drawCoins(coins);
                 datas.mCoins = coins.size();
             }
 
             @Override
-            public void messagesUpdate(@NonNull List<MessageResponse> messages) {
+            public void messagesUpdate(List<MessageResponse> messages) {
                 Log.i(TAG, String.format("size %s", messages.size()));
                 addMessages(messages);
                 datas.mMessages += messages.size();
             }
 
             @Override
-            public void gameOver(@NonNull StatisticsResponse stats) {
+            public void gameOver(StatisticsResponse stats) {
                 Toast.makeText(FriendsModeActivity.this,
                         String.format("You get %s coins and %s rating, great!",
                                 stats.getCoins(), stats.getRating()),
@@ -404,8 +406,32 @@ public class FriendsModeActivity extends Activity {
             }
 
             @Override
-            public void linkUpdate(@NonNull String link) {
+            public void linkUpdate(String link) {
                 ((TextView) findViewById(R.id.text_view_code)).setText(link);
+            }
+
+            @Override
+            public void changeOwn(Boolean isAuthor) {
+                if (isAuthor)
+                    own = CREATOR;
+                else
+                    own = JOINER;
+            }
+
+            @Override
+            public void changeProgress(Integer progress) {
+                if (progress + 1 != stage) {
+                    stage = progress + 1;
+                    stageHandler(stage);
+                }
+            }
+
+            @Override
+            public void changeTypeGame(Integer type) {
+                Log.i(TAG, String.format("type is %s", type));
+                if (type_game != type) {
+                    type_game = type;
+                }
             }
         };
 
@@ -443,8 +469,50 @@ public class FriendsModeActivity extends Activity {
                                 R.layout.layout_multi_name,
                                 newView);
                         linearLayout.addView(newView);
-                        ((TextView) newView.findViewById(R.id.textView)).setText(gamer.name);
-                        newView.findViewById(R.id.imageViewLegend).setBackgroundColor(gamer.color);
+                        final Integer color = gamer.color;
+                        final String targetName = gamer.name;
+                        final TextView textView = newView.findViewById(R.id.textView);
+                        final View view = newView.findViewById(R.id.imageViewLegend);
+                        final ImageButton kickPlayer = newView.findViewById(R.id.imageButtonKickPlayer);
+                        textView.setText(gamer.name);
+                        view.setBackgroundColor(gamer.color);
+
+                        if (type_game == 0 && own == CREATOR) {
+
+                            kickPlayer.setVisibility(View.VISIBLE);
+                            kickPlayer.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    final KickPlayerCallbacks callback = new KickPlayerCallbacks() {
+                                        @Override
+                                        public void success() {
+                                            textView.setEnabled(false);
+                                            kickPlayer.setEnabled(false);
+                                            view.setBackgroundColor(color - 0xcc000000);
+
+                                            Toast.makeText(FriendsModeActivity.this,
+                                                    String.format("Пользователь %s был успешно отстранён из игры", targetName),
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+
+                                        @Override
+                                        public void someProblem(Throwable t) {
+                                            Log.i(TAG, t.getMessage());
+                                        }
+                                    };
+
+                                    ConnectionServer.getInstance().initKickPlayer(targetName);
+                                    ConnectionServer.getInstance().connectKickPlayer(callback);
+                                }
+                            });
+
+                        } else {
+                            Log.i(TAG, String.format("%s | %s", type_game, own));
+                            kickPlayer.setVisibility(View.INVISIBLE);
+                            kickPlayer.setOnClickListener(null);
+
+                        }
                     }
                 }
             }
@@ -582,7 +650,7 @@ public class FriendsModeActivity extends Activity {
         (findViewById(R.id.button_multi_chat)).setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         if (!findViewById(R.id.image_button_exit).isClickable()) {
             (findViewById(R.id.text_view_code)).setVisibility(View.VISIBLE);
-            if (type == CREATOR) {
+            if (own == CREATOR) {
                 (findViewById(R.id.floatingAdmButton)).setVisibility(View.VISIBLE);
             }
         }

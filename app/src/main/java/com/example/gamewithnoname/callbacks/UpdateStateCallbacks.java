@@ -10,19 +10,12 @@ import com.example.gamewithnoname.models.responses.StatisticsResponse;
 import java.util.List;
 
 public interface UpdateStateCallbacks {
-    void gamersUpdate(
-            @NonNull List<GamersResponse> gamers
-    );
-    void coinsUpdate(
-            @NonNull List<PointsResponse> coins
-    );
-    void messagesUpdate(
-            @NonNull List<MessageResponse> messages
-    );
-    void gameOver(
-            @NonNull StatisticsResponse stats
-    );
-    void linkUpdate(
-            @NonNull String link
-    );
+    void gamersUpdate(List<GamersResponse> gamers);
+    void coinsUpdate(List<PointsResponse> coins);
+    void messagesUpdate(List<MessageResponse> messages);
+    void gameOver(StatisticsResponse stats);
+    void linkUpdate(String link);
+    void changeOwn(Boolean isAuthor);
+    void changeProgress(Integer isRun);
+    void changeTypeGame(Integer type);
 }

@@ -85,4 +85,9 @@ public interface ServerAPIs {
             @Query("flag") Integer flag
     );
 
+    @GET("/kick_player")
+    Call<SimpleResponse> kickPlayer(
+            @Query("target") String target
+    );
+
 }

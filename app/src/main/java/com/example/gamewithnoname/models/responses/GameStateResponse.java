@@ -37,6 +37,18 @@ public class GameStateResponse {
     @Expose
     private String link;
 
+    @SerializedName("author")
+    @Expose
+    private Boolean author;
+
+    @SerializedName("progress")
+    @Expose
+    private Integer progress;
+
+    @SerializedName("type_game")
+    @Expose
+    private Integer type_game;
+
     public Integer getState() {
         return state;
     }
@@ -83,5 +95,29 @@ public class GameStateResponse {
 
     public void setMessages(List<MessageResponse> messages) {
         this.messages = messages;
+    }
+
+    public Boolean getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Boolean author) {
+        this.author = author;
+    }
+
+    public Integer getProgress() {
+        return progress;
+    }
+
+    public void setProgress(Integer progress) {
+        this.progress = progress;
+    }
+
+    public Integer getType_game() {
+        return type_game;
+    }
+
+    public void setType_game(Integer type_game) {
+        this.type_game = type_game;
     }
 }
