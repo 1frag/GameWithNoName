@@ -120,7 +120,6 @@ public class FriendsModeActivity extends Activity {
             stageHandler(1);
         else /* PLAY_GAME **/
             stageHandler(2);
-        buildOwn(own);
         configExitButton();
     }
 
@@ -132,7 +131,7 @@ public class FriendsModeActivity extends Activity {
     }
 
     private void buildOwn(int type) {
-        if (type == CREATOR) {
+        if (own == CREATOR) {
             (findViewById(R.id.floatingAdmButton)).setVisibility(View.VISIBLE);
         }
     }
@@ -416,6 +415,8 @@ public class FriendsModeActivity extends Activity {
                     own = CREATOR;
                 else
                     own = JOINER;
+                Log.i(TAG, String.format("own is %s", own));
+                buildOwn(own);
             }
 
             @Override
@@ -432,6 +433,11 @@ public class FriendsModeActivity extends Activity {
                 if (type_game != type) {
                     type_game = type;
                 }
+            }
+
+            @Override
+            public void changeTimer(Integer time) {
+                ((TextView)findViewById(R.id.text_view_code)).setText(time.toString());
             }
         };
 

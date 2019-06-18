@@ -342,6 +342,9 @@ public class ConnectionServer {
 
                     if (response.body().getType_game() != null)
                         callback.changeTypeGame(response.body().getType_game());
+
+                    if (response.body().getTimer() != null)
+                        callback.changeTimer(response.body().getTimer());
                 }
             }
 

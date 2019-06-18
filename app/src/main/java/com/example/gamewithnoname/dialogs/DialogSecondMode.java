@@ -72,6 +72,7 @@ public class DialogSecondMode implements Dialog.OnShowListener {
                         intent.putExtra("stage", WAIT_GAME);
                         intent.putExtra("type", JOINER);
                         dialog.getContext().startActivity(intent);
+                        dialog.cancel();
                     }
 
                     @Override

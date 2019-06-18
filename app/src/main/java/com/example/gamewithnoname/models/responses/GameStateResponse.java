@@ -49,6 +49,10 @@ public class GameStateResponse {
     @Expose
     private Integer type_game;
 
+    @SerializedName("timer")
+    @Expose
+    private Integer timer;
+
     public Integer getState() {
         return state;
     }
@@ -119,5 +123,13 @@ public class GameStateResponse {
 
     public void setType_game(Integer type_game) {
         this.type_game = type_game;
+    }
+
+    public Integer getTimer() {
+        return timer;
+    }
+
+    public void setTimer(Integer timer) {
+        this.timer = timer;
     }
 }

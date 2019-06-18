@@ -18,4 +18,5 @@ public interface UpdateStateCallbacks {
     void changeOwn(Boolean isAuthor);
     void changeProgress(Integer isRun);
     void changeTypeGame(Integer type);
+    void changeTimer(Integer time);
 }
