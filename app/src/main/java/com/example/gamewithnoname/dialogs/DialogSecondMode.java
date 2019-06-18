@@ -140,6 +140,9 @@ public class DialogSecondMode implements Dialog.OnShowListener {
 
                 RadioButton radioButton = dialog.findViewById(R.id.radio_button_in_team);
                 int type = (radioButton.isChecked() ? 0 : 1);
+                if (!((EditText) dialog.findViewById(R.id.editText3)).getText().toString().equals("777")) {
+                    time *= 60;
+                }
 
                 Log.i(TAG, String.format("init type: %s", type));
                 ConnectionServer.getInstance().initCreateGame(

@@ -441,11 +441,25 @@ public class FriendsModeActivity extends Activity {
             @Override
             public void changeTimer(Integer time) {
                 TextView textView = findViewById(R.id.text_view_code);
-                if (time < 3600) {
-                    textView.setText(String.format("%s:%s", time / 60, time % 60));
+                int sec = time % 60;
+                time /= 60;
+                int min = time % 60;
+                time /= 60;
+                int hour = time % 24;
+                time /= 24;
+                int days = time;
+                String result;
+                // todo: {рус. яз.} падежи. SOS!
+                if(days != 0) {
+                    result = String.format("%s day(s)", days);
+                } else if (hour != 0) {
+                    result = String.format("%s hour(s)", hour);
                 } else {
-                    textView.setText(String.format("%s.%s", time / 3600, (time % 3600) / 60));
+                    result = String.format("%s%s:%s%s",
+                            min / 10, min % 10,
+                            sec / 10, sec % 10);
                 }
+                textView.setText(result);
             }
         };
 
