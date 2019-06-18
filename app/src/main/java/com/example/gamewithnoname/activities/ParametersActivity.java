@@ -209,7 +209,8 @@ public class ParametersActivity extends AppCompatActivity {
         Log.i(TAG, String.format("%s", shortestDistance));
         textSpeed = sheetView.findViewById(R.id.textSpeedValue);
         textSpeed.setText(String.format("%.1f km/h", speed));
-        time = shortestDistance * deviation / (speed * 1000 / 3600);
+        time = shortestDistance * deviation / (speed * 1000 / 60);
+        Log.i(TAG, String.format("time is %s", time));
         textTime = sheetView.findViewById(R.id.timeApproximate);
         textTime.setText(String.format("About %.1f min", time));
         textAngle = sheetView.findViewById(R.id.textViewAngleVal);
