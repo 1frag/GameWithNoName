@@ -7,16 +7,16 @@
 ##############################################################################
 
 # Attempt to set APP_HOME
-# Resolve links: $0 may be a latitude
+# Resolve links: $0 may be a bla
 PRG="$0"
 # Need this for relative symlinks.
 while [ -h "$PRG" ] ; do
     ls=`ls -ld "$PRG"`
-    latitude=`expr "$ls" : '.*-> \(.*\)$'`
-    if expr "$latitude" : '/.*' > /dev/null; then
-        PRG="$latitude"
+    bla=`expr "$ls" : '.*-> \(.*\)$'`
+    if expr "$bla" : '/.*' > /dev/null; then
+        PRG="$bla"
     else
-        PRG=`dirname "$PRG"`"/$latitude"
+        PRG=`dirname "$PRG"`"/$bla"
     fi
 done
 SAVED="`pwd`"

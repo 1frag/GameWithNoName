@@ -1,5 +1,6 @@
 package com.example.gamewithnoname.ServerConnection;
 
+import com.example.gamewithnoname.models.responses.CheckGWBResponse;
 import com.example.gamewithnoname.models.responses.CheckGameResponse;
 import com.example.gamewithnoname.models.responses.DialogResponse;
 import com.example.gamewithnoname.models.responses.GameStateResponse;
@@ -68,6 +69,12 @@ public interface ServerAPIs {
             @Query("count") Integer count
     );
 
+    @GET("/change_rating")
+    Call<SimpleResponse> changeRating(
+            @Query("name") String name,
+            @Query("count") Integer count
+    );
+
     @GET("/send_message")
     Call<SimpleResponse> sendMessage(
             @Query("name") String name,
@@ -88,6 +95,40 @@ public interface ServerAPIs {
     @GET("/kick_player")
     Call<SimpleResponse> kickPlayer(
             @Query("target") String target
+    );
+
+    @GET("/kill_gwb")
+    Call<SimpleResponse> killGWB(
+            @Query("name") String name
+    );
+
+    @GET("/check_gwb")
+    Call<CheckGWBResponse> checkGWB(
+            @Query("name") String name
+    );
+
+    @GET("/create_gwb")
+    Call<SimpleResponse> createGWB(
+            @Query("name") String name,
+            @Query("alpha") Integer alpha,
+            @Query("speed") Double speed,
+            @Query("bla") Double bla,
+            @Query("blo") Double blo,
+            @Query("ela") Double ela,
+            @Query("elo") Double elo
+    );
+
+    @GET("/update_gwb")
+    Call<SimpleResponse> updateGWB(
+            @Query("name") String name,
+            @Query("first") Integer first,
+            @Query("latitude") Double latitude,
+            @Query("longitude") Double longitude
+    );
+
+    @GET("/get_my_speed_gwb")
+    Call<SimpleResponse> getMySpeedGWB(
+            @Query("name") String name
     );
 
 }

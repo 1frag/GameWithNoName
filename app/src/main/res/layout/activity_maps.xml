@@ -5,6 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="220dp"
+        android:layout_height="92dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="72dp"
+        android:onClick="killGame"
+        android:text="выйти из игры и не получить конечно же за это баллы"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="@+id/mapViewInGame" />
+
     <com.yandex.mapkit.mapview.MapView
         android:id="@+id/mapViewInGame"
         android:layout_width="match_parent"
@@ -38,27 +49,28 @@
         android:background="@color/colorAccent"/>
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="90dp"
         android:layout_marginBottom="16dp"
-        android:orientation="horizontal"
         android:background="@drawable/round_buttons"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/textBotToEnd"
-            android:layout_gravity="center_vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
+            android:fontFamily="@font/lekton"
             android:text="@string/activity_maps_bot_finishes"
             android:textColor="@android:color/black"
-            android:fontFamily="@font/lekton"
-            android:textSize="18sp"/>
+            android:textSize="18sp" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

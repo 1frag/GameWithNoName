@@ -44,6 +44,7 @@ public class BotLocation {
     private Map mMap;
     private MapInGame mActivity;
     private int ind = 0;
+    private int timeBegin = 0;
     private int resultGame = 0;
     private boolean stopped = false;
 
@@ -52,9 +53,10 @@ public class BotLocation {
     private final String TAG = String.format("%s/%s",
             "HITS", "BotLocation");
 
-    public BotLocation(MapInGame activity, Map map, Polyline linePath) {
+    public BotLocation(MapInGame activity, Map map, Polyline linePath, int time) {
         mActivity = activity;
         mMap = map;
+        timeBegin = time;
         List<Point> points = linePath.getPoints();
         for (int i = 1; i < points.size(); i++) {
             Point A = points.get(i - 1);
@@ -119,6 +121,7 @@ public class BotLocation {
     private void setGameResult(int result) {
         if (mTimer != null) {
             mTimer.cancel();
+            mTimer.purge();
             mTimer = null;
             resultGame = result;
             mActivity.runOnUiThread(new Runnable() {
@@ -132,6 +135,7 @@ public class BotLocation {
 
     public void start(final int segment, final UpdateStateBotCallbacks callback) {
         mTimer = new Timer();
+        ind = timeBegin * 1000 / segment;
 
         final TimerTask timerTask = new TimerTask() {
             @Override
@@ -158,7 +162,6 @@ public class BotLocation {
                 mActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        // todo: может что-то реально убрать из главного потока?
                         // вызываем колбак
                         callback.timeBotToFinish(
                                 segment * (path.size() - ind) / 1000

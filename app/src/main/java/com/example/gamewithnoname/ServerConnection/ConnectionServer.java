@@ -5,7 +5,9 @@ import android.util.Log;
 
 import com.example.gamewithnoname.callbacks.BeginGameCallbacks;
 import com.example.gamewithnoname.callbacks.ChangeCoinsCallbacks;
+import com.example.gamewithnoname.callbacks.CheckGWBCallbacks;
 import com.example.gamewithnoname.callbacks.CheckGameCallbacks;
+import com.example.gamewithnoname.callbacks.CreateGWBCallbacks;
 import com.example.gamewithnoname.callbacks.CreateGameCallbacks;
 import com.example.gamewithnoname.callbacks.GetMessagesCallbacks;
 import com.example.gamewithnoname.callbacks.JoinGameCallbacks;
@@ -14,6 +16,7 @@ import com.example.gamewithnoname.callbacks.KillRGCallbacks;
 import com.example.gamewithnoname.callbacks.SendMessageCallbacks;
 import com.example.gamewithnoname.callbacks.SignUpCallbacks;
 import com.example.gamewithnoname.callbacks.UpdateStateCallbacks;
+import com.example.gamewithnoname.models.responses.CheckGWBResponse;
 import com.example.gamewithnoname.models.responses.CheckGameResponse;
 import com.example.gamewithnoname.models.responses.DialogResponse;
 import com.example.gamewithnoname.models.responses.GameStateResponse;
@@ -81,6 +84,13 @@ public class ConnectionServer {
         );
     }
 
+    public void initChangeRating(String name, Integer count) {
+        call = serverAPIs.changeRating(
+                name,
+                count
+        );
+    }
+
     public void initSignUp(String name, String password, String birthday, Integer sex) {
         call = serverAPIs.getResultSignUp(
                 name,
@@ -124,6 +134,28 @@ public class ConnectionServer {
 
     public void initKickPlayer(String target) {
         call = serverAPIs.kickPlayer(target);
+    }
+
+    public void initKillGWB(String name) {
+        call = serverAPIs.killGWB(name);
+    }
+
+    public void initCheckGWB(String name) {
+        call = serverAPIs.checkGWB(name);
+    }
+
+    public void initCreateGWB(String name, Integer alpha, Double speed,
+                              Double bla, Double blo,
+                              Double ela, Double elo) {
+        call = serverAPIs.createGWB(name, alpha, speed, bla, blo, ela, elo);
+    }
+
+    public void initUpdateGWB(String name, Integer first, Double latitude, Double longitude) {
+        call = serverAPIs.updateGWB(name, first, latitude, longitude);
+    }
+
+    public void initGetMySpeedGWB(String name) {
+        call = serverAPIs.getMySpeedGWB(name);
     }
 
     private void reportStatusCode(int code, String fun) {
@@ -405,19 +437,10 @@ public class ConnectionServer {
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                 if (response.body() != null && callback != null) {
                     int value = response.body().getResult();
-                    switch (value) {
-                        case -2:
-                            callback.badQuery();
-                            break;
-                        case -3:
-                            callback.userDoesNotExist();
-                            break;
-                        case -4:
-                            callback.notEnoughMoney();
-                            break;
-                        default:
-                            callback.successful(value);
-                            break;
+                    if (value == -1) {
+                        callback.notEnoughMoney();
+                    } else {
+                        callback.successful(value);
                     }
                 }
             }
@@ -475,5 +498,53 @@ public class ConnectionServer {
         });
     }
 
+    public void connectCheckGWB(@Nullable final CheckGWBCallbacks callback) {
+        call.enqueue(new Callback<CheckGWBResponse>() {
 
+            @Override
+            public void onResponse(Call<CheckGWBResponse> call, Response<CheckGWBResponse> response) {
+                if (response.body() != null && callback != null) {
+                    CheckGWBResponse r = response.body();
+                    int value = r.getResult();
+                    if (value == 2){
+                        callback.isFree();
+                    } else {
+                        callback.gameExist(
+                                r.getAlpha(),
+                                r.getSpeed(),
+                                r.getTime(),
+                                r.getBla(),
+                                r.getBlo(),
+                                r.getEla(),
+                                r.getElo()
+                        );
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CheckGWBResponse> call, Throwable t) {
+
+            }
+
+        });
+    }
+
+    public void connectCreateGWB(final CreateGWBCallbacks callback) {
+        call.enqueue(new Callback<SimpleResponse>() {
+
+            @Override
+            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                if (response.body() != null && callback != null) {
+                    callback.success();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SimpleResponse> call, Throwable t) {
+
+            }
+
+        });
+    }
 }

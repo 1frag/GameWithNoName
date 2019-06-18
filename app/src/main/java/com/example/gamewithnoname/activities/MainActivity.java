@@ -18,13 +18,16 @@ import android.widget.Toast;
 
 import com.example.gamewithnoname.R;
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
+import com.example.gamewithnoname.callbacks.CheckGWBCallbacks;
 import com.example.gamewithnoname.callbacks.CheckGameCallbacks;
 import com.example.gamewithnoname.dialogs.DialogSecondMode;
+import com.example.gamewithnoname.maps.MapInGame;
 import com.example.gamewithnoname.models.responses.UserResponse;
 import com.example.gamewithnoname.utils.UserLocation;
 import com.example.gamewithnoname.callbacks.SignInCallbacks;
 import com.example.gamewithnoname.models.User;
 import com.yandex.mapkit.MapKitFactory;
+import com.yandex.mapkit.geometry.Point;
 
 import java.util.ArrayList;
 
@@ -163,8 +166,33 @@ public class MainActivity extends AppCompatActivity {
         ConstraintLayout me = findViewById(R.id.include_me);
         switch (view.getId()) {
             case R.id.buttonCatchBot: {
-                Intent intentStart = new Intent(MainActivity.this, ParametersActivity.class);
-                startActivity(intentStart);
+                CheckGWBCallbacks callback = new CheckGWBCallbacks() {
+                    @Override
+                    public void isFree() {
+                        Intent intentStart = new Intent(MainActivity.this, ParametersActivity.class);
+                        startActivity(intentStart);
+                    }
+
+                    @Override
+                    public void gameExist(int alpha, Double speed, int time, Double bla, Double blo, Double ela, Double elo) {
+
+                        Intent intentStart = new Intent(MainActivity.this, MapInGame.class);
+
+                        intentStart.putExtra("botStartLatitude", bla);
+                        intentStart.putExtra("botStartLongitude", blo);
+                        intentStart.putExtra("finishLatitude", ela);
+                        intentStart.putExtra("finishLongitude", elo);
+                        intentStart.putExtra("speed", speed);
+                        intentStart.putExtra("alpha", alpha);
+                        intentStart.putExtra("time", time);
+
+                        startActivity(intentStart);
+
+                    }
+                };
+
+                ConnectionServer.getInstance().initCheckGWB(User.getName());
+                ConnectionServer.getInstance().connectCheckGWB(callback);
                 break;
             }
             case R.id.buttonStatistics: {

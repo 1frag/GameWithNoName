@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.gamewithnoname.callbacks.SimpleCallbacks;
 import com.example.gamewithnoname.utils.BotLocation;
 import com.example.gamewithnoname.utils.DistanceBetweenTwoPoints;
 import com.example.gamewithnoname.activities.MainActivity;
@@ -54,7 +55,10 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
 
     private MapView mapView;
     private Map mMap;
+    private double pathBotToFinish;
+    private Timer cnterSteps;
     private BotLocation bot;
+    private Integer isFirst = 1;
     private final String TAG = String.format("%s/%s", "HITS", "MapInGame");
 
     @Override
@@ -70,11 +74,39 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
         mapView = findViewById(R.id.mapViewInGame);
         mMap = mapView.getMap();
         configMap(mMap);
+        isFirst = 1;
         // end.
+        initTimerCounterKM();
+    }
+
+    private void initTimerCounterKM() {
+        cnterSteps = new Timer();
+        final TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                ConnectionServer.getInstance().initUpdateGWB(
+                        User.getName(),
+                        isFirst,
+                        UserLocation.imHere.getLatitude(),
+                        UserLocation.imHere.getLongitude()
+                );
+                ConnectionServer.getInstance().connectSimple(null);
+                isFirst = 0;
+            }
+        };
+        cnterSteps.schedule(timerTask, 1000, 1000);
 
     }
 
     public void setGameResult(int result) {
+        cnterSteps.cancel();
+        cnterSteps.purge();
+        findViewById(R.id.textBotToEnd).setVisibility(View.INVISIBLE);
+        findViewById(R.id.mapsButtonPause).setVisibility(View.INVISIBLE);
+        findViewById(R.id.button3).setVisibility(View.INVISIBLE);
+        ConnectionServer.getInstance().initKillGWB(User.getName());
+        ConnectionServer.getInstance().connectSimple(null);
+
         if (result == -1) {
             final LayoutInflater factory = getLayoutInflater();
             final View menu = factory.inflate(R.layout.layout_lose, null);
@@ -109,6 +141,30 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
                 }
             });
 
+            int alpha = getIntent().getExtras().getInt("alpha");
+            int alphas = (int) (alpha * pathBotToFinish);
+            ConnectionServer.getInstance().initChangeRating(User.getName(), alphas);
+            ConnectionServer.getInstance().connectSimple(null);
+            Toast.makeText(MapInGame.this,
+                    String.format("you get %s rating", alphas),
+                    Toast.LENGTH_SHORT).show();
+            // todo: кинуть в текствью
+
+            ConnectionServer.getInstance().initGetMySpeedGWB(User.getName());
+            ConnectionServer.getInstance().connectSimple(new SimpleCallbacks() {
+                @Override
+                public void onSuccess(@NonNull Integer value) {
+                    Toast.makeText(MapInGame.this,
+                            String.format("your speed is %s", value), // метры в секунду вроде
+                            Toast.LENGTH_LONG).show();
+                    // todo: кинуть в текствью
+                }
+
+                @Override
+                public void onError(@NonNull Throwable throwable) {
+                    //бля, не хочу, убейте
+                }
+            });
         }
     }
 
@@ -129,8 +185,6 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
         Point finish = new Point(c, d);
         map.getMapObjects().addPlacemark(finish);
 
-        // bot mode
-        // draw start:
         double a = getIntent().getExtras().getDouble("botStartLatitude");
         double b = getIntent().getExtras().getDouble("botStartLongitude");
         Point start = new Point(a, b);
@@ -154,14 +208,6 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
 
         PedestrianRouter pdRouter = TransportFactory.getInstance().createPedestrianRouter();
         pdRouter.requestRoutes(requestPoints, options, this);
-
-        DistanceBetweenTwoPoints d = new DistanceBetweenTwoPoints(start, finish);
-        Double resultAsync = d.getResult();
-        // todo: это явно было написано человеком
-        //  который не сильно то разбирался в этом
-        //  если появится $$время$$ то надо разобраться
-        //  в этом кусочке кода и привести его в нормальный вид
-        Log.i(TAG, String.format("%s", resultAsync));
     }
 
 
@@ -180,16 +226,18 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
     }
 
     @Override
-    public void onMasstransitRoutes(List<Route> routes) {
-        bot = new BotLocation(this, mMap, routes.get(0).getGeometry());
+    public void onMasstransitRoutes(@NonNull List<Route> routes) {
+        int time = getIntent().getExtras().getInt("time");
+        bot = new BotLocation(this, mMap, routes.get(0).getGeometry(), time);
 
-        double speed = getIntent().getExtras().getDouble("speed");
+        final double speed = getIntent().getExtras().getDouble("speed");
         Log.i(TAG, String.format("speed: %s", (int) (1000f / speed)));
         bot.start(
                 (int) (3600f / speed),
                 new UpdateStateBotCallbacks() {
                     @Override
                     public void timeBotToFinish(int seconds) {
+                        pathBotToFinish = seconds * speed / 3600.0;
                         TextView textView = findViewById(R.id.textBotToEnd);
                         textView.setText(
                                 String.format(
@@ -263,20 +311,18 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
             }
 
             @Override
-            public void badQuery() {
-                Log.i(TAG, "badQuery");
-            }
-
-            @Override
-            public void userDoesNotExist() {
-                Log.i(TAG, "userDoesNotExist");
-            }
-
-            @Override
             public void notEnoughMoney() {
                 Log.i(TAG, "notEnoughMoney");
             }
         });
 
+    }
+
+    public void killGame(View view) {
+        ConnectionServer.getInstance().initKillGWB(User.getName());
+        ConnectionServer.getInstance().connectSimple(null);
+        cnterSteps.cancel();
+        cnterSteps.purge();
+        finish();
     }
 }
