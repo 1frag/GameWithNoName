@@ -131,13 +131,15 @@ public class FriendsModeActivity extends Activity {
     }
 
     private void buildOwn(int type) {
-        if (own == CREATOR) {
+        if (own == CREATOR && stage == 2) {
             (findViewById(R.id.floatingAdmButton)).setVisibility(View.VISIBLE);
+        } else {
+            (findViewById(R.id.floatingAdmButton)).setVisibility(View.INVISIBLE);
         }
     }
 
-    private void stageHandler(int stage) {
-        this.stage = stage;
+    private void stageHandler(int rstage) {
+        this.stage = rstage;
         if (stage == 0) {
             Intent onBack = new Intent(this, MainActivity.class);
             finish();
@@ -161,7 +163,7 @@ public class FriendsModeActivity extends Activity {
             (findViewById(R.id.button_join_game)).setVisibility(View.INVISIBLE);
             (findViewById(R.id.imageButton)).setVisibility(View.INVISIBLE);
             (findViewById(R.id.imageButton2)).setVisibility(View.INVISIBLE);
-            (findViewById(R.id.text_view_code)).setVisibility(View.INVISIBLE);
+//            (findViewById(R.id.text_view_code)).setVisibility(View.INVISIBLE);
             (findViewById(R.id.floatingAdmButton)).setVisibility(View.INVISIBLE);
             (findViewById(R.id.image_button_exit)).setVisibility(View.VISIBLE);
 
@@ -415,16 +417,14 @@ public class FriendsModeActivity extends Activity {
                     own = CREATOR;
                 else
                     own = JOINER;
-                Log.i(TAG, String.format("own is %s", own));
                 buildOwn(own);
             }
 
             @Override
             public void changeProgress(Integer progress) {
-                if (progress + 1 != stage) {
-                    stage = progress + 1;
-                    stageHandler(stage);
-                }
+                Log.i(TAG, String.format("stage is %s, but progress is %s", stage, progress));
+                stage = progress + 1;
+                stageHandler(stage);
             }
 
             @Override
