@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
 
+import com.example.gamewithnoname.activities.ParametersActivity;
 import com.example.gamewithnoname.callbacks.UpdateStateBotCallbacks;
 import com.example.gamewithnoname.maps.MapInGame;
 import com.yandex.mapkit.geometry.Circle;

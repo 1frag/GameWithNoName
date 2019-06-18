@@ -42,11 +42,11 @@ public class ParametersActivity extends AppCompatActivity {
     private Double time;
     private Double shortestDistance;
     private Double changedDistance;
+    private Double angle;
     private Boolean oncomingSensitivity;
     private TextView textSpeed;
     private TextView textTime;
     private TextView textAngle;
-    private Double angle;
     private Point start, finish;
     private Button btnContinue;
     private Button btnParameters;
