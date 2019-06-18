@@ -43,7 +43,6 @@ public class ParametersActivity extends AppCompatActivity {
     private Double shortestDistance;
     private Double changedDistance;
     private Double angle;
-    private Boolean oncomingSensitivity;
     private TextView textSpeed;
     private TextView textTime;
     private TextView textAngle;
@@ -103,32 +102,6 @@ public class ParametersActivity extends AppCompatActivity {
         transaction.replace(R.id.mapHolder, map);
         transaction.commit();
 
-    }
-
-    public Point botStart() {
-        Double r = sqrt(pow((finish.getLatitude() - start.getLatitude()), 2) + pow((finish.getLongitude() - start.getLongitude()), 2));
-        Double mx = (finish.getLatitude() + start.getLatitude()) / 2f;
-        Double my = (finish.getLongitude() + start.getLongitude()) / 2f;
-        Double ax = finish.getLatitude() - start.getLatitude();
-        Double ay = finish.getLongitude() - start.getLongitude();
-        Double bx = -ay;
-        Double by;
-        by = ax;
-        Double cmy1 = sqrt(3.0 * r * r / (4.0 + (4.0 * bx * bx / (by * by))));
-        Double cmy2 = -cmy1;
-        Double cmx1 = cmy1 * bx / by;
-        Double cmx2 = -cmx1;
-        cmy1 += my;
-        cmy2 += my;
-        cmx1 += mx;
-        cmx2 += mx;
-        Random random = new Random();
-        Log.i(TAG, String.format("%s==%s", dist(start, finish), dist(new Point(cmx1, cmy1), finish)));
-        if (random.nextBoolean()) {
-            return new Point(cmx1, cmy1);
-        } else {
-            return new Point(cmx2, cmy2);
-        }
     }
 
     public Point anotherBotStart() {
@@ -220,16 +193,6 @@ public class ParametersActivity extends AppCompatActivity {
         speedSeekBar.setOnSeekBarChangeListener(new speedListener());
         SeekBar angleSeekBar = sheetView.findViewById(R.id.seekBarAngle);
         angleSeekBar.setOnSeekBarChangeListener(new angleListener());
-        Switch sw = sheetView.findViewById(R.id.switchSensitivity);
-        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    oncomingSensitivity = true;
-                } else {
-                    oncomingSensitivity = false;
-                }
-            }
-        });
         btnContinue.setEnabled(true);
         btnParameters.setEnabled(true);
         findViewById(R.id.textInstruction).setVisibility(TextView.INVISIBLE);
@@ -294,7 +257,6 @@ public class ParametersActivity extends AppCompatActivity {
 
         intentStart.putExtra("finishLatitude", finish.getLatitude());
         intentStart.putExtra("finishLongitude", finish.getLongitude());
-        intentStart.putExtra("oncomingSensitivity", oncomingSensitivity);
         intentStart.putExtra("distance", changedDistance);
         intentStart.putExtra("speed", speed);
         Point point = anotherBotStart();
