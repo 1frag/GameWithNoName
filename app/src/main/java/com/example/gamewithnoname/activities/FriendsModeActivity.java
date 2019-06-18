@@ -151,6 +151,7 @@ public class FriendsModeActivity extends Activity {
             (findViewById(R.id.button_join_game)).setVisibility(View.INVISIBLE);
             (findViewById(R.id.imageButton)).setVisibility(View.VISIBLE);
             (findViewById(R.id.imageButton2)).setVisibility(View.VISIBLE);
+            (findViewById(R.id.floatingAdmButton)).setVisibility(View.VISIBLE);
             (findViewById(R.id.text_view_code)).setVisibility(View.VISIBLE);
             (findViewById(R.id.image_button_exit)).setEnabled(true);
 
