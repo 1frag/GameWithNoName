@@ -59,36 +59,6 @@
         android:textColor="@android:color/white"
         app:layout_constraintTop_toBottomOf="parent" />
 
-    <Button
-        android:id="@+id/button_join_game"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="0dp"
-        android:background="@drawable/buttons_friends_mode_border"
-        android:text="join"
-        android:textColor="@android:color/white"
-        app:layout_constraintTop_toBottomOf="@+id/button_create_game" />
-
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:src="?attr/actionModeCopyDrawable"
-        app:layout_constraintStart_toEndOf="@+id/text_view_code"
-        app:layout_constraintTop_toBottomOf="parent" />
-
-    <ImageButton
-        android:id="@+id/imageButton2"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:src="@android:drawable/ic_delete"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageButton"
-        app:layout_constraintTop_toBottomOf="parent" />
-
     <TextView
         android:id="@+id/text_view_code"
         android:layout_width="300dp"

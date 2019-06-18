@@ -76,6 +76,8 @@ public class FriendsModeActivity extends Activity {
     private int stage;
     private int type_game;
 
+    private boolean chat_is_show = false;
+
     class Gamer {
         String name;
         Integer color;
@@ -148,11 +150,11 @@ public class FriendsModeActivity extends Activity {
         } else if (stage == 1) {
             /*После того как заджойнился или создал игру*/
             (findViewById(R.id.button_create_game)).setVisibility(View.INVISIBLE);
-            (findViewById(R.id.button_join_game)).setVisibility(View.INVISIBLE);
-            (findViewById(R.id.imageButton)).setVisibility(View.VISIBLE);
-            (findViewById(R.id.imageButton2)).setVisibility(View.VISIBLE);
             (findViewById(R.id.floatingAdmButton)).setVisibility(View.VISIBLE);
-            (findViewById(R.id.text_view_code)).setVisibility(View.VISIBLE);
+            if (!chat_is_show)
+                (findViewById(R.id.text_view_code)).setVisibility(View.VISIBLE);
+            else
+                (findViewById(R.id.text_view_code)).setVisibility(View.INVISIBLE);
             (findViewById(R.id.image_button_exit)).setEnabled(true);
 
             // go button set second own
@@ -161,10 +163,10 @@ public class FriendsModeActivity extends Activity {
         } else if (stage == 2) {
             /*В игре*/
             (findViewById(R.id.button_create_game)).setVisibility(View.INVISIBLE);
-            (findViewById(R.id.button_join_game)).setVisibility(View.INVISIBLE);
-            (findViewById(R.id.imageButton)).setVisibility(View.INVISIBLE);
-            (findViewById(R.id.imageButton2)).setVisibility(View.INVISIBLE);
-//            (findViewById(R.id.text_view_code)).setVisibility(View.INVISIBLE);
+            if (!chat_is_show)
+                (findViewById(R.id.text_view_code)).setVisibility(View.VISIBLE);
+            else
+                (findViewById(R.id.text_view_code)).setVisibility(View.INVISIBLE);
             (findViewById(R.id.floatingAdmButton)).setVisibility(View.INVISIBLE);
             (findViewById(R.id.image_button_exit)).setVisibility(View.VISIBLE);
 
@@ -438,7 +440,12 @@ public class FriendsModeActivity extends Activity {
 
             @Override
             public void changeTimer(Integer time) {
-                ((TextView)findViewById(R.id.text_view_code)).setText(time.toString());
+                TextView textView = findViewById(R.id.text_view_code);
+                if (time < 3600) {
+                    textView.setText(String.format("%s:%s", time / 60, time % 60));
+                } else {
+                    textView.setText(String.format("%s.%s", time / 3600, (time % 3600) / 60));
+                }
             }
         };
 
@@ -644,16 +651,18 @@ public class FriendsModeActivity extends Activity {
         ConstraintLayout chat = findViewById(R.id.include);
         if (chat.getVisibility() == View.VISIBLE) {
             closeMessages(chat);
+            chat_is_show = false;
         } else {
             (findViewById(R.id.floatingAdmButton)).setVisibility(View.INVISIBLE);
             (findViewById(R.id.text_view_code)).setVisibility(View.INVISIBLE);
             (findViewById(R.id.button_multi_chat)).setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
             chat.setVisibility(View.VISIBLE);
+            chat_is_show = true;
         }
     }
 
     public void closeMessages(View view) {
-        findViewById(R.id.include).setVisibility(View.INVISIBLE);
+        findViewById(R.id.include).setVisibility(View.GONE);
         (findViewById(R.id.button_multi_chat)).setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         if (!findViewById(R.id.image_button_exit).isClickable()) {
             (findViewById(R.id.text_view_code)).setVisibility(View.VISIBLE);
