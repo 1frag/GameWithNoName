@@ -218,8 +218,6 @@ public class ParametersActivity extends AppCompatActivity {
         changedDistance = shortestDistance * deviation;
         SeekBar speedSeekBar = sheetView.findViewById(R.id.seekBarSpeed);
         speedSeekBar.setOnSeekBarChangeListener(new speedListener());
-        SeekBar deviationSeekBar = sheetView.findViewById(R.id.seekBarChange);
-        deviationSeekBar.setOnSeekBarChangeListener(new deviationListener());
         SeekBar angleSeekBar = sheetView.findViewById(R.id.seekBarAngle);
         angleSeekBar.setOnSeekBarChangeListener(new angleListener());
         Switch sw = sheetView.findViewById(R.id.switchSensitivity);
@@ -248,25 +246,6 @@ public class ParametersActivity extends AppCompatActivity {
             time = shortestDistance * deviation / (speed * 1000 / 60);
             textTime.setText(String.format("About %.1f min", time));
             textSpeed.setText(String.format("%.1f km/h", value));
-        }
-
-        public void onStartTrackingTouch(SeekBar seekBar) {
-        }
-
-        public void onStopTrackingTouch(SeekBar seekBar) {
-        }
-
-    }
-
-    private class deviationListener implements SeekBar.OnSeekBarChangeListener {
-        @SuppressLint("DefaultLocale")
-        public void onProgressChanged(SeekBar seekBar, int progress,
-                                      boolean fromUser) {
-            double temp = (double) progress;
-            deviation = 1.0 + temp / 10.0;
-            time = shortestDistance * deviation / (speed * 1000 / 60);
-            changedDistance = shortestDistance * deviation;
-            textTime.setText(String.format("About %.1f min", time));
         }
 
         public void onStartTrackingTouch(SeekBar seekBar) {

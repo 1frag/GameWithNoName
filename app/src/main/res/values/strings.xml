@@ -90,5 +90,7 @@
     <string name="activity_login_btn_ad">Read about game</string>
     <string name="alert_2m_finish_game_text">Are you sure you want to finish the game? You will not be able to return.</string>
     <string name="alert_2m_finish_game">Finish this game</string>
+    <string name="alert_2m_game_over">Game over</string>
+    <string name="alert_2m_coins"><![CDATA[You pick <number> coins]]></string>
 
 </resources>
