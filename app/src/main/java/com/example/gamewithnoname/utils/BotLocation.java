@@ -137,15 +137,30 @@ public class BotLocation {
         mTimer = new Timer();
         ind = timeBegin * 1000 / segment;
 
+        for (int j = 0; j < ind; j++) {
+            mMap.getMapObjects().addCircle(
+                    new Circle(
+                            path.get(j),
+                            SIZE_POINT_BOT_AFTER
+                    ),
+                    STROKE_COLOR_BOT_AFTER,
+                    SIZE_STROKE_BOT_AFTER,
+                    FILL_COLOR_BOT_AFTER);
+        }
+
         final TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
 
-                if (stopped){
+                if (stopped) {
                     return;
                 }
 
                 ind++;
+                if (ind < 0) {
+                    return;
+                }
+
                 if (ind >= path.size()) {
                     setGameResult(LOSE);
                     return;

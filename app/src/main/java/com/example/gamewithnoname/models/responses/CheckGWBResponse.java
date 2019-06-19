@@ -36,6 +36,10 @@ public class CheckGWBResponse {
     @Expose
     private Double elo;
 
+    @SerializedName("stops")
+    @Expose
+    private Integer stops;
+
     public Integer getResult() {
         return result;
     }
@@ -98,5 +102,13 @@ public class CheckGWBResponse {
 
     public void setElo(Double elo) {
         this.elo = elo;
+    }
+
+    public Integer getStops() {
+        return stops;
+    }
+
+    public void setStops(Integer stops) {
+        this.stops = stops;
     }
 }
