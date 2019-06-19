@@ -363,7 +363,7 @@ public class ConnectionServer {
                     if (response.body().getLink() != null)
                         callback.linkUpdate(response.body().getLink());
 
-                    if (response.body().getState() != null)
+                    if (response.body().getStats() != null)
                         callback.gameOver(response.body().getStats());
 
                     if (response.body().getAuthor() != null)

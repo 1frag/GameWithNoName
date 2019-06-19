@@ -401,8 +401,8 @@ public class FriendsModeActivity extends Activity {
             @Override
             public void gameOver(StatisticsResponse stats) {
                 Toast.makeText(FriendsModeActivity.this,
-                        String.format("You get %s coins and %s rating, great!",
-                                stats.getCoins(), stats.getRating()),
+                        String.format("You get %s coins, great!",
+                                stats.getCoins()),
                         Toast.LENGTH_LONG).show();
                 stageHandler(0);
                 mTimer.cancel();
@@ -425,14 +425,12 @@ public class FriendsModeActivity extends Activity {
 
             @Override
             public void changeProgress(Integer progress) {
-                Log.i(TAG, String.format("stage is %s, but progress is %s", stage, progress));
                 stage = progress + 1;
                 stageHandler(stage);
             }
 
             @Override
             public void changeTypeGame(Integer type) {
-                Log.i(TAG, String.format("type is %s", type));
                 if (type_game != type) {
                     type_game = type;
                 }
