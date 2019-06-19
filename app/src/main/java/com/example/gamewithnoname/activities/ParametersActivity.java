@@ -190,7 +190,7 @@ public class ParametersActivity extends AppCompatActivity {
         textTime = sheetView.findViewById(R.id.timeApproximate);
         textTime.setText(String.format("About %.1f min", time));
         textAngle = sheetView.findViewById(R.id.textViewAngleVal);
-        textAngle.setText(String.format("%d", angle));
+        textAngle.setText(String.format("%d°", angle));
         changedDistance = shortestDistance * deviation;
         SeekBar speedSeekBar = sheetView.findViewById(R.id.seekBarSpeed);
         speedSeekBar.setOnSeekBarChangeListener(new speedListener());
@@ -229,7 +229,7 @@ public class ParametersActivity extends AppCompatActivity {
             Double value = (double) progress;
             value = 20 + value * 5;
             angle = (int)(double)value;
-            textAngle.setText(String.format("%.0f", value));
+            textAngle.setText(String.format("%.0f°", value));
         }
 
         public void onStartTrackingTouch(SeekBar seekBar) {

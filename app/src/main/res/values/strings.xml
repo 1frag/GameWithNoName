@@ -57,7 +57,7 @@
 
 
     <string name="activity_parameters_headline">Parameters</string>
-    <string name="activity_parameters_speed">Speed - </string>
+    <string name="activity_parameters_speed">Speed:  </string>
     <string name="activity_parameters_button">Start</string>
     <string name="activity_parameters_forest">Oncoming sensitivity</string>
     <string name="activity_parameters_change">Deviation</string>
@@ -66,7 +66,7 @@
     <string name="activity_parameters_bike">Bicycle</string>
     <string name="activity_parameters_time">Place for approximate time</string>
     <string name="activity_parameters_speed_calc">Speed val</string>
-    <string name="activity_parameters_angle">Angle - </string>
+    <string name="activity_parameters_angle">Angle: </string>
     <string name="activity_parameters_angle_val">Angle value</string>
     <string name="activity_parameters_instruction">Select finish point</string>
 
@@ -95,6 +95,9 @@
     <string name="alert_buy_2m_radius">Extend your point`s radius (1m: 2 coins)</string>
     <string name="alert_buy_2m_headline">Extensions</string>
     <string name="alert_buy_2m_button">Apply</string>
+    <string name="activity_friends_username">Username</string>
+    <string name="activity_friends_rating">Rating</string>
+    <string name="activity_friends_km">Km</string>
 
 
 </resources>
