@@ -98,6 +98,9 @@
     <string name="activity_friends_username">Username</string>
     <string name="activity_friends_rating">Rating</string>
     <string name="activity_friends_km">Km</string>
+    <string name="activity_friends_btn_find">Find</string>
+    <string name="activity_friends_regs">Reg</string>
+    <string name="activity_friends_edittext">Name</string>
 
 
 </resources>
