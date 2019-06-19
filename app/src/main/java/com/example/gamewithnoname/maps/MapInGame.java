@@ -49,14 +49,14 @@ import static com.example.gamewithnoname.utils.Constants.ACTION_STOP;
 
 public class MapInGame extends AppCompatActivity implements Session.RouteListener {
 
-    private static final Integer PRICE_STOP_BOT = -1;
-    private static final Integer DELAY_IN_STOPPED = 10000; // todo: getDelayInStopped
-    private static final Integer DELAY_IN_DISABLE = 5000; // todo: getDelayInDisable
+    public static Integer PRICE_STOP_BOT = -1;
+    public static Integer DELAY_IN_STOPPED = 10000; // todo: getDelayInStopped
+    public static Integer DELAY_IN_DISABLE = 5000; // todo: getDelayInDisable
 
     private MapView mapView;
     private Map mMap;
     private double pathBotToFinish;
-    private Timer cnterSteps;
+    public Timer cnterSteps;
     private BotLocation bot;
     private Integer isFirst = 1;
     private final String TAG = String.format("%s/%s", "HITS", "MapInGame");
@@ -228,6 +228,21 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
     @Override
     public void onMasstransitRoutes(@NonNull List<Route> routes) {
         int time = getIntent().getExtras().getInt("time");
+        if (routes.size() == 0) {
+            Toast.makeText(MapInGame.this,
+                    "Произошла неизвестная ошибка",
+                    // на самом деле я отлично понимаю, что это за ошибка,
+                    // но исправить её я не сильно представляю как кроме как выйти
+                    Toast.LENGTH_LONG).show();
+            ConnectionServer.getInstance().initKillGWB(User.getName());
+            ConnectionServer.getInstance().connectSimple(null);
+            if(cnterSteps != null) {
+                cnterSteps.cancel();
+                cnterSteps.purge();
+            }
+            finish();
+            return;
+        }
         bot = new BotLocation(this, mMap, routes.get(0).getGeometry(), time);
 
         final double speed = getIntent().getExtras().getDouble("speed");

@@ -513,6 +513,7 @@ public class ConnectionServer {
                                 r.getAlpha(),
                                 r.getSpeed(),
                                 r.getTime(),
+                                r.getStops(),
                                 r.getBla(),
                                 r.getBlo(),
                                 r.getEla(),
