@@ -27,6 +27,7 @@ import com.example.gamewithnoname.callbacks.BeginGameCallbacks;
 import com.example.gamewithnoname.callbacks.KickPlayerCallbacks;
 import com.example.gamewithnoname.callbacks.KillRGCallbacks;
 import com.example.gamewithnoname.callbacks.SendMessageCallbacks;
+import com.example.gamewithnoname.dialogs.DialogMessages;
 import com.example.gamewithnoname.models.responses.MessageResponse;
 import com.example.gamewithnoname.utils.UserLocation;
 import com.example.gamewithnoname.models.responses.GamersResponse;
@@ -399,12 +400,25 @@ public class FriendsModeActivity extends Activity {
             }
 
             @Override
-            public void gameOver(StatisticsResponse stats) {
+            public void gameOver(final StatisticsResponse stats) {
                 Toast.makeText(FriendsModeActivity.this,
                         String.format("You get %s coins, great!",
                                 stats.getCoins()),
                         Toast.LENGTH_LONG).show();
                 stageHandler(0);
+                Dialog dialog = new Dialog(FriendsModeActivity.this);
+                dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialogInterface) {
+                        AlertDialog dialog = (AlertDialog) dialogInterface;
+                        dialog.setContentView(R.layout.layout_end_2m);
+                        TextView textView = dialog.findViewById(R.id.textView6);
+                        // todo: Ася, вставь stats.getCoins(); в текствью textView6;
+
+                    }
+                });
+
+                dialog.show();
                 mTimer.cancel();
                 mTimer.purge();
             }
@@ -447,7 +461,6 @@ public class FriendsModeActivity extends Activity {
                 time /= 24;
                 int days = time;
                 String result;
-                // todo: {рус. яз.} падежи. SOS!
                 if(days != 0) {
                     result = String.format("%s day(s)", days);
                 } else if (hour != 0) {

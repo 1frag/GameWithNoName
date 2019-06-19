@@ -98,7 +98,7 @@ public class ParametersActivity extends AppCompatActivity {
             public void onMasstransitRoutesError(@NonNull Error error) {
                 Log.i(TAG, "onMasstransitRoutesError");
                 Toast.makeText(ParametersActivity.this,
-                        "Произошла ошибка. Выберите другую точку финиша", // todo: translate
+                        "Произошла ошибка. Выберите другую точку финиша",
                         Toast.LENGTH_LONG).show();
             }
         });
@@ -117,8 +117,16 @@ public class ParametersActivity extends AppCompatActivity {
         Double y1 = finish.getLongitude();
         Double x2 = start.getLatitude();
         Double y2 = start.getLongitude();
+        if(x2.equals(x1)){
+            return new Point((finish.getLatitude() + start.getLatitude()) / 2,
+                    (finish.getLongitude() + start.getLongitude()) / 2);
+        }
+        // todo: Asya;
         Double k1 = (y2 - y1) / (x2 - x1);
-        // todo: division 0
+        if((1 + alpha * k1) == 0 || (1 - alpha * k1) == 0){
+            return new Point((finish.getLatitude() + start.getLatitude()) / 2,
+                    (finish.getLongitude() + start.getLongitude()) / 2);
+        }
         Double k2_1 = (k1 - alpha) / (1 + alpha * k1);
         Double k2_2 = (k1 + alpha) / (1 - alpha * k1);
         Double b2_1 = y1 - k2_1 * x1;
@@ -249,11 +257,6 @@ public class ParametersActivity extends AppCompatActivity {
 
         finish = map.getFinishMarker();
         if (finish == null) {
-            // todo: вообще сюда то я не должен никогда зайти
-            //  потому что nextActivity вызывается кнопкой
-            //  которая разблокируется только при вызове onMasstransitRoutes
-            //  который в свою очередь сдалает точку финиша не null
-            //  но я пожалуй оставлю эту проверку
             Toast.makeText(this, getString(R.string.activity_parameters_unknown_error), Toast.LENGTH_LONG).show();
             return;
         }

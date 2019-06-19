@@ -61,4 +61,5 @@
         android:layout_marginStart="21dp"
         android:layout_marginTop="5dp"
         android:text="@string/activity_maps_speed" />
+
 </RelativeLayout>
