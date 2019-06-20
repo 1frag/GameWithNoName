@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.example.gamewithnoname.R;
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
 import com.example.gamewithnoname.callbacks.BeginGameCallbacks;
+import com.example.gamewithnoname.callbacks.ChangeCoinsCallbacks;
 import com.example.gamewithnoname.callbacks.KickPlayerCallbacks;
 import com.example.gamewithnoname.callbacks.KillRGCallbacks;
 import com.example.gamewithnoname.callbacks.SendMessageCallbacks;
@@ -158,7 +159,7 @@ public class FriendsModeActivity extends Activity {
         } else if (stage == 1) {
             /*После того как заджойнился или создал игру*/
             (findViewById(R.id.button_create_game)).setVisibility(View.INVISIBLE);
-            (findViewById(R.id.floatingAdmButton)).setVisibility(View.VISIBLE);
+//            (findViewById(R.id.floatingAdmButton)).setVisibility(View.VISIBLE);
             if (!chat_is_show)
                 (findViewById(R.id.text_view_code)).setVisibility(View.VISIBLE);
             else
@@ -194,7 +195,7 @@ public class FriendsModeActivity extends Activity {
     }
 
     private void drawCoins(List<PointsResponse> points) {
-        int translucentRed = 0x55FF0000;
+        int translucentRed = 0x55FFFF00;
         counterCoins = 0;
         for (MapObject obj : coinspositions) {
             mMap.getMapObjects().remove(obj);
@@ -341,7 +342,7 @@ public class FriendsModeActivity extends Activity {
                     // сервер не выдаст большое число
                     gamer.setColor(0xFF000000 + gamer.getColor());
 
-                    // todo: рисовать gamerов по-другому!!!
+                    // todo: согласовать отрисовку геймеров (например себя также рисуем?)
                     lastPlayersPositions.add(
                             mMap.getMapObjects().addCircle(
                                     new Circle(
@@ -349,14 +350,15 @@ public class FriendsModeActivity extends Activity {
                                                     gamer.getLatitude(),
                                                     gamer.getLongitude()
                                             ),
-                                            5
+                                            1+gamer.getRadius()
                                     ),
                                     gamer.getColor(),
-                                    15,
-                                    gamer.getColor()
+                                    gamer.getRadius(),
+                                    0x55FF0000
                             )
                     );
 
+                    final int radGam = gamer.getRadius();
                     IconStyle iconStyle = new IconStyle();
                     iconStyle.setFlat(true);
                     iconStyle.setVisible(true);
@@ -368,11 +370,13 @@ public class FriendsModeActivity extends Activity {
 
                         @Override
                         public Bitmap getImage() {
-                            Bitmap bitmap = Bitmap.createBitmap(10, 10, Bitmap.Config.ARGB_8888);
+                            Bitmap bitmap = Bitmap.createBitmap(radGam, radGam, Bitmap.Config.ARGB_8888);
                             bitmap.eraseColor(Color.TRANSPARENT);
-                            for (int i = 0; i < 10; i++) {
-                                for (int j = 0; j < 10; j++) {
-                                    if ((i - 5) * (i - 5) + (j - 5) * (j - 5) <= 25) {
+                            int y = radGam / 2;
+                            int yy = y * y;
+                            for (int i = 0; i < radGam; i++) {
+                                for (int j = 0; j < radGam; j++) {
+                                    if ((i - y) * (i - y) + (j - y) * (j - y) <= yy) {
                                         bitmap.setPixel(i, j, gamer.getColor());
                                     }
                                 }
@@ -403,7 +407,6 @@ public class FriendsModeActivity extends Activity {
 
             @Override
             public void messagesUpdate(List<MessageResponse> messages) {
-                Log.i(TAG, String.format("size %s", messages.size()));
                 addMessages(messages);
                 datas.mMessages += messages.size();
             }
@@ -480,7 +483,7 @@ public class FriendsModeActivity extends Activity {
                 time /= 24;
                 int days = time;
                 String result;
-                if(days != 0) {
+                if (days != 0) {
                     result = String.format("%s day(s)", days);
                 } else if (hour != 0) {
                     result = String.format("%s hour(s)", hour);
@@ -495,6 +498,7 @@ public class FriendsModeActivity extends Activity {
 
         final TimerTask timerTask = new TimerTask() {
             final ArrayList<View> viewsToDisable = null;
+
             @Override
             public void run() {
                 ConnectionServer.getInstance().initUpdateMap(
@@ -574,10 +578,8 @@ public class FriendsModeActivity extends Activity {
                             });
 
                         } else {
-                            Log.i(TAG, String.format("%s | %s", type_game, own));
                             kickPlayer.setVisibility(View.INVISIBLE);
                             kickPlayer.setOnClickListener(null);
-
                         }
                     }
                 }
@@ -765,6 +767,29 @@ public class FriendsModeActivity extends Activity {
     }
 
     public void applyExtensions(View view) {
+        ConnectionServer.getInstance().initChangeRadius(User.getName(), getRadius(), getCost(), null);
+        ConnectionServer.getInstance().connectChangeRadius(new ChangeCoinsCallbacks() {
+            @Override
+            public void successful(int money) {
 
+                findViewById(R.id.include1).setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void notEnoughMoney() {
+                Toast.makeText(FriendsModeActivity.this,
+                        "У вас недостаточно денег",
+                        Toast.LENGTH_LONG).show();
+                findViewById(R.id.include1).setVisibility(View.INVISIBLE);
+            }
+        }, null);
+    }
+
+    private Integer getRadius() {
+        return ((SeekBar) findViewById(R.id.seekBarRadius)).getProgress();
+    }
+
+    private Integer getCost() {
+        return (int) Math.pow(2, ((SeekBar) findViewById(R.id.seekBarRadius)).getProgress());
     }
 }

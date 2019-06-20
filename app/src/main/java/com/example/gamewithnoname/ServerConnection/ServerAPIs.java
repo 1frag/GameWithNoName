@@ -131,4 +131,11 @@ public interface ServerAPIs {
             @Query("name") String name
     );
 
+    @GET("/change_radius")
+    Call<SimpleResponse> changeRadius(
+            @Query("name") String name,
+            @Query("radius") Integer radius,
+            @Query("cost") Integer cost
+    );
+
 }

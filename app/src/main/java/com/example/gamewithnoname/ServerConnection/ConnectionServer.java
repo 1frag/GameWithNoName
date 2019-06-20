@@ -171,6 +171,10 @@ public class ConnectionServer {
         call = serverAPIs.getMySpeedGWB(name);
     }
 
+    public void initChangeRadius(String name, Integer radius, Integer cost, @Nullable ArrayList<View> views) {
+        call = serverAPIs.changeRadius(name, radius, cost);
+    }
+
     private void reportStatusCode(int code, String fun) {
         if (code != 200) {
             Log.i(TAG, String.format("code != 200 :: %s", fun));
@@ -588,4 +592,27 @@ public class ConnectionServer {
 
         });
     }
+
+    public void connectChangeRadius(final ChangeCoinsCallbacks callback, @Nullable final ArrayList<View> views) {
+        call.enqueue(new Callback<SimpleResponse>() {
+
+            @Override
+            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                if (response.body() != null && callback != null) {
+                    if (response.body().getResult() == -1)
+                        callback.notEnoughMoney();
+                    else
+                        callback.successful(response.body().getResult());
+                }
+                changeEnable(views, true);
+            }
+
+            @Override
+            public void onFailure(Call<SimpleResponse> call, Throwable t) {
+                changeEnable(views, true);
+            }
+
+        });
+    }
+
 }

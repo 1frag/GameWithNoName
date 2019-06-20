@@ -18,6 +18,9 @@ public class GamersResponse {
     @Element(name = "color")
     private Integer color;
 
+    @Element(name = "radius")
+    private Integer radius;
+
     public String getName() {
         return name;
     }
@@ -48,5 +51,13 @@ public class GamersResponse {
 
     public void setColor(Integer color) {
         this.color = color;
+    }
+
+    public Integer getRadius() {
+        return radius;
+    }
+
+    public void setRadius(Integer radius) {
+        this.radius = radius;
     }
 }
