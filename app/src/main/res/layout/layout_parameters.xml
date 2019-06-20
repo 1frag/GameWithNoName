@@ -60,7 +60,7 @@
             android:layout_height="20dp"
             android:layout_marginTop="12dp"
             android:max="170"
-            android:progress="20" />
+            android:progress="40" />
 
         <LinearLayout
             android:id="@+id/layout_angle"

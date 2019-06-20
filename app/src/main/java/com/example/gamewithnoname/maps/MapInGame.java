@@ -1,10 +1,12 @@
 package com.example.gamewithnoname.maps;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.gamewithnoname.callbacks.KillRGCallbacks;
 import com.example.gamewithnoname.callbacks.SimpleCallbacks;
 import com.example.gamewithnoname.utils.BotLocation;
 import com.example.gamewithnoname.utils.DistanceBetweenTwoPoints;
@@ -345,12 +348,25 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
 
     }
 
-    public void killGame(View view) {
+    public void killGame() {
         final ArrayList<View> viewsToDisable = null;
         ConnectionServer.getInstance().initKillGWB(User.getName(), viewsToDisable);
         ConnectionServer.getInstance().connectSimple(null, viewsToDisable);
         cnterSteps.cancel();
         cnterSteps.purge();
         finish();
+    }
+
+    public void areYouSure(View view) {
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.alert_2m_finish_game))
+                .setMessage(getString(R.string.alert_2m_finish_game_text))
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        killGame();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .show();
     }
 }

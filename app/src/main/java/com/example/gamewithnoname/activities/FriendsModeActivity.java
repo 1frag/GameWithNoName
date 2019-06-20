@@ -32,6 +32,7 @@ import com.example.gamewithnoname.callbacks.KickPlayerCallbacks;
 import com.example.gamewithnoname.callbacks.KillRGCallbacks;
 import com.example.gamewithnoname.callbacks.SendMessageCallbacks;
 import com.example.gamewithnoname.dialogs.DialogMessages;
+import com.example.gamewithnoname.dialogs.DialogSecondMode;
 import com.example.gamewithnoname.models.responses.MessageResponse;
 import com.example.gamewithnoname.utils.UserLocation;
 import com.example.gamewithnoname.models.responses.GamersResponse;
@@ -54,6 +55,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.example.gamewithnoname.R.layout.layout_write_time;
 import static com.example.gamewithnoname.utils.Constants.CREATOR;
 import static com.example.gamewithnoname.utils.Constants.JOINER;
 import static com.example.gamewithnoname.utils.Constants.WAIT_GAME;
@@ -82,6 +84,8 @@ public class FriendsModeActivity extends Activity {
 
     private int anotherRadius;
     private TextView textAnotherRadius;
+
+    private Integer changedTime = 0;
 
     private boolean chat_is_show = false;
 
@@ -254,6 +258,37 @@ public class FriendsModeActivity extends Activity {
             );
 
         }
+    }
+    public void changeTime(View view) {
+        final Dialog dialog = createTimeDialog();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                AlertDialog dialog = (AlertDialog) dialogInterface;
+                dialog.setContentView(layout_write_time);
+                final EditText textTime = dialog.findViewById(R.id.editText2);
+                dialog.findViewById(R.id.button5).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            changedTime = Integer.parseInt(textTime.getText().toString());
+                        } catch (NumberFormatException e) {
+                            Toast.makeText(FriendsModeActivity.this,
+                                    "Input valid time!",
+                                    Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                    }
+                });
+                dialog.setCancelable(false);
+            }
+        });
+        dialog.show();
+    }
+
+    private Dialog createTimeDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(FriendsModeActivity.this);
+        return builder.create();
     }
 
     private void configGoButton() {
