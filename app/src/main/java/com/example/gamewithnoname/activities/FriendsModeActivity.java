@@ -15,6 +15,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -293,11 +294,12 @@ public class FriendsModeActivity extends Activity {
         }, null);
     }
 
-    private void changeTime(View view, final int minimumMinutes) {
+    private void changeTime(final View view, final int minimumMinutes) {
         final Dialog dialog = createTimeDialog();
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
+                dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                 AlertDialog dialog = (AlertDialog) dialogInterface;
                 dialog.setContentView(layout_write_time);
                 final EditText textTime = dialog.findViewById(R.id.editText2);
@@ -318,7 +320,7 @@ public class FriendsModeActivity extends Activity {
                                     Toast.LENGTH_LONG).show();
                             return;
                         }
-                        onclickGoButton();
+                        onclickGoButton(view);
                     }
                 });
             }
@@ -331,7 +333,7 @@ public class FriendsModeActivity extends Activity {
         return builder.create();
     }
 
-    private void onclickGoButton() {
+    private void onclickGoButton(View view) {
         BeginGameCallbacks callback = new BeginGameCallbacks() {
             @Override
             public void youAreNotAuthor() {
