@@ -102,7 +102,7 @@
     <string name="leave_user_from_game">User %s has been suspended from the game</string>
     <string name="author_is">It is written by %s</string>
     <string name="message_sended_successful">Message sent</string>
-    <string name="message_is_not_sended">Problem is %s</string>
+    <string name="message_is_not_sended">Problem is %d</string>
     <string name="ok_in_legend">OK</string>
     <string name="you_have_not_enough_money">You haven`t got enough money</string>
     <string name="only_author_can_begin_game">Only creator can start the game</string>
