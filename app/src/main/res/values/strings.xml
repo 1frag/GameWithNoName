@@ -58,10 +58,6 @@
     <string name="activity_parameters_headline">Parameters</string>
     <string name="activity_parameters_speed">Speed:  </string>
     <string name="activity_parameters_button">Start</string>
-    <string name="activity_parameters_change">Deviation</string>
-    <string name="activity_parameters_on_foot">On foot</string>
-    <string name="activity_parameters_roller">Roller-skates</string>
-    <string name="activity_parameters_bike">Bicycle</string>
     <string name="activity_parameters_time">Place for approximate time</string>
     <string name="activity_parameters_speed_calc">Speed val</string>
     <string name="activity_parameters_angle">Angle: </string>
@@ -105,7 +101,7 @@
     <string name="count_hours_in_timer">%d hour(s)</string>
     <string name="leave_user_from_game">User %s has been suspended from the game</string>
     <string name="author_is">It is written by %s</string>
-    <string name="message_sended_successful">Your message sent</string>
+    <string name="message_sended_successful">Message sent</string>
     <string name="message_is_not_sended">Problem is %s</string>
     <string name="ok_in_legend">OK</string>
     <string name="you_have_not_enough_money">You haven`t got enough money</string>
@@ -115,7 +111,7 @@
     <string name="not_enough_time">This time is not enough for players` location</string>
     <string name="you_get_coins">You get %d coins, great!</string>
     <string name="problem_internet">You have problem with internet connection</string>
-    <string name="you_have_unfinished_game">You are in game</string>
+    <string name="you_have_unfinished_game">You have unfinished game</string>
     <string name="time_in_first_mode">About %.1f min</string>
     <string name="speed_in_first_mode">%.1f km/h</string>
     <string name="way_not_found">Way is not found</string>
@@ -124,7 +120,7 @@
     <string name="game_is_not_created">Game has not created</string>
     <string name="game_already_begin">Game has already begun</string>
     <string name="link_is_incorrect">Link is incorrect</string>
-    <string name="your_score_is">Your score: %d</string>
+    <string name="your_score_is">Your score: +%d</string>
     <string name="your_speed_is">Your speed: %d</string>
     <string name="just_try_again">Unknown error</string>
     <string name="unknown_error">Unknown error</string>
@@ -133,7 +129,9 @@
     <string name="problem_with_money">You haven`t got enough money</string>
     <string name="alert_time_headline">Write time for this game</string>
     <string name="alert_time_hint">minutes</string>
-    <string name="alert_time_btn">OK</string>\
+    <string name="alert_time_btn">OK</string>
+    <string name="create_game">Create</string>
+    <string name="join_game">Join</string>
 
 
 </resources>
