@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.content.ContextCompat;
@@ -47,6 +48,7 @@ import com.yandex.mapkit.geometry.Circle;
 import com.yandex.mapkit.geometry.Point;
 import com.yandex.mapkit.map.CameraPosition;
 import com.yandex.mapkit.map.IconStyle;
+import com.yandex.mapkit.map.InputListener;
 import com.yandex.mapkit.map.Map;
 import com.yandex.mapkit.map.MapObject;
 import com.yandex.mapkit.mapview.MapView;
@@ -70,7 +72,7 @@ public class FriendsModeActivity extends Activity {
     private CurCntData datas;
     private Map mMap;
     private int bottomChoise = 0;
-    private ArrayList<Gamer> dataLegend;
+    private ArrayList<Gamer> dataLegend = new ArrayList<>();
     private Integer counterCoins = 0;
     private ArrayList<MapObject> coinspositions = new ArrayList<>();
     private ArrayList<MapObject> lastPlayersPositions = new ArrayList<>();
@@ -101,9 +103,11 @@ public class FriendsModeActivity extends Activity {
                 changeBottomChoise(2);
                 break;
             case R.id.button_multi_legend:
-                changeBottomChoise(0);
-                legendDialog();
+                changeBottomChoise(3);
+                break;
+//                legendDialog();
             default:
+                changeBottomChoise(0);
                 break;
         }
     }
@@ -111,10 +115,14 @@ public class FriendsModeActivity extends Activity {
     class Gamer {
         String name;
         Integer color;
+        Double latitude;
+        Double longitude;
 
-        Gamer(String name, Integer color) {
+        Gamer(String name, Integer color, Double latitude, Double longitude) {
             this.name = name;
             this.color = color;
+            this.latitude = latitude;
+            this.longitude = longitude;
         }
     }
 
@@ -401,6 +409,17 @@ public class FriendsModeActivity extends Activity {
                 new CameraPosition(new Point(now.getLatitude(), now.getLongitude()), 18.0f, 0.0f, 0.0f),
                 new Animation(Animation.Type.SMOOTH, 0),
                 null);
+        mMap.addInputListener(new InputListener() {
+            @Override
+            public void onMapTap(@NonNull Map map, @NonNull Point point) {
+                changeBottomChoise(0);
+            }
+
+            @Override
+            public void onMapLongTap(@NonNull Map map, @NonNull Point point) {
+                changeBottomChoise(0);
+            }
+        });
 
 //        mMap.getUserLocationLayer().setEnabled(true);
 
@@ -415,11 +434,13 @@ public class FriendsModeActivity extends Activity {
             public void gamersUpdate(List<GamersResponse> gamers) {
 
                 int translucentRed = 0x55FF0000;
-                dataLegend = new ArrayList<>();
+                dataLegend.clear();
                 for (GamersResponse player : gamers) {
                     dataLegend.add(new Gamer(
                             player.getName(),
-                            0xFF000000 + player.getColor()
+                            0xFF000000 + player.getColor(),
+                            player.getLatitude(),
+                            player.getLongitude()
                     ));
                 }
 
@@ -432,7 +453,6 @@ public class FriendsModeActivity extends Activity {
                     // сервер не выдаст большое число
                     gamer.setColor(0xFF000000 + gamer.getColor());
 
-                    /***/
                     lastPlayersPositions.add(
                             mMap.getMapObjects().addCircle(
                                     new Circle(
@@ -610,73 +630,6 @@ public class FriendsModeActivity extends Activity {
         return builder.create();
     }
 
-    private void legendDialog() {
-        Dialog dialog = openLegendDialog();
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialog) {
-                // show some information
-                AlertDialog alertDialog = (AlertDialog) dialog;
-                LinearLayout linearLayout = alertDialog.findViewById(R.id.layout_for_add);
-
-                if (dataLegend != null) {
-                    for (Gamer gamer : dataLegend) {
-                        LinearLayout newView = new LinearLayout(
-                                FriendsModeActivity.this);
-                        getLayoutInflater().inflate(
-                                R.layout.layout_multi_name,
-                                newView);
-                        linearLayout.addView(newView);
-                        final Integer color = gamer.color;
-                        final String targetName = gamer.name;
-                        final TextView textView = newView.findViewById(R.id.textView);
-                        final View view = newView.findViewById(R.id.imageViewLegend);
-                        final ImageButton kickPlayer = newView.findViewById(R.id.imageButtonKickPlayer);
-                        textView.setText(gamer.name);
-                        view.setBackgroundColor(gamer.color);
-
-                        if (type_game == 0 && own == CREATOR) {
-
-                            kickPlayer.setVisibility(View.VISIBLE);
-                            kickPlayer.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-
-                                    final KickPlayerCallbacks callback = new KickPlayerCallbacks() {
-                                        @Override
-                                        public void success() {
-                                            textView.setEnabled(false);
-                                            kickPlayer.setEnabled(false);
-                                            view.setBackgroundColor(color - 0xcc000000);
-
-                                            Toast.makeText(FriendsModeActivity.this,
-                                                    String.format(getResources().getString(R.string.leave_user_from_game), targetName),
-                                                    Toast.LENGTH_LONG).show();
-                                        }
-
-                                        @Override
-                                        public void someProblem(Throwable t) {
-                                            Log.i(TAG, t.getMessage());
-                                        }
-                                    };
-
-                                    final ArrayList<View> viewsToDisable = null;
-                                    ConnectionServer.getInstance().initKickPlayer(targetName, viewsToDisable);
-                                    ConnectionServer.getInstance().connectKickPlayer(callback, viewsToDisable);
-                                }
-                            });
-
-                        } else {
-                            kickPlayer.setVisibility(View.INVISIBLE);
-                            kickPlayer.setOnClickListener(null);
-                        }
-                    }
-                }
-            }
-        });
-        dialog.show();
-    }
-
     private void addMessages(List<MessageResponse> messages) {
         LinearLayout linearLayout = findViewById(R.id.layout_for_messages);
         for (final MessageResponse message : messages) {
@@ -787,18 +740,28 @@ public class FriendsModeActivity extends Activity {
         bottomChoise = u;
         boolean messagesHide = findViewById(R.id.include).getVisibility() != View.VISIBLE;
         boolean extentionsHide = findViewById(R.id.include1).getVisibility() == View.INVISIBLE;
+        boolean legendHide = findViewById(R.id.include2).getVisibility() != View.VISIBLE;
         Log.i(TAG, String.format("%s %s %s", u, messagesHide, extentionsHide));
         if (bottomChoise == 1 && messagesHide) {
+            chat_is_show = false;
             openMessages(); //open
             openBuyDialog(true); //close
+            openLegend(true); //close
         } else if (bottomChoise == 2 && extentionsHide) {
             closeMessages(); //close
             openBuyDialog(false); //open
+            openLegend(true); //close
+        } else if (bottomChoise == 3 && legendHide) {
+            chat_is_show = false;
+            closeMessages(); //close
+            openBuyDialog(true); //close
+            openLegend(false); //open
         } else {
             bottomChoise = 0;
             chat_is_show = false;
             closeMessages(); //close
             openBuyDialog(true); //close
+            openLegend(true); //close
         }
     }
 
@@ -854,6 +817,99 @@ public class FriendsModeActivity extends Activity {
         } else {
             extensions.setVisibility(View.VISIBLE);
             (findViewById(R.id.button_multi_params)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark));
+        }
+    }
+
+    private void openLegend(boolean off) {
+
+        ConstraintLayout legends = findViewById(R.id.include2);
+        LinearLayout linearLayout = findViewById(R.id.layout_for_gamers);
+        linearLayout.removeAllViews();
+
+        addAllPlayers(linearLayout);
+
+        if (legends.getVisibility() == View.VISIBLE || off) {
+            legends.setVisibility(View.INVISIBLE);
+            (findViewById(R.id.button_multi_legend)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+        } else {
+            legends.setVisibility(View.VISIBLE);
+            (findViewById(R.id.button_multi_legend)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark));
+        }
+    }
+
+    private void addAllPlayers(LinearLayout linearLayout) {
+        if (dataLegend != null) {
+            for (Gamer gamer : dataLegend) {
+                LinearLayout newView = new LinearLayout(
+                        FriendsModeActivity.this);
+                getLayoutInflater().inflate(
+                        R.layout.layout_multi_name,
+                        newView);
+                linearLayout.addView(newView);
+                final Integer color = gamer.color;
+                final String targetName = gamer.name;
+                final TextView textView = newView.findViewById(R.id.textView);
+                final View view = newView.findViewById(R.id.imageViewLegend);
+                final ImageButton kickPlayer = newView.findViewById(R.id.imageButtonKickPlayer);
+                final Double latitude = gamer.latitude;
+                final Double longitude = gamer.longitude;
+                textView.setText(gamer.name);
+                view.setBackgroundColor(gamer.color);
+
+                textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mMap.move(
+                                new CameraPosition(
+                                        new Point(
+                                                latitude,
+                                                longitude
+                                        ),
+                                        20f,
+                                        0.0f,
+                                        0.0f),
+                                new Animation(Animation.Type.SMOOTH, 0),
+                                null);
+                        changeBottomChoise(0);
+                    }
+                });
+
+                if (type_game == 0 && own == CREATOR) {
+
+                    kickPlayer.setVisibility(View.VISIBLE);
+                    kickPlayer.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            final KickPlayerCallbacks callback = new KickPlayerCallbacks() {
+                                @Override
+                                public void success() {
+                                    textView.setEnabled(false);
+                                    kickPlayer.setEnabled(false);
+                                    view.setBackgroundColor(color - 0xcc000000);
+
+                                    Toast.makeText(FriendsModeActivity.this,
+                                            String.format(getResources().getString(R.string.leave_user_from_game), targetName),
+                                            Toast.LENGTH_LONG).show();
+                                }
+
+                                @Override
+                                public void someProblem(Throwable t) {
+                                    Log.i(TAG, t.getMessage());
+                                }
+                            };
+
+                            final ArrayList<View> viewsToDisable = null;
+                            ConnectionServer.getInstance().initKickPlayer(targetName, viewsToDisable);
+                            ConnectionServer.getInstance().connectKickPlayer(callback, viewsToDisable);
+                        }
+                    });
+
+                } else {
+                    kickPlayer.setVisibility(View.INVISIBLE);
+                    kickPlayer.setOnClickListener(null);
+                }
+            }
         }
     }
 

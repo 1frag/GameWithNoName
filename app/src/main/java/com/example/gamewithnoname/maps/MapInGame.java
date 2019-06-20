@@ -16,10 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.gamewithnoname.callbacks.KillRGCallbacks;
 import com.example.gamewithnoname.callbacks.SimpleCallbacks;
 import com.example.gamewithnoname.utils.BotLocation;
-import com.example.gamewithnoname.utils.DistanceBetweenTwoPoints;
 import com.example.gamewithnoname.activities.MainActivity;
 import com.example.gamewithnoname.callbacks.ChangeCoinsCallbacks;
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
@@ -53,16 +51,13 @@ import static com.example.gamewithnoname.utils.Constants.ACTION_STOP;
 
 public class MapInGame extends AppCompatActivity implements Session.RouteListener {
 
-    public static Integer PRICE_STOP_BOT = -1;
-    public static Integer DELAY_IN_STOPPED = 10000; // todo: getDelayInStopped
-    public static Integer DELAY_IN_DISABLE = 5000; // todo: getDelayInDisable
-
     private MapView mapView;
     private Map mMap;
     private double pathBotToFinish;
     public Timer cnterSteps;
     private BotLocation bot;
     private Integer isFirst = 1;
+    private int allTime, count = 0;
     private final String TAG = String.format("%s/%s", "HITS", "MapInGame");
 
     @Override
@@ -102,6 +97,19 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
         };
         cnterSteps.schedule(timerTask, 1000, 1000);
 
+    }
+
+    public Integer getDelayInStopped(){
+        return allTime / 10;
+    }
+
+    public Integer getDelayInDisable(){
+        return allTime / 10;
+    }
+
+    public Integer getPriceStopBot(){
+        count ++;
+        return 2 + (count - 1) * 3;
     }
 
     public void setGameResult(int result) {
@@ -233,7 +241,7 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
 
     @Override
     public void onMasstransitRoutes(@NonNull List<Route> routes) {
-        int time = getIntent().getExtras().getInt("time");
+        allTime = getIntent().getExtras().getInt("allTime");
         if (routes.size() == 0) {
             Toast.makeText(MapInGame.this,
                     getResources().getString(R.string.just_try_again),
@@ -248,7 +256,7 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
             finish();
             return;
         }
-        bot = new BotLocation(this, mMap, routes.get(0).getGeometry(), time);
+        bot = new BotLocation(this, mMap, routes.get(0).getGeometry(), allTime);
 
         final double speed = getIntent().getExtras().getDouble("speed");
         Log.i(TAG, String.format("speed: %s", (int) (1000f / speed)));
@@ -295,7 +303,7 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
         final ArrayList<View> viewsToDisable = null;
         ConnectionServer.getInstance().initChangeCoins(
                 User.getName(),
-                PRICE_STOP_BOT,
+                getPriceStopBot(),
                 viewsToDisable
         );
         ConnectionServer.getInstance().connectChangeCoins(new ChangeCoinsCallbacks() {
@@ -321,6 +329,9 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (count == 8) {
+                                    return;
+                                }
                                 findViewById(R.id.mapsButtonPause).setEnabled(true);
                                 findViewById(R.id.mapsButtonPause).setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.pause_button));
                                 Log.i(TAG, "Кнопка разблокировалась!");
@@ -329,9 +340,9 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
                     }
                 };
 
-                timerManageBot.schedule(goBotTask, DELAY_IN_STOPPED);
+                timerManageBot.schedule(goBotTask, getDelayInStopped());
                 timerManageBot.schedule(enableButtonTask,
-                        DELAY_IN_STOPPED + DELAY_IN_DISABLE);
+                        getDelayInStopped() + getDelayInDisable());
             }
 
             @Override
