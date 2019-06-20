@@ -657,7 +657,7 @@ public class ConnectionServer {
                     } else if (response.body().getResult() == -2) {
                         callback.notEnoughMan();
                     } else {
-                        callback.success(response.body().getResult());
+                        callback.success(response.body().getResult() / 60);
                     }
                 }
                 changeEnable(views, true);
