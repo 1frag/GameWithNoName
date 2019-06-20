@@ -102,6 +102,7 @@
     <string name="activity_friends_btn_find">Find</string>
     <string name="activity_friends_regs">Reg</string>
     <string name="activity_friends_edittext">Name</string>
+    <string name="you_pick_n_coins">You pick %d coins</string>
 
 
 </resources>

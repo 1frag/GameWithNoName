@@ -15,6 +15,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -413,16 +414,24 @@ public class FriendsModeActivity extends Activity {
                         String.format("You get %s coins, great!",
                                 stats.getCoins()),
                         Toast.LENGTH_LONG).show();
-                stageHandler(0);
+
                 Dialog dialog = new Dialog(FriendsModeActivity.this);
                 dialog.setOnShowListener(new DialogInterface.OnShowListener() {
                     @Override
                     public void onShow(DialogInterface dialogInterface) {
-                        AlertDialog dialog = (AlertDialog) dialogInterface;
+                        Dialog dialog = (Dialog) dialogInterface;
                         dialog.setContentView(R.layout.layout_end_2m);
                         TextView textView = dialog.findViewById(R.id.textView6);
-                        // todo: Ася, вставь stats.getCoins(); в текствью textView6;
-
+                        textView.setText(String.format(
+                                getResources().getString(R.string.you_pick_n_coins),
+                                stats.getCoins())
+                        );
+                        dialog.findViewById(R.id.button4).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                stageHandler(0);
+                            }
+                        });
                     }
                 });
 

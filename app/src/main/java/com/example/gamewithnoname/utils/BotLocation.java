@@ -137,6 +137,11 @@ public class BotLocation {
         mTimer = new Timer();
         ind = timeBegin * 1000 / segment;
 
+        if (ind >= path.size()) {
+            setGameResult(LOSE);
+            return;
+        }
+
         for (int j = 0; j < ind; j++) {
             mMap.getMapObjects().addCircle(
                     new Circle(
