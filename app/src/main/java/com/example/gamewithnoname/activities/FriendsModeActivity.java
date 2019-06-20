@@ -195,7 +195,7 @@ public class FriendsModeActivity extends Activity {
     }
 
     private void drawCoins(List<PointsResponse> points) {
-        int translucentRed = 0x55FFFF00;
+        int translucentYellow = 0x55FFFF00;
         counterCoins = 0;
         for (MapObject obj : coinspositions) {
             mMap.getMapObjects().remove(obj);
@@ -211,9 +211,9 @@ public class FriendsModeActivity extends Activity {
                                             point.getLongitude()
                                     ), GETTING_RADIUS - 3
                             ),
-                            Color.RED,
+                            Color.YELLOW,
                             3,
-                            translucentRed
+                            translucentYellow
                     )
             );
 
@@ -287,8 +287,8 @@ public class FriendsModeActivity extends Activity {
 
                     @Override
                     public void errorTime(int minMinutes) {
-                        //todo: this
-                        // minMinutes сколько надо было минимум минут поставить...
+                        // todo: this
+                        //  minMinutes сколько надо было минимум минут поставить...
                     }
 
                     @Override
@@ -331,6 +331,7 @@ public class FriendsModeActivity extends Activity {
             @Override
             public void gamersUpdate(List<GamersResponse> gamers) {
 
+                int translucentRed = 0x55FF0000;
                 dataLegend = new ArrayList<>();
                 for (GamersResponse player : gamers) {
                     dataLegend.add(new Gamer(
@@ -349,17 +350,16 @@ public class FriendsModeActivity extends Activity {
                     gamer.setColor(0xFF000000 + gamer.getColor());
 
                     /***/
-
-                    coinspositions.add(
+                    lastPlayersPositions.add(
                             mMap.getMapObjects().addCircle(
                                     new Circle(
                                             new Point(
-                                                    point.getLatitude(),
-                                                    point.getLongitude()
-                                            ), GETTING_RADIUS - 3
+                                                    gamer.getLatitude(),
+                                                    gamer.getLongitude()
+                                            ), gamer.getRadius()
                                     ),
                                     Color.RED,
-                                    3,
+                                    1,
                                     translucentRed
                             )
                     );
@@ -370,8 +370,7 @@ public class FriendsModeActivity extends Activity {
                     ImageProvider imageProvider = new ImageProvider() {
                         @Override
                         public String getId() {
-                            ;
-                            return "coin";
+                            return gamer.getName();
                         }
 
                         @Override
@@ -389,72 +388,17 @@ public class FriendsModeActivity extends Activity {
                         }
                     };
 
-                    coinspositions.add(
+                    lastPlayersPositions.add(
                             mMap.getMapObjects().addPlacemark(
                                     new Point(
-                                            point.getLatitude(),
-                                            point.getLongitude()
+                                            gamer.getLatitude(),
+                                            gamer.getLongitude()
                                     ),
                                     imageProvider,
                                     iconStyle
                             )
                     );
 
-                    /***/
-
-//                    // todo: согласовать отрисовку геймеров (например себя также рисуем?)
-//                    lastPlayersPositions.add(
-//                            mMap.getMapObjects().addCircle(
-//                                    new Circle(
-//                                            new Point(
-//                                                    gamer.getLatitude(),
-//                                                    gamer.getLongitude()
-//                                            ),
-//                                            1+gamer.getRadius()
-//                                    ),
-//                                    gamer.getColor(),
-//                                    gamer.getRadius(),
-//                                    0x55FF0000
-//                            )
-//                    );
-//
-//                    final int radGam = gamer.getRadius();
-//                    IconStyle iconStyle = new IconStyle();
-//                    iconStyle.setFlat(true);
-//                    iconStyle.setVisible(true);
-//                    ImageProvider imageProvider = new ImageProvider() {
-//                        @Override
-//                        public String getId() {
-//                            return gamer.getName();
-//                        }
-//
-//                        @Override
-//                        public Bitmap getImage() {
-//                            Bitmap bitmap = Bitmap.createBitmap(radGam, radGam, Bitmap.Config.ARGB_8888);
-//                            bitmap.eraseColor(Color.TRANSPARENT);
-//                            int y = radGam / 2;
-//                            int yy = y * y;
-//                            for (int i = 0; i < radGam; i++) {
-//                                for (int j = 0; j < radGam; j++) {
-//                                    if ((i - y) * (i - y) + (j - y) * (j - y) <= yy) {
-//                                        bitmap.setPixel(i, j, gamer.getColor());
-//                                    }
-//                                }
-//                            }
-//                            return bitmap;
-//                        }
-//                    };
-//
-//                    lastPlayersPositions.add(
-//                            mMap.getMapObjects().addPlacemark(
-//                                    new Point(
-//                                            gamer.getLatitude(),
-//                                            gamer.getLongitude()
-//                                    ),
-//                                    imageProvider,
-//                                    iconStyle
-//                            )
-//                    );
                 }
             }
 
