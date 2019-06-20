@@ -490,11 +490,12 @@ public class FriendsModeActivity extends Activity {
                         Toast.LENGTH_LONG).show();
 
                 final Dialog dialog = createGameOverDialog();
+                dialog.setContentView(R.layout.layout_end_2m);
                 dialog.setOnShowListener(new DialogInterface.OnShowListener() {
                     @Override
                     public void onShow(DialogInterface dialogInterface) {
                         AlertDialog dialog = (AlertDialog) dialogInterface;
-                        dialog.setContentView(R.layout.layout_end_2m);
+
                         TextView textView = dialog.findViewById(R.id.textView6);
                         textView.setText(String.format(
                                 getResources().getString(R.string.you_pick_n_coins),

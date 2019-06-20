@@ -1,5 +1,6 @@
 package com.example.gamewithnoname.ServerConnection;
 
+import com.example.gamewithnoname.callbacks.GetUsersCallbacks;
 import com.example.gamewithnoname.models.responses.CheckGWBResponse;
 import com.example.gamewithnoname.models.responses.CheckGameResponse;
 import com.example.gamewithnoname.models.responses.DialogResponse;
@@ -142,6 +143,12 @@ public interface ServerAPIs {
     @GET("/init_game")
     Call<SimpleResponse> initGame(
             @Query("name") String name
+    );
+
+    @GET("/get_top_users")
+    Call<List<UserResponse>> getTopUsers(
+            @Query("search") String search,
+            @Query("reg") Boolean reg
     );
 
 }

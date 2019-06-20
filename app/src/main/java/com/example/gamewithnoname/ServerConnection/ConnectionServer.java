@@ -11,6 +11,7 @@ import com.example.gamewithnoname.callbacks.CheckGameCallbacks;
 import com.example.gamewithnoname.callbacks.CreateGWBCallbacks;
 import com.example.gamewithnoname.callbacks.CreateGameCallbacks;
 import com.example.gamewithnoname.callbacks.GetMessagesCallbacks;
+import com.example.gamewithnoname.callbacks.GetUsersCallbacks;
 import com.example.gamewithnoname.callbacks.JoinGameCallbacks;
 import com.example.gamewithnoname.callbacks.KickPlayerCallbacks;
 import com.example.gamewithnoname.callbacks.KillRGCallbacks;
@@ -23,12 +24,14 @@ import com.example.gamewithnoname.models.responses.DialogResponse;
 import com.example.gamewithnoname.models.responses.GameStateResponse;
 import com.example.gamewithnoname.models.responses.GamersResponse;
 import com.example.gamewithnoname.callbacks.SignInCallbacks;
+import com.example.gamewithnoname.models.responses.TopUsersResponse;
 import com.example.gamewithnoname.models.responses.UserResponse;
 import com.example.gamewithnoname.models.responses.PointsResponse;
 import com.example.gamewithnoname.callbacks.SimpleCallbacks;
 import com.example.gamewithnoname.models.responses.SimpleResponse;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -113,7 +116,7 @@ public class ConnectionServer {
         );
     }
 
-    public void initCreateGame(String name, int duration, int type,
+    public void initCreateGame(String name, @Nullable Integer duration, int type,
                                @Nullable ArrayList<View> views) {
         changeEnable(views, false);
         call = serverAPIs.createGame(name, duration, type);
@@ -196,6 +199,11 @@ public class ConnectionServer {
     public void initInitGame(String name, @Nullable ArrayList<View> views) {
         changeEnable(views, false);
         call = serverAPIs.initGame(name);
+    }
+
+    public void initGetTopUsers(String search, Boolean reg, @Nullable ArrayList<View> views) {
+        changeEnable(views, false);
+        call = serverAPIs.getTopUsers(search, reg);
     }
 
     private void reportStatusCode(int code, String fun) {
@@ -660,6 +668,26 @@ public class ConnectionServer {
                 changeEnable(views, true);
             }
 
+        });
+    }
+
+    public void connectGetTopUsers(final GetUsersCallbacks callback, @Nullable final ArrayList<View> views) {
+        call.enqueue(new Callback<List<UserResponse>>() {
+
+
+            @Override
+            public void onResponse(Call<List<UserResponse>> call, Response<List<UserResponse>> response) {
+                if (response.body() != null && callback != null) {
+                    callback.success(response.body());
+                }
+                changeEnable(views, true);
+            }
+
+            @Override
+            public void onFailure(Call<List<UserResponse>> call, Throwable t) {
+                callback.failed(t);
+                changeEnable(views, true);
+            }
         });
     }
 
