@@ -92,9 +92,10 @@
     <string name="alert_2m_finish_game">Finish this game</string>
     <string name="alert_2m_game_over">Game over</string>
     <string name="alert_2m_coins"><![CDATA[You pick <number> coins]]></string>
-    <string name="alert_buy_2m_radius">Extend your point`s radius (1m: 1 coin)</string>
+    <string name="alert_buy_2m_radius">Extend your point`s radius</string>
     <string name="alert_buy_2m_headline">Extensions</string>
     <string name="alert_buy_2m_button">Apply</string>
+    <string name="alert_buy_2m_val">1</string>
     <string name="activity_friends_username">Username</string>
     <string name="activity_friends_rating">Rating</string>
     <string name="activity_friends_km">Km</string>

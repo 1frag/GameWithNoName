@@ -114,6 +114,8 @@ public class FriendsModeActivity extends Activity {
         mMap = mapView.getMap();
         configMap();
 
+        anotherRadius = 1;
+
         if (getIntent().getExtras() == null) {
             stageHandler(0);
             return;
@@ -733,9 +735,9 @@ public class FriendsModeActivity extends Activity {
         @SuppressLint("DefaultLocale")
         public void onProgressChanged(SeekBar seekBar, int progress,
                                       boolean fromUser) {
-            anotherRadius = progress;
+            anotherRadius = progress + 1;
             textAnotherRadius = findViewById(R.id.textRadiusVal);
-            textAnotherRadius.setText(String.format("%d", progress));
+            textAnotherRadius.setText(String.format("%d", anotherRadius));
         }
 
         public void onStartTrackingTouch(SeekBar seekBar) {
