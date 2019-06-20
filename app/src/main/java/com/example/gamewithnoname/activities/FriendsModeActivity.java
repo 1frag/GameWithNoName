@@ -505,7 +505,6 @@ public class FriendsModeActivity extends Activity {
                         Toast.LENGTH_LONG).show();
 
                 final Dialog dialog = createGameOverDialog();
-                dialog.setContentView(R.layout.layout_end_2m);
                 dialog.setOnShowListener(new DialogInterface.OnShowListener() {
                     @Override
                     public void onShow(DialogInterface dialogInterface) {
@@ -605,6 +604,8 @@ public class FriendsModeActivity extends Activity {
 
     private Dialog createGameOverDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(FriendsModeActivity.this);
+        LayoutInflater inflater = getLayoutInflater();
+        builder.setView(inflater.inflate(R.layout.layout_end_2m, null));
         return builder.create();
     }
 
