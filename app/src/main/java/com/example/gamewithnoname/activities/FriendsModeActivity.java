@@ -234,7 +234,7 @@ public class FriendsModeActivity extends Activity {
                     for (int i = 0; i < 10; i++) {
                         for (int j = 0; j < 10; j++) {
                             if ((i - 5) * (i - 5) + (j - 5) * (j - 5) <= 25) {
-                                bitmap.setPixel(i, j, Color.BLUE);
+                                bitmap.setPixel(i, j, 0xFFffee00);
                             }
                         }
                     }
@@ -380,7 +380,7 @@ public class FriendsModeActivity extends Activity {
                             for (int i = 0; i < 10; i++) {
                                 for (int j = 0; j < 10; j++) {
                                     if ((i - 5) * (i - 5) + (j - 5) * (j - 5) <= 25) {
-                                        bitmap.setPixel(i, j, Color.BLUE);
+                                        bitmap.setPixel(i, j, gamer.getColor());
                                     }
                                 }
                             }

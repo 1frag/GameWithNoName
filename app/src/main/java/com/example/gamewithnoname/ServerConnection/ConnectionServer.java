@@ -258,6 +258,7 @@ public class ConnectionServer {
                     } else if (response.body().getResult() == 1) {
                         callback.success();
                     } else {
+                        Log.i(TAG, "distance and position have conflict");
                         callback.errorTime(response.body().getResult() - 100);
                     }
                 }
