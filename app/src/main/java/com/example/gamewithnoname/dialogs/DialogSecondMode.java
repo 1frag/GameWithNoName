@@ -31,7 +31,6 @@ public class DialogSecondMode implements Dialog.OnShowListener {
 
     private final static String TAG = "HITS/DialogSecondMode";
     private Dialog dialog;
-    private int time;
     private ArrayList<View> viewsToDisable = new ArrayList<>();
     // todo: there is strings for transfer to string.xml
 
@@ -111,17 +110,6 @@ public class DialogSecondMode implements Dialog.OnShowListener {
             @Override
             public void onClick(View v) {
 
-                try {
-                    EditText editText = dialog.findViewById(R.id.text_alert_2m);
-                    String s = editText.getText().toString();
-                    time = Integer.parseInt(s);
-                } catch (NumberFormatException e) {
-                    Toast.makeText(dialog.getContext(),
-                            "Input valid time!",
-                            Toast.LENGTH_LONG).show();
-                    return;
-                }
-
                 final Intent intent = new Intent(dialog.getContext(),
                         FriendsModeActivity.class);
                 CreateGameCallbacks callback = new CreateGameCallbacks() {
@@ -151,9 +139,6 @@ public class DialogSecondMode implements Dialog.OnShowListener {
 
                 RadioButton radioButton = dialog.findViewById(R.id.radio_button_in_team);
                 int type = (radioButton.isChecked() ? 0 : 1);
-                if (!((EditText) dialog.findViewById(R.id.editText3)).getText().toString().equals("777")) {
-                    time *= 60;
-                }
 
                 Log.i(TAG, String.format("init type: %s", type));
                 ConnectionServer.getInstance().initCreateGame(
