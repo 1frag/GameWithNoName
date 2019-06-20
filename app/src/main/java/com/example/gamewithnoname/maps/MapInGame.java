@@ -304,7 +304,7 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
 
                 bot.manageBot(ACTION_STOP);
                 findViewById(R.id.mapsButtonPause).setEnabled(false);
-                findViewById(R.id.mapsButtonPause).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.accentedButtonsDisabled));
+                findViewById(R.id.mapsButtonPause).setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.sea_button_selected));
                 Timer timerManageBot = new Timer();
 
                 final TimerTask goBotTask = new TimerTask() {
@@ -322,7 +322,7 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
                             @Override
                             public void run() {
                                 findViewById(R.id.mapsButtonPause).setEnabled(true);
-                                findViewById(R.id.mapsButtonPause).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.accentedButtons));
+                                findViewById(R.id.mapsButtonPause).setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.pause_button));
                                 Log.i(TAG, "Кнопка разблокировалась!");
                             }
                         });

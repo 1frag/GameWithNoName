@@ -246,11 +246,13 @@ public class MainActivity extends AppCompatActivity {
                     findViewById(R.id.include_me).setVisibility(View.INVISIBLE);
                     findViewById(R.id.buttonCatchBot).setVisibility(View.VISIBLE);
                     findViewById(R.id.textView2).setVisibility(View.VISIBLE);
+                    (findViewById(R.id.btn_me)).setBackground(ContextCompat.getDrawable(this, R.drawable.sea_button_unselected));
                 }
                 else {
                     findViewById(R.id.include_me).setVisibility(View.VISIBLE);
                     findViewById(R.id.buttonCatchBot).setVisibility(View.INVISIBLE);
                     findViewById(R.id.textView2).setVisibility(View.INVISIBLE);
+                    (findViewById(R.id.btn_me)).setBackground(ContextCompat.getDrawable(this, R.drawable.sea_button_selected));
                 }
                 break;
             }

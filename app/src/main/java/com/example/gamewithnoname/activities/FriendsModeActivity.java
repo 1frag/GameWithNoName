@@ -11,6 +11,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -772,7 +773,7 @@ public class FriendsModeActivity extends Activity {
         } else {
             (findViewById(R.id.floatingAdmButton)).setVisibility(View.INVISIBLE);
             (findViewById(R.id.text_view_code)).setVisibility(View.INVISIBLE);
-            (findViewById(R.id.button_multi_chat)).setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+            (findViewById(R.id.button_multi_chat)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark));
             chat.setVisibility(View.VISIBLE);
             chat_is_show = true;
         }
@@ -780,7 +781,7 @@ public class FriendsModeActivity extends Activity {
 
     public void closeMessages(View view) {
         findViewById(R.id.include).setVisibility(View.GONE);
-        (findViewById(R.id.button_multi_chat)).setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        (findViewById(R.id.button_multi_chat)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));;
         if (!findViewById(R.id.image_button_exit).isClickable()) {
             (findViewById(R.id.text_view_code)).setVisibility(View.VISIBLE);
             if (own == CREATOR) {
@@ -809,8 +810,10 @@ public class FriendsModeActivity extends Activity {
         ConstraintLayout extensions = findViewById(R.id.include1);
         if (extensions.getVisibility() == View.VISIBLE) {
             extensions.setVisibility(View.INVISIBLE);
+            (findViewById(R.id.button_multi_params)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
         } else {
             extensions.setVisibility(View.VISIBLE);
+            (findViewById(R.id.button_multi_params)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark));
         }
     }
 
