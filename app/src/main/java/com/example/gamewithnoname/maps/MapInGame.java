@@ -126,6 +126,8 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
                     finish();
                 }
             });
+            ConnectionServer.getInstance().initKillGWB(User.getName(), null);
+            ConnectionServer.getInstance().connectSimple(null, null);
 
         } else { //result == 1
             final LayoutInflater factory = getLayoutInflater();

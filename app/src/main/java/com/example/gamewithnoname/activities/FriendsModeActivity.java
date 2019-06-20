@@ -415,11 +415,11 @@ public class FriendsModeActivity extends Activity {
                                 stats.getCoins()),
                         Toast.LENGTH_LONG).show();
 
-                Dialog dialog = new Dialog(FriendsModeActivity.this);
+                final Dialog dialog = createGameOverDialog();
                 dialog.setOnShowListener(new DialogInterface.OnShowListener() {
                     @Override
                     public void onShow(DialogInterface dialogInterface) {
-                        Dialog dialog = (Dialog) dialogInterface;
+                        AlertDialog dialog = (AlertDialog) dialogInterface;
                         dialog.setContentView(R.layout.layout_end_2m);
                         TextView textView = dialog.findViewById(R.id.textView6);
                         textView.setText(String.format(
@@ -432,6 +432,7 @@ public class FriendsModeActivity extends Activity {
                                 stageHandler(0);
                             }
                         });
+                        dialog.setCancelable(false);
                     }
                 });
 
@@ -469,6 +470,7 @@ public class FriendsModeActivity extends Activity {
 
             @Override
             public void changeTimer(Integer time) {
+                if (time < 0) time = 0;
                 TextView textView = findViewById(R.id.text_view_code);
                 int sec = time % 60;
                 time /= 60;
@@ -508,6 +510,11 @@ public class FriendsModeActivity extends Activity {
         };
 
         mTimer.schedule(timerTask, 1000, 1000);
+    }
+
+    private Dialog createGameOverDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(FriendsModeActivity.this);
+        return builder.create();
     }
 
     public void legendDialog(View view) {
