@@ -200,7 +200,7 @@ public class FriendsModeActivity extends Activity {
     }
 
     private void drawCoins(List<PointsResponse> points) {
-        int translucentYellow = 0x55FFFF00;
+        int translucentYellow = 0x55F0C31F;
         counterCoins = 0;
         for (MapObject obj : coinspositions) {
             mMap.getMapObjects().remove(obj);
@@ -216,7 +216,7 @@ public class FriendsModeActivity extends Activity {
                                             point.getLongitude()
                                     ), GETTING_RADIUS - 3
                             ),
-                            Color.YELLOW,
+                            Color.parseColor("#F0C31F"),
                             3,
                             translucentYellow
                     )
@@ -302,7 +302,6 @@ public class FriendsModeActivity extends Activity {
                 dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                 final AlertDialog dialog = (AlertDialog) dialogInterface;
                 dialog.setContentView(layout_write_time);
-                // Ася сюда!!
                 final EditText textTime = dialog.findViewById(R.id.editText2);
                 dialog.findViewById(R.id.button5).setOnClickListener(new View.OnClickListener() {
                     @Override

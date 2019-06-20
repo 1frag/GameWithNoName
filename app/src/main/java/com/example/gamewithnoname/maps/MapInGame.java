@@ -153,19 +153,15 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
             int alphas = (int) (alpha * pathBotToFinish);
             ConnectionServer.getInstance().initChangeRating(User.getName(), alphas, viewsToDisable);
             ConnectionServer.getInstance().connectSimple(null, viewsToDisable);
-            Toast.makeText(MapInGame.this,
-                    String.format("you get %s rating", alphas),
-                    Toast.LENGTH_SHORT).show();
-            // todo: кинуть в текствью
+            TextView textScore = findViewById(R.id.textWinScore);
+            textScore.setText(String.format("Your score: %s", alphas));
 
             ConnectionServer.getInstance().initGetMySpeedGWB(User.getName(), viewsToDisable);
             ConnectionServer.getInstance().connectSimple(new SimpleCallbacks() {
                 @Override
                 public void onSuccess(@NonNull Integer value) {
-                    Toast.makeText(MapInGame.this,
-                            String.format("your speed is %s", value), // метры в секунду вроде
-                            Toast.LENGTH_LONG).show();
-                    // todo: кинуть в текствью
+                    TextView textSpeed = findViewById(R.id.textWinSpeed);
+                    textSpeed.setText(String.format("Your speed: %s", value * 3.6));
                     ConnectionServer.getInstance().initKillGWB(User.getName(), viewsToDisable);
                     ConnectionServer.getInstance().connectSimple(null, viewsToDisable);
                 }

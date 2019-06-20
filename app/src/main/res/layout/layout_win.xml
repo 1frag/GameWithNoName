@@ -56,23 +56,4 @@
         android:layout_height="30dp"
         android:layout_below="@id/buttonOkWin" />
 
-    <TextView
-        android:id="@+id/textBotLosesScore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/youWin"
-        android:layout_marginStart="3dp"
-        android:layout_marginTop="20dp"
-        android:layout_toEndOf="@+id/textWinScore"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/textBotLosesSpeed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textBotLosesScore"
-        android:layout_marginStart="3dp"
-        android:layout_marginTop="5dp"
-        android:layout_toEndOf="@+id/textWinSpeed"
-        android:text="TextView" />
 </RelativeLayout>
