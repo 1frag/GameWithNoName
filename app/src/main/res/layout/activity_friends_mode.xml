@@ -47,6 +47,7 @@
                 android:layout_marginBottom="60dp"
                 android:visibility="invisible" />
 
+
         </com.yandex.mapkit.mapview.MapView>
     </LinearLayout>
 

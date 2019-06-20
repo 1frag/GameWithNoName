@@ -702,9 +702,9 @@ public class FriendsModeActivity extends Activity {
                             @Override
                             public void sended() {
                                 // todo: звук сообщение отправлено
-                                Toast.makeText(FriendsModeActivity.this,
-                                        getResources().getString(R.string.message_sended_successful),
-                                        Toast.LENGTH_LONG).show();
+//                                Toast.makeText(FriendsModeActivity.this,
+//                                        getResources().getString(R.string.message_sended_successful),
+//                                        Toast.LENGTH_LONG).show();
                             }
 
                             @Override
