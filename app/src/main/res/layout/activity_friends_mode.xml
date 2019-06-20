@@ -115,7 +115,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/buttonsForLayout"
-            android:onClick="legendDialog"
+            android:onClick="bottomPartClick"
             android:src="@drawable/ic_network" />
 
         <ImageButton
@@ -124,7 +124,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/buttonsForLayout"
-            android:onClick="openMessages"
+            android:onClick="bottomPartClick"
             android:src="@drawable/ic_chat" />
 
         <ImageButton
@@ -132,7 +132,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:onClick="openBuyDialog"
+            android:onClick="bottomPartClick"
             android:background="@color/buttonsForLayout"
             android:src="@drawable/ic_parameters" />
     </LinearLayout>

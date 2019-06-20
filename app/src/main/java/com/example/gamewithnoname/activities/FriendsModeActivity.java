@@ -92,6 +92,22 @@ public class FriendsModeActivity extends Activity {
 
     private boolean chat_is_show = false;
 
+    public void bottomPartClick(View view) {
+        switch (view.getId()) {
+            case R.id.button_multi_chat:
+                changeBottomChoise(1);
+                break;
+            case R.id.button_multi_params:
+                changeBottomChoise(2);
+                break;
+            case R.id.button_multi_legend:
+                changeBottomChoise(0);
+                legendDialog();
+            default:
+                break;
+        }
+    }
+
     class Gamer {
         String name;
         Integer color;
@@ -149,7 +165,7 @@ public class FriendsModeActivity extends Activity {
     }
 
     private void buildOwn(int type) {
-        if (own == CREATOR && stage == 1) {
+        if (own == CREATOR && stage == 1 && bottomChoise != 1) {
             (findViewById(R.id.floatingAdmButton)).setVisibility(View.VISIBLE);
         } else {
             (findViewById(R.id.floatingAdmButton)).setVisibility(View.INVISIBLE);
@@ -592,7 +608,7 @@ public class FriendsModeActivity extends Activity {
         return builder.create();
     }
 
-    public void legendDialog(View view) {
+    private void legendDialog() {
         Dialog dialog = openLegendDialog();
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
@@ -767,21 +783,28 @@ public class FriendsModeActivity extends Activity {
 
     private void changeBottomChoise(int u) {
         bottomChoise = u;
-        if (bottomChoise == 1) {
-            openMessages(null);
-            openBuyDialog(null);
+        boolean messagesHide = findViewById(R.id.include).getVisibility() != View.VISIBLE;
+        boolean extentionsHide = findViewById(R.id.include1).getVisibility() == View.INVISIBLE;
+        Log.i(TAG, String.format("%s %s %s", u, messagesHide, extentionsHide));
+        if (bottomChoise == 1 && messagesHide) {
+            openMessages(); //open
+            openBuyDialog(true); //close
+        } else if (bottomChoise == 2 && extentionsHide) {
+            closeMessages(); //close
+            openBuyDialog(false); //open
         } else {
-            closeMessages(null);
-            openBuyDialog(null);
+            bottomChoise = 0;
+            closeMessages(); //close
+            openBuyDialog(true); //close
         }
     }
 
     @SuppressLint("ResourceType")
-    public void openMessages(View view) {
-        bottomChoise = 1;
+    private void openMessages() {
+
         ConstraintLayout chat = findViewById(R.id.include);
         if (chat.getVisibility() == View.VISIBLE) {
-            closeMessages(chat);
+            closeMessages();
             chat_is_show = false;
         } else {
             (findViewById(R.id.floatingAdmButton)).setVisibility(View.INVISIBLE);
@@ -792,9 +815,10 @@ public class FriendsModeActivity extends Activity {
         }
     }
 
-    public void closeMessages(View view) {
+    public void closeMessages() {
         findViewById(R.id.include).setVisibility(View.GONE);
-        (findViewById(R.id.button_multi_chat)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));;
+        (findViewById(R.id.button_multi_chat)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+        ;
         if (!findViewById(R.id.image_button_exit).isClickable()) {
             (findViewById(R.id.text_view_code)).setVisibility(View.VISIBLE);
             if (own == CREATOR) {
@@ -816,12 +840,12 @@ public class FriendsModeActivity extends Activity {
         return builder.create();
     }
 
-    public void openBuyDialog(View view) {
+    private void openBuyDialog(boolean off) {
         SeekBar seekBar = findViewById(R.id.seekBarRadius);
         seekBar.setOnSeekBarChangeListener(new radiusListener());
 
         ConstraintLayout extensions = findViewById(R.id.include1);
-        if (extensions.getVisibility() == View.VISIBLE) {
+        if (extensions.getVisibility() == View.VISIBLE || off) {
             extensions.setVisibility(View.INVISIBLE);
             (findViewById(R.id.button_multi_params)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
         } else {

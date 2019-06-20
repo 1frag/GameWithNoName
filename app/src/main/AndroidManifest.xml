@@ -18,18 +18,30 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".activities.LoginActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_login">
         </activity>
         <activity
             android:name=".activities.RegistrationActivity"
+            android:screenOrientation="portrait"
             android:label="Sign up">
         </activity>
-        <activity android:name=".activities.ParametersActivity" />
-        <activity android:name=".activities.InfoActivity" />
-        <activity android:name=".activities.FriendsActivity" />
-        <activity android:name=".activities.StatisticsActivity" />
+        <activity
+            android:name=".activities.ParametersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.InfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.FriendsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.StatisticsActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".activities.MainActivity">
+        <activity
+            android:name=".activities.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,7 +51,9 @@
         <activity
             android:name=".maps.MapInGame"
             android:screenOrientation="portrait" />
-        <activity android:name=".activities.FriendsModeActivity" />
+        <activity
+            android:name=".activities.FriendsModeActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
