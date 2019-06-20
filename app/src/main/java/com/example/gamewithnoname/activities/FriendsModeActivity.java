@@ -332,6 +332,7 @@ public class FriendsModeActivity extends Activity {
                                     Toast.LENGTH_LONG).show();
                             return;
                         }
+                        Log.i(TAG, String.format("%s", minimumMinutes));
                         if (changedTime < minimumMinutes) {
                             Toast.makeText(FriendsModeActivity.this,
                                     getResources().getString(R.string.not_enough_time),
