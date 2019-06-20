@@ -795,6 +795,7 @@ public class FriendsModeActivity extends Activity {
             openBuyDialog(false); //open
         } else {
             bottomChoise = 0;
+            chat_is_show = false;
             closeMessages(); //close
             openBuyDialog(true); //close
         }
