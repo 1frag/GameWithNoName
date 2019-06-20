@@ -23,6 +23,12 @@
     <color name="buttonsForLayout">#c5e1a5</color>
     <color name="buttonsForLayoutPressed">#444127</color>
 
+    <color name="greenButtons">#94af76</color>
+    <color name="greenButtonsPressed">#637551</color>
+
+    <color name="seaButtons">#f8ffd7</color>
+    <color name="seaButtonsPressed">#818668</color>
+
     <color name="colorText">#474041</color>
 
 </resources>

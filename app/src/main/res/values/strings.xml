@@ -122,20 +122,20 @@
     <string name="speed_in_first_mode">%.1f km/h</string>
     <string name="way_not_found">Way not found</string>
     <string name="chouse_other_point">Произошла ошибка. Выберите другую точку финиша</string>
-    <string name="sign_up_success">Регистрации прошла успешно</string>
-    <string name="game_is_not_created">Игра не создалась</string>
-    <string name="game_already_begin">Игра уже началась</string>
-    <string name="link_is_incorrect">Ссылка некорректна / такой игры нет</string>
+    <string name="sign_up_success">Successfully</string>
+    <string name="game_is_not_created">Game has not created</string>
+    <string name="game_already_begin">Game has already begun</string>
+    <string name="link_is_incorrect">Link is incorrect</string>
     <string name="your_score_is">Your score: %d</string>
     <string name="your_speed_is">Your speed: %d</string>
-    <string name="just_try_again">Произошла неизвестная ошибка</string>
-    <string name="unknown_error">unknown_error_message</string>
-    <string name="remote_problem">remote_error_message</string>
-    <string name="network_problem">network_error_message</string>
-    <string name="problem_with_money">Your money not enough</string>
+    <string name="just_try_again">Unknown error</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="remote_problem">Remote error</string>
+    <string name="network_problem">Network error</string>
+    <string name="problem_with_money">You haven`t got enough money</string>
     <string name="alert_time_headline">Write time for this game</string>
     <string name="alert_time_hint">minutes</string>
-    <string name="alert_time_btn">Ok</string>\
+    <string name="alert_time_btn">OK</string>\
 
 
 </resources>
