@@ -18,6 +18,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,10 +74,12 @@ public class FriendsModeActivity extends Activity {
     private final String TAG = String.format("%s/%s",
             "HITS", "FriendsModeActivity"
     );
-    private BottomSheetDialog dialog;
     private int own;
     private int stage;
     private int type_game;
+
+    private int anotherRadius;
+    private TextView textAnotherRadius;
 
     private boolean chat_is_show = false;
 
@@ -676,12 +680,6 @@ public class FriendsModeActivity extends Activity {
 
     @SuppressLint("ResourceType")
     public void openMessages(View view) {
-
-//        dialog = new BottomSheetDialog(this);
-//        dialog.setOnShowListener(new DialogMessages());
-//        dialog.show();
-        // to refer view in layout_messages:
-        // sheetView.findViewById(R.id.some_id)
         ConstraintLayout chat = findViewById(R.id.include);
         if (chat.getVisibility() == View.VISIBLE) {
             closeMessages(chat);
@@ -709,7 +707,6 @@ public class FriendsModeActivity extends Activity {
     private Dialog openLegendDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
-
         builder.setView(inflater.inflate(R.layout.layout_multi_people, null))
                 .setPositiveButton("Ok!", new DialogInterface.OnClickListener() {
                     @Override
@@ -720,4 +717,36 @@ public class FriendsModeActivity extends Activity {
         return builder.create();
     }
 
+    public void openBuyDialog(View view) {
+        SeekBar seekBar = findViewById(R.id.seekBarRadius);
+        seekBar.setOnSeekBarChangeListener(new radiusListener());
+
+        ConstraintLayout extensions = findViewById(R.id.include1);
+        if (extensions.getVisibility() == View.VISIBLE) {
+            extensions.setVisibility(View.INVISIBLE);
+        } else {
+            extensions.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private class radiusListener implements SeekBar.OnSeekBarChangeListener {
+        @SuppressLint("DefaultLocale")
+        public void onProgressChanged(SeekBar seekBar, int progress,
+                                      boolean fromUser) {
+            anotherRadius = progress;
+            textAnotherRadius = findViewById(R.id.textRadiusVal);
+            textAnotherRadius.setText(String.format("%d", progress));
+        }
+
+        public void onStartTrackingTouch(SeekBar seekBar) {
+        }
+
+        public void onStopTrackingTouch(SeekBar seekBar) {
+        }
+
+    }
+
+    public void applyExtensions(View view) {
+
+    }
 }

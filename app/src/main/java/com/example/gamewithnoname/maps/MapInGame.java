@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -105,6 +106,7 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
         cnterSteps.purge();
         findViewById(R.id.textBotToEnd).setVisibility(View.INVISIBLE);
         findViewById(R.id.mapsButtonPause).setVisibility(View.INVISIBLE);
+        findViewById(R.id.linearLayout).setVisibility(View.INVISIBLE);
         findViewById(R.id.button3).setVisibility(View.INVISIBLE);
         final ArrayList<View> viewsToDisable = null;
 
@@ -303,6 +305,7 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
 
                 bot.manageBot(ACTION_STOP);
                 findViewById(R.id.mapsButtonPause).setEnabled(false);
+                findViewById(R.id.mapsButtonPause).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.accentedButtonsDisabled));
                 Timer timerManageBot = new Timer();
 
                 final TimerTask goBotTask = new TimerTask() {
@@ -320,6 +323,7 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
                             @Override
                             public void run() {
                                 findViewById(R.id.mapsButtonPause).setEnabled(true);
+                                findViewById(R.id.mapsButtonPause).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.accentedButtons));
                                 Log.i(TAG, "Оно разблокировалось!");
                             }
                         });

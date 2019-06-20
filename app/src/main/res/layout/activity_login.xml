@@ -70,7 +70,7 @@
         android:layout_marginStart="48dp"
         android:layout_marginEnd="48dp"
         android:enabled="true"
-        android:background="@color/colorAccentDark"
+        android:background="@drawable/all_accented_buttons"
         android:textColor="@android:color/white"
         android:text="@string/activity_login_ok"
         app:layout_constraintEnd_toEndOf="parent"

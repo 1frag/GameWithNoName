@@ -12,6 +12,10 @@
     <color name="modeButtons">#ff7043</color>
     <color name="modeButtonsPushed">#c75b39</color>
 
+    <color name="accentedButtons">#c75b39</color>
+    <color name="accentedButtonsPushed">#A05042</color>
+    <color name="accentedButtonsDisabled">#796A63</color>
+
     <color name="colorSecondary">#FF7043</color>
     <color name="colorSecondaryLight">#ffbb93</color>
     <color name="colorSecondaryDark">#c75b39</color>

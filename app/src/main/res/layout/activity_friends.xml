@@ -60,7 +60,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_marginStart="8dp"
-            android:background="@color/colorAccentDark"
+            android:background="@drawable/all_accented_buttons"
             android:textColor="@android:color/white"
             android:text="@string/activity_friends_btn_find" />
 

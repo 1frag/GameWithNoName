@@ -133,7 +133,7 @@
         android:layout_marginBottom="8dp"
         android:layout_weight="1"
         android:text="@string/registration_ok"
-        android:background="@color/colorAccentDark"
+        android:background="@drawable/all_accented_buttons"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

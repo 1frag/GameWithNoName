@@ -31,4 +31,16 @@
         android:layout_marginTop="25dp"
         android:gravity="center"
         android:text="@string/alert_2m_coins" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView6"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="154dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="169dp"
+        android:text="Button" />
 </RelativeLayout>
