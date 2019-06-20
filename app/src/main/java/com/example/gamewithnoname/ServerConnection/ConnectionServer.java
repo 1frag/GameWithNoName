@@ -116,10 +116,10 @@ public class ConnectionServer {
         );
     }
 
-    public void initCreateGame(String name, @Nullable Integer duration, int type,
+    public void initCreateGame(String name, int type,
                                @Nullable ArrayList<View> views) {
         changeEnable(views, false);
-        call = serverAPIs.createGame(name, duration, type);
+        call = serverAPIs.createGame(name, type);
     }
 
     public void initJoinGame(String name, String key, @Nullable ArrayList<View> views) {

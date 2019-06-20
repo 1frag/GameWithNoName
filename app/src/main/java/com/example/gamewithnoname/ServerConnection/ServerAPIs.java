@@ -35,7 +35,6 @@ public interface ServerAPIs {
     @GET("/create_game")
     Call<SimpleResponse> createGame(
             @Query("name") String name,
-            @Query("duration") int duration,
             @Query("type") int type
     );
 

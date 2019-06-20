@@ -158,7 +158,6 @@ public class DialogSecondMode implements Dialog.OnShowListener {
                 Log.i(TAG, String.format("init type: %s", type));
                 ConnectionServer.getInstance().initCreateGame(
                         User.getName(),
-                        null,
                         type,
                         viewsToDisable
                 );
