@@ -142,7 +142,7 @@ public class FriendsModeActivity extends Activity {
     }
 
     private void buildOwn(int type) {
-        if (own == CREATOR && stage == 2) {
+        if (own == CREATOR && stage == 1) {
             (findViewById(R.id.floatingAdmButton)).setVisibility(View.VISIBLE);
         } else {
             (findViewById(R.id.floatingAdmButton)).setVisibility(View.INVISIBLE);
@@ -176,7 +176,7 @@ public class FriendsModeActivity extends Activity {
                 (findViewById(R.id.text_view_code)).setVisibility(View.VISIBLE);
             else
                 (findViewById(R.id.text_view_code)).setVisibility(View.INVISIBLE);
-            (findViewById(R.id.floatingAdmButton)).setVisibility(View.INVISIBLE);
+//            (findViewById(R.id.floatingAdmButton)).setVisibility(View.INVISIBLE);
             (findViewById(R.id.image_button_exit)).setVisibility(View.VISIBLE);
 
         }
