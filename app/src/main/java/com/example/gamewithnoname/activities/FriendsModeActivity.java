@@ -68,6 +68,7 @@ public class FriendsModeActivity extends Activity {
     private MapView mapView;
     private CurCntData datas;
     private Map mMap;
+    private int bottomChoise = 0;
     private ArrayList<Gamer> dataLegend;
     private Integer counterCoins = 0;
     private ArrayList<MapObject> coinspositions = new ArrayList<>();
@@ -299,7 +300,7 @@ public class FriendsModeActivity extends Activity {
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
-                dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                 final AlertDialog dialog = (AlertDialog) dialogInterface;
                 dialog.setContentView(layout_write_time);
                 final EditText textTime = dialog.findViewById(R.id.editText2);
@@ -763,8 +764,20 @@ public class FriendsModeActivity extends Activity {
                 .show();
     }
 
+    private void changeBottomChoise(int u) {
+        bottomChoise = u;
+        if (bottomChoise == 1) {
+            openMessages(null);
+            openBuyDialog(null);
+        } else {
+            closeMessages(null);
+            openBuyDialog(null);
+        }
+    }
+
     @SuppressLint("ResourceType")
     public void openMessages(View view) {
+        bottomChoise = 1;
         ConstraintLayout chat = findViewById(R.id.include);
         if (chat.getVisibility() == View.VISIBLE) {
             closeMessages(chat);
