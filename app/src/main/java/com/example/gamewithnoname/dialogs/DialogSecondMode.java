@@ -46,7 +46,7 @@ public class DialogSecondMode implements Dialog.OnShowListener {
 
         viewsToDisable.add(dialog.findViewById(R.id.radio_button_in_team));
         viewsToDisable.add(dialog.findViewById(R.id.radio_button_individual));
-        viewsToDisable.add(dialog.findViewById(R.id.text_alert_2m));
+//        viewsToDisable.add(dialog.findViewById(R.id.text_alert_2m));
         viewsToDisable.add(dialog.findViewById(R.id.btn_create));
         viewsToDisable.add(dialog.findViewById(R.id.editText3));
         viewsToDisable.add(dialog.findViewById(R.id.btn_join));

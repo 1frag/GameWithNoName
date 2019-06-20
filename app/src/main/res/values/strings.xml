@@ -133,6 +133,9 @@
     <string name="remote_problem">remote_error_message</string>
     <string name="network_problem">network_error_message</string>
     <string name="problem_with_money">Your money not enough</string>
+    <string name="alert_time_headline">Write time for this game</string>
+    <string name="alert_time_hint">minutes</string>
+    <string name="alert_time_btn">Ok</string>\
 
 
 </resources>
