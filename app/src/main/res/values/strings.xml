@@ -3,7 +3,7 @@
     <string name="title_activity_maps">Map</string>
 
     <string name="activity_main_btn_catch_bot">Catch bot</string>
-    <string name="activity_main_btn_game_friends">Seek for coins</string>
+    <string name="activity_main_btn_game_friends">Find points</string>
     <string name="activity_main_text_hello">Username</string>
     <string name="main_activity_text_rating">0</string>
     <string name="main_activity_text_coins">0</string>
