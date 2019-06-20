@@ -33,7 +33,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/modes_buttons"
-        android:onClick="killGame"
+        android:onClick="areYouSure"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_remove" />
@@ -42,13 +42,13 @@
         android:id="@+id/mapsButtonPause"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="10dp"
         android:background="@drawable/modes_buttons"
         android:clickable="true"
         android:onClick="stopBot"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button3"
         app:srcCompat="@drawable/ic_pause" />
 
     <LinearLayout
