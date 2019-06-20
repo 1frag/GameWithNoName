@@ -257,6 +257,8 @@ public class ConnectionServer {
                         callback.notEnoughMan();
                     } else if (response.body().getResult() == 1) {
                         callback.success();
+                    } else {
+                        callback.errorTime(response.body().getResult() - 100);
                     }
                 }
                 reportStatusCode(response.code(), "connectSimple");

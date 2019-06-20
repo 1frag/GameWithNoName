@@ -286,6 +286,12 @@ public class FriendsModeActivity extends Activity {
                     }
 
                     @Override
+                    public void errorTime(int minMinutes) {
+                        //todo: this
+                        // minMinutes сколько надо было минимум минут поставить...
+                    }
+
+                    @Override
                     public void someProblem(Throwable t) {
                         Log.i(TAG, t.getMessage());
                         Toast.makeText(FriendsModeActivity.this,
@@ -342,42 +348,40 @@ public class FriendsModeActivity extends Activity {
                     // сервер не выдаст большое число
                     gamer.setColor(0xFF000000 + gamer.getColor());
 
-                    // todo: согласовать отрисовку геймеров (например себя также рисуем?)
-                    lastPlayersPositions.add(
+                    /***/
+
+                    coinspositions.add(
                             mMap.getMapObjects().addCircle(
                                     new Circle(
                                             new Point(
-                                                    gamer.getLatitude(),
-                                                    gamer.getLongitude()
-                                            ),
-                                            1+gamer.getRadius()
+                                                    point.getLatitude(),
+                                                    point.getLongitude()
+                                            ), GETTING_RADIUS - 3
                                     ),
-                                    gamer.getColor(),
-                                    gamer.getRadius(),
-                                    0x55FF0000
+                                    Color.RED,
+                                    3,
+                                    translucentRed
                             )
                     );
 
-                    final int radGam = gamer.getRadius();
                     IconStyle iconStyle = new IconStyle();
                     iconStyle.setFlat(true);
                     iconStyle.setVisible(true);
                     ImageProvider imageProvider = new ImageProvider() {
                         @Override
                         public String getId() {
-                            return gamer.getName();
+                            ;
+                            return "coin";
                         }
 
                         @Override
                         public Bitmap getImage() {
-                            Bitmap bitmap = Bitmap.createBitmap(radGam, radGam, Bitmap.Config.ARGB_8888);
+                            Bitmap bitmap = Bitmap.createBitmap(10, 10, Bitmap.Config.ARGB_8888);
                             bitmap.eraseColor(Color.TRANSPARENT);
-                            int y = radGam / 2;
-                            int yy = y * y;
-                            for (int i = 0; i < radGam; i++) {
-                                for (int j = 0; j < radGam; j++) {
-                                    if ((i - y) * (i - y) + (j - y) * (j - y) <= yy) {
-                                        bitmap.setPixel(i, j, gamer.getColor());
+                            for (int i = 0; i < 10; i++) {
+                                for (int j = 0; j < 10; j++) {
+                                    if ((i - 5) * (i - 5) + (j - 5) * (j - 5) <= 25) {
+                                        bitmap.setPixel(i, j, Color.BLUE);
                                     }
                                 }
                             }
@@ -385,16 +389,72 @@ public class FriendsModeActivity extends Activity {
                         }
                     };
 
-                    lastPlayersPositions.add(
+                    coinspositions.add(
                             mMap.getMapObjects().addPlacemark(
                                     new Point(
-                                            gamer.getLatitude(),
-                                            gamer.getLongitude()
+                                            point.getLatitude(),
+                                            point.getLongitude()
                                     ),
                                     imageProvider,
                                     iconStyle
                             )
                     );
+
+                    /***/
+
+//                    // todo: согласовать отрисовку геймеров (например себя также рисуем?)
+//                    lastPlayersPositions.add(
+//                            mMap.getMapObjects().addCircle(
+//                                    new Circle(
+//                                            new Point(
+//                                                    gamer.getLatitude(),
+//                                                    gamer.getLongitude()
+//                                            ),
+//                                            1+gamer.getRadius()
+//                                    ),
+//                                    gamer.getColor(),
+//                                    gamer.getRadius(),
+//                                    0x55FF0000
+//                            )
+//                    );
+//
+//                    final int radGam = gamer.getRadius();
+//                    IconStyle iconStyle = new IconStyle();
+//                    iconStyle.setFlat(true);
+//                    iconStyle.setVisible(true);
+//                    ImageProvider imageProvider = new ImageProvider() {
+//                        @Override
+//                        public String getId() {
+//                            return gamer.getName();
+//                        }
+//
+//                        @Override
+//                        public Bitmap getImage() {
+//                            Bitmap bitmap = Bitmap.createBitmap(radGam, radGam, Bitmap.Config.ARGB_8888);
+//                            bitmap.eraseColor(Color.TRANSPARENT);
+//                            int y = radGam / 2;
+//                            int yy = y * y;
+//                            for (int i = 0; i < radGam; i++) {
+//                                for (int j = 0; j < radGam; j++) {
+//                                    if ((i - y) * (i - y) + (j - y) * (j - y) <= yy) {
+//                                        bitmap.setPixel(i, j, gamer.getColor());
+//                                    }
+//                                }
+//                            }
+//                            return bitmap;
+//                        }
+//                    };
+//
+//                    lastPlayersPositions.add(
+//                            mMap.getMapObjects().addPlacemark(
+//                                    new Point(
+//                                            gamer.getLatitude(),
+//                                            gamer.getLongitude()
+//                                    ),
+//                                    imageProvider,
+//                                    iconStyle
+//                            )
+//                    );
                 }
             }
 
