@@ -285,10 +285,12 @@ public class FriendsModeActivity extends Activity {
                     }
                 };
 
+                final ArrayList<View> viewsToDisable = null;
                 ConnectionServer.getInstance().initBeginGame(
-                        User.getName()
+                        User.getName(),
+                        viewsToDisable
                 );
-                ConnectionServer.getInstance().connectBeginGame(callback);
+                ConnectionServer.getInstance().connectBeginGame(callback, viewsToDisable);
 
             }
         });
@@ -475,6 +477,7 @@ public class FriendsModeActivity extends Activity {
         };
 
         final TimerTask timerTask = new TimerTask() {
+            final ArrayList<View> viewsToDisable = null;
             @Override
             public void run() {
                 ConnectionServer.getInstance().initUpdateMap(
@@ -482,9 +485,10 @@ public class FriendsModeActivity extends Activity {
                         UserLocation.imHere.getLatitude(),
                         UserLocation.imHere.getLongitude(),
                         datas.mMessages,
-                        datas.mCoins
+                        datas.mCoins,
+                        viewsToDisable
                 );
-                ConnectionServer.getInstance().connectUpdateState(gameStateCallback);
+                ConnectionServer.getInstance().connectUpdateState(gameStateCallback, viewsToDisable);
             }
         };
 
@@ -541,8 +545,9 @@ public class FriendsModeActivity extends Activity {
                                         }
                                     };
 
-                                    ConnectionServer.getInstance().initKickPlayer(targetName);
-                                    ConnectionServer.getInstance().connectKickPlayer(callback);
+                                    final ArrayList<View> viewsToDisable = null;
+                                    ConnectionServer.getInstance().initKickPlayer(targetName, viewsToDisable);
+                                    ConnectionServer.getInstance().connectKickPlayer(callback, viewsToDisable);
                                 }
                             });
 
@@ -583,6 +588,7 @@ public class FriendsModeActivity extends Activity {
     }
 
     private void configBtnSend() {
+        final ArrayList<View> viewsToDisable = null;
         ImageButton btnSend = findViewById(R.id.buttonSendMessage);
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -594,7 +600,8 @@ public class FriendsModeActivity extends Activity {
 
                 ConnectionServer.getInstance().initSendMessage(
                         User.getName(),
-                        text
+                        text,
+                        viewsToDisable
                 );
 
                 ConnectionServer.getInstance().connectSendMessage(
@@ -616,7 +623,7 @@ public class FriendsModeActivity extends Activity {
                                         String.format("problem is %s", code),
                                         Toast.LENGTH_LONG).show();
                             }
-                        }
+                        }, viewsToDisable
                 );
 
             }
@@ -655,10 +662,12 @@ public class FriendsModeActivity extends Activity {
                             }
                         };
 
+                        final ArrayList<View> viewsToDisable = null;
                         ConnectionServer.getInstance().initKillRunGame(
-                                User.getName()
+                                User.getName(),
+                                viewsToDisable
                         );
-                        ConnectionServer.getInstance().connectKillRG(krgCallback);
+                        ConnectionServer.getInstance().connectKillRG(krgCallback, viewsToDisable);
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)

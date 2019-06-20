@@ -32,6 +32,7 @@ import com.yandex.mapkit.transport.masstransit.Route;
 import com.yandex.mapkit.transport.masstransit.Session;
 import com.yandex.runtime.Error;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -332,6 +333,7 @@ public class ParametersActivity extends AppCompatActivity {
             }
         };
 
+        final ArrayList<View> viewsToDisable = null;
         ConnectionServer.getInstance().initCreateGWB(
                 User.getName(),
                 (int)(double)angle,
@@ -339,9 +341,10 @@ public class ParametersActivity extends AppCompatActivity {
                 point.getLatitude(),
                 point.getLongitude(),
                 finish.getLatitude(),
-                finish.getLongitude()
+                finish.getLongitude(),
+                viewsToDisable
         );
-        ConnectionServer.getInstance().connectCreateGWB(callback);
+        ConnectionServer.getInstance().connectCreateGWB(callback, viewsToDisable);
 
 
     }

@@ -52,7 +52,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void beginLogin(final String username, final String password) {
-        ConnectionServer.getInstance().initSignIn(username, password);
+        final ArrayList<View> viewsToDisable = null;
+        ConnectionServer.getInstance().initSignIn(username, password, viewsToDisable);
+
         ConnectionServer.getInstance().connectLogin(new SignInCallbacks() {
 
             @Override
@@ -93,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.i(TAG, t.getMessage());
                 permissionsChecker(true);
             }
-        });
+        }, viewsToDisable);
     }
 
     @Override
@@ -192,8 +194,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 };
 
-                ConnectionServer.getInstance().initCheckGWB(User.getName());
-                ConnectionServer.getInstance().connectCheckGWB(callback);
+                final ArrayList<View> viewsToDisable = null;
+                ConnectionServer.getInstance().initCheckGWB(User.getName(), viewsToDisable);
+                ConnectionServer.getInstance().connectCheckGWB(callback, viewsToDisable);
                 break;
             }
             case R.id.buttonStatistics: {
@@ -259,7 +262,8 @@ public class MainActivity extends AppCompatActivity {
                     findViewById(R.id.buttonCatchBot).setVisibility(View.VISIBLE);
                     findViewById(R.id.textView2).setVisibility(View.VISIBLE);
                 }
-                ConnectionServer.getInstance().initCheckGame(User.getName());
+                final ArrayList<View> viewsToDisable = null;
+                ConnectionServer.getInstance().initCheckGame(User.getName(), viewsToDisable);
                 ConnectionServer.getInstance().connectCheckGame(new CheckGameCallbacks() {
                     @Override
                     public void inRun(String link, Integer type) {
@@ -289,7 +293,7 @@ public class MainActivity extends AppCompatActivity {
                         dialog.setOnShowListener(new DialogSecondMode());
                         dialog.show();
                     }
-                });
+                }, viewsToDisable);
                 break;
             }
             default:

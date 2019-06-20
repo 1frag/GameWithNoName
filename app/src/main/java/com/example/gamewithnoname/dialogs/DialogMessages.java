@@ -17,6 +17,7 @@ import com.example.gamewithnoname.callbacks.SendMessageCallbacks;
 import com.example.gamewithnoname.models.User;
 import com.example.gamewithnoname.models.responses.MessageResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -46,9 +47,11 @@ public class DialogMessages implements Dialog.OnShowListener, Dialog.OnCancelLis
         task = new TimerTask() {
             @Override
             public void run() {
+                ArrayList<View> viewsToDisable = null;
                 ConnectionServer.getInstance().initGetNewMessages(
                         User.getName(),
-                        first_time
+                        first_time,
+                        viewsToDisable
                 );
                 first_time = 0;
                 ConnectionServer.getInstance().connectGetMessages(new GetMessagesCallbacks() {
@@ -63,7 +66,7 @@ public class DialogMessages implements Dialog.OnShowListener, Dialog.OnCancelLis
                     public void problem(int value) {
                         Log.i(TAG, String.format("problem %s", value));
                     }
-                });
+                }, viewsToDisable);
             }
         };
     }
@@ -100,10 +103,12 @@ public class DialogMessages implements Dialog.OnShowListener, Dialog.OnCancelLis
                 EditText editText = dialog.findViewById(R.id.writeMessage);
                 String text = editText.getText().toString();
                 editText.setText("");
+                ArrayList<View> viewsToDisable = null;
 
                 ConnectionServer.getInstance().initSendMessage(
                         User.getName(),
-                        text
+                        text,
+                        viewsToDisable
                 );
 
                 ConnectionServer.getInstance().connectSendMessage(
@@ -125,7 +130,7 @@ public class DialogMessages implements Dialog.OnShowListener, Dialog.OnCancelLis
                                         String.format("problem is %s", code),
                                         Toast.LENGTH_LONG).show();
                             }
-                        }
+                        }, viewsToDisable
                 );
 
             }

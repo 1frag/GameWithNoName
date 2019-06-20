@@ -17,6 +17,8 @@ import com.example.gamewithnoname.callbacks.SignInCallbacks;
 import com.example.gamewithnoname.models.User;
 import com.example.gamewithnoname.models.responses.UserResponse;
 
+import java.util.ArrayList;
+
 public class LoginActivity extends AppCompatActivity {
 
     private final String TAG = String.format("%s/%s",
@@ -86,7 +88,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void beginLogin(final String username, final String password) {
-        ConnectionServer.getInstance().initSignIn(username, password);
+        final ArrayList<View> viewsToDisable = null;
+        ConnectionServer.getInstance().initSignIn(username, password, viewsToDisable);
         ConnectionServer.getInstance().connectLogin(new SignInCallbacks() {
 
             @Override
@@ -134,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.i(TAG, t.getMessage());
                 showFailedWithConnection();
             }
-        });
+        }, viewsToDisable);
     }
 
     private void showFailedWithConnection() {

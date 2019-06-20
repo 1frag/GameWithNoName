@@ -15,6 +15,8 @@ import com.example.gamewithnoname.ServerConnection.ConnectionServer;
 import com.example.gamewithnoname.callbacks.SignUpCallbacks;
 import com.example.gamewithnoname.callbacks.SimpleCallbacks;
 
+import java.util.ArrayList;
+
 import static java.lang.Character.isDigit;
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -108,7 +110,8 @@ public class RegistrationActivity extends AppCompatActivity {
                                    final String password,
                                    final String birth,
                                    final Integer sex) {
-        ConnectionServer.getInstance().initSignUp(username, password, birth, sex);
+        final ArrayList<View> viewsToDisable = null;
+        ConnectionServer.getInstance().initSignUp(username, password, birth, sex, viewsToDisable);
         ConnectionServer.getInstance().connectSignUp(new SignUpCallbacks() {
             @Override
             public void success() {
@@ -132,6 +135,6 @@ public class RegistrationActivity extends AppCompatActivity {
                         R.string.main_activity_error,
                         Toast.LENGTH_LONG).show();
             }
-        });
+        }, viewsToDisable);
     }
 }

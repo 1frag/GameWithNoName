@@ -2,6 +2,7 @@ package com.example.gamewithnoname.ServerConnection;
 
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.View;
 
 import com.example.gamewithnoname.callbacks.BeginGameCallbacks;
 import com.example.gamewithnoname.callbacks.ChangeCoinsCallbacks;
@@ -70,28 +71,37 @@ public class ConnectionServer {
 
     }
 
-    public void initSignIn(String name, String password) {
+    private void changeEnable(@Nullable ArrayList<View> views, boolean m){
+        if (views == null) return;
+        for (View view : views){
+            view.setEnabled(m);
+        }
+    }
+
+    public void initSignIn(String name, String password, @Nullable ArrayList<View> views) {
+        changeEnable(views, false);
         call = serverAPIs.getResultSignIn(
                 name,
                 password
         );
     }
 
-    public void initChangeCoins(String name, Integer count) {
+    public void initChangeCoins(String name, Integer count, @Nullable ArrayList<View> views) {
         call = serverAPIs.changeCoins(
                 name,
                 count
         );
     }
 
-    public void initChangeRating(String name, Integer count) {
+    public void initChangeRating(String name, Integer count, @Nullable ArrayList<View> views) {
         call = serverAPIs.changeRating(
                 name,
                 count
         );
     }
 
-    public void initSignUp(String name, String password, String birthday, Integer sex) {
+    public void initSignUp(String name, String password, String birthday,
+                           Integer sex, @Nullable ArrayList<View> views) {
         call = serverAPIs.getResultSignUp(
                 name,
                 password,
@@ -100,61 +110,64 @@ public class ConnectionServer {
         );
     }
 
-    public void initCreateGame(String name, int duration, int type) {
+    public void initCreateGame(String name, int duration, int type,
+                               @Nullable ArrayList<View> views) {
         call = serverAPIs.createGame(name, duration, type);
     }
 
-    public void initJoinGame(String name, String key) {
+    public void initJoinGame(String name, String key, @Nullable ArrayList<View> views) {
         call = serverAPIs.joinGame(name, key);
     }
 
-    public void initUpdateMap(String name, double latit, double longit, int messages, int coins) {
+    public void initUpdateMap(String name, double latit, double longit,
+                              int messages, int coins, @Nullable ArrayList<View> views) {
         call = serverAPIs.updateMap(name, latit, longit, messages, coins);
     }
 
-    public void initBeginGame(String name) {
+    public void initBeginGame(String name, @Nullable ArrayList<View> views) {
         call = serverAPIs.beginGame(name);
     }
 
-    public void initKillRunGame(String name) {
+    public void initKillRunGame(String name, @Nullable ArrayList<View> views) {
         call = serverAPIs.killRunGame(name);
     }
 
-    public void initSendMessage(String name, String text) {
+    public void initSendMessage(String name, String text, @Nullable ArrayList<View> views) {
         call = serverAPIs.sendMessage(name, text);
     }
 
-    public void initGetNewMessages(String name, int flag) {
+    public void initGetNewMessages(String name, int flag, @Nullable ArrayList<View> views) {
         call = serverAPIs.getNewMessages(name, flag);
     }
 
-    public void initCheckGame(String name) {
+    public void initCheckGame(String name, @Nullable ArrayList<View> views) {
         call = serverAPIs.checkGame(name);
     }
 
-    public void initKickPlayer(String target) {
+    public void initKickPlayer(String target, @Nullable ArrayList<View> views) {
         call = serverAPIs.kickPlayer(target);
     }
 
-    public void initKillGWB(String name) {
+    public void initKillGWB(String name, @Nullable ArrayList<View> views) {
         call = serverAPIs.killGWB(name);
     }
 
-    public void initCheckGWB(String name) {
+    public void initCheckGWB(String name, @Nullable ArrayList<View> views) {
         call = serverAPIs.checkGWB(name);
     }
 
     public void initCreateGWB(String name, Integer alpha, Double speed,
                               Double bla, Double blo,
-                              Double ela, Double elo) {
+                              Double ela, Double elo, @Nullable ArrayList<View> views) {
         call = serverAPIs.createGWB(name, alpha, speed, bla, blo, ela, elo);
     }
 
-    public void initUpdateGWB(String name, Integer first, Double latitude, Double longitude) {
+    public void initUpdateGWB(String name, Integer first, Double latitude,
+                              Double longitude, @Nullable ArrayList<View> views) {
         call = serverAPIs.updateGWB(name, first, latitude, longitude);
     }
 
-    public void initGetMySpeedGWB(String name) {
+    public void initGetMySpeedGWB(String name, @Nullable ArrayList<View> views) {
         call = serverAPIs.getMySpeedGWB(name);
     }
 
@@ -164,7 +177,7 @@ public class ConnectionServer {
         }
     }
 
-    public void connectSimple(@Nullable final SimpleCallbacks callbacks) {
+    public void connectSimple(@Nullable final SimpleCallbacks callbacks, @Nullable final ArrayList<View> views) {
         call.enqueue(new Callback<SimpleResponse>() {
 
             @Override
@@ -173,16 +186,17 @@ public class ConnectionServer {
                     callbacks.onSuccess(response.body().getResult());
                 }
                 reportStatusCode(response.code(), "connectSimple");
+                changeEnable(views, true);
             }
 
             @Override
             public void onFailure(Call<SimpleResponse> call, Throwable t) {
-
+                changeEnable(views, true);
             }
         });
     }
 
-    public void connectCreateGame(@Nullable final CreateGameCallbacks callback) {
+    public void connectCreateGame(@Nullable final CreateGameCallbacks callback, @Nullable final ArrayList<View> views) {
         call.enqueue(new Callback<SimpleResponse>() {
 
             @Override
@@ -194,17 +208,19 @@ public class ConnectionServer {
                         callback.success(response.body().getResult());
                 }
                 reportStatusCode(response.code(), "connectSimple");
+                changeEnable(views, true);
             }
 
             @Override
             public void onFailure(Call<SimpleResponse> call, Throwable t) {
                 if (callback != null)
                     callback.someProblem(t);
+                changeEnable(views, true);
             }
         });
     }
 
-    public void connectKillRG(@Nullable final KillRGCallbacks callback) {
+    public void connectKillRG(@Nullable final KillRGCallbacks callback, @Nullable final ArrayList<View> views) {
         call.enqueue(new Callback<SimpleResponse>() {
 
             @Override
@@ -213,17 +229,19 @@ public class ConnectionServer {
                     callback.success();
                 }
                 reportStatusCode(response.code(), "connectSimple");
+                changeEnable(views, true);
             }
 
             @Override
             public void onFailure(Call<SimpleResponse> call, Throwable t) {
                 if (callback != null)
                     callback.someProblem(t);
+                changeEnable(views, true);
             }
         });
     }
 
-    public void connectBeginGame(@Nullable final BeginGameCallbacks callback) {
+    public void connectBeginGame(@Nullable final BeginGameCallbacks callback, @Nullable final ArrayList<View> views) {
         call.enqueue(new Callback<SimpleResponse>() {
 
             @Override
@@ -238,17 +256,19 @@ public class ConnectionServer {
                     }
                 }
                 reportStatusCode(response.code(), "connectSimple");
+                changeEnable(views, true);
             }
 
             @Override
             public void onFailure(Call<SimpleResponse> call, Throwable t) {
                 if (callback != null)
                     callback.someProblem(t);
+                changeEnable(views, true);
             }
         });
     }
 
-    public void connectJoinGame(@Nullable final JoinGameCallbacks callback) {
+    public void connectJoinGame(@Nullable final JoinGameCallbacks callback, @Nullable final ArrayList<View> views) {
         call.enqueue(new Callback<SimpleResponse>() {
 
             @Override
@@ -262,17 +282,19 @@ public class ConnectionServer {
                         callback.success(response.body().getResult());
                 }
                 reportStatusCode(response.code(), "connectSimple");
+                changeEnable(views, true);
             }
 
             @Override
             public void onFailure(Call<SimpleResponse> call, Throwable t) {
                 if (callback != null)
                     callback.someProblem(t);
+                changeEnable(views, true);
             }
         });
     }
 
-    public void connectKickPlayer(final KickPlayerCallbacks callbacks) {
+    public void connectKickPlayer(final KickPlayerCallbacks callbacks, @Nullable final ArrayList<View> views) {
         call.enqueue(new Callback<SimpleResponse>() {
 
             @Override
@@ -281,17 +303,19 @@ public class ConnectionServer {
                     callbacks.success();
                 }
                 reportStatusCode(response.code(), "connectKickPlayer");
+                changeEnable(views, true);
             }
 
             @Override
             public void onFailure(Call<SimpleResponse> call, Throwable t) {
                 if (callbacks != null)
                     callbacks.someProblem(t);
+                changeEnable(views, true);
             }
         });
     }
 
-    public void connectSignUp(@Nullable final SignUpCallbacks callbacks) {
+    public void connectSignUp(@Nullable final SignUpCallbacks callbacks, @Nullable final ArrayList<View> views) {
         call.enqueue(new Callback<SimpleResponse>() {
 
             @Override
@@ -303,17 +327,19 @@ public class ConnectionServer {
                         callbacks.nameAlreadyExists();
                 }
                 reportStatusCode(response.code(), "connectSignUp");
+                changeEnable(views, true);
             }
 
             @Override
             public void onFailure(Call<SimpleResponse> call, Throwable t) {
                 if (callbacks != null)
                     callbacks.someProblem(t);
+                changeEnable(views, true);
             }
         });
     }
 
-    public void connectCheckGame(@Nullable final CheckGameCallbacks callback) {
+    public void connectCheckGame(@Nullable final CheckGameCallbacks callback, @Nullable final ArrayList<View> views) {
         call.enqueue(new Callback<CheckGameResponse>() {
 
             @Override
@@ -335,17 +361,19 @@ public class ConnectionServer {
                     }
 
                 }
+                changeEnable(views, true);
             }
 
             @Override
             public void onFailure(Call<CheckGameResponse> call, Throwable t) {
                 Log.i(TAG, "onFailure --> connectCheckGame");
                 // todo: add someProblem
+                changeEnable(views, true);
             }
         });
     }
 
-    public void connectUpdateState(@Nullable final UpdateStateCallbacks callback) {
+    public void connectUpdateState(@Nullable final UpdateStateCallbacks callback, @Nullable final ArrayList<View> views) {
         call.enqueue(new Callback<GameStateResponse>() {
 
             @Override
@@ -378,17 +406,19 @@ public class ConnectionServer {
                     if (response.body().getTimer() != null)
                         callback.changeTimer(response.body().getTimer());
                 }
+                changeEnable(views, true);
             }
 
             @Override
             public void onFailure(Call<GameStateResponse> call, Throwable t) {
                 Log.i(TAG, "onFailure in GameStateResponse");
                 Log.i(TAG, t.getMessage());
+                changeEnable(views, true);
             }
         });
     }
 
-    public void connectLogin(@Nullable final SignInCallbacks callback) {
+    public void connectLogin(@Nullable final SignInCallbacks callback, @Nullable final ArrayList<View> views) {
         call.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
@@ -418,6 +448,7 @@ public class ConnectionServer {
                     callback.success(user);
                 }
                 reportStatusCode(response.code(), "connectLogin");
+                changeEnable(views, true);
             }
 
             @Override
@@ -426,11 +457,12 @@ public class ConnectionServer {
                     callback.someProblem(t);
                     Log.i(TAG, String.format("connectLogin.onFailure %s", t.getMessage()));
                 }
+                changeEnable(views, true);
             }
         });
     }
 
-    public void connectChangeCoins(@Nullable final ChangeCoinsCallbacks callback) {
+    public void connectChangeCoins(@Nullable final ChangeCoinsCallbacks callback, @Nullable final ArrayList<View> views) {
         call.enqueue(new Callback<SimpleResponse>() {
 
             @Override
@@ -443,17 +475,19 @@ public class ConnectionServer {
                         callback.successful(value);
                     }
                 }
+                changeEnable(views, true);
             }
 
             @Override
             public void onFailure(Call<SimpleResponse> call, Throwable t) {
                 Log.i(TAG, "onFailure --> connectChangeCoins");
+                changeEnable(views, true);
             }
 
         });
     }
 
-    public void connectSendMessage(@Nullable final SendMessageCallbacks callback) {
+    public void connectSendMessage(@Nullable final SendMessageCallbacks callback, @Nullable final ArrayList<View> views) {
         call.enqueue(new Callback<SimpleResponse>() {
 
             @Override
@@ -466,17 +500,19 @@ public class ConnectionServer {
                         callback.someProblem(value);
                     }
                 }
+                changeEnable(views, true);
             }
 
             @Override
             public void onFailure(Call<SimpleResponse> call, Throwable t) {
                 Log.i(TAG, "onFailure --> connectSendMessage");
+                changeEnable(views, true);
             }
 
         });
     }
 
-    public void connectGetMessages(@Nullable final GetMessagesCallbacks callback) {
+    public void connectGetMessages(@Nullable final GetMessagesCallbacks callback, @Nullable final ArrayList<View> views) {
         call.enqueue(new Callback<DialogResponse>() {
 
             @Override
@@ -489,16 +525,18 @@ public class ConnectionServer {
                         callback.problem(value);
                     }
                 }
+                changeEnable(views, true);
             }
 
             @Override
             public void onFailure(Call<DialogResponse> call, Throwable t) {
                 Log.i(TAG, "onFailure --> connectGetMessages");
+                changeEnable(views, true);
             }
         });
     }
 
-    public void connectCheckGWB(@Nullable final CheckGWBCallbacks callback) {
+    public void connectCheckGWB(@Nullable final CheckGWBCallbacks callback, @Nullable final ArrayList<View> views) {
         call.enqueue(new Callback<CheckGWBResponse>() {
 
             @Override
@@ -521,17 +559,18 @@ public class ConnectionServer {
                         );
                     }
                 }
+                changeEnable(views, true);
             }
 
             @Override
             public void onFailure(Call<CheckGWBResponse> call, Throwable t) {
-
+                changeEnable(views, true);
             }
 
         });
     }
 
-    public void connectCreateGWB(final CreateGWBCallbacks callback) {
+    public void connectCreateGWB(final CreateGWBCallbacks callback, @Nullable final ArrayList<View> views) {
         call.enqueue(new Callback<SimpleResponse>() {
 
             @Override
@@ -539,11 +578,12 @@ public class ConnectionServer {
                 if (response.body() != null && callback != null) {
                     callback.success();
                 }
+                changeEnable(views, true);
             }
 
             @Override
             public void onFailure(Call<SimpleResponse> call, Throwable t) {
-
+                changeEnable(views, true);
             }
 
         });
