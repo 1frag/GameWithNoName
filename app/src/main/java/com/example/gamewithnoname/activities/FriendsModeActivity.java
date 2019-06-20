@@ -171,7 +171,7 @@ public class FriendsModeActivity extends Activity {
             (findViewById(R.id.image_button_exit)).setEnabled(true);
 
             // go button set second own
-            configGoButton();
+            // configGoButton();
 
         } else if (stage == 2) {
             /*В игре*/
@@ -260,7 +260,40 @@ public class FriendsModeActivity extends Activity {
         }
     }
 
-    public void changeTime(View view) {
+    public void initGame(final View view) {
+        ConnectionServer.getInstance().initInitGame(User.getName(), null);
+        ConnectionServer.getInstance().connectInitGame(new BeginGameCallbacks() {
+            @Override
+            public void youAreNotAuthor() {
+                Toast.makeText(FriendsModeActivity.this,
+                        "только автор может начать игру!!!",
+                        //начать может только создатель ссылки
+                        Toast.LENGTH_SHORT).show();
+                // это не должно произойти
+            }
+
+            @Override
+            public void notEnoughMan() {
+                Toast.makeText(FriendsModeActivity.this,
+                        "Недостаточно людей для начала игры",
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void success(int minutes) {
+                changeTime(view, minutes);
+            }
+
+            @Override
+            public void someProblem(Throwable t) {
+                Log.i(TAG, t.getMessage());
+                Toast.makeText(FriendsModeActivity.this,
+                        t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }, null);
+    }
+
+    private void changeTime(View view, final int minimumMinutes) {
         final Dialog dialog = createTimeDialog();
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
@@ -279,9 +312,15 @@ public class FriendsModeActivity extends Activity {
                                     Toast.LENGTH_LONG).show();
                             return;
                         }
+                        if (changedTime < minimumMinutes) {
+                            Toast.makeText(FriendsModeActivity.this,
+                                    "Нужно указать больше времени!!",
+                                    Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        onclickGoButton();
                     }
                 });
-                dialog.setCancelable(false);
             }
         });
         dialog.show();
@@ -292,60 +331,47 @@ public class FriendsModeActivity extends Activity {
         return builder.create();
     }
 
-    private void configGoButton() {
-        ImageButton btn = findViewById(R.id.floatingAdmButton);
-        btn.setOnClickListener(new View.OnClickListener() {
+    private void onclickGoButton() {
+        BeginGameCallbacks callback = new BeginGameCallbacks() {
             @Override
-            public void onClick(View v) {
-                // begin game
-
-                BeginGameCallbacks callback = new BeginGameCallbacks() {
-                    @Override
-                    public void youAreNotAuthor() {
-                        Toast.makeText(FriendsModeActivity.this,
-                                "только автор может начать игру!!!",
-                                //начать может только создатель ссылки
-                                Toast.LENGTH_SHORT).show();
-                        // это не должно произойти
-                    }
-
-                    @Override
-                    public void notEnoughMan() {
-                        Toast.makeText(FriendsModeActivity.this,
-                                "Недостаточно людей для начала игры",
-                                Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void success() {
-                        stageHandler(2);
-                    }
-
-                    @Override
-                    public void errorTime(int minMinutes) {
-                        // todo: this
-                        //  minMinutes сколько надо было минимум минут поставить...
-                    }
-
-                    @Override
-                    public void someProblem(Throwable t) {
-                        Log.i(TAG, t.getMessage());
-                        Toast.makeText(FriendsModeActivity.this,
-                                t.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                };
-
-                final ArrayList<View> viewsToDisable = null;
-                ConnectionServer.getInstance().initBeginGame(
-                        User.getName(),
-                        viewsToDisable
-                );
-                ConnectionServer.getInstance().connectBeginGame(callback, viewsToDisable);
-
+            public void youAreNotAuthor() {
+                Toast.makeText(FriendsModeActivity.this,
+                        "только автор может начать игру!!!",
+                        //начать может только создатель ссылки
+                        Toast.LENGTH_SHORT).show();
+                // это не должно произойти
             }
-        });
+
+            @Override
+            public void notEnoughMan() {
+                Toast.makeText(FriendsModeActivity.this,
+                        "Недостаточно людей для начала игры",
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void success(int one) {
+                stageHandler(2);
+            }
+
+            @Override
+            public void someProblem(Throwable t) {
+                Log.i(TAG, t.getMessage());
+                Toast.makeText(FriendsModeActivity.this,
+                        t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        };
+
+        final ArrayList<View> viewsToDisable = null;
+        ConnectionServer.getInstance().initBeginGame(
+                User.getName(),
+                changedTime,
+                viewsToDisable
+        );
+        ConnectionServer.getInstance().connectBeginGame(callback, viewsToDisable);
 
     }
+
 
     private void configMap() {
         Log.i(TAG, "configMap");

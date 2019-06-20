@@ -87,6 +87,7 @@ public class ConnectionServer {
     }
 
     public void initChangeCoins(String name, Integer count, @Nullable ArrayList<View> views) {
+        changeEnable(views, false);
         call = serverAPIs.changeCoins(
                 name,
                 count
@@ -94,6 +95,7 @@ public class ConnectionServer {
     }
 
     public void initChangeRating(String name, Integer count, @Nullable ArrayList<View> views) {
+        changeEnable(views, false);
         call = serverAPIs.changeRating(
                 name,
                 count
@@ -102,6 +104,7 @@ public class ConnectionServer {
 
     public void initSignUp(String name, String password, String birthday,
                            Integer sex, @Nullable ArrayList<View> views) {
+        changeEnable(views, false);
         call = serverAPIs.getResultSignUp(
                 name,
                 password,
@@ -112,67 +115,87 @@ public class ConnectionServer {
 
     public void initCreateGame(String name, int duration, int type,
                                @Nullable ArrayList<View> views) {
+        changeEnable(views, false);
         call = serverAPIs.createGame(name, duration, type);
     }
 
     public void initJoinGame(String name, String key, @Nullable ArrayList<View> views) {
+        changeEnable(views, false);
         call = serverAPIs.joinGame(name, key);
     }
 
     public void initUpdateMap(String name, double latit, double longit,
                               int messages, int coins, @Nullable ArrayList<View> views) {
+        changeEnable(views, false);
         call = serverAPIs.updateMap(name, latit, longit, messages, coins);
     }
 
-    public void initBeginGame(String name, @Nullable ArrayList<View> views) {
-        call = serverAPIs.beginGame(name);
+    public void initBeginGame(String name, Integer duration, @Nullable ArrayList<View> views) {
+        changeEnable(views, false);
+        call = serverAPIs.beginGame(name, duration);
     }
 
     public void initKillRunGame(String name, @Nullable ArrayList<View> views) {
+        changeEnable(views, false);
         call = serverAPIs.killRunGame(name);
     }
 
     public void initSendMessage(String name, String text, @Nullable ArrayList<View> views) {
+        changeEnable(views, false);
         call = serverAPIs.sendMessage(name, text);
     }
 
     public void initGetNewMessages(String name, int flag, @Nullable ArrayList<View> views) {
+        changeEnable(views, false);
         call = serverAPIs.getNewMessages(name, flag);
     }
 
     public void initCheckGame(String name, @Nullable ArrayList<View> views) {
+        changeEnable(views, false);
         call = serverAPIs.checkGame(name);
     }
 
     public void initKickPlayer(String target, @Nullable ArrayList<View> views) {
+        changeEnable(views, false);
         call = serverAPIs.kickPlayer(target);
     }
 
     public void initKillGWB(String name, @Nullable ArrayList<View> views) {
+        changeEnable(views, false);
         call = serverAPIs.killGWB(name);
     }
 
     public void initCheckGWB(String name, @Nullable ArrayList<View> views) {
+        changeEnable(views, false);
         call = serverAPIs.checkGWB(name);
     }
 
     public void initCreateGWB(String name, Integer alpha, Double speed,
                               Double bla, Double blo,
                               Double ela, Double elo, @Nullable ArrayList<View> views) {
+        changeEnable(views, false);
         call = serverAPIs.createGWB(name, alpha, speed, bla, blo, ela, elo);
     }
 
     public void initUpdateGWB(String name, Integer first, Double latitude,
                               Double longitude, @Nullable ArrayList<View> views) {
+        changeEnable(views, false);
         call = serverAPIs.updateGWB(name, first, latitude, longitude);
     }
 
     public void initGetMySpeedGWB(String name, @Nullable ArrayList<View> views) {
+        changeEnable(views, false);
         call = serverAPIs.getMySpeedGWB(name);
     }
 
     public void initChangeRadius(String name, Integer radius, Integer cost, @Nullable ArrayList<View> views) {
+        changeEnable(views, false);
         call = serverAPIs.changeRadius(name, radius, cost);
+    }
+
+    public void initInitGame(String name, @Nullable ArrayList<View> views) {
+        changeEnable(views, false);
+        call = serverAPIs.initGame(name);
     }
 
     private void reportStatusCode(int code, String fun) {
@@ -256,10 +279,7 @@ public class ConnectionServer {
                     } else if (response.body().getResult() == -2) {
                         callback.notEnoughMan();
                     } else if (response.body().getResult() == 1) {
-                        callback.success();
-                    } else {
-                        Log.i(TAG, "distance and position have conflict");
-                        callback.errorTime(response.body().getResult() - 100);
+                        callback.success(response.body().getResult());
                     }
                 }
                 reportStatusCode(response.code(), "connectSimple");
@@ -606,6 +626,31 @@ public class ConnectionServer {
                         callback.notEnoughMoney();
                     else
                         callback.successful(response.body().getResult());
+                }
+                changeEnable(views, true);
+            }
+
+            @Override
+            public void onFailure(Call<SimpleResponse> call, Throwable t) {
+                changeEnable(views, true);
+            }
+
+        });
+    }
+
+    public void connectInitGame(final BeginGameCallbacks callback, @Nullable final ArrayList<View> views) {
+        call.enqueue(new Callback<SimpleResponse>() {
+
+            @Override
+            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                if (response.body() != null && callback != null) {
+                    if (response.body().getResult() == -1) {
+                        callback.youAreNotAuthor();
+                    } else if (response.body().getResult() == -2) {
+                        callback.notEnoughMan();
+                    } else {
+                        callback.success(response.body().getResult());
+                    }
                 }
                 changeEnable(views, true);
             }

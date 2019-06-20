@@ -55,7 +55,8 @@ public interface ServerAPIs {
 
     @GET("/begin_game")
     Call<SimpleResponse> beginGame(
-            @Query("name") String name
+            @Query("name") String name,
+            @Query("duration") Integer duration
     );
 
     @GET("/kill_run_game")
@@ -136,6 +137,11 @@ public interface ServerAPIs {
             @Query("name") String name,
             @Query("radius") Integer radius,
             @Query("cost") Integer cost
+    );
+
+    @GET("/init_game")
+    Call<SimpleResponse> initGame(
+            @Query("name") String name
     );
 
 }
