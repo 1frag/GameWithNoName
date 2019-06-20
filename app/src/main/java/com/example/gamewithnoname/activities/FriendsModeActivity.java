@@ -267,7 +267,7 @@ public class FriendsModeActivity extends Activity {
             @Override
             public void youAreNotAuthor() {
                 Toast.makeText(FriendsModeActivity.this,
-                        "только автор может начать игру!!!",
+                        getResources().getString(R.string.only_author_can_begin_game),
                         //начать может только создатель ссылки
                         Toast.LENGTH_SHORT).show();
                 // это не должно произойти
@@ -276,7 +276,7 @@ public class FriendsModeActivity extends Activity {
             @Override
             public void notEnoughMan() {
                 Toast.makeText(FriendsModeActivity.this,
-                        "Недостаточно людей для начала игры",
+                        getResources().getString(R.string.not_enough_people),
                         Toast.LENGTH_SHORT).show();
             }
 
@@ -310,13 +310,13 @@ public class FriendsModeActivity extends Activity {
                             changedTime = Integer.parseInt(textTime.getText().toString());
                         } catch (NumberFormatException e) {
                             Toast.makeText(FriendsModeActivity.this,
-                                    "Input valid time!",
+                                    getResources().getString(R.string.input_valie_time),
                                     Toast.LENGTH_LONG).show();
                             return;
                         }
                         if (changedTime < minimumMinutes) {
                             Toast.makeText(FriendsModeActivity.this,
-                                    "Нужно указать больше времени!!",
+                                    getResources().getString(R.string.not_enough_time),
                                     Toast.LENGTH_LONG).show();
                             return;
                         }
@@ -340,7 +340,7 @@ public class FriendsModeActivity extends Activity {
             @Override
             public void youAreNotAuthor() {
                 Toast.makeText(FriendsModeActivity.this,
-                        "только автор может начать игру!!!",
+                        getResources().getString(R.string.only_author_can_begin_game),
                         //начать может только создатель ссылки
                         Toast.LENGTH_SHORT).show();
                 // это не должно произойти
@@ -349,7 +349,7 @@ public class FriendsModeActivity extends Activity {
             @Override
             public void notEnoughMan() {
                 Toast.makeText(FriendsModeActivity.this,
-                        "Недостаточно людей для начала игры",
+                        getResources().getString(R.string.you_have_not_enough_money),
                         Toast.LENGTH_SHORT).show();
             }
 
@@ -362,8 +362,6 @@ public class FriendsModeActivity extends Activity {
             @Override
             public void someProblem(Throwable t) {
                 Log.i(TAG, t.getMessage());
-                Toast.makeText(FriendsModeActivity.this,
-                        t.getMessage(), Toast.LENGTH_LONG).show();
             }
         };
 
@@ -484,7 +482,7 @@ public class FriendsModeActivity extends Activity {
             @Override
             public void gameOver(final StatisticsResponse stats) {
                 Toast.makeText(FriendsModeActivity.this,
-                        String.format("You get %s coins, great!",
+                        String.format(getResources().getString(R.string.you_get_coins),
                                 stats.getCoins()),
                         Toast.LENGTH_LONG).show();
 
@@ -555,9 +553,9 @@ public class FriendsModeActivity extends Activity {
                 int days = time;
                 String result;
                 if (days != 0) {
-                    result = String.format("%s day(s)", days);
+                    result = String.format(getResources().getString(R.string.count_days_in_timer), days);
                 } else if (hour != 0) {
-                    result = String.format("%s hour(s)", hour);
+                    result = String.format(getResources().getString(R.string.count_hours_in_timer), hour);
                 } else {
                     result = String.format("%s%s:%s%s",
                             min / 10, min % 10,
@@ -632,7 +630,7 @@ public class FriendsModeActivity extends Activity {
                                             view.setBackgroundColor(color - 0xcc000000);
 
                                             Toast.makeText(FriendsModeActivity.this,
-                                                    String.format("Пользователь %s был успешно отстранён из игры", targetName),
+                                                    String.format(getResources().getString(R.string.leave_user_from_game), targetName),
                                                     Toast.LENGTH_LONG).show();
                                         }
 
@@ -675,7 +673,7 @@ public class FriendsModeActivity extends Activity {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(FriendsModeActivity.this,
-                            String.format("Это написал %s", message.getFrom()),
+                            String.format(getResources().getString(R.string.author_is), message.getFrom()),
                             Toast.LENGTH_LONG).show();
                 }
             });
@@ -688,7 +686,6 @@ public class FriendsModeActivity extends Activity {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "qwe");
                 EditText editText = findViewById(R.id.writeMessage);
                 String text = editText.getText().toString();
                 editText.setText("");
@@ -705,7 +702,7 @@ public class FriendsModeActivity extends Activity {
                             public void sended() {
                                 // todo: звук сообщение отправлено
                                 Toast.makeText(FriendsModeActivity.this,
-                                        "You message is sended successful",
+                                        getResources().getString(R.string.message_sended_successful),
                                         Toast.LENGTH_LONG).show();
                             }
 
@@ -715,7 +712,7 @@ public class FriendsModeActivity extends Activity {
                                 //  человеку что проблемка и его сообщение не получил никто =(
                                 Log.i(TAG, String.format("some problem %s", code));
                                 Toast.makeText(FriendsModeActivity.this,
-                                        String.format("problem is %s", code),
+                                        String.format(getResources().getString(R.string.message_is_not_sended), code),
                                         Toast.LENGTH_LONG).show();
                             }
                         }, viewsToDisable
@@ -751,9 +748,6 @@ public class FriendsModeActivity extends Activity {
                             @Override
                             public void someProblem(Throwable t) {
                                 Log.i(TAG, t.getMessage());
-                                Toast.makeText(FriendsModeActivity.this,
-                                        "У нас проблемы))",
-                                        Toast.LENGTH_SHORT).show();
                             }
                         };
 
@@ -799,7 +793,7 @@ public class FriendsModeActivity extends Activity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         builder.setView(inflater.inflate(R.layout.layout_multi_people, null))
-                .setPositiveButton("Ok!", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getResources().getString(R.string.ok_in_legend), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         // nothing to do
@@ -849,7 +843,7 @@ public class FriendsModeActivity extends Activity {
             @Override
             public void notEnoughMoney() {
                 Toast.makeText(FriendsModeActivity.this,
-                        "У вас недостаточно денег",
+                        getResources().getString(R.string.you_have_not_enough_money),
                         Toast.LENGTH_LONG).show();
                 findViewById(R.id.include1).setVisibility(View.INVISIBLE);
             }

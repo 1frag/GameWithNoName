@@ -33,7 +33,6 @@ public class DistanceBetweenTwoPoints implements Session.RouteListener {
     private PedestrianRouter pdRouter;
 
     public DistanceBetweenTwoPoints(Point start, Point finish) {
-        // todo: think about..via points..
         pdRouter = TransportFactory.getInstance().createPedestrianRouter();
         pdRouter.requestRoutes(initPath(start, finish), initOptions(), this);
         Log.i(TAG, String.format("%s %s", mResult, mIsValid));
@@ -81,13 +80,6 @@ public class DistanceBetweenTwoPoints implements Session.RouteListener {
 
     @Override
     public void onMasstransitRoutesError(@NonNull Error error) {
-        String errorMessage = "unknown_error_message";
-        if (error instanceof RemoteError) {
-            errorMessage = "remote_error_message";
-        } else if (error instanceof NetworkError) {
-            errorMessage = "network_error_message";
-        }
-
-        Log.i(TAG, errorMessage);
+        Log.i(TAG, error.toString());
     }
 }

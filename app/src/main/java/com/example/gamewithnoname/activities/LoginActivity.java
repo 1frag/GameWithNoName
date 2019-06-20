@@ -121,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void success(UserResponse userResponse) {
-                String welcome = String.format("%s%s", getString(R.string.welcome), userResponse.getName());
+                String welcome = String.format(getResources().getString(R.string.welcome), userResponse.getName());
                 Log.i(TAG, "initiate successful logged in experience");
                 Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
                 finish();
@@ -142,7 +142,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void showFailedWithConnection() {
         Toast.makeText(this,
-                "You have problem with internet connetion",
+                getResources().getString(R.string.problem_internet),
                 Toast.LENGTH_SHORT).show();
     }
 

@@ -117,7 +117,7 @@ public class DialogMessages implements Dialog.OnShowListener, Dialog.OnCancelLis
                             public void sended() {
                                 // todo: звук сообщение отправлено
                                 Toast.makeText(dialog.getContext(),
-                                        "You message is sended successful",
+                                        R.string.message_sended_successful,
                                         Toast.LENGTH_LONG).show();
                             }
 
@@ -126,9 +126,6 @@ public class DialogMessages implements Dialog.OnShowListener, Dialog.OnCancelLis
                                 // todo: звук сообщение не ушло или просто сказать как-то
                                 //  человеку что проблемка и его сообщение не получил никто =(
                                 Log.i(TAG, String.format("some problem %s", code));
-                                Toast.makeText(dialog.getContext(),
-                                        String.format("problem is %s", code),
-                                        Toast.LENGTH_LONG).show();
                             }
                         }, viewsToDisable
                 );

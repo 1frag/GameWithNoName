@@ -154,14 +154,14 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
             ConnectionServer.getInstance().initChangeRating(User.getName(), alphas, viewsToDisable);
             ConnectionServer.getInstance().connectSimple(null, viewsToDisable);
             TextView textScore = findViewById(R.id.textWinScore);
-            textScore.setText(String.format("Your score: %s", alphas));
+            textScore.setText(String.format(getResources().getString(R.string.your_score_is), alphas));
 
             ConnectionServer.getInstance().initGetMySpeedGWB(User.getName(), viewsToDisable);
             ConnectionServer.getInstance().connectSimple(new SimpleCallbacks() {
                 @Override
                 public void onSuccess(@NonNull Integer value) {
                     TextView textSpeed = findViewById(R.id.textWinSpeed);
-                    textSpeed.setText(String.format("Your speed: %s", value * 3.6));
+                    textSpeed.setText(String.format(getResources().getString(R.string.your_speed_is), value * 3.6));
                     ConnectionServer.getInstance().initKillGWB(User.getName(), viewsToDisable);
                     ConnectionServer.getInstance().connectSimple(null, viewsToDisable);
                 }
@@ -236,9 +236,7 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
         int time = getIntent().getExtras().getInt("time");
         if (routes.size() == 0) {
             Toast.makeText(MapInGame.this,
-                    "Произошла неизвестная ошибка",
-                    // на самом деле я отлично понимаю, что это за ошибка,
-                    // но исправить её я не сильно представляю как кроме как выйти
+                    getResources().getString(R.string.just_try_again),
                     Toast.LENGTH_LONG).show();
             final ArrayList<View> viewsToDisable = null;
             ConnectionServer.getInstance().initKillGWB(User.getName(), viewsToDisable);
@@ -282,11 +280,11 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
 
     @Override
     public void onMasstransitRoutesError(@NonNull Error error) {
-        String errorMessage = "unknown_error_message";
+        String errorMessage = getResources().getString(R.string.unknown_error);
         if (error instanceof RemoteError) {
-            errorMessage = "remote_error_message";
+            errorMessage = getResources().getString(R.string.remote_problem);
         } else if (error instanceof NetworkError) {
-            errorMessage = "network_error_message";
+            errorMessage = getResources().getString(R.string.network_problem);
         }
 
         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
@@ -313,7 +311,7 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
                     @Override
                     public void run() {
                         bot.manageBot(ACTION_GO);
-                        Log.i(TAG, "Он пошел!");
+                        Log.i(TAG, "Бот пошел!");
                     }
                 };
 
@@ -325,7 +323,7 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
                             public void run() {
                                 findViewById(R.id.mapsButtonPause).setEnabled(true);
                                 findViewById(R.id.mapsButtonPause).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.accentedButtons));
-                                Log.i(TAG, "Оно разблокировалось!");
+                                Log.i(TAG, "Кнопка разблокировалась!");
                             }
                         });
                     }
@@ -338,6 +336,9 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
 
             @Override
             public void notEnoughMoney() {
+                Toast.makeText(MapInGame.this,
+                        getResources().getString(R.string.problem_with_money),
+                        Toast.LENGTH_LONG).show();
                 Log.i(TAG, "notEnoughMoney");
             }
         }, viewsToDisable);

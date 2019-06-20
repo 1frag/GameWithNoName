@@ -99,7 +99,7 @@ public class ParametersActivity extends AppCompatActivity {
             public void onMasstransitRoutesError(@NonNull Error error) {
                 Log.i(TAG, "onMasstransitRoutesError");
                 Toast.makeText(ParametersActivity.this,
-                        "Произошла ошибка. Выберите другую точку финиша",
+                        getResources().getString(R.string.chouse_other_point),
                         Toast.LENGTH_LONG).show();
             }
         });
@@ -178,7 +178,7 @@ public class ParametersActivity extends AppCompatActivity {
 
         if (distance == null) {
             Toast.makeText(ParametersActivity.this,
-                    "Way not found",
+                    getResources().getString(R.string.way_not_found),
                     Toast.LENGTH_SHORT).show();
             return;
         }
@@ -193,11 +193,11 @@ public class ParametersActivity extends AppCompatActivity {
         shortestDistance = distance;
         Log.i(TAG, String.format("%s", shortestDistance));
         textSpeed = sheetView.findViewById(R.id.textSpeedValue);
-        textSpeed.setText(String.format("%.1f km/h", speed));
+        textSpeed.setText(String.format(getResources().getString(R.string.speed_in_first_mode), speed));
         time = shortestDistance * deviation / (speed * 1000 / 60);
         Log.i(TAG, String.format("time is %s", time));
         textTime = sheetView.findViewById(R.id.timeApproximate);
-        textTime.setText(String.format("About %.1f min", time));
+        textTime.setText(String.format(getResources().getString(R.string.time_in_first_mode), time));
         textAngle = sheetView.findViewById(R.id.textViewAngleVal);
         textAngle.setText(String.format("%d°", angle));
         changedDistance = shortestDistance * deviation;
@@ -219,8 +219,8 @@ public class ParametersActivity extends AppCompatActivity {
             value = 3.0 + value / 10.0;
             speed = value;
             time = shortestDistance * deviation / (speed * 1000 / 60);
-            textTime.setText(String.format("About %.1f min", time));
-            textSpeed.setText(String.format("%.1f km/h", value));
+            textTime.setText(String.format(getResources().getString(R.string.time_in_first_mode), time));
+            textSpeed.setText(String.format(getResources().getString(R.string.speed_in_first_mode), value));
         }
 
         public void onStartTrackingTouch(SeekBar seekBar) {
@@ -261,58 +261,6 @@ public class ParametersActivity extends AppCompatActivity {
             Toast.makeText(this, getString(R.string.activity_parameters_unknown_error), Toast.LENGTH_LONG).show();
             return;
         }
-
-        /**
-         * Че за бред в этом коде
-         * ну вот например чего финиш как точка которая
-         * поле класса а вот стартовая как переменная в функции
-         * и названа причем понтом будто название класса ни о чем не говорит
-         * зачем её позже инициализируем чем точку финиша
-         * та тудушка сверху это б**ть не тудушка это **р*я какая то
-         * вот кто нибудь скажет например ща сделаю эту туду
-         * туду ж это то что надо сделать а как сделать эту туду
-         * удалить этот кусок кода как вариант или протестить все варианты
-         * еще и ключ яндекса прямо в коде. причем нахрена если это в майнактивити
-         * еще в пермишенах делается. а вообще весь этот режим или даже вся кодовая
-         * база всего проекта напоминает какие то дырявые штаны с большой кучей
-         * заплаток и все равно куча дырок в тех заплатках еще дырки
-         * а где то по две три заплатки и грязные такие штаны и неровные
-         * это кстати вот та проблема которая уже задолбала на программке
-         * когда ты не понимаешь как правильно делаешь чтобы работало
-         * оно работает тебе ставят баллы но ты в итоге не понимаешь как
-         * правильно надо было сделать по итогу ты получаешь небольшой
-         * колбэк какой же убогий у тебя код и +- комментарии почему, но когда
-         * ты его получаешь тебе уже нет смысла возвращаться к проекту потому
-         * что у тебя стоит другая задача и вообще тебе уже не дадут ни баллов
-         * ни еще чего либо по этому проекту и ты просто забиваешь на это
-         * так просто дела мне кажется не делаются хотя бы уж на учебе то
-         * можно писать нормальные вещи а че потом толку даже если и берут тебя
-         * куда то на работу или стаировку ты вместо того чтобы радоваться жизни
-         * начинаешь изучать в каком то ужасно быстром темпе а как надо деать правильно
-         * и да теперь тебе легче гуглить и ты справишься конечно и с этим
-         * но во первых качество уже не вернешь за такой быстрый срок это не будет
-         * сделано без ошибок потом коллеги будут охреневая от твоего кода
-         * давать тебе таски никто не сможет читать твой код и если в какой то
-         * момент ты уйдешь твой код после первого не рабочего релиза будет всем
-         * камнем в горле и по итогу твой код просто удалят заменив на свой
-         * более читаемый или ничем не лучшим но своим потратят время силы и деньги
-         * зато ты придешь на новое место и будешь гадаить там но уже немного зная
-         * где есть подводные камни будешь уже человеком который понаступал немного
-         * на грабли и уже ты будешь переписывать чужой код, код который писал челик
-         * который учился на таком же направлении что и ты, и тоже писал рабочий
-         * но дырявый код и тоже уйдет оставив после себя боль  страдание
-         * заберет время и деньги принесет убытки тебе и твоей компании
-         * и так будет продолжаться пока будут такие системы обучения когда качество
-         * летит к **ям и если хоть 10% от того что я тут написал правда если
-         * в действительность пользы от рабочего но не масштабируемого кода нет для бизнеса
-         * если в действительности при именно при такой системе а не у конкретных людей
-         * получается такой некрасивый и корявый код если и этот проект будет насмерть
-         * заброшен после пятницы если знаний от курсов дискретной математики и структур
-         * не прибавилось у большинства студентов хитса, если это правда, то как же
-         * лицемерно и глупо выглядят все эти новости про турнир по cs и dоtе, этот проходной
-         * балл в хитс, эти понты по поводу того что мы не такие как поток и прочее прочее
-         *          @НуИЛадно, стало чуть полегче, продолжим
-         * */
 
         intentStart.putExtra("finishLatitude", finish.getLatitude());
         intentStart.putExtra("finishLongitude", finish.getLongitude());

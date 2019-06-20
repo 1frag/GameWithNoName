@@ -53,6 +53,7 @@ public class FriendsActivity extends AppCompatActivity {
             @Override
             public void success(List<UserResponse> userResponses) {
                 LinearLayout linearLayout = findViewById(R.id.layoutForNames);
+                linearLayout.removeAllViews();
                 for (UserResponse user : userResponses) {
                     LinearLayout newView = new LinearLayout(FriendsActivity.this);
                     getLayoutInflater().inflate(

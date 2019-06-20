@@ -116,7 +116,7 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void success() {
                 Toast.makeText(RegistrationActivity.this,
-                        "Регистрации прошла успешно",
+                        getResources().getString(R.string.sign_up_success),
                         Toast.LENGTH_LONG).show();
                 finish();
             }

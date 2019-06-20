@@ -25,11 +25,6 @@ public class UserLocation implements LocationListener {
         LocationListener locationListener = new UserLocation();
 
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.i(TAG, "fuck perm");
-            // todo: это ситуация когда мы хотим показать
-            //  местоположение, но прав на это нет, при этом
-            //  сейчас ничего не происходит, просто показываем
-            //  карту без синего кружочка
             return;
         }
         enable = true;

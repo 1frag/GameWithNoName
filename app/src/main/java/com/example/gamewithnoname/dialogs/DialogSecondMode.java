@@ -65,14 +65,14 @@ public class DialogSecondMode implements Dialog.OnShowListener {
                     @Override
                     public void invalidLink() {
                         Toast.makeText(dialog.getContext(),
-                                "Ссылка некорректна / такой игры нет",
+                                R.string.link_is_incorrect,
                                 Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void gameIsStarted() {
                         Toast.makeText(dialog.getContext(),
-                                "Игра уже началась",
+                                R.string.game_already_begin,
                                 Toast.LENGTH_SHORT).show();
                     }
 
@@ -86,9 +86,6 @@ public class DialogSecondMode implements Dialog.OnShowListener {
 
                     @Override
                     public void someProblem(Throwable t) {
-                        Toast.makeText(dialog.getContext(),
-                                "Возникли технические неполадки",
-                                Toast.LENGTH_SHORT).show();
                         Log.i(TAG, t.getMessage());
                     }
                 };
@@ -119,7 +116,7 @@ public class DialogSecondMode implements Dialog.OnShowListener {
                         // если игр сколько возможных комбинаций
                         // ссылок приглашений
                         Toast.makeText(dialog.getContext(),
-                                "Игра не создалась",
+                                R.string.game_is_not_created,
                                 Toast.LENGTH_SHORT).show();
                     }
 

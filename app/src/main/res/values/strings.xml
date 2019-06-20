@@ -25,7 +25,7 @@
     <string name="activity_login_prompt_password">Password</string>
     <string name="activity_login_ok">OK</string>
     <string name="activity_login_account_offer">Create new account</string>
-    <string name="welcome">"Welcome, "</string>
+    <string name="welcome">"Welcome, %s"</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
@@ -103,6 +103,36 @@
     <string name="activity_friends_regs">Reg</string>
     <string name="activity_friends_edittext">Name</string>
     <string name="you_pick_n_coins">You pick %d coins</string>
+    <string name="count_days_in_timer">%d day(s)</string>
+    <string name="count_hours_in_timer">%d hour(s)</string>
+    <string name="leave_user_from_game">Пользователь %s был успешно отстранён из игры</string>
+    <string name="author_is">Это написал %s</string>
+    <string name="message_sended_successful">You message is sended successful</string>
+    <string name="message_is_not_sended">problem is %s</string>
+    <string name="ok_in_legend">Ok!</string>
+    <string name="you_have_not_enough_money">У вас недостаточно денег</string>
+    <string name="only_author_can_begin_game">только автор может начать игру!!!</string>
+    <string name="not_enough_people">Недостаточно людей для начала игры</string>
+    <string name="input_valie_time">Input valid time!</string>
+    <string name="not_enough_time">Нужно указать больше времени!!</string>
+    <string name="you_get_coins">You get %d coins, great!</string>
+    <string name="problem_internet">You have problem with internet connetion</string>
+    <string name="you_have_unfinished_game">You have an unfinished game</string>
+    <string name="time_in_first_mode">About %.1f min</string>
+    <string name="speed_in_first_mode">%.1f km/h</string>
+    <string name="way_not_found">Way not found</string>
+    <string name="chouse_other_point">Произошла ошибка. Выберите другую точку финиша</string>
+    <string name="sign_up_success">Регистрации прошла успешно</string>
+    <string name="game_is_not_created">Игра не создалась</string>
+    <string name="game_already_begin">Игра уже началась</string>
+    <string name="link_is_incorrect">Ссылка некорректна / такой игры нет</string>
+    <string name="your_score_is">Your score: %d</string>
+    <string name="your_speed_is">Your speed: %d</string>
+    <string name="just_try_again">Произошла неизвестная ошибка</string>
+    <string name="unknown_error">unknown_error_message</string>
+    <string name="remote_problem">remote_error_message</string>
+    <string name="network_problem">network_error_message</string>
+    <string name="problem_with_money">Your money not enough</string>
 
 
 </resources>

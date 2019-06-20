@@ -269,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
                     public void inRun(String link, Integer type) {
                         Intent fmIntent = new Intent(MainActivity.this, FriendsModeActivity.class);
                         Toast.makeText(MainActivity.this,
-                                "You have an unfinished game", // И она уже идет
+                                getResources().getString(R.string.you_have_unfinished_game), // И она уже идет
                                 Toast.LENGTH_LONG).show();
                         fmIntent.putExtra("type", type);
                         fmIntent.putExtra("stage", PLAY_GAME);
@@ -280,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
                     public void inWait(String link, Integer type) {
                         Intent fmIntent = new Intent(MainActivity.this, FriendsModeActivity.class);
                         Toast.makeText(MainActivity.this,
-                                "You have an unfinished game", // Но её еще не запустили
+                                getResources().getString(R.string.you_have_unfinished_game), // Но её еще не запустили
                                 Toast.LENGTH_LONG).show();
                         fmIntent.putExtra("type", type);
                         fmIntent.putExtra("stage", WAIT_GAME);
