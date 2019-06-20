@@ -103,6 +103,9 @@
     <string name="activity_friends_regs">Reg</string>
     <string name="activity_friends_edittext">Name</string>
     <string name="you_pick_n_coins">You pick %d coins</string>
+    <string name="alert_time_headline">Write time for this game</string>
+    <string name="alert_time_hint">minutes</string>
+    <string name="alert_time_btn">Ok</string>
 
 
 </resources>
