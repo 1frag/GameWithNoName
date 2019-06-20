@@ -259,6 +259,7 @@ public class FriendsModeActivity extends Activity {
 
         }
     }
+
     public void changeTime(View view) {
         final Dialog dialog = createTimeDialog();
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
@@ -806,7 +807,7 @@ public class FriendsModeActivity extends Activity {
     }
 
     public void applyExtensions(View view) {
-        ConnectionServer.getInstance().initChangeRadius(User.getName(), getRadius(), getCost(), null);
+        ConnectionServer.getInstance().initChangeRadius(User.getName(), anotherRadius, getCost(), null);
         ConnectionServer.getInstance().connectChangeRadius(new ChangeCoinsCallbacks() {
             @Override
             public void successful(int money) {
@@ -824,11 +825,7 @@ public class FriendsModeActivity extends Activity {
         }, null);
     }
 
-    private Integer getRadius() {
-        return ((SeekBar) findViewById(R.id.seekBarRadius)).getProgress();
-    }
-
     private Integer getCost() {
-        return (int) Math.pow(2, ((SeekBar) findViewById(R.id.seekBarRadius)).getProgress());
+        return (int) Math.pow(2, anotherRadius);
     }
 }
