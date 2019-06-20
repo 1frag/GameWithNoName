@@ -302,6 +302,7 @@ public class FriendsModeActivity extends Activity {
                 dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                 final AlertDialog dialog = (AlertDialog) dialogInterface;
                 dialog.setContentView(layout_write_time);
+                // Ася сюда!!
                 final EditText textTime = dialog.findViewById(R.id.editText2);
                 dialog.findViewById(R.id.button5).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -320,6 +321,7 @@ public class FriendsModeActivity extends Activity {
                                     Toast.LENGTH_LONG).show();
                             return;
                         }
+                        changedTime *= 60;
                         onclickGoButton(dialog);
 
                     }
