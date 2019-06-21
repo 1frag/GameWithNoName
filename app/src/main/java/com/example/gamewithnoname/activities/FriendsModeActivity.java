@@ -63,6 +63,7 @@ import static com.example.gamewithnoname.R.layout.layout_write_time;
 import static com.example.gamewithnoname.utils.Constants.CREATOR;
 import static com.example.gamewithnoname.utils.Constants.JOINER;
 import static com.example.gamewithnoname.utils.Constants.WAIT_GAME;
+import static java.lang.Math.pow;
 
 public class FriendsModeActivity extends Activity {
 
@@ -86,6 +87,8 @@ public class FriendsModeActivity extends Activity {
     private int own;
     private int stage;
     private int type_game;
+
+    private int radius;
 
     private int anotherRadius;
     private TextView textAnotherRadius;
@@ -148,6 +151,7 @@ public class FriendsModeActivity extends Activity {
         configMap();
 
         anotherRadius = 1;
+        radius = 1;
 
         if (getIntent().getExtras() == null) {
             stageHandler(0);
@@ -532,10 +536,18 @@ public class FriendsModeActivity extends Activity {
                         AlertDialog dialog = (AlertDialog) dialogInterface;
 
                         TextView textView = dialog.findViewById(R.id.textView6);
-                        textView.setText(String.format(
-                                getResources().getString(R.string.you_pick_n_coins),
-                                stats.getCoins())
-                        );
+                        if (type_game == 0) {
+                            textView.setText(String.format(
+                                    getResources().getString(R.string.you_pick_n_coins),
+                                    stats.getCoins())
+                            );
+                        }
+                        else {
+                            textView.setText(String.format(
+                                    getResources().getString(R.string.you_get_rating),
+                                    stats.getCoins()*10)
+                            );
+                        }
                         dialog.findViewById(R.id.button4).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -919,7 +931,11 @@ public class FriendsModeActivity extends Activity {
                                       boolean fromUser) {
             anotherRadius = progress + 1;
             textAnotherRadius = findViewById(R.id.textRadiusVal);
-            textAnotherRadius.setText(String.format("%d", anotherRadius));
+            if (anotherRadius <= radius) {
+                textAnotherRadius.setText(String.format(getResources().getString(R.string.new_radius), anotherRadius));
+            } else {
+                textAnotherRadius.setText(String.format(getResources().getString(R.string.new_radius_coins), anotherRadius, getCost()));
+            }
         }
 
         public void onStartTrackingTouch(SeekBar seekBar) {
@@ -931,12 +947,17 @@ public class FriendsModeActivity extends Activity {
     }
 
     public void applyExtensions(View view) {
+        if (radius >= anotherRadius) {
+            Toast.makeText(this, String.format(getResources().getString(R.string.apply_extensions_less)), Toast.LENGTH_LONG).show();
+        }
         ConnectionServer.getInstance().initChangeRadius(User.getName(), anotherRadius, getCost(), null);
         ConnectionServer.getInstance().connectChangeRadius(new ChangeCoinsCallbacks() {
             @Override
             public void successful(int money) {
 
                 findViewById(R.id.include1).setVisibility(View.INVISIBLE);
+                (findViewById(R.id.button_multi_params)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+                radius = anotherRadius;
             }
 
             @Override
@@ -945,11 +966,12 @@ public class FriendsModeActivity extends Activity {
                         getResources().getString(R.string.you_have_not_enough_money),
                         Toast.LENGTH_LONG).show();
                 findViewById(R.id.include1).setVisibility(View.INVISIBLE);
+                (findViewById(R.id.button_multi_params)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
             }
         }, null);
     }
 
     private Integer getCost() {
-        return (int) Math.pow(2, anotherRadius);
+        return (int) (pow(anotherRadius, 2) - pow(radius, 2));
     }
 }

@@ -86,7 +86,7 @@
     <string name="alert_buy_2m_radius">Extend your point`s radius</string>
     <string name="alert_buy_2m_headline">Extensions</string>
     <string name="alert_buy_2m_button">Apply</string>
-    <string name="alert_buy_2m_val">1</string>
+    <string name="alert_buy_2m_val">1 m</string>
     <string name="activity_friends_username">Username</string>
     <string name="activity_friends_rating">Rating</string>
     <string name="activity_friends_km">Km</string>
@@ -132,6 +132,10 @@
     <string name="join_game">Join</string>
     <string name="alert_end_2m">OK</string>
     <string name="activity_main_coins">%d km</string>
+    <string name="you_get_rating">You get +%d rating</string>
+    <string name="apply_extensions_less">It`s less than current</string>
+    <string name="new_radius">%dm</string>
+    <string name="new_radius_coins">%dm: %d coins</string>
 
 
 </resources>

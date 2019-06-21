@@ -86,7 +86,7 @@
     <string name="alert_buy_2m_radius">Увеличить радиус вашей точки</string>
     <string name="alert_buy_2m_headline">Дополнения</string>
     <string name="alert_buy_2m_button">Применить</string>
-    <string name="alert_buy_2m_val">1</string>
+    <string name="alert_buy_2m_val">1 м</string>
     <string name="activity_friends_username">Логин</string>
     <string name="activity_friends_rating">Рейтинг</string>
     <string name="activity_friends_km">Км</string>
@@ -132,5 +132,9 @@
     <string name="join_game">Присоединиться</string>
     <string name="alert_end_2m">ОК</string>
     <string name="activity_main_coins">%d км</string>
+    <string name="you_get_rating">Вы получили +%d к рейтингу</string>
+    <string name="apply_extensions_less">Это меньше вашего текущего радиуса</string>
+    <string name="new_radius">%dм</string>
+    <string name="new_radius_coins">%dм: %d монет</string>
 
 </resources>
