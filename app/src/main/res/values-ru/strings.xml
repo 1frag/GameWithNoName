@@ -137,5 +137,6 @@
     <string name="new_radius">%dм</string>
     <string name="new_radius_coins">%dм: %d монет</string>
     <string name="info_data">Скоро</string>
-
+    <string name="layout_gamers_headline">Игроки</string>
+    <string name="layout_gamers_close">Закрыть</string>
 </resources>

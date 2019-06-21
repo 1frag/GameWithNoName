@@ -137,6 +137,6 @@
     <string name="new_radius">%dm</string>
     <string name="new_radius_coins">%dm: %d coins</string>
     <string name="info_data">Soon</string>
-
-
+    <string name="layout_gamers_headline">Players</string>
+    <string name="layout_gamers_close">Close</string>
 </resources>

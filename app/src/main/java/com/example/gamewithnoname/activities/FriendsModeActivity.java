@@ -850,6 +850,11 @@ public class FriendsModeActivity extends Activity {
         }
     }
 
+    public void closeLegend(View view) {
+        ConstraintLayout legends = findViewById(R.id.include2);
+        legends.setVisibility(View.INVISIBLE);
+        (findViewById(R.id.button_multi_legend)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+    }
     private void addAllPlayers(LinearLayout linearLayout) {
         if (dataLegend != null) {
             for (Gamer gamer : dataLegend) {
