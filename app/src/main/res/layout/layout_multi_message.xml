@@ -27,6 +27,7 @@
         android:layout_weight="1"
         android:text="@string/activity_friends_mode_name"
         android:textSize="16sp"
+        android:fontFamily="@font/ubuntu"
         android:textColor="@android:color/white"
         app:layout_constraintStart_toEndOf="@+id/imageWriter"
         app:layout_constraintTop_toTopOf="parent" />

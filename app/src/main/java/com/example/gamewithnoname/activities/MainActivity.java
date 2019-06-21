@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void statsData(Integer mileage) {
-                ((TextView) findViewById(R.id.textAllKm)).setText(mileage.toString());
+                ((TextView) findViewById(R.id.textAllKm)).setText(String.format(getResources().getString(R.string.activity_main_coins), mileage));
             }
 
             @Override

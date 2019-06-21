@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="10dp"
-        android:fontFamily="@font/lekton"
+        android:fontFamily="@font/ubuntu"
         android:gravity="center"
         android:text="@string/alert_2m_game_over"
         android:textSize="30sp"
@@ -26,7 +26,7 @@
         android:layout_below="@+id/textView5"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:fontFamily="@font/lekton"
+        android:fontFamily="@font/ubuntu"
         android:textSize="24sp"
         android:layout_marginTop="25dp"
         android:gravity="center"
@@ -40,5 +40,14 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="173dp"
         android:layout_marginTop="19dp"
-        android:text="Button" />
+        android:background="@drawable/all_accented_buttons"
+        android:textColor="@android:color/white"
+        android:text="@string/alert_end_2m" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_below="@+id/button4"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"/>
 </RelativeLayout>

@@ -43,6 +43,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:hint="@string/activity_multiplayer_hint_write_message"
+            android:fontFamily="@font/ubuntu"
             android:inputType="textPersonName"
             android:textColor="@android:color/white" />
 

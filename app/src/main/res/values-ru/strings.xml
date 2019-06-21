@@ -8,7 +8,6 @@
     <string name="main_activity_text_rating">0</string>
     <string name="main_activity_text_coins">0</string>
     <string name="main_activity_error">Ошибка</string>
-    <string name="activity_main_coins">0</string>
     <string name="activity_main_rating">0</string>
     <string name="activity_main_all_km">км</string>
     <string name="activity_main_all_time_description">за всё время</string>
@@ -56,11 +55,9 @@
 
 
     <string name="activity_parameters_headline">Параметры</string>
-    <string name="activity_parameters_speed">Скорость:  </string>
     <string name="activity_parameters_button">Старт</string>
     <string name="activity_parameters_time">Загрузка…</string>
     <string name="activity_parameters_speed_calc">*</string>
-    <string name="activity_parameters_angle">Угол:  </string>
     <string name="activity_parameters_angle_val">*</string>
     <string name="activity_parameters_instruction">Выберите конечную точку</string>
 
@@ -113,7 +110,8 @@
     <string name="problem_internet">Проблемы с соединением</string>
     <string name="you_have_unfinished_game">У вас есть незаконченная игра</string>
     <string name="time_in_first_mode">Около %.1f мин</string>
-    <string name="speed_in_first_mode">%.1f км/ч</string>
+    <string name="speed_in_first_mode">Скорость: %.1f км/ч</string>
+    <string name="angle_in_first_mode">Угол: %d°</string>
     <string name="way_not_found">Путь не найден</string>
     <string name="chouse_other_point">Выберите другую точку</string>
     <string name="sign_up_success">Успешно</string>
@@ -132,6 +130,7 @@
     <string name="alert_time_btn">ОК</string>
     <string name="create_game">Создать</string>
     <string name="join_game">Присоединиться</string>
-
+    <string name="alert_end_2m">ОК</string>
+    <string name="activity_main_coins">%d км</string>
 
 </resources>
