@@ -14,6 +14,7 @@
         android:layout_marginTop="12dp"
         android:gravity="center"
         android:text="@string/alert_2m_create"
+        android:fontFamily="@font/ubuntu"
         android:textColor="@android:color/holo_red_dark"
         android:textSize="21sp" />
 
@@ -32,14 +33,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/ubuntu"
             android:text="@string/alert_2m_in_team" />
 
         <RadioButton
             android:id="@+id/radio_button_individual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/radio_group_modes"
             android:layout_weight="1"
+            android:fontFamily="@font/ubuntu"
             android:text="@string/alert_2m_individually" />
     </RadioGroup>
 
@@ -49,9 +51,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/btn_create"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="18dp"
         android:layout_marginTop="18dp"
         android:text="@string/alert_2m_join"
+        android:fontFamily="@font/ubuntu"
         android:textColor="@android:color/holo_red_dark"
         android:textSize="21sp" />
 
@@ -69,11 +72,11 @@
 
     <Button
         android:id="@+id/btn_create"
-        android:layout_width="wrap_content"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/radio_group_modes"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="26dp"
         android:layout_marginTop="9dp"
         android:background="@drawable/green_buttons"
         android:gravity="center"

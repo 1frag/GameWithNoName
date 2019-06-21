@@ -5,7 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ic_untitled_5"
+    android:background="@drawable/ic_untitled_6"
     tools:context=".activities.MainActivity">
 
     <ImageButton
@@ -51,6 +51,7 @@
             android:layout_width="85dp"
             android:layout_height="85dp"
             android:layout_gravity="right"
+            android:layout_marginEnd="6dp"
             android:background="@drawable/modes_buttons"
             android:elevation="5dp"
             android:onClick="processButtonPressing"
@@ -65,18 +66,18 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:fontFamily="@font/lekton"
+            android:layout_marginTop="7dp"
+            android:fontFamily="@font/ubuntu"
             android:gravity="right"
             android:text="@string/activity_main_btn_catch_bot"
-            android:textSize="22dp"
-            android:textStyle="bold" />
+            android:textSize="22sp" />
 
         <ImageButton
             android:id="@+id/buttonWithFriends"
             android:layout_width="85dp"
             android:layout_height="85dp"
             android:layout_marginTop="25dp"
+            android:layout_marginStart="6dp"
             android:background="@drawable/modes_buttons"
             android:elevation="5dp"
             android:onClick="processButtonPressing"
@@ -89,11 +90,10 @@
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:fontFamily="@font/lekton"
+            android:layout_marginTop="7dp"
+            android:fontFamily="@font/ubuntu"
             android:text="@string/activity_main_btn_game_friends"
-            android:textSize="22dp"
-            android:textStyle="bold" />
+            android:textSize="22sp" />
 
     </LinearLayout>
 

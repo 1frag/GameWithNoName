@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
-            android:fontFamily="@font/lekton"
+            android:fontFamily="@font/ubuntu"
             android:text="@string/activity_maps_bot_finishes"
             android:textColor="@android:color/black"
             android:textSize="18sp" />

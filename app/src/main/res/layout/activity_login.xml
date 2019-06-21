@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
+            android:fontFamily="@font/ubuntu"
             android:textSize="35sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -116,6 +117,7 @@
         android:layout_marginStart="24dp"
         android:textSize="18sp"
         android:text="@string/activity_login_ad"
+        android:fontFamily="@font/ubuntu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signUp" />

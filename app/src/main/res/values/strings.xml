@@ -8,7 +8,6 @@
     <string name="main_activity_text_rating">0</string>
     <string name="main_activity_text_coins">0</string>
     <string name="main_activity_error">Smth error!</string>
-    <string name="activity_main_coins">0</string>
     <string name="activity_main_rating">0</string>
     <string name="activity_main_all_km">km</string>
     <string name="activity_main_all_time_description">for all time</string>
@@ -56,11 +55,9 @@
 
 
     <string name="activity_parameters_headline">Parameters</string>
-    <string name="activity_parameters_speed">Speed:  </string>
     <string name="activity_parameters_button">Start</string>
     <string name="activity_parameters_time">Place for approximate time</string>
     <string name="activity_parameters_speed_calc">Speed val</string>
-    <string name="activity_parameters_angle">Angle: </string>
     <string name="activity_parameters_angle_val">Angle value</string>
     <string name="activity_parameters_instruction">Select finish point</string>
 
@@ -113,7 +110,8 @@
     <string name="problem_internet">You have problem with internet connection</string>
     <string name="you_have_unfinished_game">You have unfinished game</string>
     <string name="time_in_first_mode">About %.1f min</string>
-    <string name="speed_in_first_mode">%.1f km/h</string>
+    <string name="speed_in_first_mode">Speed: %.1f km/h</string>
+    <string name="angle_in_first_mode">Angle: %d°</string>
     <string name="way_not_found">Way is not found</string>
     <string name="chouse_other_point">Choose another finish point</string>
     <string name="sign_up_success">Successfully</string>
@@ -132,6 +130,8 @@
     <string name="alert_time_btn">OK</string>
     <string name="create_game">Create</string>
     <string name="join_game">Join</string>
+    <string name="alert_end_2m">OK</string>
+    <string name="activity_main_coins">%d km</string>
 
 
 </resources>

@@ -31,7 +31,7 @@ import com.yandex.mapkit.geometry.Point;
 
 import java.util.ArrayList;
 
-import static com.example.gamewithnoname.maps.MapInGame.DELAY_IN_STOPPED;
+//import static com.example.gamewithnoname.maps.MapInGame.DELAY_IN_STOPPED;
 import static com.example.gamewithnoname.utils.Constants.PLAY_GAME;
 import static com.example.gamewithnoname.utils.Constants.WAIT_GAME;
 
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void statsData(Integer mileage) {
-                ((TextView) findViewById(R.id.textAllKm)).setText(mileage.toString());
+                ((TextView) findViewById(R.id.textAllKm)).setText(String.format(getResources().getString(R.string.activity_main_coins), mileage));
             }
 
             @Override
@@ -187,7 +187,8 @@ public class MainActivity extends AppCompatActivity {
                         intentStart.putExtra("finishLongitude", elo);
                         intentStart.putExtra("speed", speed);
                         intentStart.putExtra("alpha", alpha);
-                        intentStart.putExtra("time", time - stops * DELAY_IN_STOPPED);
+//                        intentStart.putExtra("time", time - stops * DELAY_IN_STOPPED);
+                        intentStart.putExtra("time", time);
 
                         startActivity(intentStart);
 

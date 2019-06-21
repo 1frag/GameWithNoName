@@ -23,6 +23,7 @@
             android:layout_marginTop="3dp"
             android:layout_weight="1"
             android:text="@string/activity_main_text_hello"
+            android:fontFamily="@font/ubuntu"
             android:textSize="35sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/buttonAutho" />
@@ -111,7 +112,7 @@
             android:id="@+id/imageWalker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_walker" />
+            app:srcCompat="@drawable/ic_pedestrian_walking" />
 
         <TextView
             android:id="@+id/textAllKm"
