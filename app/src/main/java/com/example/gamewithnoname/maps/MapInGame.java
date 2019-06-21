@@ -241,7 +241,9 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
 
     @Override
     public void onMasstransitRoutes(@NonNull List<Route> routes) {
-        allTime = getIntent().getExtras().getInt("allTime");
+        int meTime = getIntent().getExtras().getInt("time");
+        int allstops = getIntent().getExtras().getInt("stops");
+        allTime = meTime - allstops * getDelayInStopped();
         if (routes.size() == 0) {
             Toast.makeText(MapInGame.this,
                     getResources().getString(R.string.just_try_again),

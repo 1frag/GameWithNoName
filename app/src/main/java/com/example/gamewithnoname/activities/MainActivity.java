@@ -31,7 +31,6 @@ import com.yandex.mapkit.geometry.Point;
 
 import java.util.ArrayList;
 
-//import static com.example.gamewithnoname.maps.MapInGame.DELAY_IN_STOPPED;
 import static com.example.gamewithnoname.utils.Constants.PLAY_GAME;
 import static com.example.gamewithnoname.utils.Constants.WAIT_GAME;
 
@@ -187,8 +186,8 @@ public class MainActivity extends AppCompatActivity {
                         intentStart.putExtra("finishLongitude", elo);
                         intentStart.putExtra("speed", speed);
                         intentStart.putExtra("alpha", alpha);
-//                        intentStart.putExtra("time", time - stops * DELAY_IN_STOPPED);
                         intentStart.putExtra("time", time);
+                        intentStart.putExtra("stops", stops);
 
                         startActivity(intentStart);
 

@@ -81,7 +81,8 @@ public class MapMainMenu extends Fragment {
                         .addCircle(new Circle(finish, 50),
                                 Color.BLACK,
                                 10,
-                                Color.RED);
+                                Color.RED)
+                        .setZIndex(-1);
 
                 Point now = new Point(
                         UserLocation.imHere.getLatitude(),
