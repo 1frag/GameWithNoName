@@ -77,8 +77,6 @@
     <string name="alert_2m_create">Create your game:</string>
     <string name="alert_2m_code">four digit code</string>
     <string name="alert_2m_join">Or join:</string>
-    <string name="activity_login_ad">You don`t know, why we insist on registration?</string>
-    <string name="activity_login_btn_ad">Read about game</string>
     <string name="alert_2m_finish_game_text">Are you sure you want to finish the game? You will not be able to return.</string>
     <string name="alert_2m_finish_game">Finish this game</string>
     <string name="alert_2m_game_over">Game over</string>
@@ -139,4 +137,6 @@
     <string name="info_data">Soon</string>
     <string name="layout_gamers_headline">Players</string>
     <string name="layout_gamers_close">Close</string>
+    <string name="activity_info_about">About</string>
+    <string name="activity_info_hints">Show hints</string>
 </resources>

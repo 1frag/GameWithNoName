@@ -170,9 +170,4 @@ public class LoginActivity extends AppCompatActivity {
     public void onBackPressed() {
         moveTaskToBack(true);
     }
-
-    public void showInfo(View view) {
-        Intent intentInfo = new Intent(this, InfoActivity.class);
-        startActivity(intentInfo);
-    }
 }

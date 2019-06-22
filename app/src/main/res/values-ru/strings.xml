@@ -77,8 +77,6 @@
     <string name="alert_2m_create">Создайте свою игру:</string>
     <string name="alert_2m_code">четырехзначный код</string>
     <string name="alert_2m_join">Или присоединитесь:</string>
-    <string name="activity_login_ad">Хотите узнать, зачем вам регистрироваться?</string>
-    <string name="activity_login_btn_ad">Прочитайте про игру</string>
     <string name="alert_2m_finish_game_text">Если вы выйдете, то не сможете вернуться к игре, вы уверены, что хотите продолжить? </string>
     <string name="alert_2m_finish_game">Закончить игру</string>
     <string name="alert_2m_game_over">Игра закончена</string>
@@ -139,4 +137,6 @@
     <string name="info_data">Скоро</string>
     <string name="layout_gamers_headline">Игроки</string>
     <string name="layout_gamers_close">Закрыть</string>
+    <string name="activity_info_about">Об игре</string>
+    <string name="activity_info_hints">Показывать подсказки</string>
 </resources>
