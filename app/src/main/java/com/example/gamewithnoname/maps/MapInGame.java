@@ -81,6 +81,7 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
     private void initTimerCounterKM() {
         cnterSteps = new Timer();
         final ArrayList<View> viewsToDisable = null;
+        Log.i(TAG, "initTimer");
         final TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
