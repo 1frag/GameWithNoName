@@ -621,6 +621,12 @@ public class FriendsModeActivity extends Activity {
 
             @Override
             public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        UserLocation.SetUpLocationListener(FriendsModeActivity.this);
+                    }
+                });
                 ConnectionServer.getInstance().initUpdateMap(
                         User.getName(),
                         UserLocation.imHere.getLatitude(),
