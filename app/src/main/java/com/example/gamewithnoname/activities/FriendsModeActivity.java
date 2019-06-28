@@ -43,6 +43,8 @@ import com.example.gamewithnoname.models.responses.PointsResponse;
 import com.example.gamewithnoname.models.responses.StatisticsResponse;
 import com.example.gamewithnoname.callbacks.UpdateStateCallbacks;
 import com.example.gamewithnoname.models.User;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.geometry.Circle;
 import com.yandex.mapkit.geometry.Point;
@@ -64,6 +66,7 @@ import static com.example.gamewithnoname.utils.Constants.CREATOR;
 import static com.example.gamewithnoname.utils.Constants.JOINER;
 import static com.example.gamewithnoname.utils.Constants.WAIT_GAME;
 import static java.lang.Math.pow;
+import static com.example.gamewithnoname.utils.UserLocation.fusedLocationClient;
 
 public class FriendsModeActivity extends Activity {
 
@@ -144,11 +147,13 @@ public class FriendsModeActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends_mode);
-
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         datas = new CurCntData();
         mapView = findViewById(R.id.mapViewFrMode);
+
+        UserLocation.SetUpLocationListener(this);
         mMap = mapView.getMap();
-        configMap();
+        configMap(mMap);
 
         anotherRadius = 1;
         radius = 1;
@@ -407,14 +412,14 @@ public class FriendsModeActivity extends Activity {
     }
 
 
-    private void configMap() {
+    private void configMap(Map map) {
         Log.i(TAG, "configMap");
         Location now = UserLocation.imHere;
-        mMap.move(
+        map.move(
                 new CameraPosition(new Point(now.getLatitude(), now.getLongitude()), 18.0f, 0.0f, 0.0f),
                 new Animation(Animation.Type.SMOOTH, 0),
                 null);
-        mMap.addInputListener(new InputListener() {
+        map.addInputListener(new InputListener() {
             @Override
             public void onMapTap(@NonNull Map map, @NonNull Point point) {
                 changeBottomChoise(0);

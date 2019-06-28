@@ -10,16 +10,21 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.tasks.OnSuccessListener;
+
 public class UserLocation implements LocationListener {
 
     public static Location imHere; // здесь будет всегда доступна самая последняя информация о местоположении пользователя.
     public static boolean enable = false;
     private static final String TAG = String.format("%s/%s",
             "HITS", "UserLocation");
+    private static LocationManager locationManager;
+    public static FusedLocationProviderClient fusedLocationClient;
 
     public static void SetUpLocationListener(Context context) // это нужно запустить в самом начале работы программы
     {
-        LocationManager locationManager = (LocationManager)
+        locationManager = (LocationManager)
                 context.getSystemService(Context.LOCATION_SERVICE);
 
         LocationListener locationListener = new UserLocation();
@@ -29,17 +34,35 @@ public class UserLocation implements LocationListener {
         }
         enable = true;
         locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER,
-                5000,
+                LocationManager.NETWORK_PROVIDER,
+                1000,
                 2,
                 locationListener);
 
-        imHere = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        imHere = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        if(imHere == null) {
+            locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        }
     }
 
     @Override
-    public void onLocationChanged(Location loc) {
-        imHere = loc;
+    public void onLocationChanged(final Location loc) {
+        if (imHere == null) {
+            imHere = loc;
+        }
+        if(fusedLocationClient != null){
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                imHere = location;
+                            }
+                        }
+                    });
+        }
+
     }
 
     @Override
