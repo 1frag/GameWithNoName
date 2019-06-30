@@ -654,7 +654,7 @@ public class FriendsModeActivity extends Activity {
             }
         };
 
-        mTimer.schedule(timerTask, 0, 250);
+        mTimer.schedule(timerTask, 0, 1000);
     }
 
     private Dialog createGameOverDialog() {
