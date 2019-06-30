@@ -3,7 +3,7 @@
     <string name="title_activity_maps">Map</string>
 
     <string name="activity_main_btn_catch_bot">Перехват бота</string>
-    <string name="activity_main_btn_game_friends">Поиск точек</string>
+    <string name="activity_main_btn_game_friends">Поиск монет</string>
     <string name="activity_main_text_hello">Имя</string>
     <string name="main_activity_text_rating">0</string>
     <string name="main_activity_text_coins">0</string>
@@ -81,7 +81,7 @@
     <string name="alert_2m_finish_game">Закончить игру</string>
     <string name="alert_2m_game_over">Игра закончена</string>
     <string name="alert_2m_coins"><![CDATA[You pick <number> coins]]></string>
-    <string name="alert_buy_2m_radius">Увеличить радиус вашей точки</string>
+    <string name="alert_buy_2m_radius">Увеличить радиус своей точки</string>
     <string name="alert_buy_2m_headline">Дополнения</string>
     <string name="alert_buy_2m_button">Применить</string>
     <string name="alert_buy_2m_val">1 м</string>

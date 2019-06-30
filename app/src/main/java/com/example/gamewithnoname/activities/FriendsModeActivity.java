@@ -3,15 +3,20 @@ package com.example.gamewithnoname.activities;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -46,6 +51,7 @@ import com.example.gamewithnoname.models.User;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.yandex.mapkit.Animation;
+import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Circle;
 import com.yandex.mapkit.geometry.Point;
 import com.yandex.mapkit.map.CameraPosition;
@@ -54,6 +60,7 @@ import com.yandex.mapkit.map.InputListener;
 import com.yandex.mapkit.map.Map;
 import com.yandex.mapkit.map.MapObject;
 import com.yandex.mapkit.mapview.MapView;
+import com.yandex.mapkit.transport.TransportFactory;
 import com.yandex.runtime.image.ImageProvider;
 
 import java.util.ArrayList;
@@ -92,6 +99,8 @@ public class FriendsModeActivity extends Activity {
     private int type_game;
 
     private int radius;
+
+    public LocationManager locmanager;
 
     private int anotherRadius;
     private TextView textAnotherRadius;
@@ -147,6 +156,7 @@ public class FriendsModeActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends_mode);
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         datas = new CurCntData();
         mapView = findViewById(R.id.mapViewFrMode);
@@ -154,7 +164,7 @@ public class FriendsModeActivity extends Activity {
         UserLocation.SetUpLocationListener(this);
         mMap = mapView.getMap();
         configMap(mMap);
-
+//        mMap.getUserLocationLayer().setEnabled(true);
         anotherRadius = 1;
         radius = 1;
 
@@ -431,7 +441,7 @@ public class FriendsModeActivity extends Activity {
             }
         });
 
-//        mMap.getUserLocationLayer().setEnabled(true);
+        mMap.getUserLocationLayer().setEnabled(true);
 
     }
 
@@ -644,7 +654,7 @@ public class FriendsModeActivity extends Activity {
             }
         };
 
-        mTimer.schedule(timerTask, 1000, 1000);
+        mTimer.schedule(timerTask, 0, 250);
     }
 
     private Dialog createGameOverDialog() {
@@ -674,6 +684,18 @@ public class FriendsModeActivity extends Activity {
                             Toast.LENGTH_LONG).show();
                 }
             });
+        }
+    }
+
+    private void turnGPSOn(){
+        String provider = Settings.Secure.getString(getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+
+        if(!provider.contains("gps")){ //if gps is disabled
+            final Intent poke = new Intent();
+            poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider");
+            poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
+            poke.setData(Uri.parse("3"));
+            sendBroadcast(poke);
         }
     }
 

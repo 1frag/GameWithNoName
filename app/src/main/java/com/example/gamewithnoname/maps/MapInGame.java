@@ -165,21 +165,21 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
             TextView textScore = findViewById(R.id.textWinScore);
             textScore.setText(String.format(getResources().getString(R.string.your_score_is), alphas));
 
-            ConnectionServer.getInstance().initGetMySpeedGWB(User.getName(), viewsToDisable);
-            ConnectionServer.getInstance().connectSimple(new SimpleCallbacks() {
-                @Override
-                public void onSuccess(@NonNull Integer value) {
-                    TextView textSpeed = findViewById(R.id.textWinSpeed);
-                    textSpeed.setText(String.format(getResources().getString(R.string.your_speed_is), value * 3.6));
-                    ConnectionServer.getInstance().initKillGWB(User.getName(), viewsToDisable);
-                    ConnectionServer.getInstance().connectSimple(null, viewsToDisable);
-                }
-
-                @Override
-                public void onError(@NonNull Throwable throwable) {
-                    //бля, не хочу, убейте
-                }
-            }, viewsToDisable);
+//            ConnectionServer.getInstance().initGetMySpeedGWB(User.getName(), viewsToDisable);
+//            ConnectionServer.getInstance().connectSimple(new SimpleCallbacks() {
+//                @Override
+//                public void onSuccess(@NonNull Integer value) {
+//                    TextView textSpeed = findViewById(R.id.textWinSpeed);
+//                    textSpeed.setText(String.format(getResources().getString(R.string.your_speed_is), value * 3.6));
+//                    ConnectionServer.getInstance().initKillGWB(User.getName(), viewsToDisable);
+//                    ConnectionServer.getInstance().connectSimple(null, viewsToDisable);
+//                }
+//
+//                @Override
+//                public void onError(@NonNull Throwable throwable) {
+//                    //бля, не хочу, убейте
+//                }
+//            }, viewsToDisable);
         }
     }
 

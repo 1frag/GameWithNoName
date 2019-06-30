@@ -204,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
                     findViewById(R.id.include_me).setVisibility(View.INVISIBLE);
                     findViewById(R.id.buttonCatchBot).setVisibility(View.VISIBLE);
                     findViewById(R.id.textView2).setVisibility(View.VISIBLE);
+                    (findViewById(R.id.btn_me)).setBackground(ContextCompat.getDrawable(this, R.drawable.sea_button_unselected));
                 }
                 Intent intentStat = new Intent(MainActivity.this, StatisticsActivity.class);
                 startActivity(intentStat);
@@ -214,6 +215,7 @@ public class MainActivity extends AppCompatActivity {
                     findViewById(R.id.include_me).setVisibility(View.INVISIBLE);
                     findViewById(R.id.buttonCatchBot).setVisibility(View.VISIBLE);
                     findViewById(R.id.textView2).setVisibility(View.VISIBLE);
+                    (findViewById(R.id.btn_me)).setBackground(ContextCompat.getDrawable(this, R.drawable.sea_button_unselected));
                 }
                 Intent intentFriends = new Intent(MainActivity.this, FriendsActivity.class);
                 startActivity(intentFriends);
@@ -224,6 +226,7 @@ public class MainActivity extends AppCompatActivity {
                     findViewById(R.id.include_me).setVisibility(View.INVISIBLE);
                     findViewById(R.id.buttonCatchBot).setVisibility(View.VISIBLE);
                     findViewById(R.id.textView2).setVisibility(View.VISIBLE);
+                    (findViewById(R.id.btn_me)).setBackground(ContextCompat.getDrawable(this, R.drawable.sea_button_unselected));
                 }
                 Intent intentInfo = new Intent(MainActivity.this, InfoActivity.class);
                 startActivity(intentInfo);
@@ -264,6 +267,7 @@ public class MainActivity extends AppCompatActivity {
                     findViewById(R.id.include_me).setVisibility(View.INVISIBLE);
                     findViewById(R.id.buttonCatchBot).setVisibility(View.VISIBLE);
                     findViewById(R.id.textView2).setVisibility(View.VISIBLE);
+                    (findViewById(R.id.btn_me)).setBackground(ContextCompat.getDrawable(this, R.drawable.sea_button_unselected));
                 }
                 final ArrayList<View> viewsToDisable = null;
                 ConnectionServer.getInstance().initCheckGame(User.getName(), viewsToDisable);
