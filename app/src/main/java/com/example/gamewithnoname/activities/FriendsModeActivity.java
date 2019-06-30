@@ -3,20 +3,16 @@ package com.example.gamewithnoname.activities;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.BottomSheetDialog;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -27,7 +23,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,8 +34,6 @@ import com.example.gamewithnoname.callbacks.ChangeCoinsCallbacks;
 import com.example.gamewithnoname.callbacks.KickPlayerCallbacks;
 import com.example.gamewithnoname.callbacks.KillRGCallbacks;
 import com.example.gamewithnoname.callbacks.SendMessageCallbacks;
-import com.example.gamewithnoname.dialogs.DialogMessages;
-import com.example.gamewithnoname.dialogs.DialogSecondMode;
 import com.example.gamewithnoname.models.responses.MessageResponse;
 import com.example.gamewithnoname.utils.UserLocation;
 import com.example.gamewithnoname.models.responses.GamersResponse;
@@ -48,10 +41,8 @@ import com.example.gamewithnoname.models.responses.PointsResponse;
 import com.example.gamewithnoname.models.responses.StatisticsResponse;
 import com.example.gamewithnoname.callbacks.UpdateStateCallbacks;
 import com.example.gamewithnoname.models.User;
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.yandex.mapkit.Animation;
-import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Circle;
 import com.yandex.mapkit.geometry.Point;
 import com.yandex.mapkit.map.CameraPosition;
@@ -60,11 +51,11 @@ import com.yandex.mapkit.map.InputListener;
 import com.yandex.mapkit.map.Map;
 import com.yandex.mapkit.map.MapObject;
 import com.yandex.mapkit.mapview.MapView;
-import com.yandex.mapkit.transport.TransportFactory;
 import com.yandex.runtime.image.ImageProvider;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -79,18 +70,12 @@ public class FriendsModeActivity extends Activity {
 
     private Timer mTimer;
 
-    private MapView mapView;
     private CurCntData datas;
     private Map mMap;
     private int bottomChoise = 0;
     private ArrayList<Gamer> dataLegend = new ArrayList<>();
-    private Integer counterCoins = 0;
     private ArrayList<MapObject> coinspositions = new ArrayList<>();
     private ArrayList<MapObject> lastPlayersPositions = new ArrayList<>();
-    private LinearLayout stageHandler;
-    private int choise = 0;
-    private int GETTING_RADIUS = 18;
-    private Integer resultServerCallbacks = -1;
     private final String TAG = String.format("%s/%s",
             "HITS", "FriendsModeActivity"
     );
@@ -100,10 +85,7 @@ public class FriendsModeActivity extends Activity {
 
     private int radius;
 
-    public LocationManager locmanager;
-
     private int anotherRadius;
-    private TextView textAnotherRadius;
 
     private Integer changedTime = 0;
 
@@ -159,7 +141,7 @@ public class FriendsModeActivity extends Activity {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         datas = new CurCntData();
-        mapView = findViewById(R.id.mapViewFrMode);
+        MapView mapView = findViewById(R.id.mapViewFrMode);
 
         UserLocation.SetUpLocationListener(this);
         mMap = mapView.getMap();
@@ -191,7 +173,7 @@ public class FriendsModeActivity extends Activity {
         mTimer.purge();
     }
 
-    private void buildOwn(int type) {
+    private void buildOwn() {
         if (own == CREATOR && stage == 1 && bottomChoise != 1) {
             (findViewById(R.id.floatingAdmButton)).setVisibility(View.VISIBLE);
         } else {
@@ -246,13 +228,13 @@ public class FriendsModeActivity extends Activity {
 
     private void drawCoins(List<PointsResponse> points) {
         int translucentYellow = 0x55F0C31F;
-        counterCoins = 0;
         for (MapObject obj : coinspositions) {
             mMap.getMapObjects().remove(obj);
         }
         coinspositions.clear();
 
         for (PointsResponse point : points) {
+            int GETTING_RADIUS = 18;
             coinspositions.add(
                     mMap.getMapObjects().addCircle(
                             new Circle(
@@ -273,7 +255,6 @@ public class FriendsModeActivity extends Activity {
             ImageProvider imageProvider = new ImageProvider() {
                 @Override
                 public String getId() {
-                    ;
                     return "coin";
                 }
 
@@ -344,11 +325,15 @@ public class FriendsModeActivity extends Activity {
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
-                dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                Objects.requireNonNull(dialog.getWindow()).clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                 final AlertDialog dialog = (AlertDialog) dialogInterface;
                 dialog.setContentView(layout_write_time);
                 final EditText textTime = dialog.findViewById(R.id.editText2);
-                dialog.findViewById(R.id.button5).setOnClickListener(new View.OnClickListener() {
+                if (textTime == null) {
+                    Log.i(TAG, "EditText textTime is null");
+                    return;
+                }
+                Objects.requireNonNull(dialog.findViewById(R.id.button5)).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         try {
@@ -411,14 +396,12 @@ public class FriendsModeActivity extends Activity {
                 Log.i(TAG, t.getMessage());
             }
         };
-
-        final ArrayList<View> viewsToDisable = null;
         ConnectionServer.getInstance().initBeginGame(
                 User.getName(),
                 changedTime,
-                viewsToDisable
+                null
         );
-        ConnectionServer.getInstance().connectBeginGame(callback, viewsToDisable);
+        ConnectionServer.getInstance().connectBeginGame(callback, null);
     }
 
 
@@ -555,6 +538,12 @@ public class FriendsModeActivity extends Activity {
                         AlertDialog dialog = (AlertDialog) dialogInterface;
 
                         TextView textView = dialog.findViewById(R.id.textView6);
+                        Button button = dialog.findViewById(R.id.button4);
+
+                        if (textView == null || button == null) {
+                            Log.i(TAG, "design is not loading");
+                            return;
+                        }
                         if (type_game == 0) {
                             textView.setText(String.format(
                                     getResources().getString(R.string.you_pick_n_coins),
@@ -567,7 +556,7 @@ public class FriendsModeActivity extends Activity {
                                     stats.getCoins()*10)
                             );
                         }
-                        dialog.findViewById(R.id.button4).setOnClickListener(new View.OnClickListener() {
+                        button.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 stageHandler(0);
@@ -593,7 +582,7 @@ public class FriendsModeActivity extends Activity {
                     own = CREATOR;
                 else
                     own = JOINER;
-                buildOwn(own);
+                buildOwn();
             }
 
             @Override
@@ -857,7 +846,7 @@ public class FriendsModeActivity extends Activity {
 
     private void openBuyDialog(boolean off) {
         SeekBar seekBar = findViewById(R.id.seekBarRadius);
-        seekBar.setOnSeekBarChangeListener(new radiusListener());
+        seekBar.setOnSeekBarChangeListener(new RadiusListener());
 
         ConstraintLayout extensions = findViewById(R.id.include1);
         if (extensions.getVisibility() == View.VISIBLE || off) {
@@ -967,12 +956,12 @@ public class FriendsModeActivity extends Activity {
         }
     }
 
-    private class radiusListener implements SeekBar.OnSeekBarChangeListener {
+    private class RadiusListener implements SeekBar.OnSeekBarChangeListener {
         @SuppressLint("DefaultLocale")
         public void onProgressChanged(SeekBar seekBar, int progress,
                                       boolean fromUser) {
             anotherRadius = progress + 1;
-            textAnotherRadius = findViewById(R.id.textRadiusVal);
+            TextView textAnotherRadius = findViewById(R.id.textRadiusVal);
             if (anotherRadius <= radius) {
                 textAnotherRadius.setText(String.format(getResources().getString(R.string.new_radius), anotherRadius));
             } else {

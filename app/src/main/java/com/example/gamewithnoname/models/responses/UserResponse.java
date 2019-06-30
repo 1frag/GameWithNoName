@@ -43,6 +43,10 @@ public class UserResponse {
     @Expose
     private Integer mileage;
 
+    @SerializedName("hints")
+    @Expose
+    private Boolean hints;
+
     public String getName() {
         return name;
     }
@@ -113,5 +117,13 @@ public class UserResponse {
 
     public void setResult(Integer result) {
         this.result = result;
+    }
+
+    public Boolean getHints() {
+        return hints;
+    }
+
+    public void setHints(Boolean hints) {
+        this.hints = hints;
     }
 }

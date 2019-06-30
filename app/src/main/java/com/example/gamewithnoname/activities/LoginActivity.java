@@ -111,12 +111,12 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void otherSettingsAccount(@Nullable Integer sex,
-                                             @Nullable String birthday,
-                                             @Nullable String dateSignUp) {
+            public void otherSettingsAccount(Integer sex, String birthday,
+                                             String dateSignUp, Boolean hints) {
                 User.setMoney(sex);
                 User.setBirthday(birthday);
                 User.setDateSignUp(dateSignUp);
+                User.setHints(hints);
             }
 
             @Override

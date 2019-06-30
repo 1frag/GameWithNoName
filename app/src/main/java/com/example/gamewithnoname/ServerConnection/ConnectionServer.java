@@ -206,6 +206,10 @@ public class ConnectionServer {
         call = serverAPIs.getTopUsers(search, reg);
     }
 
+    public void initChangeHints(String name, Boolean value) {
+        call = serverAPIs.changeHints(name, value);
+    }
+
     private void reportStatusCode(int code, String fun) {
         if (code != 200) {
             Log.i(TAG, String.format("code != 200 :: %s", fun));
@@ -471,7 +475,8 @@ public class ConnectionServer {
                     callback.otherSettingsAccount(
                             user.getSex(),
                             user.getBirthday(),
-                            user.getDateSignUp()
+                            user.getDateSignUp(),
+                            user.getHints()
                     );
                     callback.capital(
                             user.getMoney(),

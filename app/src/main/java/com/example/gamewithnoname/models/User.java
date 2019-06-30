@@ -15,11 +15,13 @@ public class User {
     private static Integer money;
     private static Integer rating;
     private static Integer mileage;
+    private static Boolean hints;
 
     public User(@Nullable String name, @Nullable String password,
                 @Nullable String birthday, @Nullable String dateSignUp,
                 @Nullable Integer sex, @Nullable Integer money,
-                @Nullable Integer rating, @Nullable Integer mileage) {
+                @Nullable Integer rating, @Nullable Integer mileage,
+                @Nullable Boolean hints) {
         User.name = name;
         User.password = password;
         User.birthday = birthday;
@@ -28,6 +30,7 @@ public class User {
         User.money = money;
         User.rating = rating;
         User.mileage = mileage;
+        User.hints = hints;
     }
 
     public User(UserResponse userResponse){
@@ -39,6 +42,7 @@ public class User {
         User.money = userResponse.getMoney();
         User.rating = userResponse.getRating();
         User.mileage = userResponse.getMileage();
+        User.hints = userResponse.getHints();
     }
 
     public static String getName() {
@@ -103,5 +107,13 @@ public class User {
 
     public static void setMileage(Integer mileage) {
         User.mileage = mileage;
+    }
+
+    public static Boolean getHints() {
+        return hints;
+    }
+
+    public static void setHints(Boolean hints) {
+        User.hints = hints;
     }
 }

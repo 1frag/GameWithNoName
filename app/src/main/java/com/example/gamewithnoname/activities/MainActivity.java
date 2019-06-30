@@ -73,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void otherSettingsAccount(@Nullable Integer sex, @Nullable String birthday, @Nullable String dateSignUp) {
-
+            public void otherSettingsAccount(Integer sex, String birthday, String dateSignUp, Boolean showHints) {
+                User.setHints(showHints);
             }
 
             @Override
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.i(TAG, t.getMessage());
                 permissionsChecker(true);
             }
-        }, viewsToDisable);
+        }, null);
     }
 
     @Override

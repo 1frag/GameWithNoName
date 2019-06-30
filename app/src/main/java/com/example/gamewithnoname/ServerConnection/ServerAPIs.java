@@ -150,4 +150,10 @@ public interface ServerAPIs {
             @Query("reg") Boolean reg
     );
 
+    @GET("/change_show_hints")
+    Call<SimpleResponse> changeHints(
+            @Query("name") String name,
+            @Query("value") Boolean value
+    );
+
 }
