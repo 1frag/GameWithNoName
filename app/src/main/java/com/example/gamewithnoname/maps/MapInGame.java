@@ -73,6 +73,9 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
         mapView = findViewById(R.id.mapViewInGame);
         mMap = mapView.getMap();
         configMap(mMap);
+        if (User.getHints()) {
+            (findViewById(R.id.btnInfoMaps)).setVisibility(View.VISIBLE);
+        }
         isFirst = 1;
         // end.
         initTimerCounterKM();
@@ -378,6 +381,14 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)
+                .show();
+    }
+
+    public void showHintsMaps(View view) {
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.activity_maps_hints_headline))
+                .setMessage(getString(R.string.activity_maps_hints))
+                .setNegativeButton(android.R.string.yes, null)
                 .show();
     }
 }

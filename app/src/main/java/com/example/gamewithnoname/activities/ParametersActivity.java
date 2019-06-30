@@ -1,12 +1,14 @@
 package com.example.gamewithnoname.activities;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,12 +23,14 @@ import android.widget.Toast;
 import com.example.gamewithnoname.R;
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
 import com.example.gamewithnoname.callbacks.CreateGWBCallbacks;
+import com.example.gamewithnoname.callbacks.KillRGCallbacks;
 import com.example.gamewithnoname.models.User;
 import com.example.gamewithnoname.utils.UserLocation;
 import com.example.gamewithnoname.maps.MapInGame;
 import com.example.gamewithnoname.maps.MapMainMenu;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Point;
+import com.yandex.mapkit.map.MapObject;
 import com.yandex.mapkit.transport.TransportFactory;
 import com.yandex.mapkit.transport.masstransit.Route;
 import com.yandex.mapkit.transport.masstransit.Session;
@@ -84,6 +88,10 @@ public class ParametersActivity extends AppCompatActivity {
         Log.i(TAG, "configureMap");
         MapKitFactory.setApiKey("4431f62e-4cef-4ce6-b1d5-07602abde3fd"); // todo: remove pls
         TransportFactory.initialize(this);
+
+        if (User.getHints()) {
+            (findViewById(R.id.btnInfo)).setVisibility(View.VISIBLE);
+        }
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         map = new MapMainMenu();
@@ -295,5 +303,13 @@ public class ParametersActivity extends AppCompatActivity {
         ConnectionServer.getInstance().connectCreateGWB(callback, viewsToDisable);
 
 
+    }
+
+    public void showHintsParameters(View view) {
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.activity_parameters_hints_headline))
+                .setMessage(getString(R.string.activity_parameters_hints))
+                .setNegativeButton(android.R.string.yes, null)
+                .show();
     }
 }
