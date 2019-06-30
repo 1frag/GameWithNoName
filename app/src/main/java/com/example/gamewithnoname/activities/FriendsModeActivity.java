@@ -697,18 +697,11 @@ public class FriendsModeActivity extends Activity {
                         null
                 );
 
-                final AssetManager assetManager = getAssets();
-
                 ConnectionServer.getInstance().connectSendMessage(
                         new SendMessageCallbacks() {
                             @Override
                             public void sended() {
-                                MediaPlayer mp = MediaPlayer.create(
-                                        getApplicationContext(),
-                                        R.raw.sent
-                                );
-                                mp.setVolume(5, 10);
-                                mp.start();
+
                             }
 
                             @Override
@@ -716,12 +709,6 @@ public class FriendsModeActivity extends Activity {
                                 Toast.makeText(FriendsModeActivity.this,
                                         String.format(getResources().getString(R.string.message_is_not_sended), code),
                                         Toast.LENGTH_LONG).show();
-                                MediaPlayer mp = MediaPlayer.create(
-                                        getApplicationContext(),
-                                        R.raw.fail
-                                );
-                                mp.setVolume(5, 10);
-                                mp.start();
                             }
                         }, null
                 );
