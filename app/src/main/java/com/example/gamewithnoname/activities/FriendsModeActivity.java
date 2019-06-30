@@ -471,6 +471,9 @@ public class FriendsModeActivity extends Activity {
 
                 for (final GamersResponse gamer : gamers) {
                     // сервер не выдаст большое число
+                    if (gamer.getName().equals(User.getName())) {
+                        continue;
+                    }
                     gamer.setColor(0xFF000000 + gamer.getColor());
 
                     lastPlayersPositions.add(
