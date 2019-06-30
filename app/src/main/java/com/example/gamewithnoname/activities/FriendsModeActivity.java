@@ -146,6 +146,9 @@ public class FriendsModeActivity extends Activity {
         UserLocation.SetUpLocationListener(this);
         mMap = mapView.getMap();
         configMap(mMap);
+        if (User.getHints()) {
+            (findViewById(R.id.btnInfoSecondMode)).setVisibility(View.VISIBLE);
+        }
 //        mMap.getUserLocationLayer().setEnabled(true);
         anotherRadius = 1;
         radius = 1;
@@ -1004,5 +1007,22 @@ public class FriendsModeActivity extends Activity {
 
     private Integer getCost() {
         return (int) (pow(anotherRadius, 2) - pow(radius, 2));
+    }
+
+    public void showHintsSecondMode(View view) {
+        if (stage == 1) {
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.activity_sec1_hints_headline))
+                    .setMessage(getString(R.string.activity_sec1_hints))
+                    .setNegativeButton(android.R.string.yes, null)
+                    .show();
+        }
+        if (stage == 2) {
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.activity_sec2_hints_headline))
+                    .setMessage(getString(R.string.activity_sec2_hints))
+                    .setNegativeButton(android.R.string.yes, null)
+                    .show();
+        }
     }
 }

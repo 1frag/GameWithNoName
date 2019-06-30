@@ -139,4 +139,12 @@
     <string name="layout_gamers_close">Close</string>
     <string name="activity_info_about">About</string>
     <string name="activity_info_hints">Show hints</string>
+    <string name="activity_parameters_hints_headline">Hint</string>
+    <string name="activity_parameters_hints">Firstly, choose the finish point, then, if you want, change parameters for bot: speed and angle. Angle is formed by your location, finish point and bot location. If you don`t want to choose, there are default values already (7km/h, 40°).</string>
+    <string name="activity_maps_hints_headline">Hint</string>
+    <string name="activity_maps_hints">You need to catch bot, that is going to the point you chose. The earlier you do it, the bigger score will be charged to you. If bot finishes, you lose. You can pause bot for {i cannot understand the function} coins.</string>
+    <string name="activity_sec1_hints_headline">Hint</string>
+    <string name="activity_sec1_hints">If you are the creator of the game, you need to tell the key, that is given in the top, to your team. You can see all members of your team on click to one of the buttons below, there is their colors too. And the creator can remove member from the game there. When there are more members, than one, the creator can start the game. He need to click the round button for it. Minimum time depends of members location and it cannot be less than 5 minutes.</string>
+    <string name="activity_sec2_hints_headline">Hint</string>
+    <string name="activity_sec2_hints">You need to find as much coins as possible for the specified time. To grab the coin you need to enter its area and maybe, you need wait a little, until it disappears. All finded coins are calculated to all players, regardless of their contribution.</string>
 </resources>

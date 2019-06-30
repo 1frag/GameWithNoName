@@ -26,12 +26,13 @@
             android:background="@drawable/yandex_logo_en_white" >
 
 
-            <include layout="@layout/layout_messages"
-                android:visibility="invisible"
+            <include
                 android:id="@+id/include"
+                layout="@layout/layout_messages"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="60dp"/>
+                android:layout_marginBottom="60dp"
+                android:visibility="invisible" />
 
             <include
                 android:id="@+id/include1"
@@ -79,6 +80,19 @@
         android:src="@drawable/ic_play"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/layout_multi_params"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnInfoSecondMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="8dp"
+        android:onClick="showHintsSecondMode"
+        android:visibility="invisible"
+        android:clickable="true"
+        android:src="@drawable/ic_info_outline_black_24dp"
+        app:layout_constraintBottom_toTopOf="@+id/floatingAdmButton"
         app:layout_constraintEnd_toEndOf="parent" />
     <Button
         android:id="@+id/button_create_game"
