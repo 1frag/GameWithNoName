@@ -5,12 +5,12 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
-import android.net.Uri;
+import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -549,11 +550,10 @@ public class FriendsModeActivity extends Activity {
                                     getResources().getString(R.string.you_pick_n_coins),
                                     stats.getCoins())
                             );
-                        }
-                        else {
+                        } else {
                             textView.setText(String.format(
                                     getResources().getString(R.string.you_get_rating),
-                                    stats.getCoins()*10)
+                                    stats.getCoins() * 10)
                             );
                         }
                         button.setOnClickListener(new View.OnClickListener() {
@@ -624,7 +624,6 @@ public class FriendsModeActivity extends Activity {
         };
 
         final TimerTask timerTask = new TimerTask() {
-            final ArrayList<View> viewsToDisable = null;
 
             @Override
             public void run() {
@@ -640,9 +639,9 @@ public class FriendsModeActivity extends Activity {
                         UserLocation.imHere.getLongitude(),
                         datas.mMessages,
                         datas.mCoins,
-                        viewsToDisable
+                        null
                 );
-                ConnectionServer.getInstance().connectUpdateState(gameStateCallback, viewsToDisable);
+                ConnectionServer.getInstance().connectUpdateState(gameStateCallback, null);
             }
         };
 
@@ -652,7 +651,8 @@ public class FriendsModeActivity extends Activity {
     private Dialog createGameOverDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(FriendsModeActivity.this);
         LayoutInflater inflater = getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.layout_end_2m, null));
+        RelativeLayout relativeLayout = findViewById(R.id.relativeLayout);
+        builder.setView(inflater.inflate(R.layout.layout_end_2m, relativeLayout, false));
         return builder.create();
     }
 
@@ -679,20 +679,7 @@ public class FriendsModeActivity extends Activity {
         }
     }
 
-    private void turnGPSOn(){
-        String provider = Settings.Secure.getString(getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
-
-        if(!provider.contains("gps")){ //if gps is disabled
-            final Intent poke = new Intent();
-            poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider");
-            poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
-            poke.setData(Uri.parse("3"));
-            sendBroadcast(poke);
-        }
-    }
-
     private void configBtnSend() {
-        final ArrayList<View> viewsToDisable = null;
         ImageButton btnSend = findViewById(R.id.buttonSendMessage);
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -704,29 +691,36 @@ public class FriendsModeActivity extends Activity {
                 ConnectionServer.getInstance().initSendMessage(
                         User.getName(),
                         text,
-                        viewsToDisable
+                        null
                 );
+
+                final AssetManager assetManager = getAssets();
 
                 ConnectionServer.getInstance().connectSendMessage(
                         new SendMessageCallbacks() {
                             @Override
                             public void sended() {
-                                // todo: звук сообщение отправлено
-//                                Toast.makeText(FriendsModeActivity.this,
-//                                        getResources().getString(R.string.message_sended_successful),
-//                                        Toast.LENGTH_LONG).show();
+                                MediaPlayer mp = MediaPlayer.create(
+                                        getApplicationContext(),
+                                        R.raw.sent
+                                );
+                                mp.setVolume(5, 10);
+                                mp.start();
                             }
 
                             @Override
                             public void someProblem(int code) {
-                                // todo: звук сообщение не ушло или просто сказать как-то
-                                //  человеку что проблемка и его сообщение не получил никто =(
-                                Log.i(TAG, String.format("some problem %s", code));
                                 Toast.makeText(FriendsModeActivity.this,
                                         String.format(getResources().getString(R.string.message_is_not_sended), code),
                                         Toast.LENGTH_LONG).show();
+                                MediaPlayer mp = MediaPlayer.create(
+                                        getApplicationContext(),
+                                        R.raw.fail
+                                );
+                                mp.setVolume(5, 10);
+                                mp.start();
                             }
-                        }, viewsToDisable
+                        }, null
                 );
 
             }
@@ -737,9 +731,6 @@ public class FriendsModeActivity extends Activity {
         new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.alert_2m_finish_game))
                 .setMessage(getString(R.string.alert_2m_finish_game_text))
-
-                // Specifying a listener allows you to take an action before dismissing the dialog.
-                // The dialog is automatically dismissed when a dialog button is clicked.
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         KillRGCallbacks krgCallback = new KillRGCallbacks() {
@@ -762,12 +753,11 @@ public class FriendsModeActivity extends Activity {
                             }
                         };
 
-                        final ArrayList<View> viewsToDisable = null;
                         ConnectionServer.getInstance().initKillRunGame(
                                 User.getName(),
-                                viewsToDisable
+                                null
                         );
-                        ConnectionServer.getInstance().connectKillRG(krgCallback, viewsToDisable);
+                        ConnectionServer.getInstance().connectKillRG(krgCallback, null);
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)
@@ -822,26 +812,12 @@ public class FriendsModeActivity extends Activity {
     public void closeMessages() {
         findViewById(R.id.include).setVisibility(View.GONE);
         (findViewById(R.id.button_multi_chat)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
-        ;
         if (!findViewById(R.id.image_button_exit).isClickable()) {
             (findViewById(R.id.text_view_code)).setVisibility(View.VISIBLE);
             if (own == CREATOR) {
                 (findViewById(R.id.floatingAdmButton)).setVisibility(View.VISIBLE);
             }
         }
-    }
-
-    private Dialog openLegendDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.layout_multi_people, null))
-                .setPositiveButton(getResources().getString(R.string.ok_in_legend), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        // nothing to do
-                    }
-                });
-        return builder.create();
     }
 
     private void openBuyDialog(boolean off) {
@@ -880,6 +856,7 @@ public class FriendsModeActivity extends Activity {
         legends.setVisibility(View.INVISIBLE);
         (findViewById(R.id.button_multi_legend)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
     }
+
     private void addAllPlayers(LinearLayout linearLayout) {
         if (dataLegend != null) {
             for (Gamer gamer : dataLegend) {
@@ -942,9 +919,8 @@ public class FriendsModeActivity extends Activity {
                                 }
                             };
 
-                            final ArrayList<View> viewsToDisable = null;
-                            ConnectionServer.getInstance().initKickPlayer(targetName, viewsToDisable);
-                            ConnectionServer.getInstance().connectKickPlayer(callback, viewsToDisable);
+                            ConnectionServer.getInstance().initKickPlayer(targetName, null);
+                            ConnectionServer.getInstance().connectKickPlayer(callback, null);
                         }
                     });
 
@@ -957,7 +933,6 @@ public class FriendsModeActivity extends Activity {
     }
 
     private class RadiusListener implements SeekBar.OnSeekBarChangeListener {
-        @SuppressLint("DefaultLocale")
         public void onProgressChanged(SeekBar seekBar, int progress,
                                       boolean fromUser) {
             anotherRadius = progress + 1;
@@ -979,7 +954,7 @@ public class FriendsModeActivity extends Activity {
 
     public void applyExtensions(View view) {
         if (radius >= anotherRadius) {
-            Toast.makeText(this, String.format(getResources().getString(R.string.apply_extensions_less)), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.apply_extensions_less), Toast.LENGTH_LONG).show();
         }
         ConnectionServer.getInstance().initChangeRadius(User.getName(), anotherRadius, getCost(), null);
         ConnectionServer.getInstance().connectChangeRadius(new ChangeCoinsCallbacks() {
