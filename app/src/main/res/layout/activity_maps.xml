@@ -1,26 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.yandex.mapkit.mapview.MapView
         android:id="@+id/mapViewInGame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </com.yandex.mapkit.mapview.MapView>
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="-10dp"
+        tools:layout_editor_absoluteY="50dp"></com.yandex.mapkit.mapview.MapView>
 
     <LinearLayout
         android:id="@+id/resultLayout"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="50dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="39dp"
-        android:layout_marginEnd="60dp"
-        android:orientation="horizontal"></LinearLayout>
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/mapViewInGame">
 
-</RelativeLayout>
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/button3"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/modes_buttons"
+        android:onClick="areYouSure"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_remove" />
+
+    <ImageButton
+        android:id="@+id/btnInfoMaps"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/pause_button"
+        android:onClick="showHintsMaps"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mapsButtonPause"
+        app:srcCompat="@drawable/ic_info_outline_black_35dp" />
+
+
+    <ImageButton
+        android:id="@+id/mapsButtonPause"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/pause_button"
+        android:clickable="true"
+        android:onClick="stopBot"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button3"
+        app:srcCompat="@drawable/ic_pause" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/round_buttons"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/textBotToEnd"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/ubuntu"
+            android:text="@string/activity_maps_bot_finishes"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

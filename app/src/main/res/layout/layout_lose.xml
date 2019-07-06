@@ -1,46 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorAccentLight"
+    android:layout_width="300dp"
+    android:layout_height="300dp" >
 
     <TextView
-        android:id="@+id/youWin"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/youLose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
         android:text="@string/maps_dialog_lose"
-        android:textSize="32sp" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:adjustViewBounds="true"
-        android:foregroundGravity="center"
-        android:maxWidth="100dp"
-        android:maxHeight="100dp"
-        android:scaleType="fitCenter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/youWin"
-        app:layout_constraintBottom_toTopOf="@id/buttonOkLose"
-        app:srcCompat="@drawable/ic_sentiment_dissatisfied_black_24dp" />
+        android:fontFamily="@font/ubuntu"
+        android:textSize="40sp" />
 
     <Button
         android:id="@+id/buttonOkLose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/youLose"
+        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="132dp"
-        android:layout_marginTop="176dp"
-        android:layout_marginEnd="191dp"
-        android:text="@string/maps_dialog_lose_ok" />
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="94dp"
+        android:layout_marginEnd="96dp"
+        android:background="@drawable/all_accented_buttons"
         android:onClick="finish"
         android:text="@string/maps_dialog_lose_ok"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textColor="@android:color/white" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/buttonOkLose" />
 </RelativeLayout>

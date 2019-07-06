@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/friend_mode"
+    tools:context=".activities.FriendsModeActivity"
+    android:background="@android:color/darker_gray"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/layout_mapview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.yandex.mapkit.mapview.MapView
+            android:id="@+id/mapViewFrMode"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:background="@drawable/yandex_logo_en_white" >
+
+
+            <include
+                android:id="@+id/include"
+                layout="@layout/layout_messages"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="60dp"
+                android:visibility="invisible" />
+
+            <include
+                android:id="@+id/include1"
+                layout="@layout/alert_buy_2m"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_alignStart="@+id/include"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="58dp"
+                android:layout_marginTop="161dp"
+                android:layout_marginEnd="52dp"
+                android:layout_marginBottom="60dp"
+                android:visibility="invisible" />
+
+            <include
+                android:id="@+id/include2"
+                layout="@layout/layout_gamers"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_alignStart="@+id/include"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="58dp"
+                android:layout_marginTop="161dp"
+                android:layout_marginEnd="52dp"
+                android:layout_marginBottom="60dp"
+                android:visibility="invisible" />
+
+
+        </com.yandex.mapkit.mapview.MapView>
+    </LinearLayout>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingAdmButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="initGame"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
+        android:clickable="true"
+        android:src="@drawable/ic_play"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/layout_multi_params"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnInfoSecondMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="8dp"
+        android:onClick="showHintsSecondMode"
+        android:visibility="invisible"
+        android:clickable="true"
+        android:src="@drawable/ic_info_outline_black_24dp"
+        app:layout_constraintBottom_toTopOf="@+id/floatingAdmButton"
+        app:layout_constraintEnd_toEndOf="parent" />
+    <Button
+        android:id="@+id/button_create_game"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/buttons_friends_mode_border"
+        android:text="create new"
+        android:textColor="@android:color/white"
+        app:layout_constraintTop_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/text_view_code"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:gravity="center"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="@+id/button_create_game"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/layout_multi_params"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/image_button_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorSecondaryLight"
+            android:clickable="false"
+            android:src="@drawable/ic_remove" />
+
+        <ImageButton
+            android:id="@+id/button_multi_legend"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/buttonsForLayout"
+            android:onClick="bottomPartClick"
+            android:src="@drawable/ic_network" />
+
+        <ImageButton
+            android:id="@+id/button_multi_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/buttonsForLayout"
+            android:onClick="bottomPartClick"
+            android:src="@drawable/ic_chat" />
+
+        <ImageButton
+            android:id="@+id/button_multi_params"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="bottomPartClick"
+            android:background="@color/buttonsForLayout"
+            android:src="@drawable/ic_parameters" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

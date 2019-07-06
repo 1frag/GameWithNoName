@@ -2,12 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.gamewithnoname">
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission-sdk-23 android:name="android.permission.INTERNET" />
+    <uses-permission-sdk-23 android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission-sdk-23 android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -18,19 +17,31 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".ui.login.LoginActivity"
+            android:name=".activities.LoginActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_login">
         </activity>
         <activity
-            android:name=".ui.login.RegistrationActivity"
+            android:name=".activities.RegistrationActivity"
+            android:screenOrientation="portrait"
             android:label="Sign up">
         </activity>
-        <activity android:name=".ParametersDialog" />
-        <activity android:name=".InfoActivity" />
-        <activity android:name=".FriendsActivity" />
-        <activity android:name=".StatisticsActivity" />
+        <activity
+            android:name=".activities.ParametersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.InfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.FriendsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.StatisticsActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".activities.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,6 +50,9 @@
         </activity>
         <activity
             android:name=".maps.MapInGame"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.FriendsModeActivity"
             android:screenOrientation="portrait" />
     </application>
 

@@ -1,33 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_width="300dp"
+    android:background="@color/colorAccentLight"
+    android:layout_height="300dp" >
 
     <TextView
         android:id="@+id/youWin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:fontFamily="@font/ubuntu"
         android:text="@string/maps_dialog_win"
-        android:textSize="32sp" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:scaleType="fitXY"
-        app:srcCompat="@drawable/ic_mood_black_24dp" />
+        android:textSize="40sp"/>
 
     <Button
         android:id="@+id/buttonOkWin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/maps_dialog_win_ok" />
+        android:layout_below="@+id/textWinSpeed"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="26dp"
+        android:layout_marginStart="94dp"
+        android:layout_marginEnd="96dp"
+        android:background="@drawable/all_accented_buttons"
+        android:text="@string/maps_dialog_win_ok"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/textWinScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/youWin"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/ubuntu"
+        android:text="@string/activity_maps_score" />
+
+    <TextView
+        android:id="@+id/textWinSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textWinScore"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/ubuntu"
+        android:text="@string/activity_maps_speed" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/buttonOkWin" />
+
 </RelativeLayout>
