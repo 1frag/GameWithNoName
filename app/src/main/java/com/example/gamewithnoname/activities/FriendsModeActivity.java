@@ -660,23 +660,27 @@ public class FriendsModeActivity extends Activity {
     private void addMessages(List<MessageResponse> messages) {
         LinearLayout linearLayout = findViewById(R.id.layout_for_messages);
         for (final MessageResponse message : messages) {
-            Log.i(TAG, "mes add");
-            LinearLayout newView = new LinearLayout(
-                    FriendsModeActivity.this);
-            getLayoutInflater().inflate(
-                    R.layout.layout_multi_message,
-                    newView);
-            linearLayout.addView(newView);
-            ((TextView) newView.findViewById(R.id.textMessage)).setText(message.getText());
-            newView.findViewById(R.id.imageWriter).setBackgroundColor(message.getColor() + 0xff000000);
-            newView.findViewById(R.id.imageWriter).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(FriendsModeActivity.this,
-                            String.format(getResources().getString(R.string.author_is), message.getFrom()),
-                            Toast.LENGTH_LONG).show();
-                }
-            });
+            if (message.getFrom().charAt(0) == '$') {
+                message.setFrom(message.getFrom().substring(1));
+                //todo: получено информационное сообщение
+            } else {
+                LinearLayout newView = new LinearLayout(
+                        FriendsModeActivity.this);
+                getLayoutInflater().inflate(
+                        R.layout.layout_multi_message,
+                        newView);
+                linearLayout.addView(newView);
+                ((TextView) newView.findViewById(R.id.textMessage)).setText(message.getText());
+                newView.findViewById(R.id.imageWriter).setBackgroundColor(message.getColor() + 0xff000000);
+                newView.findViewById(R.id.imageWriter).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(FriendsModeActivity.this,
+                                String.format(getResources().getString(R.string.author_is), message.getFrom()),
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
         }
     }
 
