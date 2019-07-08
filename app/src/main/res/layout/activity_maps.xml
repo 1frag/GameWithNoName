@@ -8,9 +8,13 @@
     <com.yandex.mapkit.mapview.MapView
         android:id="@+id/mapViewInGame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="-10dp"
-        tools:layout_editor_absoluteY="50dp"></com.yandex.mapkit.mapview.MapView>
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+    </com.yandex.mapkit.mapview.MapView>
 
     <LinearLayout
         android:id="@+id/resultLayout"
@@ -28,8 +32,8 @@
 
     <ImageButton
         android:id="@+id/button3"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
@@ -41,8 +45,8 @@
 
     <ImageButton
         android:id="@+id/btnInfoMaps"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentTop="true"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="10dp"
@@ -56,8 +60,8 @@
 
     <ImageButton
         android:id="@+id/mapsButtonPause"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/pause_button"
@@ -71,9 +75,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/round_buttons"
+        android:background="@color/colorAccentLight"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -84,11 +86,11 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="12dp"
             android:fontFamily="@font/ubuntu"
             android:text="@string/activity_maps_bot_finishes"
             android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
