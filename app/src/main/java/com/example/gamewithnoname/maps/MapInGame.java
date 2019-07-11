@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.gamewithnoname.callbacks.SimpleCallbacks;
 import com.example.gamewithnoname.utils.BotLocation;
 import com.example.gamewithnoname.activities.MainActivity;
 import com.example.gamewithnoname.callbacks.ChangeCoinsCallbacks;
@@ -65,7 +64,7 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
 
         Log.i(TAG, "run onCreate");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_botplay);
 
         // config for my favorite company and their api:
         MapKitFactory.initialize(this);

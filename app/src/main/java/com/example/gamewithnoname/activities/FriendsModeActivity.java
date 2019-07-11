@@ -136,7 +136,7 @@ public class FriendsModeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friends_mode);
+        setContentView(R.layout.activity_teamplay);
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         datas = new CurCntData();
@@ -653,7 +653,7 @@ public class FriendsModeActivity extends Activity {
         AlertDialog.Builder builder = new AlertDialog.Builder(FriendsModeActivity.this);
         LayoutInflater inflater = getLayoutInflater();
         RelativeLayout relativeLayout = findViewById(R.id.relativeLayout);
-        builder.setView(inflater.inflate(R.layout.layout_end_2m, relativeLayout, false));
+        builder.setView(inflater.inflate(R.layout.layout_teamplay_end, relativeLayout, false));
         return builder.create();
     }
 
@@ -667,7 +667,7 @@ public class FriendsModeActivity extends Activity {
                 LinearLayout newView = new LinearLayout(
                         FriendsModeActivity.this);
                 getLayoutInflater().inflate(
-                        R.layout.layout_multi_message,
+                        R.layout.layout_model_message,
                         newView);
                 linearLayout.addView(newView);
                 ((TextView) newView.findViewById(R.id.textMessage)).setText(message.getText());

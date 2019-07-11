@@ -31,12 +31,12 @@
                 layout="@layout/layout_messages"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="60dp"
+                android:layout_alignParentBottom="true"
                 android:visibility="invisible" />
 
             <include
                 android:id="@+id/include1"
-                layout="@layout/alert_buy_2m"
+                layout="@layout/alert_teamplay_ext"
                 android:layout_width="300dp"
                 android:layout_height="300dp"
                 android:layout_alignStart="@+id/include"
