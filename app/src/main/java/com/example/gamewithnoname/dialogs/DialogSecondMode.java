@@ -3,7 +3,6 @@ package com.example.gamewithnoname.dialogs;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,9 +15,7 @@ import com.example.gamewithnoname.ServerConnection.ConnectionServer;
 import com.example.gamewithnoname.activities.FriendsModeActivity;
 import com.example.gamewithnoname.callbacks.CreateGameCallbacks;
 import com.example.gamewithnoname.callbacks.JoinGameCallbacks;
-import com.example.gamewithnoname.callbacks.SimpleCallbacks;
 import com.example.gamewithnoname.models.User;
-import com.example.gamewithnoname.utils.UserLocation;
 
 import java.util.ArrayList;
 
@@ -39,7 +36,7 @@ public class DialogSecondMode implements Dialog.OnShowListener {
 
         Log.i(TAG, "onShow");
         dialog = (Dialog) dialogInterface;
-        dialog.setContentView(R.layout.alert_second_mode);
+        dialog.setContentView(R.layout.alert_teamplay);
 
         configBtnCreateGame();
         configBtnJoinGame();

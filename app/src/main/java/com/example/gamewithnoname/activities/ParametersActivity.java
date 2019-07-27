@@ -1,7 +1,6 @@
 package com.example.gamewithnoname.activities;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.support.annotation.NonNull;
@@ -14,23 +13,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.SeekBar;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gamewithnoname.R;
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
 import com.example.gamewithnoname.callbacks.CreateGWBCallbacks;
-import com.example.gamewithnoname.callbacks.KillRGCallbacks;
 import com.example.gamewithnoname.models.User;
 import com.example.gamewithnoname.utils.UserLocation;
 import com.example.gamewithnoname.maps.MapInGame;
 import com.example.gamewithnoname.maps.MapMainMenu;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Point;
-import com.yandex.mapkit.map.MapObject;
 import com.yandex.mapkit.transport.TransportFactory;
 import com.yandex.mapkit.transport.masstransit.Route;
 import com.yandex.mapkit.transport.masstransit.Session;
@@ -68,7 +63,7 @@ public class ParametersActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_parameters_dialog);
+        setContentView(R.layout.activity_botplay_parameters);
 
         btnContinue = findViewById(R.id.buttonContinue);
         btnContinue.setEnabled(false);

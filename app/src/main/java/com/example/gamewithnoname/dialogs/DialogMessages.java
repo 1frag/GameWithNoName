@@ -78,7 +78,7 @@ public class DialogMessages implements Dialog.OnShowListener, Dialog.OnCancelLis
             LinearLayout newView = new LinearLayout(
                     dialog.getContext());
             dialog.getLayoutInflater().inflate(
-                    R.layout.layout_multi_message,
+                    R.layout.layout_model_message,
                     newView);
             linearLayout.addView(newView);
             ((TextView) newView.findViewById(R.id.textMessage)).setText(message.getText());

@@ -5,17 +5,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.gamewithnoname.R;
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
 import com.example.gamewithnoname.callbacks.GetUsersCallbacks;
-import com.example.gamewithnoname.models.User;
 import com.example.gamewithnoname.models.responses.UserResponse;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +26,7 @@ public class FriendsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friends);
+        setContentView(R.layout.activity_rating);
 
         views.add(findViewById(R.id.textFindUser));
         views.add(findViewById(R.id.checkRegs));
@@ -57,7 +53,7 @@ public class FriendsActivity extends AppCompatActivity {
                 for (UserResponse user : userResponses) {
                     LinearLayout newView = new LinearLayout(FriendsActivity.this);
                     getLayoutInflater().inflate(
-                            R.layout.layout_human,
+                            R.layout.layout_model_human,
                             newView);
                     linearLayout.addView(newView);
                     ((TextView)newView.findViewById(R.id.textFriendsUsername)).setText(user.getName());
