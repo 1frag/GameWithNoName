@@ -41,7 +41,7 @@
     <string name="registration_password">Пароль</string>
     <string name="registration_rpt_password">Подтвердить пароль</string>
     <string name="registration_example_login">не менее 6 символов</string>
-    <string name="registration_example_date">гггг-мм-дд</string>
+    <string name="registration_example_date">дд-мм-гггг</string>
     <string name="registration_activity_data_not_valid">Поля заполнены неправильно</string>
     <string name="registration_activity_name_problem">Такое имя уже существует</string>
     <string name="login_activity_incorrect_data">Поля заполнены неправильно</string>

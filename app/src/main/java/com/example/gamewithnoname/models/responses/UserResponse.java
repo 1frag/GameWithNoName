@@ -47,6 +47,10 @@ public class UserResponse {
     @Expose
     private Boolean hints;
 
+    @SerializedName("token")
+    @Expose
+    private String token;
+
     public String getName() {
         return name;
     }
@@ -125,5 +129,13 @@ public class UserResponse {
 
     public void setHints(Boolean hints) {
         this.hints = hints;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

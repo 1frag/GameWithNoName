@@ -21,8 +21,8 @@ public class InfoActivity extends AppCompatActivity {
         switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                ConnectionServer.getInstance().initChangeHints(User.getName(), isChecked);
-                ConnectionServer.getInstance().connectSimple(null, null);
+                ConnectionServer.getInstance().initChangeHints(User.getToken(), isChecked);
+                ConnectionServer.getInstance().connectSimple(null);
             }
         });
         switch1.setChecked(User.getHints());

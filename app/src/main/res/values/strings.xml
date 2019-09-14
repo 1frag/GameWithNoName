@@ -41,7 +41,7 @@
     <string name="registration_password">Password</string>
     <string name="registration_rpt_password">Confirm password</string>
     <string name="registration_example_login">6 symbols min</string>
-    <string name="registration_example_date">yyyy-mm-dd</string>
+    <string name="registration_example_date">dd-mm-yyyy</string>
     <string name="registration_activity_data_not_valid">Data is invalid</string>
     <string name="registration_activity_name_problem">That name already exists, try another one</string>
     <string name="login_activity_incorrect_data">Doesn`t seem like true</string>

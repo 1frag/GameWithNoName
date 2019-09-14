@@ -110,8 +110,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                    final String password,
                                    final String birth,
                                    final Integer sex) {
-        final ArrayList<View> viewsToDisable = null;
-        ConnectionServer.getInstance().initSignUp(username, password, birth, sex, viewsToDisable);
+        ConnectionServer.getInstance().initSignUp(username, password, birth, sex);
         ConnectionServer.getInstance().connectSignUp(new SignUpCallbacks() {
             @Override
             public void success() {
@@ -135,6 +134,6 @@ public class RegistrationActivity extends AppCompatActivity {
                         R.string.main_activity_error,
                         Toast.LENGTH_LONG).show();
             }
-        }, viewsToDisable);
+        });
     }
 }

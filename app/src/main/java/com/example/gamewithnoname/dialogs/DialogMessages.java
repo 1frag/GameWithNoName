@@ -47,11 +47,9 @@ public class DialogMessages implements Dialog.OnShowListener, Dialog.OnCancelLis
         task = new TimerTask() {
             @Override
             public void run() {
-                ArrayList<View> viewsToDisable = null;
                 ConnectionServer.getInstance().initGetNewMessages(
-                        User.getName(),
-                        first_time,
-                        viewsToDisable
+                        User.getToken(),
+                        first_time
                 );
                 first_time = 0;
                 ConnectionServer.getInstance().connectGetMessages(new GetMessagesCallbacks() {
@@ -66,7 +64,7 @@ public class DialogMessages implements Dialog.OnShowListener, Dialog.OnCancelLis
                     public void problem(int value) {
                         Log.i(TAG, String.format("problem %s", value));
                     }
-                }, viewsToDisable);
+                });
             }
         };
     }
@@ -103,12 +101,10 @@ public class DialogMessages implements Dialog.OnShowListener, Dialog.OnCancelLis
                 EditText editText = dialog.findViewById(R.id.writeMessage);
                 String text = editText.getText().toString();
                 editText.setText("");
-                ArrayList<View> viewsToDisable = null;
 
                 ConnectionServer.getInstance().initSendMessage(
-                        User.getName(),
-                        text,
-                        viewsToDisable
+                        User.getToken(),
+                        text
                 );
 
                 ConnectionServer.getInstance().connectSendMessage(
@@ -116,9 +112,11 @@ public class DialogMessages implements Dialog.OnShowListener, Dialog.OnCancelLis
                             @Override
                             public void sended() {
                                 // todo: звук сообщение отправлено
-                                Toast.makeText(dialog.getContext(),
+                                Toast.makeText(
+                                        dialog.getContext(),
                                         R.string.message_sended_successful,
-                                        Toast.LENGTH_LONG).show();
+                                        Toast.LENGTH_LONG
+                                ).show();
                             }
 
                             @Override
@@ -127,7 +125,7 @@ public class DialogMessages implements Dialog.OnShowListener, Dialog.OnCancelLis
                                 //  человеку что проблемка и его сообщение не получил никто =(
                                 Log.i(TAG, String.format("some problem %s", code));
                             }
-                        }, viewsToDisable
+                        }
                 );
 
             }

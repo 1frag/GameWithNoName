@@ -290,7 +290,7 @@ public class FriendsModeActivity extends Activity {
     }
 
     public void initGame(final View view) {
-        ConnectionServer.getInstance().initInitGame(User.getName(), null);
+        ConnectionServer.getInstance().initInitGame(User.getToken());
         ConnectionServer.getInstance().connectInitGame(new BeginGameCallbacks() {
             @Override
             public void youAreNotAuthor() {
@@ -319,7 +319,7 @@ public class FriendsModeActivity extends Activity {
                 Toast.makeText(FriendsModeActivity.this,
                         t.getMessage(), Toast.LENGTH_LONG).show();
             }
-        }, null);
+        });
     }
 
     private void changeTime(final int minimumMinutes) {
@@ -399,11 +399,10 @@ public class FriendsModeActivity extends Activity {
             }
         };
         ConnectionServer.getInstance().initBeginGame(
-                User.getName(),
-                changedTime,
-                null
+                User.getToken(),
+                changedTime
         );
-        ConnectionServer.getInstance().connectBeginGame(callback, null);
+        ConnectionServer.getInstance().connectBeginGame(callback);
     }
 
 
@@ -632,14 +631,13 @@ public class FriendsModeActivity extends Activity {
                     }
                 });
                 ConnectionServer.getInstance().initUpdateMap(
-                        User.getName(),
+                        User.getToken(),
                         UserLocation.imHere.getLatitude(),
                         UserLocation.imHere.getLongitude(),
                         datas.mMessages,
-                        datas.mCoins,
-                        null
+                        datas.mCoins
                 );
-                ConnectionServer.getInstance().connectUpdateState(gameStateCallback, null);
+                ConnectionServer.getInstance().connectUpdateState(gameStateCallback);
             }
         };
 
@@ -691,9 +689,8 @@ public class FriendsModeActivity extends Activity {
                 editText.setText("");
 
                 ConnectionServer.getInstance().initSendMessage(
-                        User.getName(),
-                        text,
-                        null
+                        User.getToken(),
+                        text
                 );
 
                 ConnectionServer.getInstance().connectSendMessage(
@@ -709,7 +706,7 @@ public class FriendsModeActivity extends Activity {
                                         String.format(getResources().getString(R.string.message_is_not_sended), code),
                                         Toast.LENGTH_LONG).show();
                             }
-                        }, null
+                        }
                 );
 
             }
@@ -743,10 +740,9 @@ public class FriendsModeActivity extends Activity {
                         };
 
                         ConnectionServer.getInstance().initKillRunGame(
-                                User.getName(),
-                                null
+                                User.getToken()
                         );
-                        ConnectionServer.getInstance().connectKillRG(krgCallback, null);
+                        ConnectionServer.getInstance().connectKillRG(krgCallback);
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)
@@ -908,8 +904,8 @@ public class FriendsModeActivity extends Activity {
                                 }
                             };
 
-                            ConnectionServer.getInstance().initKickPlayer(targetName, null);
-                            ConnectionServer.getInstance().connectKickPlayer(callback, null);
+                            ConnectionServer.getInstance().initKickPlayer(User.getToken(), targetName);
+                            ConnectionServer.getInstance().connectKickPlayer(callback);
                         }
                     });
 
@@ -945,7 +941,7 @@ public class FriendsModeActivity extends Activity {
         if (radius >= anotherRadius) {
             Toast.makeText(this, getResources().getString(R.string.apply_extensions_less), Toast.LENGTH_LONG).show();
         }
-        ConnectionServer.getInstance().initChangeRadius(User.getName(), anotherRadius, getCost(), null);
+        ConnectionServer.getInstance().initChangeRadius(User.getToken(), anotherRadius, getCost());
         ConnectionServer.getInstance().connectChangeRadius(new ChangeCoinsCallbacks() {
             @Override
             public void successful(int money) {
@@ -963,7 +959,7 @@ public class FriendsModeActivity extends Activity {
                 findViewById(R.id.include1).setVisibility(View.INVISIBLE);
                 (findViewById(R.id.button_multi_params)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
             }
-        }, null);
+        });
     }
 
     private Integer getCost() {

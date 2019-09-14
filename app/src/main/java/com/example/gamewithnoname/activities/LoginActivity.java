@@ -88,8 +88,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void beginLogin(final String username, final String password) {
-        final ArrayList<View> viewsToDisable = null;
-        ConnectionServer.getInstance().initSignIn(username, password, viewsToDisable);
+        ConnectionServer.getInstance().initSignIn(username, password);
         ConnectionServer.getInstance().connectLogin(new SignInCallbacks() {
 
             @Override
@@ -111,12 +110,18 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void otherSettingsAccount(Integer sex, String birthday,
-                                             String dateSignUp, Boolean hints) {
+            public void otherSettingsAccount(
+                    Integer sex,
+                    String birthday,
+                    String dateSignUp,
+                    Boolean hints,
+                    String token
+            ) {
                 User.setMoney(sex);
                 User.setBirthday(birthday);
                 User.setDateSignUp(dateSignUp);
                 User.setHints(hints);
+                User.setToken(token);
             }
 
             @Override
@@ -133,11 +138,14 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void someProblem(Throwable t) {
+            public void someProblem(@Nullable Throwable t) {
+                if (t == null){
+                    return;
+                }
                 Log.i(TAG, t.getMessage());
                 showFailedWithConnection();
             }
-        }, viewsToDisable);
+        });
     }
 
     private void showFailedWithConnection() {

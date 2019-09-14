@@ -284,7 +284,6 @@ public class ParametersActivity extends AppCompatActivity {
             }
         };
 
-        final ArrayList<View> viewsToDisable = null;
         ConnectionServer.getInstance().initCreateGWB(
                 User.getName(),
                 (int)(double)angle,
@@ -292,11 +291,9 @@ public class ParametersActivity extends AppCompatActivity {
                 point.getLatitude(),
                 point.getLongitude(),
                 finish.getLatitude(),
-                finish.getLongitude(),
-                viewsToDisable
+                finish.getLongitude()
         );
-        ConnectionServer.getInstance().connectCreateGWB(callback, viewsToDisable);
-
+        ConnectionServer.getInstance().connectCreateGWB(callback);
 
     }
 

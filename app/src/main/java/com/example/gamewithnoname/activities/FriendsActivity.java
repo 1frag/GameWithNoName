@@ -21,16 +21,11 @@ public class FriendsActivity extends AppCompatActivity {
     private String search = "";
     private Boolean reg = false;
     private final static String TAG = "HITS/FriendsActivity";
-    private ArrayList<View> views = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating);
-
-        views.add(findViewById(R.id.textFindUser));
-        views.add(findViewById(R.id.checkRegs));
-        views.add(findViewById(R.id.btn_find_user));
 
         sendQuery();
         findViewById(R.id.btn_find_user).setOnClickListener(new View.OnClickListener() {
@@ -44,7 +39,7 @@ public class FriendsActivity extends AppCompatActivity {
 
     private void sendQuery() {
         initParams();
-        ConnectionServer.getInstance().initGetTopUsers(search, reg, views);
+        ConnectionServer.getInstance().initGetTopUsers(search, reg);
         ConnectionServer.getInstance().connectGetTopUsers(new GetUsersCallbacks() {
             @Override
             public void success(List<UserResponse> userResponses) {
@@ -67,7 +62,7 @@ public class FriendsActivity extends AppCompatActivity {
             public void failed(Throwable t) {
                 Log.i(TAG, t.getMessage());
             }
-        }, views);
+        });
     }
 
     private void initParams() {

@@ -28,8 +28,7 @@ public class DialogSecondMode implements Dialog.OnShowListener {
 
     private final static String TAG = "HITS/DialogSecondMode";
     private Dialog dialog;
-    private ArrayList<View> viewsToDisable = new ArrayList<>();
-    // todo: there is strings for transfer to string.xml
+    // todo: there are strings for transfer to string.xml
 
     @Override
     public void onShow(DialogInterface dialogInterface) {
@@ -40,13 +39,6 @@ public class DialogSecondMode implements Dialog.OnShowListener {
 
         configBtnCreateGame();
         configBtnJoinGame();
-
-        viewsToDisable.add(dialog.findViewById(R.id.radio_button_in_team));
-        viewsToDisable.add(dialog.findViewById(R.id.radio_button_individual));
-//        viewsToDisable.add(dialog.findViewById(R.id.text_alert_2m));
-        viewsToDisable.add(dialog.findViewById(R.id.btn_create));
-        viewsToDisable.add(dialog.findViewById(R.id.editText3));
-        viewsToDisable.add(dialog.findViewById(R.id.btn_join));
 
     }
 
@@ -89,11 +81,10 @@ public class DialogSecondMode implements Dialog.OnShowListener {
                 EditText editText = dialog.findViewById(R.id.editText3);
                 String link = editText.getText().toString();
                 ConnectionServer.getInstance().initJoinGame(
-                        User.getName(),
-                        link,
-                        viewsToDisable
+                        User.getToken(),
+                        link
                 );
-                ConnectionServer.getInstance().connectJoinGame(Callback, viewsToDisable);
+                ConnectionServer.getInstance().connectJoinGame(Callback);
             }
         });
     }
@@ -135,12 +126,13 @@ public class DialogSecondMode implements Dialog.OnShowListener {
                 int type = (radioButton.isChecked() ? 0 : 1);
 
                 Log.i(TAG, String.format("init type: %s", type));
+
+
                 ConnectionServer.getInstance().initCreateGame(
-                        User.getName(),
-                        type,
-                        viewsToDisable
+                        User.getToken(),
+                        type
                 );
-                ConnectionServer.getInstance().connectCreateGame(callback, viewsToDisable);
+                ConnectionServer.getInstance().connectCreateGame(callback);
 
             }
         });

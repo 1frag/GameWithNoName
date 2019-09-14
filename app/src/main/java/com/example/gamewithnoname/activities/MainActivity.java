@@ -20,6 +20,7 @@ import com.example.gamewithnoname.R;
 import com.example.gamewithnoname.ServerConnection.ConnectionServer;
 import com.example.gamewithnoname.callbacks.CheckGWBCallbacks;
 import com.example.gamewithnoname.callbacks.CheckGameCallbacks;
+import com.example.gamewithnoname.callbacks.SignUpCallbacks;
 import com.example.gamewithnoname.dialogs.DialogSecondMode;
 import com.example.gamewithnoname.maps.MapInGame;
 import com.example.gamewithnoname.models.responses.UserResponse;
@@ -51,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void beginLogin(final String username, final String password) {
-        final ArrayList<View> viewsToDisable = null;
-        ConnectionServer.getInstance().initSignIn(username, password, viewsToDisable);
+
+        ConnectionServer.getInstance().initSignIn(username, password);
 
         ConnectionServer.getInstance().connectLogin(new SignInCallbacks() {
 
@@ -73,7 +74,13 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void otherSettingsAccount(Integer sex, String birthday, String dateSignUp, Boolean showHints) {
+            public void otherSettingsAccount(
+                    Integer sex,
+                    String birthday,
+                    String dateSignUp,
+                    Boolean showHints,
+                    String token
+            ) {
                 User.setHints(showHints);
             }
 
@@ -90,11 +97,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void someProblem(Throwable t) {
-                Log.i(TAG, t.getMessage());
+            public void someProblem(@Nullable Throwable t) {
+                if (t != null)
+                    Log.i(TAG, t.getMessage());
                 permissionsChecker(true);
             }
-        }, null);
+        });
     }
 
     @Override
@@ -194,9 +202,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 };
 
-                final ArrayList<View> viewsToDisable = null;
-                ConnectionServer.getInstance().initCheckGWB(User.getName(), viewsToDisable);
-                ConnectionServer.getInstance().connectCheckGWB(callback, viewsToDisable);
+                ConnectionServer.getInstance().initCheckGWB(User.getName());
+                ConnectionServer.getInstance().connectCheckGWB(callback);
                 break;
             }
             case R.id.buttonStatistics: {
@@ -261,16 +268,15 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
             case R.id.buttonWithFriends: {
-//                Intent fmIntent = new Intent(this, FriendsModeActivity.class);
-//                startActivity(fmIntent);
                 if (me.getVisibility() == View.VISIBLE) {
                     findViewById(R.id.include_me).setVisibility(View.INVISIBLE);
                     findViewById(R.id.buttonCatchBot).setVisibility(View.VISIBLE);
                     findViewById(R.id.textView2).setVisibility(View.VISIBLE);
                     (findViewById(R.id.btn_me)).setBackground(ContextCompat.getDrawable(this, R.drawable.sea_button_unselected));
                 }
-                final ArrayList<View> viewsToDisable = null;
-                ConnectionServer.getInstance().initCheckGame(User.getName(), viewsToDisable);
+                ConnectionServer.getInstance().initCheckGame(
+                        User.getToken()
+                );
                 ConnectionServer.getInstance().connectCheckGame(new CheckGameCallbacks() {
                     @Override
                     public void inRun(String link, Integer type) {
@@ -300,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
                         dialog.setOnShowListener(new DialogSecondMode());
                         dialog.show();
                     }
-                }, viewsToDisable);
+                });
                 break;
             }
             default:

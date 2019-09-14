@@ -6,13 +6,22 @@ import com.example.gamewithnoname.models.responses.UserResponse;
 
 public interface SignInCallbacks {
     void baseSettingsAccount(String name, String password);
+
     void capital(Integer money, Integer rating);
+
     void statsData(Integer mileage);
-    void otherSettingsAccount(Integer sex,
-                              String birthday,
-                              String dateSignUp,
-                              Boolean hints);
+
+    void otherSettingsAccount(
+            Integer sex,
+            String birthday,
+            String dateSignUp,
+            Boolean hints,
+            String token
+    );
+
     void success(UserResponse userResponse);
+
     void permissionDenied();
-    void someProblem(Throwable t);
+
+    void someProblem(@Nullable Throwable t);
 }

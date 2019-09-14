@@ -16,22 +16,7 @@ public class User {
     private static Integer rating;
     private static Integer mileage;
     private static Boolean hints;
-
-    public User(@Nullable String name, @Nullable String password,
-                @Nullable String birthday, @Nullable String dateSignUp,
-                @Nullable Integer sex, @Nullable Integer money,
-                @Nullable Integer rating, @Nullable Integer mileage,
-                @Nullable Boolean hints) {
-        User.name = name;
-        User.password = password;
-        User.birthday = birthday;
-        User.dateSignUp = dateSignUp;
-        User.sex = sex;
-        User.money = money;
-        User.rating = rating;
-        User.mileage = mileage;
-        User.hints = hints;
-    }
+    private static String token;
 
     public User(UserResponse userResponse){
         User.name = userResponse.getName();
@@ -43,6 +28,7 @@ public class User {
         User.rating = userResponse.getRating();
         User.mileage = userResponse.getMileage();
         User.hints = userResponse.getHints();
+        User.token = userResponse.getToken();
     }
 
     public static String getName() {
@@ -115,5 +101,13 @@ public class User {
 
     public static void setHints(Boolean hints) {
         User.hints = hints;
+    }
+
+    public static String getToken() {
+        return token;
+    }
+
+    public static void setToken(String token) {
+        User.token = token;
     }
 }

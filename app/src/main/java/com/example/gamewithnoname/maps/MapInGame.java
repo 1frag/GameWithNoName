@@ -82,7 +82,6 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
 
     private void initTimerCounterKM() {
         cnterSteps = new Timer();
-        final ArrayList<View> viewsToDisable = null;
         Log.i(TAG, "initTimer");
         final TimerTask timerTask = new TimerTask() {
             @Override
@@ -91,10 +90,9 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
                         User.getName(),
                         isFirst,
                         UserLocation.imHere.getLatitude(),
-                        UserLocation.imHere.getLongitude(),
-                        viewsToDisable
+                        UserLocation.imHere.getLongitude()
                 );
-                ConnectionServer.getInstance().connectSimple(null, viewsToDisable);
+                ConnectionServer.getInstance().connectSimple(null);
                 isFirst = 0;
             }
         };
@@ -122,7 +120,6 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
         findViewById(R.id.mapsButtonPause).setVisibility(View.INVISIBLE);
         findViewById(R.id.linearLayout).setVisibility(View.INVISIBLE);
         findViewById(R.id.button3).setVisibility(View.INVISIBLE);
-        final ArrayList<View> viewsToDisable = null;
 
         if (result == -1) {
             final LayoutInflater factory = getLayoutInflater();
@@ -140,8 +137,8 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
                     finish();
                 }
             });
-            ConnectionServer.getInstance().initKillGWB(User.getName(), null);
-            ConnectionServer.getInstance().connectSimple(null, null);
+            ConnectionServer.getInstance().initKillGWB(User.getName());
+            ConnectionServer.getInstance().connectSimple(null);
 
         } else { //result == 1
             final LayoutInflater factory = getLayoutInflater();
@@ -162,26 +159,10 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
 
             int alpha = getIntent().getExtras().getInt("alpha");
             int alphas = (int) (alpha * pathBotToFinish);
-            ConnectionServer.getInstance().initChangeRating(User.getName(), alphas, viewsToDisable);
-            ConnectionServer.getInstance().connectSimple(null, viewsToDisable);
+            ConnectionServer.getInstance().initChangeRating(User.getToken(), alphas);
+            ConnectionServer.getInstance().connectSimple(null);
             TextView textScore = findViewById(R.id.textWinScore);
             textScore.setText(String.format(getResources().getString(R.string.your_score_is), alphas));
-
-//            ConnectionServer.getInstance().initGetMySpeedGWB(User.getName(), viewsToDisable);
-//            ConnectionServer.getInstance().connectSimple(new SimpleCallbacks() {
-//                @Override
-//                public void onSuccess(@NonNull Integer value) {
-//                    TextView textSpeed = findViewById(R.id.textWinSpeed);
-//                    textSpeed.setText(String.format(getResources().getString(R.string.your_speed_is), value * 3.6));
-//                    ConnectionServer.getInstance().initKillGWB(User.getName(), viewsToDisable);
-//                    ConnectionServer.getInstance().connectSimple(null, viewsToDisable);
-//                }
-//
-//                @Override
-//                public void onError(@NonNull Throwable throwable) {
-//                    //бля, не хочу, убейте
-//                }
-//            }, viewsToDisable);
         }
     }
 
@@ -251,9 +232,8 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
             Toast.makeText(MapInGame.this,
                     getResources().getString(R.string.just_try_again),
                     Toast.LENGTH_LONG).show();
-            final ArrayList<View> viewsToDisable = null;
-            ConnectionServer.getInstance().initKillGWB(User.getName(), viewsToDisable);
-            ConnectionServer.getInstance().connectSimple(null, viewsToDisable);
+            ConnectionServer.getInstance().initKillGWB(User.getName());
+            ConnectionServer.getInstance().connectSimple(null);
             if(cnterSteps != null) {
                 cnterSteps.cancel();
                 cnterSteps.purge();
@@ -305,11 +285,9 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
 
     public void stopBot(View view) {
 
-        final ArrayList<View> viewsToDisable = null;
         ConnectionServer.getInstance().initChangeCoins(
-                User.getName(),
-                getPriceStopBot(),
-                viewsToDisable
+                User.getToken(),
+                getPriceStopBot()
         );
         ConnectionServer.getInstance().connectChangeCoins(new ChangeCoinsCallbacks() {
             @Override
@@ -357,14 +335,13 @@ public class MapInGame extends AppCompatActivity implements Session.RouteListene
                         Toast.LENGTH_LONG).show();
                 Log.i(TAG, "notEnoughMoney");
             }
-        }, viewsToDisable);
+        });
 
     }
 
     public void killGame() {
-        final ArrayList<View> viewsToDisable = null;
-        ConnectionServer.getInstance().initKillGWB(User.getName(), viewsToDisable);
-        ConnectionServer.getInstance().connectSimple(null, viewsToDisable);
+        ConnectionServer.getInstance().initKillGWB(User.getName());
+        ConnectionServer.getInstance().connectSimple(null);
         cnterSteps.cancel();
         cnterSteps.purge();
         finish();
