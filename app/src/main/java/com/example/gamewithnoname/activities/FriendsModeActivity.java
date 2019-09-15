@@ -941,7 +941,11 @@ public class FriendsModeActivity extends Activity {
         if (radius >= anotherRadius) {
             Toast.makeText(this, getResources().getString(R.string.apply_extensions_less), Toast.LENGTH_LONG).show();
         }
-        ConnectionServer.getInstance().initChangeRadius(User.getToken(), anotherRadius, getCost());
+        ConnectionServer.getInstance().initChangeRadius(
+                User.getToken(),
+                anotherRadius,
+                getCost()
+        );
         ConnectionServer.getInstance().connectChangeRadius(new ChangeCoinsCallbacks() {
             @Override
             public void successful(int money) {

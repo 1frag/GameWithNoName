@@ -10,7 +10,6 @@ import com.example.gamewithnoname.models.responses.SimpleResponse;
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -65,9 +64,11 @@ public interface ServerAPIs {
             @Field("duration") Integer duration
     );
 
-    @GET("/tmp_name/kill_run_game/")
+    @FormUrlEncoded
+    @POST("/tmp_name/kill_run_game/")
     Call<SimpleResponse> killRunGame(
-            @Header("Token") String token
+            @Header("Token") String token,
+            @Field("count") Integer link
     );
 
     @FormUrlEncoded
@@ -88,7 +89,7 @@ public interface ServerAPIs {
     @POST("/tmp_name/send_message/")
     Call<SimpleResponse> sendMessage(
             @Header("Token") String token,
-            @Body String text
+            @Field("text") String text
     );
 
     @GET("/tmp_name/check_game/")
@@ -142,11 +143,12 @@ public interface ServerAPIs {
             @Query("name") String name
     );
 
-    @GET("/tmp_name/change_radius/")
+    @FormUrlEncoded
+    @POST("/tmp_name/change_radius/")
     Call<SimpleResponse> changeRadius(
             @Header("Token") String token,
-            @Query("radius") Integer radius,
-            @Query("cost") Integer cost
+            @Field("radius") Integer radius,
+            @Field("cost") Integer cost
     );
 
     @GET("/tmp_name/init_game/")

@@ -111,7 +111,8 @@ public class ConnectionServer {
     }
 
     public void initKillRunGame(String token) {
-        call = serverAPIs.killRunGame(token);
+        // todo: понять почему необходимо передать что-то кроме токена
+        call = serverAPIs.killRunGame(token, 45); // 45 - это заглушка, чтобы работало
     }
 
     public void initSendMessage(String token, String text) {
@@ -208,17 +209,25 @@ public class ConnectionServer {
     }
 
     public void connectKillRG(final KillRGCallbacks callback) {
-        call.enqueue(new Callback<SimpleResponse>() {
+        call.enqueue(new Callback() {
 
             @Override
-            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
-                if (response.body() != null && callback != null) {
+            public void onResponse(Call call, Response response) {
+                if (response.code() == 200) {
                     callback.success();
+                } else {
+                    callback.someProblem(new Throwable(
+                            String.format(
+                                    "code=%s; reason=%s",
+                                    response.code(),
+                                    response.message()
+                            )
+                    ));
                 }
             }
 
             @Override
-            public void onFailure(Call<SimpleResponse> call, Throwable t) {
+            public void onFailure(Call call, Throwable t) {
                 callback.someProblem(t);
             }
         });
